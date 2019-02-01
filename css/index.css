@@ -1,0 +1,8 @@
+
+
+table.index tr td
+{
+    padding: 10px;
+    border-bottom: 1px solid gray;
+    border-top: 1px solid gray;
+}

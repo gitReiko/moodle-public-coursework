@@ -1,0 +1,61 @@
+
+:root
+{
+  --cherry-color: #cc223c;
+  --darkblue-color: #121d54;
+}
+
+
+#quota_left { color: darkred; }
+
+.darkred { color: darkred; }
+
+.hidden { display: none }
+
+div.coursework-configuration
+{
+    border: 1px solid black;
+}
+
+ol.coursework-configuration
+{
+    list-style: none;
+    margin: 0;
+    padding-left: none;
+    display: flex;
+    border-bottom: 1px solid black;
+}
+
+ol.coursework-configuration li
+{
+    padding: 5px 10px 5px 10px;
+    border-right: 1px solid black;
+    cursor: pointer;
+}
+
+ol.coursework-configuration li.selected
+{
+    background-color: #121d54;
+    color: white;
+}
+
+ol.theme_creation
+{
+    list-style: none;
+    margin: 0;
+}
+
+table.students_assignment tr { border: 1px solid var(--darkblue-color); }
+
+table.students_assignment tr.header td
+{
+    background-color: Gainsboro;
+    text-align: center;
+}
+
+table.students_assignment tr td
+{
+    border-top: 1px solid var(--darkblue-color);
+    border-bottom: 1px solid var(--darkblue-color);
+    padding: 7px;
+}

@@ -1,0 +1,50 @@
+table.cw_view
+{
+    border-spacing: 0 1px;
+    border-collapse: separate;
+}
+
+table.cw_view thead tr td
+{
+    color: white;
+    text-align: center;
+    font-weight: bold;
+
+    background-color: #676767;
+    padding: 15px;
+
+    position: sticky;
+    top: 42px;
+}
+
+table.cw_view tr:hover td
+{
+    color: #444444;
+    background-color: #fff9bb;
+}
+
+table.cw_view thead tr:hover td
+{
+    color: white;
+    background-color: #676767;
+}
+
+table.cw_view tr td
+{
+    background-color: white;
+    color: #444444;
+
+    padding: 10px;
+}
+
+table.cw_view thead tr td.transparent { background-color: transparent; }
+
+table.cw_view tr td.transparent { background-color: transparent; }
+
+select.select { width: 200px !important; }
+
+.hidden { display: none; }
+
+.nowrap { white-space: nowrap; }
+
+.nomargin { margin: 0px !important; }
