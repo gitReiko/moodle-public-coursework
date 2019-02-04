@@ -35,14 +35,12 @@ class ParticipantsManagement
 
         $this->handle_database_events();
 
-        $this->groups = $this->get_groups();
-        $this->tutors = cw_get_tutor_records($this->cm->instance);
+        $this->groups = cw_get_groups($this->cm->instance);
+        $this->tutors = cw_get_tutors($this->cm->instance);
 
-        $this->allGroups = $this->get_all_groups();
+        $this->allCourses = cw_get_all_courses();
+        $this->allGroups = cw_get_all_course_groups($this->course->id);
         $this->handle_groups_members();
-        $this->allCourses = $this->get_all_courses();
-
-        
     }
 
     private function handle_database_events() : void
@@ -54,28 +52,6 @@ class ParticipantsManagement
             $hadler = new ParticipantsManagementDatabaseEventHandler($this->course, $this->cm);
             $hadler->execute();
         }
-    }
-
-    private function get_groups() : array
-    {
-        global $DB;
-
-        $groups = $DB->get_records('coursework_groups', array('coursework'=>$this->cm->instance), '', 'groupid');
-
-        $temp = array();
-        foreach($groups as $group)
-        {
-            $temp[] = $group->groupid;
-        }
-
-        return $temp;
-    }
-
-    private function get_all_groups() : array
-    {
-        global $DB;
-
-        return $DB->get_records('groups', array('courseid'=>$this->course->id), 'name', 'id, name');
     }
 
     // This function creates allTutors array and count students in the groups.
@@ -133,13 +109,6 @@ class ParticipantsManagement
         return $teachers;
     }
 
-    private function get_all_courses() : array
-    {
-        global $DB;
-
-        return $DB->get_records('course', array(), 'fullname', 'id, fullname');
-    }
-
     // Public function
     public function execute() : string
     {
@@ -194,7 +163,7 @@ class ParticipantsManagement
     {
         foreach($this->groups as $value)
         {
-            if($value == $group->id) return true;
+            if($value->id == $group->id) return true;
         }
 
         return false;
