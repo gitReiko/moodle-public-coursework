@@ -1,6 +1,6 @@
 <?php
 
-require_once 'classes/configuration/participants_management.php';
+require_once 'classes/configuration/participants_management/participants_management.php';
 require_once 'classes/configuration/themes_management.php';
 require_once 'classes/configuration/students_assignment.php';
 
@@ -12,9 +12,10 @@ class CourseworkConfiguration
 
     public function display() : void
     {
+        $str = '';
         if($this->is_user_has_right_configurate_coursework())
         {
-            $str = $this->get_coursework_configuration_header();
+            $str.= $this->get_coursework_configuration_header();
             $str.= $this->get_begin_of_frame_switching_modules();
             $str.= $this->get_configuration_module();
             $str.= $this->get_end_of_frame_switching_modules();
