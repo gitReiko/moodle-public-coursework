@@ -4,6 +4,19 @@ require_once 'classes/configuration/participants_management/participants_managem
 require_once 'classes/configuration/themes_management.php';
 require_once 'classes/configuration/students_assignment.php';
 
+/**
+ * Coursework configuration starts from this class. 
+ * 
+ * Checks user rights for coursework configuration. 
+ * Returns coursework configuration gui.
+ * Generates interface for switching between configuration modules.
+ * 
+ * @param stdClass $course - record of course Moodle database table
+ * @param stdClass $cm - record of course_modules Moodle database table
+ * @param string $module - type of coursework configuration module. Modules types are described in the enums.php file
+ * @return string - gui of coursework configuration
+ * @author Denis Makouski (Reiko)
+ */
 class CourseworkConfiguration
 {
     private $course;

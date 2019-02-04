@@ -25,22 +25,17 @@ class ParticipantsManagement
     // Constructor functions
     function __construct($course, $cm)
     {
-        global $PAGE;
+        $this->course = $course;
+        $this->cm = $cm;
 
-        if (has_capability('mod/coursework:enrollmembers', $PAGE->cm->context))
-        {
-            $this->course = $course;
-            $this->cm = $cm;
+        $this->handle_db_event();
 
-            $this->handle_db_event();
+        $this->groups = $this->get_groups();
+        $this->initilize_tutors_arrays();
 
-            $this->groups = $this->get_groups();
-            $this->initilize_tutors_arrays();
-
-            $this->allGroups = $this->get_all_groups();
-            $this->handle_groups_members();
-            $this->allCourses = $this->get_all_courses();
-        }
+        $this->allGroups = $this->get_all_groups();
+        $this->handle_groups_members();
+        $this->allCourses = $this->get_all_courses();
     }
 
     private function get_groups() : array
@@ -150,13 +145,7 @@ class ParticipantsManagement
     // Public function
     public function execute() : string
     {
-        global $PAGE;
-
-        if (has_capability('mod/coursework:enrollmembers', $PAGE->cm->context))
-        {
-            return $this->gui_display();
-        }
-        else return $this->gui_no_permission();
+        return $this->gui_display();
     }
 
     // DB functions
@@ -438,11 +427,6 @@ class ParticipantsManagement
     private function gui_add_button() : string
     {
         return '<button onclick="add_tutor()">'.get_string('add_tutor', 'coursework').'</button>';
-    }
-
-    private function gui_no_permission() : string
-    {
-        return '<h2 class="darkred">'.get_string('no_permission', 'coursework').'</h2>';
     }
 
     private function gui_js_data() : string
