@@ -163,7 +163,7 @@ class EnrollCourseworkMembers
     // DB functions
     private function handle_db_event() : void
     {
-        $event = optional_param(ECM_DATABASE, 0 , PARAM_TEXT);
+        $event = optional_param(DB_EVENT, 0 , PARAM_TEXT);
 
         if($event)
         {
@@ -174,7 +174,7 @@ class EnrollCourseworkMembers
 
     private function handle_groups_table() : void
     {
-        $groups = optional_param_array(ECM_GROUPS, array(), PARAM_INT);
+        $groups = optional_param_array(GROUPS, array(), PARAM_INT);
 
         foreach($groups as $group)
         {
@@ -211,7 +211,7 @@ class EnrollCourseworkMembers
         }
         else
         {
-            echo get_string('error_no_group', 'coursework');
+            echo get_string('error_no_tutor_necessary_data', 'coursework');
         }
     }
 
@@ -239,9 +239,9 @@ class EnrollCourseworkMembers
 
     private function handle_tutors_table() : void
     {
-        $tutors = optional_param_array(ECM_TUTORS, array(), PARAM_INT);
-        $courses = optional_param_array(ECM_COURSES, array(), PARAM_INT);
-        $quotas = optional_param_array(ECM_QUOTA, array(), PARAM_INT);
+        $tutors = optional_param_array(TUTORS, array(), PARAM_INT);
+        $courses = optional_param_array(COURSES, array(), PARAM_INT);
+        $quotas = optional_param_array(QUOTAS, array(), PARAM_INT);
 
         for($i = 0; $i < count($tutors); $i++)
         {
@@ -255,7 +255,7 @@ class EnrollCourseworkMembers
             }
         }
 
-        $del = optional_param(ECM_DEL_TUTOR, 0, PARAM_INT);
+        $del = optional_param(DEL.TUTOR, 0, PARAM_INT);
         if($del) $this->delete_tutors_row($del);
     }
 
@@ -340,7 +340,7 @@ class EnrollCourseworkMembers
     {
         $str = '<h3>'.get_string('select_groups', 'coursework').'</h3>';
 
-        $str.= '<select name="'.ECM_GROUPS.'[]" multiple required autocomplete="off" onchange="count_members()">';
+        $str.= '<select name="'.GROUPS.'[]" multiple required autocomplete="off" onchange="count_members()">';
         foreach($this->allGroups as $group)
         {
             $str.= '<option class="group" value="'.$group->id.'" data-count="'.$group->count.'" ';
@@ -396,7 +396,7 @@ class EnrollCourseworkMembers
 
     private function gui_tutor_select($tutor) : string
     {
-        $str = '<select name="'.ECM_TUTORS.'[]" style="width:250px;" autocomplete="off" required >';
+        $str = '<select name="'.TUTORS.'[]" style="width:250px;" autocomplete="off" required >';
         foreach($this->allTutors as $value)
         {
             $str.= '<option value="'.$value->id.'" ';
@@ -410,7 +410,7 @@ class EnrollCourseworkMembers
 
     private function gui_course_select($course) : string
     {
-        $str = '<select name="'.ECM_COURSES.'[]" style="width:250px;" autocomplete="off" required >';
+        $str = '<select name="'.COURSES.'[]" style="width:250px;" autocomplete="off" required >';
         foreach($this->allCourses as $value)
         {
             $str.= '<option value="'.$value->id.'" ';
@@ -425,7 +425,7 @@ class EnrollCourseworkMembers
     private function gui_quota_input($quota) : string
     {
         $str = '<input class="quotas" type="number" ';
-        $str.= ' name="'.ECM_QUOTA.'[]" value="'.$quota.'" ';
+        $str.= ' name="'.QUOTAS.'[]" value="'.$quota.'" ';
         $str.= ' style="width:50px;" onchange="count_members()" ';
         $str.= ' autocomplete="off" required min="1" >';
         return $str;
@@ -474,7 +474,7 @@ class EnrollCourseworkMembers
     {
         $str = '<button onclick="return submit_form()">'.get_string('save_changes', 'coursework').'</button>';
         $str.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
-        $str.= '<input type="hidden" name="'.ECM_DATABASE.'" value="'.ECM_DATABASE.'" >';
+        $str.= '<input type="hidden" name="'.DB_EVENT.'" value="'.DB_EVENT.'" >';
         $str.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.TUTOR_CONFIGURATION.'">';
         $str .= '</form>';
         return $str;

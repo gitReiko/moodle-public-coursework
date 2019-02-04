@@ -1,4 +1,4 @@
-const ECM_COURSES = 'ecm_courses';
+const COURSES = 'courses';
 const STUDENT_FORM = 'student_form';
 
 const SELECT = 'select';
@@ -41,7 +41,7 @@ function delete_previous_courses_select()
 function get_new_courses_select()
 {
     var newCoursesSelect = document.createElement('select');
-    newCoursesSelect.name = ECM_COURSES;
+    newCoursesSelect.name = COURSES;
     newCoursesSelect.id = 'selected_course';
     newCoursesSelect.setAttribute('form', STUDENT_FORM);
     newCoursesSelect.className = 'course';

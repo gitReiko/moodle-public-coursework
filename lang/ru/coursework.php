@@ -54,8 +54,8 @@ $string['no_leaders'] = 'Нет доступных руководителей';
 // Errors strings
 $string['error_no_tutor_or_course'] = 'Ошибка: отсутствует id преподавателя и/или id курса.';
 $string['error_no_student'] = 'Ошибка: отсутствует id студента.';
-$string['error_no_group'] = 'Ошибка: отсутствует id группы.';
-$string['error_no_tutor_course_quota'] = 'Ошибка: отсутствует id преподавателя и/или id курса и/или квота.';
+$string['error_missing_group_id'] = 'Ошибка: отсутствует id группы.';
+$string['error_no_tutor_necessary_data'] = 'Ошибка: отсутствует id преподавателя и/или id курса и/или квота.';
 $string['error_theme_already_used'] = 'Ошибка: Данная тема уже используется другим студентом.';
 $string['error_tutor_quota_over'] = 'Ошибка: Квота на выбранную связку преподаватель + курс исчерана.';
 $string['error_student_already_chosen_theme'] = 'Ошибка: Студент {$a} уже выбрал(а) тематику своей курсовой работы.';

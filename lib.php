@@ -237,3 +237,12 @@ function cw_is_user_have_student_role_in_course(int $userid, int $course) : bool
     }
     return false;
 }
+
+function cw_get_tutor_records(int $courseworkID) : array 
+{
+    global $DB;
+    $tutorsRecords = array();
+    $tutorsRecords = $DB->get_records('coursework_tutors', array('coursework'=>$courseworkID));
+    return $tutorsRecords;
+}
+

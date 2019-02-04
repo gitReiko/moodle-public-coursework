@@ -170,8 +170,8 @@ class StudentCourseworkView extends CourseworkView
     {
         global $DB, $USER;
 
-        $tutor = optional_param(ECM_TUTORS, 0, PARAM_INT);
-        $course = optional_param(ECM_COURSES, 0, PARAM_INT);
+        $tutor = optional_param(TUTORS, 0, PARAM_INT);
+        $course = optional_param(COURSES, 0, PARAM_INT);
         $theme = optional_param(SELECT.THEME, 0, PARAM_INT);
         $ownTheme = optional_param(OWN_THEME, 0, PARAM_TEXT);
 
@@ -205,7 +205,7 @@ class StudentCourseworkView extends CourseworkView
     {
         global $DB, $USER;
 
-        $course = optional_param(ECM_COURSES, 0, PARAM_INT);
+        $course = optional_param(COURSES, 0, PARAM_INT);
         $theme = optional_param(SELECT.THEME, 0, PARAM_INT);
         $ownTheme = optional_param(OWN_THEME, null, PARAM_TEXT);
 
@@ -498,7 +498,7 @@ class StudentCourseworkView extends CourseworkView
 
         if(count($unique))
         {
-            $str = '<select class="select" id="selected_tutor" name="'.ECM_TUTORS.'" ';
+            $str = '<select class="select" id="selected_tutor" name="'.TUTORS.'" ';
             $str.= ' form="'.STUDENT_FORM.'" onchange="change_course_select()" autocomplete="off">';
             foreach($unique as $value)
             {
@@ -562,7 +562,7 @@ class StudentCourseworkView extends CourseworkView
         {
             $tutor = reset($row->data)->tutor;
 
-            $str = '<select class="select" id="selected_course" name="'.ECM_COURSES.'" ';
+            $str = '<select class="select" id="selected_course" name="'.COURSES.'" ';
             $str.= ' form="'.STUDENT_FORM.'" autocomplete="off" onchange="change_themes_select(this.value)">';
             foreach($row->data as $value)
             {

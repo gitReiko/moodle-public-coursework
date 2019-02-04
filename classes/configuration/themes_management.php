@@ -41,7 +41,7 @@ class ThemesManagement
     // DB functions
     private function db_events_handler() : void
     {
-        $event = optional_param(DB, 0 , PARAM_TEXT);
+        $event = optional_param(DB_EVENT, 0 , PARAM_TEXT);
 
         if(isset($event))
         {
@@ -157,7 +157,7 @@ class ThemesManagement
     {
         $str = '<form style="display:inline;">';
         $str.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
-        $str.= '<input type="hidden" name="'.DB.'" value="'.DEL.THEME.'">';
+        $str.= '<input type="hidden" name="'.DB_EVENT.'" value="'.DEL.THEME.'">';
         $str.= '<input type="hidden" name="'.THEME.ID.'" value="'.$theme->id.'">';
         $str.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.THEMES_MANAGEMENT.'">';
         $str.= '<button>'.get_string('delete', 'coursework').'</button>';
@@ -176,7 +176,7 @@ class ThemesManagement
         $str.= '<form>';
         $str.= '<input type="text" maxlength="255" name="'.THEME.NAME.'" style="width: 450px;">';
         $str.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
-        $str.= '<input type="hidden" name="'.DB.'" value="'.ADD.THEME.'">';
+        $str.= '<input type="hidden" name="'.DB_EVENT.'" value="'.ADD.THEME.'">';
         $str.= '<input type="hidden" name="'.THEME.COURSE.'" value="'.$course.'">';
         $str.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.THEMES_MANAGEMENT.'">';
         $str.= '<button>'.get_string('add_new_theme', 'coursework').'</button>';

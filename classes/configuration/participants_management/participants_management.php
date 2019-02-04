@@ -1,41 +1,59 @@
 <?php
 
-// Известные баги
-// 1) Если в момент обновления базы данных, в данных будет несколько записей
-// с одинаковым преподавателей и курсом, то:вторая и последующие записи будут
-// обновлять первую.
+require_once 'participants_management_database_event_handler.php';
 
+/**
+ * 
+ * @param stdClass $course - record of course Moodle database table
+ * @param stdClass $cm - record of course_modules Moodle database table
+ * @param array $groups - records of coursework_groups Moodle database table
+ * @param array $tutors - records of coursework_tutors Moodle database table
+ * @return string - gui of coursework configuration
+ * @author Denis Makouski (Reiko)
+ */
 class ParticipantsManagement
 {
 
     private $course;
     private $cm;
 
-    private $tutorRowID;
     private $groups;
     private $tutors;
-    private $courses;
-    private $quotas;
 
     private $allGroups;
     private $allTutors;
     private $allCourses;
 
-
-    // Constructor functions
+    /**
+     * First initilize necessary variables ($course, $cm)
+     * Then handle database events because they can change data based on which further work takes place
+     */
     function __construct($course, $cm)
     {
         $this->course = $course;
         $this->cm = $cm;
 
-        $this->handle_db_event();
+        $this->handle_database_events();
 
         $this->groups = $this->get_groups();
-        $this->initilize_tutors_arrays();
+        $this->tutors = cw_get_tutor_records($this->cm->instance);
 
         $this->allGroups = $this->get_all_groups();
         $this->handle_groups_members();
         $this->allCourses = $this->get_all_courses();
+
+        
+    }
+
+    private function handle_database_events() : void
+    {
+        $event = optional_param(DB_EVENT, 0 , PARAM_TEXT);
+
+        if($event)
+        {
+            $hadler = new ParticipantsManagementDatabaseEventHandler($this->course, $this->cm);
+            $hadler->execute();
+        }
     }
 
     private function get_groups() : array
@@ -51,26 +69,6 @@ class ParticipantsManagement
         }
 
         return $temp;
-    }
-
-    private function initilize_tutors_arrays() : void
-    {
-        global $DB;
-
-        $rows = $DB->get_records('coursework_tutors', array('coursework'=>$this->cm->instance));
-
-        $this->tutorRowID = array();
-        $this->tutors = array();
-        $this->courses = array();
-        $this->quotas = array();
-
-        foreach($rows as $row)
-        {
-            $this->tutorRowID[] = $row->id;
-            $this->tutors[] = $row->tutor;
-            $this->courses[] = $row->course;
-            $this->quotas[] = $row->quota;
-        }
     }
 
     private function get_all_groups() : array
@@ -148,157 +146,6 @@ class ParticipantsManagement
         return $this->gui_display();
     }
 
-    // DB functions
-    private function handle_db_event() : void
-    {
-        $event = optional_param(ECM_DATABASE, 0 , PARAM_TEXT);
-
-        if($event)
-        {
-            $this->handle_groups_table();
-            $this->handle_tutors_table();
-        }
-    }
-
-    private function handle_groups_table() : void
-    {
-        $groups = optional_param_array(ECM_GROUPS, array(), PARAM_INT);
-
-        foreach($groups as $group)
-        {
-            if(!$this->is_groups_row_exists($group))
-            {
-                $this->insert_groups_row($group);
-            }
-        }
-
-        $this->clear_groups_rows($groups);
-    }
-
-    private function is_groups_row_exists($group) : bool
-    {
-        global $DB;
-
-        $conditions = array('coursework'=>$this->cm->instance, 'groupid' => $group);
-
-        if($DB->record_exists('coursework_groups', $conditions)) return true;
-        else return false;
-    }
-
-    private function insert_groups_row($group) : void
-    {
-        if($group)
-        {
-            global $DB;
-
-            $temp = new stdClass;
-            $temp->coursework = $this->cm->instance;
-            $temp->groupid = $group;
-
-            $DB->insert_record('coursework_groups', $temp, false);
-        }
-        else
-        {
-            echo get_string('error_no_group', 'coursework');
-        }
-    }
-
-    private function clear_groups_rows($groups) : void  // Не реализовано удаление студентов, зависимых от группы
-    {
-        global $DB;
-
-        $rows = $DB->get_records('coursework_groups', array('coursework'=>$this->cm->instance));
-
-        foreach($rows as $row)
-        {
-            $is_used = false;
-
-            foreach($groups as $group)
-            {
-                if($row->groupid == $group) $is_used = true;
-            }
-
-            if(!$is_used)
-            {
-                $DB->delete_records('coursework_groups', array('id'=>$row->id));
-            }
-        }
-    }
-
-    private function handle_tutors_table() : void
-    {
-        $tutors = optional_param_array(ECM_TUTORS, array(), PARAM_INT);
-        $courses = optional_param_array(ECM_COURSES, array(), PARAM_INT);
-        $quotas = optional_param_array(ECM_QUOTA, array(), PARAM_INT);
-
-        for($i = 0; $i < count($tutors); $i++)
-        {
-            if($this->is_tutors_row_exists($tutors[$i], $courses[$i]))
-            {
-                $this->update_tutors_row($tutors[$i], $courses[$i], $quotas[$i]); // PROVERIT' !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            }
-            else
-            {
-                $this->insert_tutors_row($tutors[$i], $courses[$i], $quotas[$i]);
-            }
-        }
-
-        $del = optional_param(ECM_DEL_TUTOR, 0, PARAM_INT);
-        if($del) $this->delete_tutors_row($del);
-    }
-
-    private function is_tutors_row_exists($tutor, $course) : bool
-    {
-        global $DB;
-
-        $conditions = array('coursework'=>$this->cm->instance, 'tutor' => $tutor, 'course' => $course);
-
-        if($DB->record_exists('coursework_tutors', $conditions)) return true;
-        else return false;
-    }
-
-    private function insert_tutors_row($tutor, $course, $quota) : void
-    {
-        if($tutor && $course && $quota)
-        {
-            global $DB;
-
-            $temp = new stdClass;
-            $temp->coursework = $this->cm->instance;
-            $temp->tutor = $tutor;
-            $temp->course = $course;
-            $temp->quota = $quota;
-
-            $DB->insert_record('coursework_tutors', $temp, false);
-        }
-        else
-        {
-            echo get_string('error_no_tutor_course_quota', 'coursework');
-        }
-    }
-
-    private function update_tutors_row($tutor, $course, $quota) : void
-    {
-        global $DB;
-
-        $row = $DB->get_record('coursework_tutors', array('coursework'=>$this->cm->instance,'tutor'=>$tutor,'course'=>$course));
-
-        $temp = new stdClass;
-        $temp->id = $row->id;
-        $temp->coursework = $this->cm->instance;
-        $temp->tutor = $tutor;
-        $temp->course = $course;
-        $temp->quota = $quota;
-
-        $DB->update_record('coursework_tutors', $temp);
-    }
-
-    private function delete_tutors_row($rowID) : void
-    {
-        global $DB;
-        $DB->delete_records('coursework_tutors', array('id'=>$rowID));
-    }
-
     // General gui functions
     private function gui_display() : string
     {
@@ -328,7 +175,7 @@ class ParticipantsManagement
     {
         $str = '<h3>'.get_string('select_groups', 'coursework').'</h3>';
 
-        $str.= '<select name="'.ECM_GROUPS.'[]" multiple required autocomplete="off" onchange="count_members()">';
+        $str.= '<select name="'.GROUPS.'[]" multiple required autocomplete="off" onchange="count_members()">';
         foreach($this->allGroups as $group)
         {
             $str.= '<option class="group" value="'.$group->id.'" data-count="'.$group->count.'" ';
@@ -357,7 +204,7 @@ class ParticipantsManagement
     {
         $quotaLeft = 0;
         foreach($this->allGroups as $group) if($this->is_group_selected($group)) $quotaLeft += $group->count;
-        foreach($this->quotas as $quota) $quotaLeft -= $quota;
+        foreach($this->tutors as $tutor) $quotaLeft -= $tutor->quota;
 
         return '<h3>'.get_string('quota_left', 'coursework').'<span id="quota_left">'.$quotaLeft.'</span></h3>';
     }
@@ -368,14 +215,16 @@ class ParticipantsManagement
 
         $str = '<table id="tutors_table" data-rows="'.$count.'">';
 
-        for($i = 0; $i < $count; $i++)
+        $i = 0;
+        foreach($this->tutors as $value)
         {
             $str.= '<tr data-index="'.$i.'" >';
-            $str.= '<td>'.$this->gui_tutor_select($this->tutors[$i]).'</td>';
-            $str.= '<td>'.$this->gui_course_select($this->courses[$i]).'</td>';
-            $str.= '<td>'.$this->gui_quota_input($this->quotas[$i]).'</td>';
-            $str.= '<td>'.$this->gui_delete_btn($this->tutorRowID[$i]).'</td>';
+            $str.= '<td>'.$this->gui_tutor_select($value).'</td>';
+            $str.= '<td>'.$this->gui_course_select($value->course).'</td>';
+            $str.= '<td>'.$this->gui_quota_input($value->quota).'</td>';
+            $str.= '<td>'.$this->gui_delete_btn($value->id).'</td>';
             $str.= '</tr>';
+            $i++;
         }
 
         $str.= '</table>';
@@ -384,11 +233,14 @@ class ParticipantsManagement
 
     private function gui_tutor_select($tutor) : string
     {
-        $str = '<select name="'.ECM_TUTORS.'[]" style="width:250px;" autocomplete="off" required >';
+        $str = '<input type="hidden" name="'.COURSEWORK.TUTORS.ID.'[]" value="'.$tutor->id.'" >';
+
+
+        $str.= '<select name="'.TUTORS.'[]" style="width:250px;" autocomplete="off" required >';
         foreach($this->allTutors as $value)
         {
             $str.= '<option value="'.$value->id.'" ';
-            if($value->id == $tutor) $str .= ' selected ';
+            if($value->id == $tutor->tutor) $str .= ' selected ';
             $str.= ' >'.$value->name.'</option>';
         }
         $str.= '</select>';
@@ -398,7 +250,7 @@ class ParticipantsManagement
 
     private function gui_course_select($course) : string
     {
-        $str = '<select name="'.ECM_COURSES.'[]" style="width:250px;" autocomplete="off" required >';
+        $str = '<select name="'.COURSES.'[]" style="width:250px;" autocomplete="off" required >';
         foreach($this->allCourses as $value)
         {
             $str.= '<option value="'.$value->id.'" ';
@@ -413,7 +265,7 @@ class ParticipantsManagement
     private function gui_quota_input($quota) : string
     {
         $str = '<input class="quotas" type="number" ';
-        $str.= ' name="'.ECM_QUOTA.'[]" value="'.$quota.'" ';
+        $str.= ' name="'.QUOTAS.'[]" value="'.$quota.'" ';
         $str.= ' style="width:50px;" onchange="count_members()" ';
         $str.= ' autocomplete="off" required min="1" >';
         return $str;
@@ -457,7 +309,7 @@ class ParticipantsManagement
     {
         $str = '<button onclick="return submit_form()">'.get_string('save_changes', 'coursework').'</button>';
         $str.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
-        $str.= '<input type="hidden" name="'.ECM_DATABASE.'" value="'.ECM_DATABASE.'" >';
+        $str.= '<input type="hidden" name="'.DB_EVENT.'" value="'.DB_EVENT.'" >';
         $str.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.PARTICIPANTS_MANAGEMENT.'">';
         $str .= '</form>';
         return $str;

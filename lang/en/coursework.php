@@ -54,8 +54,8 @@ $string['no_leaders'] = 'No available leaders';
 // Errors strings
 $string['error_no_tutor_or_course'] = 'Error: missing tutor id and/or course id.';
 $string['error_no_student'] = 'Error: missing student id.';
-$string['error_no_group'] = 'Error: missing group id.';
-$string['error_no_tutor_course_quota'] = 'Error: missing tutor id and/or course id and/or quota.';
+$string['error_missing_group_id'] = 'Error: missing group id.';
+$string['error_no_tutor_necessary_data'] = 'Error: missing tutor id and/or course id and/or quota.';
 $string['error_theme_already_used'] = 'Error: This theme is already being used by another student.';
 $string['error_tutor_quota_over'] = 'Error: The quota for the selected buch teacher + course is over.';
 $string['error_student_already_chosen_theme'] = 'Error: Student {$a} has already chosen the subject of his coursework.';

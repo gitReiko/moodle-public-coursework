@@ -150,9 +150,9 @@ class Coursework
     {
         global $DB, $USER;
 
-        $create = optional_param(ECM_COURSES, 0, PARAM_TEXT);
-        $tutor = optional_param(ECM_TUTORS, 0, PARAM_INT);
-        $course = optional_param(ECM_COURSES, 0, PARAM_INT);
+        $create = optional_param(COURSES, 0, PARAM_TEXT);
+        $tutor = optional_param(TUTORS, 0, PARAM_INT);
+        $course = optional_param(COURSES, 0, PARAM_INT);
 
         $conditions = array('coursework'=>$this->cm->instance, 'student'=>$USER->id,
                             'tutor'=>$tutor, 'course'=>$course);
@@ -257,7 +257,7 @@ class Coursework
     {
         $unique = $this->get_unique_leaders($row);
 
-        $str = '<select class="select" id="selected_tutor" name="'.ECM_TUTORS.'" ';
+        $str = '<select class="select" id="selected_tutor" name="'.TUTORS.'" ';
         $str.= ' onchange="change_courses_bar()" autocomplete="off">';
         foreach($unique as $value)
         {
@@ -318,7 +318,7 @@ class Coursework
         global $DB;
         $tutor = reset($row->data)->tutor;
 
-        $str = '<select class="select" id="selected_course" name="'.ECM_COURSES.'" autocomplete="off">';
+        $str = '<select class="select" id="selected_course" name="'.COURSES.'" autocomplete="off">';
         foreach($row->data as $value)
         {
             if($value->tutor == $tutor)

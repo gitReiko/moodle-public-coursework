@@ -1,8 +1,8 @@
-const ECM_GROUPS = 'ecm_groups';
-const ECM_TUTORS = 'ecm_tutors';
-const ECM_COURSES = 'ecm_courses';
-const ECM_QUOTA = 'ecm_quota';
-const ECM_DEL_TUTOR = 'ecm_del_tutor';
+const GROUPS = 'groups';
+const TUTORS = 'tutors';
+const COURSES = 'courses';
+const QUOTAS = 'quotas';
+const TUTOR = 'tutor';
 const CONFIG_MODULE = 'config_module';
 
 // Coursework modules
@@ -10,7 +10,7 @@ const PARTICIPANTS_MANAGEMENT = 'participants_management';
 const THEMES_MANAGEMENT = 'themes_management';
 
 // Types of database events
-const DB = 'database';
+const DB_EVENT = 'database_event';
 const ADD = 'add';
 const EDIT = 'edit';
 const DEL = 'delete';
@@ -57,7 +57,7 @@ function tutor_cell()
     var tutors = document.getElementsByClassName('tutors');
 
     var select = document.createElement('select');
-    select.name = ECM_TUTORS+'[]';
+    select.name = TUTORS+'[]';
     select.style = 'width: 250px;';
 
     select.autocomplete = "off";
@@ -81,7 +81,7 @@ function course_cell()
     var courses = document.getElementsByClassName('courses');
 
     var select = document.createElement('select');
-    select.name = ECM_COURSES+'[]';
+    select.name = COURSES+'[]';
     select.style = 'width: 250px;';
 
     select.autocomplete = "off";
@@ -105,7 +105,7 @@ function quota_cell()
     var input = document.createElement('input');
     input.className = 'quotas';
     input.type = 'number';
-    input.name = ECM_QUOTA+'[]';
+    input.name = QUOTAS+'[]';
     input.style = 'width: 50px;';
     input.onchange = function()
     {
@@ -196,7 +196,7 @@ function delete_tutor(rowID)
 
             var input = document.createElement('input');
             input.type = 'hidden';
-            input.name = ECM_DEL_TUTOR;
+            input.name = DEL+TUTOR;
             input.value = rowID;
 
             form.appendChild(input);
@@ -248,7 +248,7 @@ function edit_theme(cmid, id, name)
 
     var db = document.createElement('input');
     db.type = 'hidden';
-    db.name = DB;
+    db.name = DB_EVENT;
     db.value = EDIT+THEME;
     form.appendChild(db);
 
