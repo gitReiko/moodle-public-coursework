@@ -12,10 +12,17 @@ class CourseworkConfiguration
 
     public function display() : void
     {
-        $str = $this->get_coursework_configuration_header();
-        $str.= $this->get_begin_of_frame_switching_modules();
-        $str.= $this->get_configuration_module();
-        $str.= $this->get_end_of_frame_switching_modules();
+        if($this->is_user_has_right_configurate_coursework())
+        {
+            $str = $this->get_coursework_configuration_header();
+            $str.= $this->get_begin_of_frame_switching_modules();
+            $str.= $this->get_configuration_module();
+            $str.= $this->get_end_of_frame_switching_modules();
+        }
+        else
+        {
+            $str.= $this->get_no_access_message();
+        }
         echo $str;
     }
 
@@ -32,6 +39,13 @@ class CourseworkConfiguration
 
         if($module) return $module;
         else return PARTICIPANTS_MANAGEMENT;
+    }
+
+    private function is_user_has_right_configurate_coursework() : bool 
+    {
+        global $PAGE;
+        if(has_capability('mod/coursework:enrollmembers', $PAGE->cm->context)) return true;
+        else return false;
     }
 
     private function get_coursework_configuration_header() : string
@@ -97,6 +111,9 @@ class CourseworkConfiguration
 
     private function get_end_of_frame_switching_modules() : string { return '</div></div>'; }
 
-
+    private function get_no_access_message() : string
+    {
+        return '<h2 class="darkred">'.get_string('no_permission', 'coursework').'</h2>';
+    }
 
 }
