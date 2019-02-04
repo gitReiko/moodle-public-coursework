@@ -10,7 +10,7 @@ $string['pluginadministration'] = 'Управление курсовой раб�
 
 // Coursework configuration
 $string['coursework_configuration'] = 'Настройка курсовой работы';
-$string['participants_enrollment'] = 'Зачисление участников';
+$string['participants_management'] = 'Управление участниками';
 $string['theme'] = 'Тематика';
 $string['themes_management'] = 'Управление тематикой';
 $string['no_available_themes'] = 'Нет доступных тем';

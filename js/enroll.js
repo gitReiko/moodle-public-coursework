@@ -3,11 +3,11 @@ const ECM_TUTORS = 'ecm_tutors';
 const ECM_COURSES = 'ecm_courses';
 const ECM_QUOTA = 'ecm_quota';
 const ECM_DEL_TUTOR = 'ecm_del_tutor';
-const ECM_MODULE = 'ecm_module';
+const CONFIG_MODULE = 'config_module';
 
 // Coursework modules
-const PARTICIPANT_MANAGEMENT = 'participant_management';
-const THEMES_MANAGEMENT = 'themes creation';
+const PARTICIPANTS_MANAGEMENT = 'participants_management';
+const THEMES_MANAGEMENT = 'themes_management';
 
 // Types of database events
 const DB = 'database';
@@ -242,7 +242,7 @@ function edit_theme(cmid, id, name)
 
     var mod = document.createElement('input');
     mod.type = 'hidden';
-    mod.name = ECM_MODULE;
+    mod.name = CONFIG_MODULE;
     mod.value = THEMES_MANAGEMENT;
     form.appendChild(mod);
 

@@ -474,7 +474,7 @@ class ParticipantsManagement
         $str = '<button onclick="return submit_form()">'.get_string('save_changes', 'coursework').'</button>';
         $str.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
         $str.= '<input type="hidden" name="'.ECM_DATABASE.'" value="'.ECM_DATABASE.'" >';
-        $str.= '<input type="hidden" name="'.ECM_MODULE.'" value="'.PARTICIPANT_MANAGEMENT.'">';
+        $str.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.PARTICIPANTS_MANAGEMENT.'">';
         $str .= '</form>';
         return $str;
     }

@@ -15,13 +15,14 @@ const ECM_GRADE = 'ecm_grade';
 const ECM_COMMENT = 'ecm_comment';
 const ECM_GRADE_STUDENT = 'ecm_grade_student';
 const ECM_REMOVE_SELECTION = 'ecm_remove_selection';
-const ECM_MODULE = 'ecm_module';
 const ECM_THEME_NAME = 'ecm_theme_name';
 
 // Coursework configuration modules
-const PARTICIPANT_MANAGEMENT = 'participant_management';
-const THEMES_MANAGEMENT = 'themes_creation';
-const STUDENTS_ASSIGNMENT = 'student_assignment';
+const CONFIG_MODULE = 'config_module';
+const PARTICIPANTS_MANAGEMENT = 'participants_management';
+const THEMES_MANAGEMENT = 'themes_management';
+const STUDENTS_ASSIGNMENT = 'students_assignment';
+const CONFIG_MODULES = array(PARTICIPANTS_MANAGEMENT, THEMES_MANAGEMENT, STUDENTS_ASSIGNMENT);
 
 // Types of database events
 const DB = 'database';
@@ -41,7 +42,6 @@ const OWN_THEME = 'own_theme';
 const TUTOR = 'tutor';
 const COURSEWORK = 'coursework';
 const ASSIGNMENT = 'assignment';
-
 
 // Role constants
 const MANAGER_ROLE = 1;

@@ -159,7 +159,7 @@ class ThemesManagement
         $str.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
         $str.= '<input type="hidden" name="'.DB.'" value="'.DEL.THEME.'">';
         $str.= '<input type="hidden" name="'.THEME.ID.'" value="'.$theme->id.'">';
-        $str.= '<input type="hidden" name="'.ECM_MODULE.'" value="'.THEMES_MANAGEMENT.'">';
+        $str.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.THEMES_MANAGEMENT.'">';
         $str.= '<button>'.get_string('delete', 'coursework').'</button>';
         $str.= '</form>';
         return $str;
@@ -178,7 +178,7 @@ class ThemesManagement
         $str.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
         $str.= '<input type="hidden" name="'.DB.'" value="'.ADD.THEME.'">';
         $str.= '<input type="hidden" name="'.THEME.COURSE.'" value="'.$course.'">';
-        $str.= '<input type="hidden" name="'.ECM_MODULE.'" value="'.THEMES_MANAGEMENT.'">';
+        $str.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.THEMES_MANAGEMENT.'">';
         $str.= '<button>'.get_string('add_new_theme', 'coursework').'</button>';
         $str.= '</form>';
         $str.= '</li>';

@@ -10,7 +10,7 @@ $string['pluginadministration'] = 'Course work administration';
 
 // Coursework configuration
 $string['coursework_configuration'] = 'Coursework configuration';
-$string['participants_enrollment'] = 'Enrollment of participants';
+$string['participants_management'] = 'Participants management';
 $string['theme'] = 'Theme';
 $string['themes_management'] = 'Themes management';
 $string['no_available_themes'] = 'No available themes';

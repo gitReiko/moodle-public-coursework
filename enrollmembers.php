@@ -1,7 +1,7 @@
 <?php
 
 require_once '../../config.php';
-require_once 'classes/coursework_configuration.php';
+require_once 'classes/configuration/coursework_configuration.php';
 require_once 'enums.php';
 require_once 'lib.php';
 
@@ -33,8 +33,5 @@ echo $OUTPUT->header();
 
 $config = new CourseworkConfiguration($course, $cm);
 $config->display();
-
-//$enroll = new EnrollCourseworkMembers($course, $cm);
-//$enroll->execute();
 
 echo $OUTPUT->footer();

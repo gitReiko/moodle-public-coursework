@@ -475,7 +475,7 @@ class EnrollCourseworkMembers
         $str = '<button onclick="return submit_form()">'.get_string('save_changes', 'coursework').'</button>';
         $str.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
         $str.= '<input type="hidden" name="'.ECM_DATABASE.'" value="'.ECM_DATABASE.'" >';
-        $str.= '<input type="hidden" name="'.ECM_MODULE.'" value="'.TUTOR_CONFIGURATION.'">';
+        $str.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.TUTOR_CONFIGURATION.'">';
         $str .= '</form>';
         return $str;
     }
@@ -512,7 +512,7 @@ class EnrollCourseworkMembers
         $str.= '<form>';
         $str.= '<input type="text" maxlength="255" name="'.ECM_THEME_NAME.'" style="width: 600px;">';
         $str.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
-        $str.= '<input type="hidden" name="'.ECM_MODULE.'" value="'.THEMES_MANAGEMENT.'">';
+        $str.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.THEMES_MANAGEMENT.'">';
         $str.= '<button>'.get_string('add_new_theme', 'coursework').'</button>';
         $str.= '</form>';
         $str.= '</li></ol>';
