@@ -240,6 +240,7 @@ function cw_is_user_have_student_role_in_course(int $userid, int $course) : bool
 
 
 // New refactoring
+// Database functions
 function cw_get_tutors(int $courseworkID) : array 
 {
     global $DB;
@@ -275,6 +276,69 @@ function cw_get_all_courses() : array
     $courses = array();
     $courses = $DB->get_records('course', array(), 'fullname', 'id, fullname');
     return $courses;
+}
+
+function cw_get_group_members(int $groupid) : array 
+{
+    global $DB;
+    $sql = 'SELECT gm.userid as id, u.firstname, u.lastname
+        FROM {groups_members} as gm, {user} as u
+        WHERE gm.userid = u.id AND u.suspended = 0 AND gm.groupid = ?
+        ORDER BY u.lastname';
+    $conditions = array($groupid);
+    $groupMembers = array();
+    $groupMembers = $DB->get_records_sql($sql, $conditions);
+    $groupMembers = cw_add_fullnames_to_users_array($groupMembers);
+    return $groupMembers;
+}
+
+function cw_add_fullnames_to_users_array(array $users) : array
+{
+    foreach($users as $user)
+    {
+        $user->fullname = $user->lastname.' ';
+
+        $firstname = mb_split(' ', $user->firstname);
+        foreach($firstname as $initial)
+        {
+            $user->fullname .= mb_substr($initial, 0, 1).'.';
+        }
+    }
+    return $users;
+}
+
+function cw_get_archetype_roles(array $archetypes) : array 
+{
+    $archCount = count($archetypes);
+
+    if($archCount);
+    {
+        global $DB;
+        $sql = 'SELECT id FROM {role} WHERE archetype = ? ';
+        
+        if($archCount > 1)
+        {
+            for($i = 1; $i < $archCount; $i++)
+            {
+                $sql.= ' OR archetype = ? ';
+            }
+        }
+
+        return $DB->get_records_sql($sql, $archetypes);
+    }
+}
+
+function cw_is_user_archetype(array $userRoles, array $archetypeRoles) : bool 
+{
+    foreach($userRoles as $userRole)
+    {
+        foreach($archetypeRoles as $archetypeRole)
+        {
+            if($userRole->roleid == $archetypeRole->id) return true;
+        }
+    }
+
+    return false;
 }
 
 

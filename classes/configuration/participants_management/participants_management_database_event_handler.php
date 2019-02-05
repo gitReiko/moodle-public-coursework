@@ -18,7 +18,7 @@ class ParticipantsManagementDatabaseEventHandler
         $this->handle_coursework_tutors_database_table();
     }
 
-    function __construct(stdClass $course, stdClasss $cm)
+    function __construct(stdClass $course, stdClass $cm)
     {
         $this->course = $course;
         $this->cm = $cm;
@@ -39,7 +39,7 @@ class ParticipantsManagementDatabaseEventHandler
         $this->delete_unselected_in_gui_group_records($groups);
     }
 
-    private function is_group_record_doesnt_exists(stdClass $group) : bool
+    private function is_group_record_doesnt_exists(int $group) : bool
     {
         global $DB;
         $conditions = array('coursework'=>$this->cm->instance, 'groupid' => $group);
@@ -47,7 +47,7 @@ class ParticipantsManagementDatabaseEventHandler
         else return true;
     }
 
-    private function insert_group_record(stdClass $group) : void
+    private function insert_group_record(int $group) : void
     {
         try
         {

@@ -30,17 +30,20 @@ class ParticipantsManagement
      */
     function __construct($course, $cm)
     {
+        // Init necessary for database processing params
         $this->course = $course;
         $this->cm = $cm;
 
+        // Process database events
         $this->handle_database_events();
 
+        // Init other params
         $this->groups = cw_get_groups($this->cm->instance);
         $this->tutors = cw_get_tutors($this->cm->instance);
 
         $this->allCourses = cw_get_all_courses();
-        $this->allGroups = cw_get_all_course_groups($this->course->id);
-        $this->handle_groups_members();
+        $this->allGroups = $this->get_all_course_groups();
+        $this->allTutors = $this->get_all_course_tutors();
     }
 
     private function handle_database_events() : void
@@ -54,59 +57,54 @@ class ParticipantsManagement
         }
     }
 
-    // This function creates allTutors array and count students in the groups.
-    private function handle_groups_members() : void
+    private function get_all_course_groups() : array 
     {
-        global $DB, $PAGE;
-        $tutors = array();
+        $groups = cw_get_all_course_groups($this->course->id);
+        $groups = $this->add_members_count_to_groups($groups);
+        return $groups;
+    }
 
-        foreach($this->allGroups as $group)
+    private function add_members_count_to_groups(array $groups) : array 
+    {
+        $studentArchetypeRoles = cw_get_archetype_roles(array('student'));
+
+        foreach($groups as $group)
         {
-            $studentsCount = 0;
-
-            $members = $DB->get_records('groups_members', array('groupid'=>$group->id),'','userid');
+            $members = cw_get_group_members($group->id);
+            $membersCount = 0;
 
             foreach($members as $member)
             {
-                $roles = get_user_roles(context_course::instance($this->course->id), $member->userid);
+                $memberRoles = get_user_roles(context_course::instance($this->course->id), $member->id);
 
-                foreach($roles as $role)
-                {
-                    if($role->roleid == TEACHER_ROLE
-                        ||$role->roleid == EDITING_TEACHER_ROLE
-                        ||$role->roleid == TUTOR_ROLE)
-                    {
-                        $tutors[] = $member->userid;
-                    }
-
-                    if($role->roleid == STUDENT_ROLE) $studentsCount++;
-                }
+                if(cw_is_user_archetype($memberRoles, $studentArchetypeRoles)) $membersCount++;
             }
 
-            $group->count = $studentsCount;
+            $group->membersCount = $membersCount++;
         }
 
-        $tutors = array_unique($tutors);
-        $tutors = $this->add_teacher_names($tutors);
-        usort($tutors, "cmp_tutors");
-
-        $this->allTutors = $tutors;
+        return $groups;
     }
 
-    private function add_teacher_names($tutors) : array
+    private function get_all_course_tutors() : array 
     {
-        $teachers = array();
-
-        foreach($tutors as $tutor)
+        $tutors = array();
+        $tutorArchetypeRoles = cw_get_archetype_roles(array('editingteacher', 'teacher'));
+        foreach($this->allGroups as $group)
         {
-            $temp = new stdClass;
-            $temp->id = $tutor;
-            $temp->name = cw_get_user_name($tutor);
+            $members = cw_get_group_members($group->id);
 
-            $teachers[] = $temp;
+            foreach($members as $member)
+            {
+                $memberRoles = get_user_roles(context_course::instance($this->course->id), $member->id);
+
+                if(cw_is_user_archetype($memberRoles, $tutorArchetypeRoles))
+                {
+                    $tutors[] = $member;
+                }
+            }
         }
-
-        return $teachers;
+        return $tutors;
     }
 
     // Public function
@@ -147,7 +145,7 @@ class ParticipantsManagement
         $str.= '<select name="'.GROUPS.'[]" multiple required autocomplete="off" onchange="count_members()">';
         foreach($this->allGroups as $group)
         {
-            $str.= '<option class="group" value="'.$group->id.'" data-count="'.$group->count.'" ';
+            $str.= '<option class="group" value="'.$group->id.'" data-count="'.$group->membersCount.'" ';
 
             if($this->is_group_selected($group)) $str .= ' selected data-initial="true"';
             else $str .= ' data-initial="false"';
@@ -172,7 +170,7 @@ class ParticipantsManagement
     private function gui_quota_left() : string
     {
         $quotaLeft = 0;
-        foreach($this->allGroups as $group) if($this->is_group_selected($group)) $quotaLeft += $group->count;
+        foreach($this->allGroups as $group) if($this->is_group_selected($group)) $quotaLeft += $group->membersCount;
         foreach($this->tutors as $tutor) $quotaLeft -= $tutor->quota;
 
         return '<h3>'.get_string('quota_left', 'coursework').'<span id="quota_left">'.$quotaLeft.'</span></h3>';
@@ -200,17 +198,17 @@ class ParticipantsManagement
         return $str;
     }
 
-    private function gui_tutor_select($tutor) : string
+    private function gui_tutor_select($selectedTutor) : string
     {
-        $str = '<input type="hidden" name="'.COURSEWORK.TUTORS.ID.'[]" value="'.$tutor->id.'" >';
+        $str = '<input type="hidden" name="'.COURSEWORK.TUTORS.ID.'[]" value="'.$selectedTutor->id.'" >';
 
 
         $str.= '<select name="'.TUTORS.'[]" style="width:250px;" autocomplete="off" required >';
-        foreach($this->allTutors as $value)
+        foreach($this->allTutors as $tutor)
         {
-            $str.= '<option value="'.$value->id.'" ';
-            if($value->id == $tutor->tutor) $str .= ' selected ';
-            $str.= ' >'.$value->name.'</option>';
+            $str.= '<option value="'.$tutor->id.'" ';
+            if($tutor->id == $selectedTutor->tutor) $str .= ' selected ';
+            $str.= ' >'.$tutor->fullname.'</option>';
         }
         $str.= '</select>';
 
@@ -257,7 +255,7 @@ class ParticipantsManagement
         // All course tutors
         foreach($this->allTutors as $tutor)
         {
-            $str .= $this->get_hidden_element('tutors', $tutor->id, $tutor->name);
+            $str .= $this->get_hidden_element('tutors', $tutor->id, $tutor->fullname);
         }
 
         // All courses
@@ -287,10 +285,3 @@ class ParticipantsManagement
 }
 
 
-function cmp_tutors(stdClass $a, stdClass $b) : int
-{
-    if ($a->name == $b->name) {
-        return 0;
-    }
-    return ($a->name < $b->name) ? -1 : 1;
-}
