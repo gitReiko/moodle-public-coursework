@@ -24,7 +24,7 @@ $PAGE->set_cm($cm);
 $PAGE->set_title(get_string('pluginname', 'coursework'));
 $PAGE->set_heading(get_string('pluginname', 'coursework'));
 
-$PAGE->requires->css('/mod/coursework/css/enroll.css');
+$PAGE->requires->css('/mod/coursework/css/configuration.css');
 $PAGE->requires->js('/mod/coursework/js/configuration.js');
 
 require_login();
