@@ -41,44 +41,6 @@ class StudentsAssignment
         }
     }
 
-    private function get_students_groups() : array
-    {
-        global $DB;
-        $sql = 'SELECT cg.groupid AS id, g.name
-                FROM {coursework_groups} AS cg, {groups} AS g
-                WHERE cg.groupid = g.id AND cg.coursework = ?
-                ORDER BY g.name';
-        $conditions = array($this->cm->instance);
-        $studentsGroups = array();
-        $studentsGroups = $DB->get_records_sql($sql, $conditions);
-        $studentsGroups = $this->add_count_of_students_to_groups_array($studentsGroups);
-        return $studentsGroups;
-    }
-
-    private function add_count_of_students_to_groups_array(array $groups) : array
-    {
-        foreach($groups as $group)
-        {
-            $group->studentsCount = $this->get_count_of_students_in_group($group->id);
-        }
-        return $groups;
-    }
-
-    private function get_count_of_students_in_group(int $groupID) : int
-    {
-        global $DB;
-        $studentsCount = 0;
-        $members = $DB->get_records('groups_members', array('groupid'=>$groupID));
-        foreach($members as $member)
-        {
-            if(cw_is_user_have_student_role_in_course($member->userid, $this->course->id))
-            {
-                $studentsCount++;
-            }
-        }
-        return $studentsCount;
-    }
-
     private function get_unique_tutors() : array
     {
         global $DB;
