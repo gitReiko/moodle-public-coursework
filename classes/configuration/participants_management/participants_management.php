@@ -34,11 +34,11 @@ class ParticipantsManagement
         $this->handle_database_events();
 
         // Init other params
-        $this->courseworkGroups = cw_get_groups($this->cm->instance);
+        $this->courseworkGroups = cw_get_coursework_groups($this->cm->instance, $this->course->id);
         $this->courseworkTutors = cw_get_tutors($this->cm->instance);
 
         $this->allCourses = cw_get_all_courses();
-        $this->allGroups = $this->get_all_course_groups();
+        $this->allGroups = cw_get_all_course_groups($this->course->id);
         $this->allTutors = $this->get_all_course_tutors();
     }
 
@@ -51,36 +51,6 @@ class ParticipantsManagement
             $handler = new ParticipantsManagementDatabaseEventHandler($this->course, $this->cm);
             $handler->execute();
         }
-    }
-
-    private function get_all_course_groups() : array 
-    {
-        $groups = cw_get_all_course_groups($this->course->id);
-        $groups = $this->add_members_count_to_groups($groups);
-        
-        return $groups;
-    }
-
-    private function add_members_count_to_groups(array $groups) : array 
-    {
-        $studentArchetypeRoles = cw_get_archetype_roles(array('student'));
-
-        foreach($groups as $group)
-        {
-            $members = cw_get_group_members($group->id);
-            $membersCount = 0;
-
-            foreach($members as $member)
-            {
-                $memberRoles = get_user_roles(context_course::instance($this->course->id), $member->id);
-
-                if(cw_is_user_archetype($memberRoles, $studentArchetypeRoles)) $membersCount++;
-            }
-
-            $group->membersCount = $membersCount++;
-        }
-
-        return $groups;
     }
 
     private function get_all_course_tutors() : array 
@@ -142,7 +112,7 @@ class ParticipantsManagement
         $str.= '<select name="'.GROUPS.'[]" multiple required autocomplete="off" onchange="count_members()">';
         foreach($this->allGroups as $group)
         {
-            $str.= '<option class="group" value="'.$group->id.'" data-count="'.$group->membersCount.'" ';
+            $str.= '<option class="group" value="'.$group->id.'" data-count="'.$group->studentsCount.'" ';
 
             if($this->is_group_selected($group)) $str .= ' selected data-initial="true"';
             else $str .= ' data-initial="false"';
@@ -167,7 +137,7 @@ class ParticipantsManagement
     private function get_quota_left_label() : string
     {
         $quotaLeft = 0;
-        foreach($this->allGroups as $group) if($this->is_group_selected($group)) $quotaLeft += $group->membersCount;
+        foreach($this->allGroups as $group) if($this->is_group_selected($group)) $quotaLeft += $group->studentsCount;
         foreach($this->courseworkTutors as $tutor) $quotaLeft -= $tutor->quota;
 
         return '<h3>'.get_string('quota_left', 'coursework').'<span id="quota_left">'.$quotaLeft.'</span></h3>';

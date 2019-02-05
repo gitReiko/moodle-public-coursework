@@ -249,7 +249,7 @@ function cw_get_tutors(int $courseworkID) : array
     return $tutorsRecords;
 }
 
-function cw_get_groups(int $courseworkID) : array 
+function cw_get_coursework_groups(int $courseworkID, int $courseID) : array 
 {
     global $DB;
     $sql = 'SELECT cg.groupid AS id, g.name
@@ -259,6 +259,7 @@ function cw_get_groups(int $courseworkID) : array
     $conditions = array($courseworkID);
     $groups = array();
     $groups = $DB->get_records_sql($sql, $conditions);
+    $groups = cw_add_students_count_to_groups($groups, $courseID);
     return $groups;
 }
 
@@ -267,6 +268,29 @@ function cw_get_all_course_groups(int $courseID) : array
     global $DB;
     $groups = array();
     $groups = $DB->get_records('groups', array('courseid'=>$courseID), 'name', 'id, name');
+    $groups = cw_add_students_count_to_groups($groups, $courseID);
+    return $groups;
+}
+
+function cw_add_students_count_to_groups(array $groups, int $courseid) : array 
+{
+    $studentArchetypeRoles = cw_get_archetype_roles(array('student'));
+
+    foreach($groups as $group)
+    {
+        $members = cw_get_group_members($group->id);
+        $studentsCount = 0;
+
+        foreach($members as $member)
+        {
+            $memberRoles = get_user_roles(context_course::instance($courseid), $member->id);
+
+            if(cw_is_user_archetype($memberRoles, $studentArchetypeRoles)) $studentsCount++;
+        }
+
+        $group->studentsCount = $studentsCount++;
+    }
+
     return $groups;
 }
 
@@ -354,71 +378,6 @@ function cw_is_user_archetype(array $userRoles, array $archetypeRoles) : bool
     return false;
 }
 
-
-/*
-
-    // This function allocate users between $this->students and $this->teachers arrays.
-    private function allocate_users() : void 
-    {
-        $users = $this->get_users();
-        $teacherRoles = $this->get_archetype_roles(array('editingteacher', 'teacher'));
-        $studentRoles = $this->get_archetype_roles(array('student'));
-        $context = context_course::instance($this->course->id);
-
-        foreach($users as $user) 
-        {
-            $userRoles = get_user_roles($context, $user);
-
-            if($this->is_user_archetype($teacherRoles, $userRoles))
-            {
-                $this->teachers[] = $this->add_user($user);
-            }
-
-            if($this->is_user_archetype($studentRoles, $userRoles))
-            {
-                $this->students[] = $this->add_user($user);
-            }
-        }
-
-        uasort($this->students, 'cmp_user_names');
-        uasort($this->teachers, 'cmp_user_names');
-    }
-
-    private function get_archetype_roles(array $archetypes) : array 
-    {
-        $archCount = count($archetypes);
-
-        if($archCount);
-        {
-            global $DB;
-            $sql = 'SELECT id FROM {role} WHERE archetype = ? ';
-            
-            if($archCount > 1)
-            {
-                for($i = 1; $i < $archCount; $i++)
-                {
-                    $sql.= ' OR archetype = ? ';
-                }
-            }
-
-            return $DB->get_records_sql($sql, $archetypes);
-        }
-    }
-
-    private function is_user_archetype(array $archetypeRoles, array $userRoles) : bool 
-    {
-        foreach($userRoles as $userRole)
-        {
-            foreach($archetypeRoles as $archetypeRole)
-            {
-                if($userRole->roleid == $archetypeRole->id) return true;
-            }
-        }
-
-        return false;
-    }
-
-    */
 
 
 

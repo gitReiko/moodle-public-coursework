@@ -1097,7 +1097,7 @@ class ManagerCourseworkView extends CourseworkView
     protected function get_theme_cell($row, $i) : string
     {
         $str = '<td>';
-        if(isset($row->theme) && $row->theme) $str.= cw_get_theme_name($row->theme);
+        if(!empty($row->theme) && $row->theme) $str.= cw_get_theme_name($row->theme);
         else if(isset($row->owntheme) && $row->owntheme) $str .= $row->owntheme;
         else $str.= get_string('not_selected', 'coursework');
         $str.= '</td>';
