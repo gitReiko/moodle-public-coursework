@@ -17,17 +17,13 @@ class ParticipantsManagement
     private $course;
     private $cm;
 
-    private $groups;
-    private $tutors;
+    private $courseworkGroups;
+    private $courseworkTutors;
 
     private $allGroups;
     private $allTutors;
     private $allCourses;
 
-    /**
-     * First initilize necessary variables ($course, $cm)
-     * Then handle database events because they can change data based on which further work takes place
-     */
     function __construct($course, $cm)
     {
         // Init necessary for database processing params
@@ -38,8 +34,8 @@ class ParticipantsManagement
         $this->handle_database_events();
 
         // Init other params
-        $this->groups = cw_get_groups($this->cm->instance);
-        $this->tutors = cw_get_tutors($this->cm->instance);
+        $this->courseworkGroups = cw_get_groups($this->cm->instance);
+        $this->courseworkTutors = cw_get_tutors($this->cm->instance);
 
         $this->allCourses = cw_get_all_courses();
         $this->allGroups = $this->get_all_course_groups();
@@ -61,6 +57,7 @@ class ParticipantsManagement
     {
         $groups = cw_get_all_course_groups($this->course->id);
         $groups = $this->add_members_count_to_groups($groups);
+        
         return $groups;
     }
 
@@ -110,35 +107,35 @@ class ParticipantsManagement
     // Public function
     public function execute() : string
     {
-        return $this->gui_display();
+        return $this->get_gui();
     }
 
     // General gui functions
-    private function gui_display() : string
+    private function get_gui() : string
     {
-        $str = $this->gui_header();
-        $str = $this->gui_start_form();
-        $str.= $this->gui_groups();
-        $str.= $this->gui_quota_left();
-        $str.= $this->gui_tutors();
-        $str.= $this->gui_add_button();
-        $str.= $this->gui_end_form();
-        $str.= $this->gui_js_data();
+        $str = $this->get_participants_management_header();
+        $str = $this->get_start_of_enroll_form();
+        $str.= $this->get_group_selection_panel();
+        $str.= $this->get_quota_left_label();
+        $str.= $this->get_tutor_selection_panel();
+        $str.= $this->get_add_tutor_html_button();
+        $str.= $this->get_end_of_enroll_form();
+        $str.= $this->get_hidden_data_for_js();
 
         return $str;
     }
 
-    private function gui_header() : string
+    private function get_participants_management_header() : string
     {
         return '<h2>'.get_string('configurate_coursework', 'coursework').'</h2>';
     }
 
-    private function gui_start_form() : string
+    private function get_start_of_enroll_form() : string
     {
         return '<form id="enroll_form">';
     }
 
-    private function gui_groups() : string
+    private function get_group_selection_panel() : string
     {
         $str = '<h3>'.get_string('select_groups', 'coursework').'</h3>';
 
@@ -157,39 +154,39 @@ class ParticipantsManagement
         return $str;
     }
 
-    private function is_group_selected($group) : bool
+    private function is_group_selected($selectedGroup) : bool
     {
-        foreach($this->groups as $value)
+        foreach($this->courseworkGroups as $group)
         {
-            if($value->id == $group->id) return true;
+            if($group->id == $selectedGroup->id) return true;
         }
 
         return false;
     }
 
-    private function gui_quota_left() : string
+    private function get_quota_left_label() : string
     {
         $quotaLeft = 0;
         foreach($this->allGroups as $group) if($this->is_group_selected($group)) $quotaLeft += $group->membersCount;
-        foreach($this->tutors as $tutor) $quotaLeft -= $tutor->quota;
+        foreach($this->courseworkTutors as $tutor) $quotaLeft -= $tutor->quota;
 
         return '<h3>'.get_string('quota_left', 'coursework').'<span id="quota_left">'.$quotaLeft.'</span></h3>';
     }
 
-    private function gui_tutors() : string
+    private function get_tutor_selection_panel() : string
     {
-        $count = count($this->tutors);
+        $count = count($this->courseworkTutors);
 
         $str = '<table id="tutors_table" data-rows="'.$count.'">';
 
         $i = 0;
-        foreach($this->tutors as $value)
+        foreach($this->courseworkTutors as $cwTutor)
         {
             $str.= '<tr data-index="'.$i.'" >';
-            $str.= '<td>'.$this->gui_tutor_select($value).'</td>';
-            $str.= '<td>'.$this->gui_course_select($value->course).'</td>';
-            $str.= '<td>'.$this->gui_quota_input($value->quota).'</td>';
-            $str.= '<td>'.$this->gui_delete_btn($value->id).'</td>';
+            $str.= '<td>'.$this->get_tutor_html_select($cwTutor).'</td>';
+            $str.= '<td>'.$this->get_course_html_select($cwTutor->course).'</td>';
+            $str.= '<td>'.$this->get_tutor_quota_html_input($cwTutor->quota).'</td>';
+            $str.= '<td>'.$this->get_tutor_delete_html_button($cwTutor->id).'</td>';
             $str.= '</tr>';
             $i++;
         }
@@ -198,7 +195,7 @@ class ParticipantsManagement
         return $str;
     }
 
-    private function gui_tutor_select($selectedTutor) : string
+    private function get_tutor_html_select($selectedTutor) : string
     {
         $str = '<input type="hidden" name="'.COURSEWORK.TUTORS.ID.'[]" value="'.$selectedTutor->id.'" >';
 
@@ -215,7 +212,7 @@ class ParticipantsManagement
         return $str;
     }
 
-    private function gui_course_select($course) : string
+    private function get_course_html_select($course) : string
     {
         $str = '<select name="'.COURSES.'[]" style="width:250px;" autocomplete="off" required >';
         foreach($this->allCourses as $value)
@@ -229,7 +226,7 @@ class ParticipantsManagement
         return $str;
     }
 
-    private function gui_quota_input($quota) : string
+    private function get_tutor_quota_html_input($quota) : string
     {
         $str = '<input class="quotas" type="number" ';
         $str.= ' name="'.QUOTAS.'[]" value="'.$quota.'" ';
@@ -238,41 +235,17 @@ class ParticipantsManagement
         return $str;
     }
 
-    private function gui_delete_btn($rowID) : string
+    private function get_tutor_delete_html_button($rowID) : string
     {
         return '<button onclick="return delete_tutor('.$rowID.')">'.get_string('delete', 'coursework').'</button>';
     }
 
-    private function gui_add_button() : string
+    private function get_add_tutor_html_button() : string
     {
         return '<button onclick="add_tutor()">'.get_string('add_tutor', 'coursework').'</button>';
     }
 
-    private function gui_js_data() : string
-    {
-        $str = '';
-
-        // All course tutors
-        foreach($this->allTutors as $tutor)
-        {
-            $str .= $this->get_hidden_element('tutors', $tutor->id, $tutor->fullname);
-        }
-
-        // All courses
-        foreach($this->allCourses as $course)
-        {
-            $str .= $this->get_hidden_element('courses', $course->id, $course->fullname);
-        }
-
-        return $str;
-    }
-
-    private function get_hidden_element($class, $id, $name) : string
-    {
-        return '<p class="hidden '.$class.'" data-id="'.$id.'" data-name="'.$name.'" ></p>';
-    }
-
-    private function gui_end_form()
+    private function get_end_of_enroll_form()
     {
         $str = '<button onclick="return submit_form()">'.get_string('save_changes', 'coursework').'</button>';
         $str.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
@@ -281,6 +254,41 @@ class ParticipantsManagement
         $str .= '</form>';
         return $str;
     }
+
+    private function get_hidden_data_for_js() : string
+    {
+        $str = '';
+        $str.= $this->get_all_tutors_js_hidden_data();
+        $str.= $this->get_all_courses_js_hidden_data();
+        return $str;
+    }
+
+    private function get_all_tutors_js_hidden_data() : string 
+    {
+        $str = '';
+        foreach($this->allTutors as $tutor)
+        {
+            $str .= $this->get_hidden_element('tutors', $tutor->id, $tutor->fullname);
+        }
+        return $str; 
+    }
+
+    private function get_all_courses_js_hidden_data() : string 
+    {
+        $str = '';
+        foreach($this->allCourses as $course)
+        {
+            $str .= $this->get_hidden_element('courses', $course->id, $course->fullname);
+        }
+        return $str; 
+    }
+
+    private function get_hidden_element($class, $id, $name) : string
+    {
+        return '<p class="hidden '.$class.'" data-id="'.$id.'" data-name="'.$name.'" ></p>';
+    }
+
+
 
 }
 
