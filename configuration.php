@@ -14,7 +14,7 @@ if (!$course = $DB->get_record('course', array('id'=> $cm->course))) {
     print_error('course is misconfigured');  // NOTE As above
 }
 
-$url = new moodle_url("/mod/coursework/enrollmembers.php", array('id'=>$id));
+$url = new moodle_url("/mod/coursework/configuration.php", array('id'=>$id));
 $PAGE->set_url($url);
 
 $PAGE->set_context(context_module::instance($cm->id));
@@ -25,7 +25,7 @@ $PAGE->set_title(get_string('pluginname', 'coursework'));
 $PAGE->set_heading(get_string('pluginname', 'coursework'));
 
 $PAGE->requires->css('/mod/coursework/css/enroll.css');
-$PAGE->requires->js('/mod/coursework/js/enroll.js');
+$PAGE->requires->js('/mod/coursework/js/configuration.js');
 
 require_login();
 

@@ -48,8 +48,8 @@ class ParticipantsManagement
 
         if($event)
         {
-            $hadler = new ParticipantsManagementDatabaseEventHandler($this->course, $this->cm);
-            $hadler->execute();
+            $handler = new ParticipantsManagementDatabaseEventHandler($this->course, $this->cm);
+            $handler->execute();
         }
     }
 

@@ -1,7 +1,7 @@
 <?php
 
 require_once 'classes/configuration/participants_management/participants_management.php';
-require_once 'classes/configuration/themes_management.php';
+require_once 'classes/configuration/themes_management/themes_management.php';
 require_once 'classes/configuration/students_assignment.php';
 
 /**

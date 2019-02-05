@@ -68,7 +68,7 @@ function coursework_extend_settings_navigation($settings, $navref)
 
     if (has_capability('mod/coursework:enrollmembers', $PAGE->cm->context))
     {
-        $link = new moodle_url('/mod/coursework/enrollmembers.php', array('id' => $cm->id));
+        $link = new moodle_url('/mod/coursework/configuration.php', array('id' => $cm->id));
         $linkname = get_string('configurate_coursework', 'coursework');
         $node = $navref->add($linkname, $link, navigation_node::TYPE_SETTING);
     }
@@ -275,6 +275,19 @@ function cw_get_all_courses() : array
     global $DB;
     $courses = array();
     $courses = $DB->get_records('course', array(), 'fullname', 'id, fullname');
+    return $courses;
+}
+
+function cw_get_coursework_courses(int $courseworkID) : array 
+{
+    global $DB;
+    $courses = array();
+    $sql = 'SELECT DISTINCT ct.course, c.id, c.fullname
+            FROM {coursework_tutors} AS ct, {course} AS c
+            WHERE ct.course = c.id AND ct.coursework = ?
+            ORDER BY c.fullname';
+    $conditions = array($courseworkID);
+    $courses = $DB->get_records_sql($sql, $conditions);
     return $courses;
 }
 
