@@ -9,25 +9,35 @@ abstract class CourseworkView
     protected $name;
     protected $intro;
 
-    protected $rows = array();
+    protected $students = array();
+
+    public function display() : void
+    {
+        $str = $this->get_coursework_name();
+        $str.= $this->get_coursework_intro();
+        $str.= $this->get_coursework_interface();
+        $str.= $this->get_back_to_course_button();
+
+        echo $str;
+    }
 
     function __construct($course, $cm)
     {
         $this->course = $course;
         $this->cm = $cm;
 
-        $this->db_handler();
+        $this->database_events_handler();
 
-        $this->init_name_intro();
+        $this->initilize_coursework_name_and_intro();
 
-        $this->rows = $this->get_rows();
+        $this->students = $this->get_coursework_students_database_records();
     }
 
     // Database functions
-    abstract protected function db_handler() : void;
+    abstract protected function database_events_handler() : void;
 
     // Constructor functions
-    protected function init_name_intro() : void
+    protected function initilize_coursework_name_and_intro() : void
     {
         global $DB;
 
@@ -37,34 +47,30 @@ abstract class CourseworkView
         $this->intro = $coursework->intro;
     }
 
-    abstract protected function get_rows() : array;
+    abstract protected function get_coursework_students_database_records() : array;
 
     // GUI functions
-    public function display() : void
-    {
-        $str = $this->get_name();
-        $str.= $this->get_intro();
-        $str.= '<table class="cw_view">';
-        $str.= $this->get_table_header();
-        $str.= $this->get_table_body();
-        $str.= '</table>';
-        $str.= $this->get_forms();
-        $str.= $this->get_back_to_course_btn();
-
-        echo $str;
-    }
-
-    protected function get_name() : string
+    protected function get_coursework_name() : string
     {
         return '<h2>'.$this->name.'</h2>';
     }
 
-    protected function get_intro() : string
+    protected function get_coursework_intro() : string
     {
         global $DB;
         $coursework = $DB->get_record('coursework', array('id'=> $this->cm->instance));
 
         return format_module_intro('coursework', $coursework, $this->cm->id).'<br>';
+    }
+
+    protected function get_coursework_interface() : string 
+    {
+        $str = '<table class="cw_view">';
+        $str.= $this->get_table_header();
+        $str.= $this->get_table_body();
+        $str.= '</table>';
+        $str.= $this->get_interface_html_form();
+        return $str;
     }
 
     protected function get_table_header() : string
@@ -86,24 +92,24 @@ abstract class CourseworkView
     {
         $str = '';
 
-        for($i = 0; $i < count($this->rows); $i++)
+        for($i = 0; $i < count($this->students); $i++)
         {
             $str.= '<tr>';
-            $str.= $this->get_student_name($this->rows[$i], $i);
-            $str.= $this->get_student_group($this->rows[$i], $i);
-            $str.= $this->get_leader_cell($this->rows[$i], $i);
-            $str.= $this->get_course_cell($this->rows[$i], $i);
-            $str.= $this->get_theme_cell($this->rows[$i], $i);
-            $str.= $this->get_grade_cell($this->rows[$i], $i);
-            $str.= $this->get_comment_cell($this->rows[$i], $i);
-            $str.= $this->get_btn_cell($this->rows[$i], $i);
+            $str.= $this->get_student_name($this->students[$i], $i);
+            $str.= $this->get_student_group($this->students[$i], $i);
+            $str.= $this->get_leader_cell($this->students[$i], $i);
+            $str.= $this->get_course_cell($this->students[$i], $i);
+            $str.= $this->get_theme_cell($this->students[$i], $i);
+            $str.= $this->get_grade_cell($this->students[$i], $i);
+            $str.= $this->get_comment_cell($this->students[$i], $i);
+            $str.= $this->get_btn_cell($this->students[$i], $i);
             $str.= '</tr>';
         }
 
         return $str;
     }
 
-    abstract protected function get_forms() : string;
+    abstract protected function get_interface_html_form() : string;
 
     abstract protected function get_student_name($row, $i) : string;
 
@@ -121,7 +127,7 @@ abstract class CourseworkView
 
     abstract protected function get_btn_cell($row, $i) : string;
 
-    protected function get_back_to_course_btn() : string
+    protected function get_back_to_course_button() : string
     {
         $str = '<br><form action="/course/view.php">';
         $str.= '<input type="hidden" name="id" value="'.$this->course->id.'">';

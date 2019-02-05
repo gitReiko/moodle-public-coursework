@@ -4,7 +4,7 @@ class ManagerCourseworkView extends CourseworkView
 {
 
     // Database functions
-    protected function db_handler() : void
+    protected function database_events_handler() : void
     {
         $delete = optional_param(ECM_REMOVE_SELECTION, 0, PARAM_TEXT);
         $student = optional_param(ECM_STUDENTS, 0, PARAM_INT);
@@ -71,7 +71,7 @@ class ManagerCourseworkView extends CourseworkView
     }
 
     // Constructor functions
-    protected function get_rows() : array
+    protected function get_coursework_students_database_records() : array
     {
         $students = $this->get_coursework_students();
         $rows = array();
@@ -132,7 +132,7 @@ class ManagerCourseworkView extends CourseworkView
     }
 
     // Gui functions
-    protected function get_forms() : string
+    protected function get_interface_html_form() : string
     {
         return '';
     }
@@ -206,7 +206,7 @@ class ManagerCourseworkView extends CourseworkView
         {
             $str.= '<form>';
             $str.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
-            $str.= '<input type="hidden" name="'.ECM_STUDENTS.'" value="'.$this->rows[$i]->student.'" >';
+            $str.= '<input type="hidden" name="'.ECM_STUDENTS.'" value="'.$this->students[$i]->student.'" >';
             $str.= '<input type="hidden" name="'.ECM_REMOVE_SELECTION.'" value="'.ECM_REMOVE_SELECTION.'" >';
             $str.= '<button onclick=" return confirm_remove_selection()">'.get_string('remove_selection', 'coursework').'</button>';
             $str.= '</form>';

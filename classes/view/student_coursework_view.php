@@ -11,7 +11,7 @@ class StudentCourseworkView extends CourseworkView
     }
 
     // Database functions
-    protected function db_handler() : void
+    protected function database_events_handler() : void
     {
         $selectTutor = optional_param(ECM_SELECT_TUTOR, 0, PARAM_TEXT); // Eto pravilno????
         $selectCourse = optional_param(ECM_SELECT_COURSE, 0, PARAM_TEXT);
@@ -175,7 +175,7 @@ class StudentCourseworkView extends CourseworkView
     }
 
     // Constructor functions
-    protected function get_rows() : array
+    protected function get_coursework_students_database_records() : array
     {
         global $USER;
 
@@ -293,7 +293,7 @@ class StudentCourseworkView extends CourseworkView
     }
 
     // GUI functions
-    protected function get_forms() : string
+    protected function get_interface_html_form() : string
     {
         $str = '<form id="'.STUDENT_FORM.'">';
         $str.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';

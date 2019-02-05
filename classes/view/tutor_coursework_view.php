@@ -4,7 +4,7 @@ class TutorCourseworkView extends CourseworkView
 {
 
     // Database functions
-    protected function db_handler() : void
+    protected function database_events_handler() : void
     {
         $update = optional_param(ECM_GRADE_STUDENT, 0, PARAM_TEXT);
         $courseworkid = $this->get_coursework_students_id();
@@ -82,7 +82,7 @@ class TutorCourseworkView extends CourseworkView
     }
 
     // Constructor functions
-    protected function get_rows() : array
+    protected function get_coursework_students_database_records() : array
     {
         global $USER;
 
@@ -133,14 +133,14 @@ class TutorCourseworkView extends CourseworkView
     }
 
     // Gui functions
-    protected function get_forms() : string
+    protected function get_interface_html_form() : string
     {
         $str = '';
-        for($i = 0; $i < count($this->rows); $i++)
+        for($i = 0; $i < count($this->students); $i++)
         {
             $str.= '<form id="'.TUTOR_FORM.$i.'">';
             $str.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
-            $str.= '<input type="hidden" name="'.ECM_STUDENTS.'" value="'.$this->rows[$i]->student.'" >'; // !!!!!!!!!
+            $str.= '<input type="hidden" name="'.ECM_STUDENTS.'" value="'.$this->students[$i]->student.'" >'; // !!!!!!!!!
             $str.= '</form>';
         }
         return $str;
