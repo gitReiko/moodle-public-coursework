@@ -41,6 +41,10 @@ const TUTORS = 'tutors';
 const COURSEWORK = 'coursework';
 const ASSIGNMENT = 'assignment';
 const QUOTAS = 'quotas';
+const STUDENT = 'student';
+const RECORD = 'record';
+const GRADE = 'grade';
+const COMMENT = 'comment';
 
 // Role constants
 const MANAGER_ROLE = 1;
