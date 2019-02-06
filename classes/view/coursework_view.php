@@ -149,7 +149,7 @@ abstract class CourseworkView
     protected function get_theme_cell($row, $i) : string
     {
         $str = '<td>';
-        if(is_int($row->theme)) $str.= cw_get_theme_name($row->theme);
+        if(isset($row->theme) && is_int($row->theme)) $str.= cw_get_theme_name($row->theme);
         else if(!empty($row->owntheme)) $str .= $row->owntheme;
         else $str.= get_string('not_selected', 'coursework');
         $str.= '</td>';

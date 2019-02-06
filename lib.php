@@ -378,9 +378,15 @@ function cw_is_user_archetype(array $userRoles, array $archetypeRoles) : bool
     return false;
 }
 
-
-
-
+function cw_prepare_data_for_message() : stdClass 
+{
+    global $USER;
+    $data = new stdClass;
+    $data->tutor = cw_get_user_name($USER->id);
+    $data->date = date('d-m-Y');
+    $data->time = date('G:i');
+    return $data;
+}
 
 
 

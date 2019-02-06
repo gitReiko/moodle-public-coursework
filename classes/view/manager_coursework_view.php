@@ -56,18 +56,11 @@ class ManagerCourseworkView extends CourseworkView
 
     private function get_html_message() : string
     {
-        global $USER;
+        $params = cw_prepare_data_for_message();
+        $message = get_string('manager_message','coursework', $params);
+        $notification = get_string('answer_not_require', 'coursework');
 
-        $message = '<p>';
-        $message.= get_string('user','coursework').' '.cw_get_user_name($USER->id).' ';
-        $message.= date('d-m-Y').get_string('at_time','coursework').date('G:i');
-        $message.= get_string('selectionremoved1','coursework');
-        $message.= '</p>';
-        $message.='<p>'.get_string('selectionremoved2','coursework').'</p>';
-
-        $notifications = '<p>'.get_string('answer_not_require', 'coursework').'</p>';
-
-        return cw_get_html_message($this->cm, $this->course->id, $message, $notifications);
+        return cw_get_html_message($this->cm, $this->course->id, $message, $notification);
     }
 
     // Constructor functions

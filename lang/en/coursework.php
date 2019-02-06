@@ -76,7 +76,19 @@ $string['tutorselected'] = ' chose you as leader of the course work ';
 $string['studentgraded'] = ' pre-grade and/or comment your course work.';
 $string['coursework_link1'] = 'Course work ';
 $string['coursework_link2'] = 'available on site.';
-$string['answer_not_require'] = '*This message was sent automatically and does not require a response.';
-$string['grade_isnt_final'] = '*Preliminary grade is not final.';
+
 $string['selectionremoved1'] = ' removed your choice of course work leader.';
 $string['selectionremoved2'] = 'All received progress has been deleted. To continue work, select a new leader.';
+
+// New view message strings
+$string['student_message'] = '<p>User {$a->tutor} {$a->date} at {$a->time} chose you as leader of the course work.</p>';
+$string['tutor_message'] = '<p>User {$a->tutor} {$a->date} at {$a->time} pre-grade and/or comment your course work.</p>';
+$string['manager_message'] = '<p>User {$a->tutor} {$a->date} at {$a->time} removed your choice of course work leader.</p><p>All received progress has been deleted. To continue work, select a new leader.</p>';
+$string['answer_not_require'] = '<p>*This message was sent automatically and does not require a response.</p>';
+$string['grade_isnt_final'] = '<p>*Preliminary grade is not final.</p>';
+
+
+
+
+
+
