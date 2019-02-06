@@ -33,10 +33,8 @@ abstract class CourseworkView
         $this->students = $this->get_coursework_students_database_records();
     }
 
-    // Database functions
     abstract protected function database_events_handler() : void;
 
-    // Constructor functions
     protected function initilize_coursework_name_and_intro() : void
     {
         global $DB;
@@ -109,21 +107,70 @@ abstract class CourseworkView
         return $str;
     }
 
+    // Скорее всего эта функция не должна отличаться в реализациях !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     abstract protected function get_interface_html_form() : string;
 
-    abstract protected function get_student_name($row, $i) : string;
+    protected function get_student_name($row, $i) : string
+    {
+        $str = '<td>';
+        $str.= cw_get_user_photo($row->student);
+        $str.= ' '.cw_get_user_name($row->student);
+        $str.= '</td>';
+        return $str;
+    }
 
-    abstract protected function get_student_group($row, $i) : string;
+    protected function get_student_group($row, $i) : string
+    {
+        return '<td>'.$row->group.'</td>';
+    }
 
-    abstract protected function get_leader_cell($row, $i) : string;
+    protected function get_leader_cell($row, $i) : string
+    {
+        $str = '<td>';
+        if(isset($row->tutor))
+        {
+            $str.= cw_get_user_photo($row->tutor);
+            $str.= ' '.cw_get_user_name($row->tutor);
+        }
+        else $str .= get_string('not_selected', 'coursework');
+        $str.= '</td>';
+        return $str;
+    }
 
-    abstract protected function get_course_cell($row, $i) : string;
+    protected function get_course_cell($row, $i) : string
+    {
+        $str = '<td>';
+        if(!empty($row->course)) $str .= cw_get_course_name($row->course);
+        else $str .= get_string('not_selected', 'coursework');
+        $str.= '</td>';
+        return $str;
+    }
 
-    abstract protected function get_theme_cell($row, $i) : string;
+    protected function get_theme_cell($row, $i) : string
+    {
+        $str = '<td>';
+        if(isset($row->theme) && $row->theme) $str.= cw_get_theme_name($row->theme);
+        else if(isset($row->owntheme) && $row->owntheme) $str .= $row->owntheme;
+        else $str.= get_string('not_selected', 'coursework');
+        $str.= '</td>';
+        return $str;       
+    }
 
-    abstract protected function get_grade_cell($row, $i) : string;
+    protected function get_grade_cell($row, $i) : string
+    {
+        $str = '<td>';
+        if(isset($row->grade) && $row->grade) $str .= $row->grade;
+        $str.= '</td>';
+        return $str;      
+    }
 
-    abstract protected function get_comment_cell($row, $i) : string;
+    protected function get_comment_cell($row, $i) : string
+    {
+        $str = '<td>';
+        if(isset($row->comment)) $str .= $row->comment;
+        $str.= '</td>';
+        return $str;
+    }
 
     abstract protected function get_btn_cell($row, $i) : string;
 

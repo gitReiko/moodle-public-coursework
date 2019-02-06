@@ -180,14 +180,14 @@ class StudentCourseworkView extends CourseworkView
         global $USER;
 
         $row = new stdClass();
-        $row->student = cw_get_user_name($USER->id);
+        $row->student = $USER->id;
         $row->group = cw_get_user_groups_names($this->course->id, $USER->id);
 
-        $coursework = cw_get_coursework_students($this->cm->instance, $USER->id);
+        $coursework = cw_get_coursework_student($this->cm->instance, $USER->id);
 
         if(isset($coursework) && isset($coursework->id))
         {
-            $row->leader = $coursework->tutor;
+            $row->tutor = $coursework->tutor;
             $row->course = $coursework->course;
             $row->grade = $coursework->grade;
             $row->comment = $coursework->comment;
@@ -301,23 +301,13 @@ class StudentCourseworkView extends CourseworkView
         return $str;
     }
 
-    protected function get_student_name($row, $i) : string
-    {
-        return '<td>'.$row->student.'</td>';
-    }
-
-    protected function get_student_group($row, $i) : string
-    {
-        return '<td>'.$row->group.'</td>';
-    }
-
     protected function get_leader_cell($row, $i) : string
     {
         $str = '<td>';
-        if(isset($row->leader))
+        if(isset($row->tutor))
         {
-            $str.= cw_get_user_photo($row->leader);
-            $str .= ' '.cw_get_user_name((int)$row->leader);
+            $str.= cw_get_user_photo($row->tutor);
+            $str .= ' '.cw_get_user_name((int)$row->tutor);
         }
         else
         {
@@ -513,27 +503,11 @@ class StudentCourseworkView extends CourseworkView
         return $str;
     }
 
-    protected function get_grade_cell($row, $i) : string
-    {
-        $str = '<td>';
-        if(isset($row->grade) && $row->grade) $str .= $row->grade;
-        $str.= '</td>';
-        return $str;
-    }
-
-    protected function get_comment_cell($row, $i) : string
-    {
-        $str = '<td>';
-        if(isset($row->comment)) $str .= $row->comment;
-        $str.= '</td>';
-        return $str;
-    }
-
     protected function get_btn_cell($row, $i) : string
     {
         $str = '<td class="transparent">';
 
-        if(empty($row->leader))
+        if(empty($row->tutor))
         {
             $str.= '<input type="hidden" name="'.ECM_SELECT_TUTOR.'" value="'.ECM_SELECT_TUTOR.'" form="'.STUDENT_FORM.'">';
             $str.= $this->get_theme_select_button();

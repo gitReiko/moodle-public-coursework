@@ -119,7 +119,7 @@ function cw_get_user_groups_names(int $course, int $user) : string
     return $str;
 }
 
-function cw_get_coursework_students(int $coursework, int $student)
+function cw_get_coursework_student(int $coursework, int $student)
 {
     global $DB;
     $conditions = array('coursework' => $coursework, 'student' => $student);

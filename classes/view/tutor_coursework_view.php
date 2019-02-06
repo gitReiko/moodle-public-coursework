@@ -95,11 +95,11 @@ class TutorCourseworkView extends CourseworkView
             $row->student = $student->id;
             $row->group = cw_get_user_groups_names($this->course->id, $student->id);
 
-            $coursework = cw_get_coursework_students($this->cm->instance, $student->id);
+            $coursework = cw_get_coursework_student($this->cm->instance, $student->id);
 
             if(isset($coursework) && isset($coursework->id))
             {
-                $row->leader = $coursework->tutor;
+                $row->tutor = $coursework->tutor;
                 $row->course = $coursework->course;
                 $row->grade = $coursework->grade;
                 $row->theme = $coursework->theme;
@@ -143,47 +143,6 @@ class TutorCourseworkView extends CourseworkView
             $str.= '<input type="hidden" name="'.ECM_STUDENTS.'" value="'.$this->students[$i]->student.'" >'; // !!!!!!!!!
             $str.= '</form>';
         }
-        return $str;
-    }
-
-    protected function get_student_name($row, $i) : string
-    {
-        $str = '<td>';
-        $str.= cw_get_user_photo($row->student);
-        $str.= ' '.cw_get_user_name($row->student);
-        $str.= '</td>';
-        return $str;
-    }
-
-    protected function get_student_group($row, $i) : string
-    {
-        return '<td>'.$row->group.'</td>';
-    }
-
-    protected function get_leader_cell($row, $i) : string
-    {
-        $str = '<td>';
-        if(isset($row->leader)) $str .= cw_get_user_name($row->leader);
-        $str.= '</td>';
-        return $str;
-    }
-
-    protected function get_course_cell($row, $i) : string
-    {
-        $str = '<td>';
-        if(!empty($row->course)) $str .= cw_get_course_name($row->course);
-        else $str.= get_string('not_selected', 'coursework');
-        $str.= '</td>';
-        return $str;
-    }
-
-    protected function get_theme_cell($row, $i) : string
-    {
-        $str = '<td>';
-        if(isset($row->theme) && $row->theme) $str.= cw_get_theme_name($row->theme);
-        else if(isset($row->owntheme) && $row->owntheme) $str .= $row->owntheme;
-        else $str.= get_string('not_selected', 'coursework');
-        $str.= '</td>';
         return $str;
     }
 
