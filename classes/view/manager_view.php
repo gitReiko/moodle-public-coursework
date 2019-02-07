@@ -1,16 +1,7 @@
 <?php
 
-require_once 'manager_view_database_event_handler.php';
-
 class ManagerCourseworkView extends CourseworkView
 {
-
-    // Database functions
-    protected function database_events_handler() : void
-    {
-        $handler = new ManagerViewDatabaseEventHandler($this->course, $this->cm);
-        $handler->execute();
-    }
 
     // Constructor functions
     protected function get_coursework_students_database_records() : array
@@ -57,7 +48,6 @@ class ManagerCourseworkView extends CourseworkView
         return '';
     }
 
-    // ??????????????????????????????????????????????????????????????????????????????????????????????????????
     protected function get_btn_cell($tableRow, $i) : string
     {
         $str = '<td class="transparent">';
@@ -65,7 +55,7 @@ class ManagerCourseworkView extends CourseworkView
         {
             $str.= '<form>';
             $str.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
-            $str.= '<input type="hidden" name="'.RECORD.ID.'" value="'.$this->tableRows[$i]->id.'" >';
+            $str.= '<input type="hidden" name="'.RECORD.ID.'" value="'.$tableRow->id.'" >';
             $str.= '<input type="hidden" name="'.DB_EVENT.'" value="'.DEL.STUDENT.'" >';
             $str.= '<button onclick=" return confirm_remove_selection()">'.get_string('remove_selection', 'coursework').'</button>';
             $str.= '</form>';

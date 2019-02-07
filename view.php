@@ -2,9 +2,10 @@
 
 require_once '../../config.php';
 require_once 'classes/view/coursework_view.php';
-require_once 'classes/view/student_coursework_view.php';
-require_once 'classes/view/tutor_coursework_view.php';
-require_once 'classes/view/manager_coursework_view/manager_coursework_view.php';
+require_once 'classes/view/student_view.php';
+require_once 'classes/view/tutor_view.php';
+require_once 'classes/view/manager_view.php';
+require_once 'classes/view/database_events_handler.php';
 require_once 'enums.php';
 require_once 'lib.php';
  

@@ -52,10 +52,13 @@ $string['not_selected'] = 'Не выбран(а)';
 $string['no_leaders'] = 'Нет доступных руководителей';
 
 // Errors strings
-$string['e:view:constr:missing-coursework-student-record'] = 'Ошибка: отсутствует запись студента курсовой работы.';
-$string['e:view:del:missing-student-record-id'] = 'Ошибка: отсутствует id записи, удаляемого студента.';
-$string['e:view:del:missing-student-id'] = 'Ошибка: отсутствует id студента. Почтовое уведомление не будет отпавлено.';
-$string['e:view:del:student-not-deleted'] = 'Ошибка базы данных: студент не удалён.';
+$string['e:missing-coursework-student-record'] = 'Ошибка: отсутствует запись студента курсовой работы.';
+$string['e:missing-user-record'] = 'Ошибка: отсутствует запись пользователя.';
+$string['e:missing-student-record-id'] = 'Ошибка: отсутствует id записи, удаляемого студента.';
+$string['e:missing-student-id'] = 'Ошибка: отсутствует id студента. Почтовое уведомление не будет отпавлено.';
+$string['e:missing-grade-and-comment'] = 'Ошибка: отсутствует новая оценка и новый комментарий.';
+$string['e:student-not-deleted'] = 'Ошибка базы данных: запись студента курсовой работы не удалёна.';
+$string['e:student-not-updated'] = 'Ошибка базы данных: запись студента курсовой работы не обновлена.';
 
 $string['error_no_tutor_or_course'] = 'Ошибка: отсутствует id преподавателя и/или id курса.';
 $string['error_missing_group_id'] = 'Ошибка: отсутствует id группы.';

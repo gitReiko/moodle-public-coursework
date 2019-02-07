@@ -52,10 +52,13 @@ $string['not_selected'] = 'Not selected';
 $string['no_leaders'] = 'No available leaders';
 
 // Errors strings
-$string['e:view:constr:missing-coursework-student-record'] = 'Error: missing record of coursework student.';
-$string['e:view:del:missing-student-record-id'] = 'Error: missing row id of deleting student.';
-$string['e:view:del:missing-student-id'] = 'Error: missing id of deleting student. Mail notification will not be sent.';
-$string['e:view:del:student-not-deleted'] = 'Database error: student not deleted.';
+$string['e:missing-coursework-student-record'] = 'Error: missing record of coursework student.';
+$string['e:missing-user-record'] = 'Error: missing record of user.';
+$string['e:missing-student-record-id'] = 'Error: missing row id of deleting student.';
+$string['e:missing-student-id'] = 'Error: missing id of deleting student. Mail notification will not be sent.';
+$string['e:missing-grade-and-comment'] = 'Error: missing new grade and new comment.';
+$string['e:student-not-deleted'] = 'Database error: coursework student record not deleted.';
+$string['e:student-not-updated'] = 'Database error: coursework student record not updated.';
 
 $string['error_no_tutor_or_course'] = 'Error: missing tutor id and/or course id.';
 $string['error_missing_group_id'] = 'Error: missing group id.';

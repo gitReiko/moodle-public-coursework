@@ -3,63 +3,6 @@
 class TutorCourseworkView extends CourseworkView
 {
 
-    // Database functions
-    protected function database_events_handler() : void
-    {
-        $recordId = optional_param(RECORD.ID, 0, PARAM_INT);
-
-        if($recordId) $this->update_coursework_students($recordId);
-    }
-
-    private function update_coursework_students(int $recordId) : void
-    {
-        global $DB;
-
-        $grade = optional_param(GRADE, 0, PARAM_INT);
-        $comment = optional_param(COMMENT, 0, PARAM_TEXT);
-
-        $sql = 'UPDATE {coursework_students} SET grade = ?, comment = ? WHERE id = ?';
-        $params = array($grade, $comment, $recordId);
-        
-        if($DB->execute($sql, $params))
-        {
-            $this->send_message();
-        }
-    }
-
-    // Message functions
-    private function send_message() : void
-    {
-        global $CFG, $USER;
-
-        $message = new \core\message\message();
-        $message->component = 'mod_coursework';
-        $message->name = 'studentgraded';
-        $message->userfrom = $USER;
-        $message->userto = optional_param(STUDENT.ID, 0, PARAM_INT);
-        $message->subject = get_string('studentgraded:head','coursework');
-        $message->fullmessage = get_string('studentgraded:head','coursework');
-        $message->fullmessageformat = FORMAT_MARKDOWN;
-        $message->fullmessagehtml = $this->get_html_message();
-        $message->smallmessage = get_string('studentgraded:head','coursework');
-        $message->notification = '1';
-        $message->contexturl = $CFG->wwwroot.'/coursework/view.php?id='.$this->cm->id;
-        $message->contexturlname = cw_get_coursework_name($this->cm->instance);
-        $message->courseid = $this->course->id;
-
-        message_send($message);
-    }
-
-    private function get_html_message() : string
-    {
-        $params = cw_prepare_data_for_message();
-        $message = get_string('tutor_message','coursework', $params);
-        $notification = get_string('grade_isnt_final', 'coursework');
-        $notification.= get_string('answer_not_require', 'coursework');
-
-        return cw_get_html_message($this->cm, $this->course->id, $message, $notification);
-    }
-
     // Constructor functions
     protected function get_coursework_students_database_records() : array
     {
@@ -120,6 +63,7 @@ class TutorCourseworkView extends CourseworkView
             $str.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
             $str.= '<input type="hidden" name="'.STUDENT.ID.'" value="'.$this->tableRows[$i]->student.'" >';
             $str.= '<input type="hidden" name="'.RECORD.ID.'" value="'.$this->tableRows[$i]->dbRecordId.'" >';
+            $str.= '<input type="hidden" name="'.DB_EVENT.'" value="'.UPDATE.STUDENT.'" >';
             $str.= '</form>';
         }
         return $str;

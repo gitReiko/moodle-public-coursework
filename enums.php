@@ -25,6 +25,7 @@ const ADD = 'add';
 const EDIT = 'edit';
 const DEL = 'delete';
 const SELECT = 'select';
+const UPDATE = 'update';
 
 // Type of database abstractions
 const THEME = 'theme';

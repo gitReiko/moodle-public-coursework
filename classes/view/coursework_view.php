@@ -33,7 +33,11 @@ abstract class CourseworkView
         $this->tableRows = $this->get_coursework_students_database_records();
     }
 
-    abstract protected function database_events_handler() : void;
+    protected function database_events_handler() : void
+    {
+        $handler = new ViewDatabaseEventHandler($this->course, $this->cm);
+        $handler->execute();
+    }
 
     protected function initilize_coursework_name_and_intro() : void
     {
@@ -149,7 +153,7 @@ abstract class CourseworkView
     protected function get_theme_cell($tableRow, $i) : string
     {
         $str = '<td>';
-        if(isset($tableRow->theme) && is_int($tableRow->theme)) $str.= cw_get_theme_name($tableRow->theme);
+        if(!empty($tableRow->theme)) $str.= cw_get_theme_name($tableRow->theme);
         else if(!empty($tableRow->owntheme)) $str .= $tableRow->owntheme;
         else $str.= get_string('not_selected', 'coursework');
         $str.= '</td>';
