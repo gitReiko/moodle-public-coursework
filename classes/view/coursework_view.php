@@ -9,7 +9,7 @@ abstract class CourseworkView
     protected $name;
     protected $intro;
 
-    protected $students = array();
+    protected $tableRows = array();
 
     public function display() : void
     {
@@ -30,7 +30,7 @@ abstract class CourseworkView
 
         $this->initilize_coursework_name_and_intro();
 
-        $this->students = $this->get_coursework_students_database_records();
+        $this->tableRows = $this->get_coursework_students_database_records();
     }
 
     abstract protected function database_events_handler() : void;
@@ -90,17 +90,17 @@ abstract class CourseworkView
     {
         $str = '';
 
-        for($i = 0; $i < count($this->students); $i++)
+        for($i = 0; $i < count($this->tableRows); $i++)
         {
             $str.= '<tr>';
-            $str.= $this->get_student_name($this->students[$i], $i);
-            $str.= $this->get_student_group($this->students[$i], $i);
-            $str.= $this->get_leader_cell($this->students[$i], $i);
-            $str.= $this->get_course_cell($this->students[$i], $i);
-            $str.= $this->get_theme_cell($this->students[$i], $i);
-            $str.= $this->get_grade_cell($this->students[$i], $i);
-            $str.= $this->get_comment_cell($this->students[$i], $i);
-            $str.= $this->get_btn_cell($this->students[$i], $i);
+            $str.= $this->get_student_name($this->tableRows[$i], $i);
+            $str.= $this->get_student_group($this->tableRows[$i], $i);
+            $str.= $this->get_leader_cell($this->tableRows[$i], $i);
+            $str.= $this->get_course_cell($this->tableRows[$i], $i);
+            $str.= $this->get_theme_cell($this->tableRows[$i], $i);
+            $str.= $this->get_grade_cell($this->tableRows[$i], $i);
+            $str.= $this->get_comment_cell($this->tableRows[$i], $i);
+            $str.= $this->get_btn_cell($this->tableRows[$i], $i);
             $str.= '</tr>';
         }
 
@@ -110,69 +110,69 @@ abstract class CourseworkView
     // Скорее всего эта функция не должна отличаться в реализациях !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     abstract protected function get_interface_html_form() : string;
 
-    protected function get_student_name($row, $i) : string
+    protected function get_student_name($tableRow, $i) : string
     {
         $str = '<td>';
-        $str.= cw_get_user_photo($row->student);
-        $str.= ' '.cw_get_user_name($row->student);
+        $str.= cw_get_user_photo($tableRow->student);
+        $str.= ' '.cw_get_user_name($tableRow->student);
         $str.= '</td>';
         return $str;
     }
 
-    protected function get_student_group($row, $i) : string
+    protected function get_student_group($tableRow, $i) : string
     {
-        return '<td>'.$row->group.'</td>';
+        return '<td>'.$tableRow->group.'</td>';
     }
 
-    protected function get_leader_cell($row, $i) : string
+    protected function get_leader_cell($tableRow, $i) : string
     {
         $str = '<td>';
-        if(isset($row->tutor))
+        if(isset($tableRow->tutor))
         {
-            $str.= cw_get_user_photo($row->tutor);
-            $str.= ' '.cw_get_user_name($row->tutor);
+            $str.= cw_get_user_photo($tableRow->tutor);
+            $str.= ' '.cw_get_user_name($tableRow->tutor);
         }
         else $str .= get_string('not_selected', 'coursework');
         $str.= '</td>';
         return $str;
     }
 
-    protected function get_course_cell($row, $i) : string
+    protected function get_course_cell($tableRow, $i) : string
     {
         $str = '<td>';
-        if(!empty($row->course)) $str .= cw_get_course_name($row->course);
+        if(!empty($tableRow->course)) $str .= cw_get_course_name($tableRow->course);
         else $str .= get_string('not_selected', 'coursework');
         $str.= '</td>';
         return $str;
     }
 
-    protected function get_theme_cell($row, $i) : string
+    protected function get_theme_cell($tableRow, $i) : string
     {
         $str = '<td>';
-        if(isset($row->theme) && is_int($row->theme)) $str.= cw_get_theme_name($row->theme);
-        else if(!empty($row->owntheme)) $str .= $row->owntheme;
+        if(isset($tableRow->theme) && is_int($tableRow->theme)) $str.= cw_get_theme_name($tableRow->theme);
+        else if(!empty($tableRow->owntheme)) $str .= $tableRow->owntheme;
         else $str.= get_string('not_selected', 'coursework');
         $str.= '</td>';
         return $str;       
     }
 
-    protected function get_grade_cell($row, $i) : string
+    protected function get_grade_cell($tableRow, $i) : string
     {
         $str = '<td>';
-        if(isset($row->grade) && $row->grade) $str .= $row->grade;
+        if(isset($tableRow->grade) && $tableRow->grade) $str .= $tableRow->grade;
         $str.= '</td>';
         return $str;      
     }
 
-    protected function get_comment_cell($row, $i) : string
+    protected function get_comment_cell($tableRow, $i) : string
     {
         $str = '<td>';
-        if(isset($row->comment)) $str .= $row->comment;
+        if(isset($tableRow->comment)) $str .= $tableRow->comment;
         $str.= '</td>';
         return $str;
     }
 
-    abstract protected function get_btn_cell($row, $i) : string;
+    abstract protected function get_btn_cell($tableRow, $i) : string;
 
     protected function get_back_to_course_button() : string
     {

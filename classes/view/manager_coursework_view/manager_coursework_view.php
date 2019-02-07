@@ -57,14 +57,15 @@ class ManagerCourseworkView extends CourseworkView
         return '';
     }
 
-    protected function get_btn_cell($row, $i) : string
+    // ??????????????????????????????????????????????????????????????????????????????????????????????????????
+    protected function get_btn_cell($tableRow, $i) : string
     {
         $str = '<td class="transparent">';
-        if(isset($row->tutor))
+        if(isset($tableRow->tutor))
         {
             $str.= '<form>';
             $str.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
-            $str.= '<input type="hidden" name="'.RECORD.ID.'" value="'.$this->students[$i]->id.'" >';
+            $str.= '<input type="hidden" name="'.RECORD.ID.'" value="'.$this->tableRows[$i]->id.'" >';
             $str.= '<input type="hidden" name="'.DB_EVENT.'" value="'.DEL.STUDENT.'" >';
             $str.= '<button onclick=" return confirm_remove_selection()">'.get_string('remove_selection', 'coursework').'</button>';
             $str.= '</form>';

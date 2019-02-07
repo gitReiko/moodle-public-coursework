@@ -70,24 +70,24 @@ class TutorCourseworkView extends CourseworkView
 
         foreach($students as $student)
         {
-            $row = new stdClass();
-            $row->student = $student->id;
-            $row->group = cw_get_user_groups_names($this->course->id, $student->id);
+            $tableRow = new stdClass();
+            $tableRow->student = $student->id;
+            $tableRow->group = cw_get_user_groups_names($this->course->id, $student->id);
 
             $coursework = cw_get_coursework_student($this->cm->instance, $student->id);
 
             if(isset($coursework) && isset($coursework->id))
             {
-                $row->dbRecordId = $coursework->id;
-                $row->tutor = $coursework->tutor;
-                $row->course = $coursework->course;
-                $row->grade = $coursework->grade;
-                $row->theme = $coursework->theme;
-                $row->owntheme = $coursework->owntheme;
-                $row->comment = $coursework->comment;
+                $tableRow->dbRecordId = $coursework->id;
+                $tableRow->tutor = $coursework->tutor;
+                $tableRow->course = $coursework->course;
+                $tableRow->grade = $coursework->grade;
+                $tableRow->theme = $coursework->theme;
+                $tableRow->owntheme = $coursework->owntheme;
+                $tableRow->comment = $coursework->comment;
             }
 
-            $rows[] = $row;
+            $rows[] = $tableRow;
         }
 
         return $rows;
@@ -114,24 +114,24 @@ class TutorCourseworkView extends CourseworkView
     protected function get_interface_html_form() : string
     {
         $str = '';
-        for($i = 0; $i < count($this->students); $i++)
+        for($i = 0; $i < count($this->tableRows); $i++)
         {
             $str.= '<form id="'.TUTOR_FORM.$i.'">';
             $str.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
-            $str.= '<input type="hidden" name="'.STUDENT.ID.'" value="'.$this->students[$i]->student.'" >';
-            $str.= '<input type="hidden" name="'.RECORD.ID.'" value="'.$this->students[$i]->dbRecordId.'" >';
+            $str.= '<input type="hidden" name="'.STUDENT.ID.'" value="'.$this->tableRows[$i]->student.'" >';
+            $str.= '<input type="hidden" name="'.RECORD.ID.'" value="'.$this->tableRows[$i]->dbRecordId.'" >';
             $str.= '</form>';
         }
         return $str;
     }
 
-    protected function get_grade_cell($row, $i) : string
+    protected function get_grade_cell($tableRow, $i) : string
     {
         $str = '<td><center>';
         $str.= '<input type="number" form="'.TUTOR_FORM.$i.'" ';
         $str.= 'name="'.GRADE.'" ';
 
-        if(isset($row->grade)) $str .= ' value="'.$row->grade.'" ';
+        if(isset($tableRow->grade)) $str .= ' value="'.$tableRow->grade.'" ';
 
         $str.= ' style="width: 40px;" >';
         $str.= '</center></td>';
@@ -139,19 +139,19 @@ class TutorCourseworkView extends CourseworkView
         return $str;
     }
 
-    protected function get_comment_cell($row, $i) : string
+    protected function get_comment_cell($tableRow, $i) : string
     {
         $str = '<td><center>';
         $str.= '<textarea form="'.TUTOR_FORM.$i.'" name="'.COMMENT.'" >';
 
-        if(isset($row->comment)) $str .= $row->comment;
+        if(isset($tableRow->comment)) $str .= $tableRow->comment;
 
         $str.= '</textarea></center></td>';
 
         return $str;
     }
 
-    protected function get_btn_cell($row, $i) : string
+    protected function get_btn_cell($tableRow, $i) : string
     {
         $str = '<td class="transparent">';
         $str.= '<button  form="'.TUTOR_FORM.$i.'" >';
