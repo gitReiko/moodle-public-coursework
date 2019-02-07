@@ -52,8 +52,12 @@ $string['not_selected'] = 'Not selected';
 $string['no_leaders'] = 'No available leaders';
 
 // Errors strings
+$string['e:view:constr:missing-coursework-student-record'] = 'Error: missing record of coursework student.';
+$string['e:view:del:missing-student-record-id'] = 'Error: missing row id of deleting student.';
+$string['e:view:del:missing-student-id'] = 'Error: missing id of deleting student. Mail notification will not be sent.';
+$string['e:view:del:student-not-deleted'] = 'Database error: student not deleted.';
+
 $string['error_no_tutor_or_course'] = 'Error: missing tutor id and/or course id.';
-$string['error_no_student'] = 'Error: missing student id.';
 $string['error_missing_group_id'] = 'Error: missing group id.';
 $string['error_no_tutor_necessary_data'] = 'Error: missing tutor id and/or course id and/or quota.';
 $string['error_theme_already_used'] = 'Error: This theme is already being used by another student.';
@@ -70,15 +74,10 @@ $string['messageprovider:selectionremoved'] = 'Message about the cancellation of
 $string['selectionremoved:head'] = 'Course work leader selection removed';
 $string['selectionremoved:body'] = 'The choice you made earlier in your course work has been removed along with all the progress made. Choose a new leader and continue working with him.';
 
-$string['user'] = 'User';
-$string['at_time'] = ' at ';
-$string['tutorselected'] = ' chose you as leader of the course work ';
-$string['studentgraded'] = ' pre-grade and/or comment your course work.';
+
 $string['coursework_link1'] = 'Course work ';
 $string['coursework_link2'] = 'available on site.';
 
-$string['selectionremoved1'] = ' removed your choice of course work leader.';
-$string['selectionremoved2'] = 'All received progress has been deleted. To continue work, select a new leader.';
 
 // New view message strings
 $string['student_message'] = '<p>User {$a->tutor} {$a->date} at {$a->time} chose you as leader of the course work.</p>';

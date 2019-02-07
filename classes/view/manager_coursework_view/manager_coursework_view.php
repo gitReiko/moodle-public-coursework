@@ -1,66 +1,15 @@
 <?php
 
+require_once 'manager_view_database_event_handler.php';
+
 class ManagerCourseworkView extends CourseworkView
 {
 
     // Database functions
     protected function database_events_handler() : void
     {
-        $delete = optional_param(ECM_REMOVE_SELECTION, 0, PARAM_TEXT);
-        $student = optional_param(ECM_STUDENTS, 0, PARAM_INT);
-
-        if($delete)
-        {
-            if($student)
-            {
-                $courseworkid = cw_get_coursework_students_id($this->cm->instance, $student);
-
-                if($delete && $courseworkid)
-                {
-                    global $DB;
-                    if($DB->delete_records('coursework_students', array('id'=>$courseworkid)))
-                    {
-                        $this->send_message($student);
-                    }
-                }
-            }
-            else
-            {
-                echo get_string('error_no_student', 'coursework');
-            }
-        }
-    }
-
-    // Message functions
-    private function send_message($student) : void
-    {
-        global $CFG, $USER;
-
-        $message = new \core\message\message();
-        $message->component = 'mod_coursework';
-        $message->name = 'selectionremoved';
-        $message->userfrom = $USER;
-        $message->userto = $student;
-        $message->subject = get_string('selectionremoved:head','coursework');
-        $message->fullmessage = get_string('selectionremoved:body','coursework');
-        $message->fullmessageformat = FORMAT_MARKDOWN;
-        $message->fullmessagehtml = $this->get_html_message();
-        $message->smallmessage = get_string('selectionremoved:head','coursework');
-        $message->notification = '1';
-        $message->contexturl = $CFG->wwwroot.'/coursework/view.php?id='.$this->cm->id;
-        $message->contexturlname = cw_get_coursework_name($this->cm->instance);
-        $message->courseid = $this->course->id;
-
-        message_send($message);
-    }
-
-    private function get_html_message() : string
-    {
-        $params = cw_prepare_data_for_message();
-        $message = get_string('manager_message','coursework', $params);
-        $notification = get_string('answer_not_require', 'coursework');
-
-        return cw_get_html_message($this->cm, $this->course->id, $message, $notification);
+        $handler = new ManagerViewDatabaseEventHandler($this->course, $this->cm);
+        $handler->execute();
     }
 
     // Constructor functions
@@ -79,6 +28,7 @@ class ManagerCourseworkView extends CourseworkView
 
             if(isset($coursework) && isset($coursework->id))
             {
+                $row->dbRecordId = $coursework->id;
                 $row->tutor = $coursework->tutor;
                 $row->course = $coursework->course;
                 $row->theme = $coursework->theme;
@@ -137,8 +87,8 @@ class ManagerCourseworkView extends CourseworkView
         {
             $str.= '<form>';
             $str.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
-            $str.= '<input type="hidden" name="'.ECM_STUDENTS.'" value="'.$this->students[$i]->student.'" >';
-            $str.= '<input type="hidden" name="'.ECM_REMOVE_SELECTION.'" value="'.ECM_REMOVE_SELECTION.'" >';
+            $str.= '<input type="hidden" name="'.RECORD.ID.'" value="'.$this->students[$i]->dbRecordId.'" >';
+            $str.= '<input type="hidden" name="'.DB_EVENT.'" value="'.DEL.STUDENT.'" >';
             $str.= '<button onclick=" return confirm_remove_selection()">'.get_string('remove_selection', 'coursework').'</button>';
             $str.= '</form>';
         }

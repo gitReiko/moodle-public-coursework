@@ -190,7 +190,7 @@ function cw_get_coursework_name($id) : string
 }
 
 
-function cw_get_html_message($cm, $course, $message, $notifications) : string
+function cw_get_html_message(stdClass $cm, int $course, string $message, string $notifications) : string
 {
     global $CFG, $USER;
 
