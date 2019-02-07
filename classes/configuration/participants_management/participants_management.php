@@ -57,20 +57,7 @@ class ParticipantsManagement
     {
         $tutors = array();
         $tutorArchetypeRoles = cw_get_archetype_roles(array('editingteacher', 'teacher'));
-        foreach($this->allGroups as $group)
-        {
-            $members = cw_get_group_members($group->id);
-
-            foreach($members as $member)
-            {
-                $memberRoles = get_user_roles(context_course::instance($this->course->id), $member->id);
-
-                if(cw_is_user_archetype($memberRoles, $tutorArchetypeRoles))
-                {
-                    $tutors[] = $member;
-                }
-            }
-        }
+        $tutors = cw_get_coursework_users_with_archetype_roles($tutorArchetypeRoles, $this->course->id, $this->cm->instance);
         return $tutors;
     }
 

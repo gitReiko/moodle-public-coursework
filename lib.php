@@ -315,6 +315,39 @@ function cw_get_coursework_courses(int $courseworkID) : array
     return $courses;
 }
 
+function cw_get_coursework_users_with_archetype_roles(array $usersArchetypeRoles, int $courseID, int $CourseModuleID) : array 
+{
+    $users = array();
+    $groups = cw_get_coursework_groups($CourseModuleID, $courseID);
+
+    foreach($groups as $group)
+    {
+        $members = cw_get_group_members($group->id);
+
+        foreach($members as $member)
+        {
+            $memberRoles = get_user_roles(context_course::instance($courseID), $member->id);
+
+            if(cw_is_user_archetype($memberRoles, $usersArchetypeRoles))
+            {
+                $users[] = $member;
+            }
+        }
+    }
+
+    $users = cw_array_unique_for_stdclass($users);
+
+    return $users;
+}
+
+function cw_array_unique_for_stdclass(array $array) : array
+{
+    $array = array_map('json_encode', $array);
+    $array = array_unique($array);
+    $array = array_map('json_decode', $array);
+    return $array;
+}
+
 function cw_get_group_members(int $groupid) : array 
 {
     global $DB;

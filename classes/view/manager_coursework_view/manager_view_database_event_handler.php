@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Handles database events of manager view.
+ * 
+ * Currently there is only one type of event (student deletion).
+ * 
+ * @param stdClass $course - moodle course
+ * @param stdClass $cm - moodle course module
+ * @param string $eventType
+ * @param stdClass $studentRecord - record of coursework_students db table
+ * @author Denis Makouski (Reiko)
+ */
 class ManagerViewDatabaseEventHandler
 {
     private $course;
