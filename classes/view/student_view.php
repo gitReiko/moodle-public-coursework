@@ -14,53 +14,23 @@ class StudentCourseworkView extends CourseworkView
     protected function get_coursework_students_database_records() : array
     {
         global $USER;
+        $tableRow = cw_get_coursework_student($this->cm->instance, $USER->id);
 
-        $tableRow = new stdClass();
-        $tableRow->student = $USER->id;
+        if(empty($tableRow->student)) 
+        {
+            $tableRow = new stdClass;
+            $tableRow->student = $USER->id;
+        }
+        
         $tableRow->group = cw_get_user_groups_names($this->course->id, $USER->id);
 
-        $coursework = cw_get_coursework_student($this->cm->instance, $USER->id);
-
-        if(isset($coursework) && isset($coursework->id))
-        {
-            $tableRow->id = $coursework->id;
-            $tableRow->tutor = $coursework->tutor;
-            $tableRow->course = $coursework->course;
-            $tableRow->grade = $coursework->grade;
-            $tableRow->comment = $coursework->comment;
-
-            if(isset($coursework->theme) && $coursework->theme)
-            {
-                $tableRow->themeID = $coursework->theme;
-                $tableRow->themeName = $this->get_theme_name($tableRow->themeID);
-            }
-            else if(isset($coursework->owntheme))
-            {
-                $tableRow->themeID = null;
-                $tableRow->themeName = $coursework->owntheme;
-            }
-            else if(empty($tableRow->course))
-            {
-                $tableRow->data = $this->get_available_tutors();
-                $tableRow->availableThemes = $this->get_available_themes();
-            }
-        }
-        else
+        if(empty($tableRow->id) || empty($tableRow->course))
         {
             $tableRow->data = $this->get_available_tutors();
             $tableRow->availableThemes = $this->get_available_themes();
         }
 
         return array($tableRow);
-    }
-
-    private function get_theme_name($id) : string
-    {
-        global $DB;
-
-        $theme = $DB->get_record('coursework_themes', array('id'=>$id));
-
-        if(isset($theme->name)) return $theme->name;
     }
 
     private function get_available_tutors() : array
@@ -141,51 +111,15 @@ class StudentCourseworkView extends CourseworkView
     protected function get_leader_cell($tableRow, $i) : string
     {
         $str = '<td>';
-        if(isset($tableRow->tutor))
+        if(!empty($tableRow->tutor))
         {
-            $str.= cw_get_user_photo($tableRow->tutor);
-            $str .= ' '.cw_get_user_name((int)$tableRow->tutor);
+            $str.= cw_get_user_photo($tableRow->tutor).' '.cw_get_user_name((int)$tableRow->tutor);
         }
         else
         {
-            $str .= $this->prepare_js_data($tableRow);
-            $str .= $this->get_leaders_select($tableRow);
+            $str.= $this->get_leaders_select($tableRow);
         }
         $str.='</td>';
-        return $str;
-    }
-
-    private function prepare_js_data($tableRow) : string
-    {
-        global $DB;
-        $str = '';
-        foreach($tableRow->data as $value)
-        {
-            $course = $DB->get_record('course', array('id'=>$value->course), 'fullname');
-
-            $str.= '<p class="hidden js_tutors" ';
-            $str.= 'data-tutorid="'.$value->tutor.'" ';
-            $str.= 'data-tutorname="'.cw_get_user_name($value->tutor).'" ';
-            $str.= 'data-courseid="'.$value->course.'" ';
-            $str.= 'data-coursename="'.$course->fullname.'" ></p>';
-        }
-
-        $str.= $this->prepare_available_themes_for_js($tableRow);
-
-        return $str;
-    }
-
-    private function prepare_available_themes_for_js($tableRow) : string
-    {
-        $str = '';
-        foreach ($tableRow->availableThemes as $theme)
-        {
-            $str.= '<p class="hidden js_themes" ';
-            $str.= 'data-id="'.$theme->id.'"';
-            $str.= 'data-name="'.$theme->name.'"';
-            $str.= 'data-course="'.$theme->course.'"></p>';
-        }
-
         return $str;
     }
 
@@ -195,13 +129,10 @@ class StudentCourseworkView extends CourseworkView
 
         if(count($unique))
         {
-            $str = '<select class="select" id="selected_tutor" name="'.TUTOR.'" ';
-            $str.= ' form="'.STUDENT_FORM.'" onchange="change_course_select()" autocomplete="off">';
+            $str = '<select class="select" id="selected_tutor" name="'.TUTOR.'" form="'.STUDENT_FORM.'" onchange="change_course_select()" autocomplete="off">';
             foreach($unique as $value)
             {
-                $str.= '<option value="'.$value->tutor.'" >';
-                $str.= cw_get_user_name($value->tutor);
-                $str.= '</option>';
+                $str.= '<option value="'.$value->tutor.'" >'.cw_get_user_name($value->tutor).'</option>';
             }
             $str .= '</select>';
         }
@@ -218,13 +149,7 @@ class StudentCourseworkView extends CourseworkView
         {
             $unique = true;
 
-            foreach($leaders as $exist)
-            {
-                if($new->tutor == $exist->tutor)
-                {
-                    $unique = false;
-                }
-            }
+            foreach($leaders as $exist) if($new->tutor == $exist->tutor) $unique = false;
 
             if($unique) $leaders[] = $new;
         }
@@ -235,40 +160,29 @@ class StudentCourseworkView extends CourseworkView
     protected function get_course_cell($tableRow, $i) : string
     {
         $str = '<td id="course_cell">';
-        if(!empty($tableRow->course))
-        {
-            global $DB;
-            $course = $DB->get_record('course', array('id'=>$tableRow->course), 'fullname');
-            $str .= $course->fullname;
-        }
-        else
-        {
-            $str .= $this->prepare_js_data($tableRow);
-            $str .= $this->get_courses_select($tableRow);
-        }
+
+        if(!empty($tableRow->course)) $str.= cw_get_course_name($tableRow->course);
+        else $str.= $this->get_courses_select($tableRow);
+
         $str.= '</td>';
         return $str;
     }
 
     private function get_courses_select($tableRow) : string
     {
-        global $DB;
+        $str = '';
         $firstCourse = true;
 
         if(count($tableRow->data))
         {
             $tutor = reset($tableRow->data)->tutor;
 
-            $str = '<select class="select" id="selected_course" name="'.COURSE.'" ';
-            $str.= ' form="'.STUDENT_FORM.'" autocomplete="off" onchange="change_themes_select(this.value)">';
+            $str.= '<select class="select" id="selected_course" name="'.COURSE.'" form="'.STUDENT_FORM.'" autocomplete="off" onchange="change_themes_select(this.value)">';
             foreach($tableRow->data as $value)
             {
                 if($value->tutor == $tutor)
                 {
-                    $course = $DB->get_record('course', array('id'=>$value->course), 'id, fullname');
-
-                    $str.= '<option value="'.$value->course.'" >';
-                    $str.= $course->fullname.'</option>';
+                    $str.= '<option value="'.$value->course.'" >'.cw_get_course_name($value->course).'</option>';
 
                     if($firstCourse)
                     {
@@ -279,16 +193,15 @@ class StudentCourseworkView extends CourseworkView
             }
             $str .= '</select>';
         }
-        else $str = '';
 
         return $str;
     }
 
-
     protected function get_theme_cell($tableRow, $i) : string
     {
         $str = '<td id="theme_cell">';
-        if(isset($tableRow->themeName)) $str.= $tableRow->themeName;
+        if(!empty($tableRow->theme)) $str.= cw_get_theme_name($tableRow->theme);
+        else if(!empty($tableRow->owntheme)) $str.= $tableRow->owntheme;
         else $str.= $this->get_available_themes_select($tableRow);
         $str.= '</td>';
 
@@ -372,5 +285,56 @@ class StudentCourseworkView extends CourseworkView
         return $str;
     }
 
+   protected function prepare_data_for_js() : string
+   {   
+        $str = '';
+        $tableRow = reset($this->tableRows);
+
+        if($this->is_js_data_necessary($tableRow))
+        {
+            $str.= $this->prepare_available_tutors_with_courses_for_js($tableRow);
+            $str.= $this->prepare_available_themes_for_js($tableRow);
+        }
+
+        return $str;
+   }
+
+   private function is_js_data_necessary(stdClass $tableRow) : bool 
+   {
+        if(empty($tableRow->tutor) || empty($tableRow->course)) return true;
+        else return false;
+   }
+
+   private function prepare_available_tutors_with_courses_for_js(stdClass $tableRow) : string
+   {
+       global $DB;
+       $str = '';
+       foreach($tableRow->data as $value)
+       {
+           $course = $DB->get_record('course', array('id'=>$value->course), 'fullname');
+
+           $str.= '<p class="hidden js_tutors" ';
+           $str.= 'data-tutorid="'.$value->tutor.'" ';
+           $str.= 'data-tutorname="'.cw_get_user_name($value->tutor).'" ';
+           $str.= 'data-courseid="'.$value->course.'" ';
+           $str.= 'data-coursename="'.$course->fullname.'" ></p>';
+       }
+
+       return $str;
+   }
+
+   private function prepare_available_themes_for_js(stdClass $tableRow) : string
+   {
+       $str = '';
+       foreach ($tableRow->availableThemes as $theme)
+       {
+           $str.= '<p class="hidden js_themes" ';
+           $str.= 'data-id="'.$theme->id.'"';
+           $str.= 'data-name="'.$theme->name.'"';
+           $str.= 'data-course="'.$theme->course.'"></p>';
+       }
+
+       return $str;
+   }
 }
 

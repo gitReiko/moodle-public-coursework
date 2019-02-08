@@ -17,6 +17,7 @@ abstract class CourseworkView
         $str.= $this->get_coursework_intro();
         $str.= $this->get_coursework_interface();
         $str.= $this->get_back_to_course_button();
+        $str.= $this->prepare_data_for_js();
 
         echo $str;
     }
@@ -186,6 +187,8 @@ abstract class CourseworkView
         $str.= '</form>';
         return $str;
     }
+
+    protected function prepare_data_for_js() : string { return ''; }
 
 }
 

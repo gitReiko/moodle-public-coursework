@@ -91,7 +91,7 @@ class StudentsAssignmentDatabaseEventsHandler
                     if($this->is_tutor_have_enough_quota($assignment)) return true;
                     else $this->throw_not_enough_quota_exception($assignment);
                 }
-                else throw new Exception(get_string('error_student_already_chosen_theme', 'coursework', cw_get_user_name($assignment->student)));
+                else throw new Exception(get_string('e:student-already-chosen-theme', 'coursework', cw_get_user_name($assignment->student)));
             }
             return false;
         }
@@ -158,7 +158,7 @@ class StudentsAssignmentDatabaseEventsHandler
         $params->tutor = cw_get_user_name($assignment->tutor);
         $params->student = cw_get_user_name($assignment->student);
 
-        $message = get_string('error_tutor_total_quota_over', 'coursework', $params);
+        $message = get_string('e:tutor-total-quota-over', 'coursework', $params);
 
         throw new Exception($message);
     }

@@ -51,7 +51,7 @@ class ParticipantsManagementDatabaseEventHandler
     {
         try
         {
-            if(empty($group)) throw new Exception(get_string('error_missing_group_id', 'coursework'));
+            if(empty($group)) throw new Exception(get_string('e:missing-group-id', 'coursework'));
 
             $temp = new stdClass;
             $temp->coursework = $this->cm->instance;
@@ -128,7 +128,7 @@ class ParticipantsManagementDatabaseEventHandler
     {
         try
         {
-            if(!$tutor || !$course || !$quota) throw new Exception(get_string('error_no_tutor_necessary_data', 'coursework'));
+            if(!$tutor || !$course || !$quota) throw new Exception(get_string('e:no-tutor-necessary-data', 'coursework'));
 
             $temp = new stdClass;
             $temp->coursework = $this->cm->instance;

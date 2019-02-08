@@ -96,7 +96,7 @@ function cw_get_theme_name(int $id) : string
 {
     global $DB;
     $theme = $DB->get_record('coursework_themes', array('id'=>$id));
-    return $theme->name;
+    if(isset($theme->name)) return $theme->name;
 }
 
 function cw_get_user_groups_names(int $course, int $user) : string

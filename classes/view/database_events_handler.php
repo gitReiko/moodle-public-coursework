@@ -150,7 +150,7 @@ class ViewDatabaseEventHandler
             if(empty($this->studentRecord->student)) throw new Exception(get_string('e:missing-student-id', 'coursework'));
 
             $userto = $this->get_user_record($this->studentRecord->student);
-            $headerMessage = get_string('studentgraded:head','coursework');
+            $headerMessage = get_string('student_graded_header','coursework');
             $htmlMessage = $this->get_tutor_html_message();
 
             $this->send_notification($userto, $headerMessage, $htmlMessage);
@@ -168,7 +168,7 @@ class ViewDatabaseEventHandler
             if(empty($this->studentRecord->student)) throw new Exception(get_string('e:missing-student-id', 'coursework'));
 
             $userto = $this->get_user_record($this->studentRecord->student);
-            $headerMessage = get_string('selectionremoved:body','coursework');
+            $headerMessage = get_string('selection_removed_header','coursework');
             $htmlMessage = $this->get_manager_html_message();
 
             $this->send_notification($userto, $headerMessage, $htmlMessage);
@@ -341,7 +341,7 @@ class ViewDatabaseEventHandler
     private function send_notification_to_tutor() : void 
     {
         $userto = $this->get_user_record($this->studentRecord->tutor);
-        $headerMessage = get_string('tutorselected:head','coursework');
+        $headerMessage = get_string('theme_selection_header','coursework');
         $htmlMessage = $this->get_html_message_of_student();
 
         $this->send_notification($userto, $headerMessage, $htmlMessage);

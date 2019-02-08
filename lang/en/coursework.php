@@ -67,34 +67,22 @@ $string['e:missing-course-id'] = 'Error: missing course id.';
 $string['e:missing-theme-and-owntheme'] = 'Error: missing theme id and own theme.';
 $string['e:theme-already-used'] = 'Error: This theme is already being used by another student.';
 $string['e:tutor-quota-over'] = 'Error: The quota for the selected buch teacher + course is over.';
-
-$string['error_no_tutor_or_course'] = 'Error: missing tutor id and/or course id.';
-$string['error_missing_group_id'] = 'Error: missing group id.';
-$string['error_no_tutor_necessary_data'] = 'Error: missing tutor id and/or course id and/or quota.';
-$string['error_student_already_chosen_theme'] = 'Error: Student {$a} has already chosen the subject of his coursework.';
-$string['error_tutor_total_quota_over'] = 'Error: Tutor {$a->tutor} quota is exhausted. Student {$a->student} isnt assigned coursework.';
+$string['e:missing-group-id'] = 'Error: missing group id.';
+$string['e:no-tutor-necessary-data'] = 'Error: missing tutor id and/or course id and/or quota.';
+$string['e:student-already-chosen-theme'] = 'Error: Student {$a} has already chosen the subject of his coursework.';
+$string['e:tutor-total-quota-over'] = 'Error: Tutor {$a->tutor} quota is exhausted. Student {$a->student} isnt assigned coursework.';
 
 // Messages strings
-$string['messageprovider:tutorselected'] = 'Message about choosing you as leader of the course work.';
-$string['tutorselected:head'] = 'Student has chosen you as leader of the course work';
-$string['messageprovider:studentgraded'] = 'Message about the preliminary grade or comment of course work.';
-$string['studentgraded:head'] = 'Changed preliminary grade or comment of the course work';
-$string['messageprovider:selectionremoved'] = 'Message about the cancellation of your choice of course work.';
-$string['selectionremoved:head'] = 'Course work leader selection removed';
-$string['selectionremoved:body'] = 'The choice you made earlier in your course work has been removed along with all the progress made. Choose a new leader and continue working with him.';
-
-
-$string['coursework_link1'] = 'Course work ';
-$string['coursework_link2'] = 'available on site.';
-
-
-// New view message strings
+$string['theme_selection_header'] = 'Student has chosen you as leader of the course work';
+$string['student_graded_header'] = 'Changed preliminary grade or comment of the course work';
+$string['selection_removed_header'] = 'The choice you made earlier in your course work has been removed along with all the progress made. Choose a new leader and continue working with him.';
 $string['student_message'] = '<p>User {$a->tutor} {$a->date} at {$a->time} chose you as leader of the course work.</p>';
 $string['tutor_message'] = '<p>User {$a->tutor} {$a->date} at {$a->time} pre-grade and/or comment your course work.</p>';
 $string['manager_message'] = '<p>User {$a->tutor} {$a->date} at {$a->time} removed your choice of course work leader.</p><p>All received progress has been deleted. To continue work, select a new leader.</p>';
 $string['answer_not_require'] = '<p>*This message was sent automatically and does not require a response.</p>';
 $string['grade_isnt_final'] = '<p>*Preliminary grade is not final.</p>';
-
+$string['coursework_link1'] = 'Course work ';
+$string['coursework_link2'] = 'available on site.';
 
 
 
