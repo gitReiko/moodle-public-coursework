@@ -1,7 +1,13 @@
-table.cw_view
+table.cw_view thead tr
 {
-    border-spacing: 0 1px;
-    border-collapse: separate;
+    background: repeating-linear-gradient(45deg, #606dbc, #606dbc 10px, #465298 10px, #465298 20px);
+    position: sticky;
+    top: 42px;
+}
+
+table.cw_view thead tr:hover
+{
+    background: repeating-linear-gradient(45deg, #606dbc, #606dbc 10px, #465298 10px, #465298 20px);
 }
 
 table.cw_view thead tr td
@@ -10,31 +16,25 @@ table.cw_view thead tr td
     text-align: center;
     font-weight: bold;
 
-    background-color: #676767;
-    padding: 15px;
-
-    position: sticky;
-    top: 42px;
+    background-color: transparent;
+    padding: 10px;
 }
 
-table.cw_view tr:hover td
+table.cw_view tr
 {
-    color: #444444;
-    background-color: #fff9bb;
-}
-
-table.cw_view thead tr:hover td
-{
-    color: white;
-    background-color: #676767;
+    border: 1px solid #606dbc;
+    opacity: 1;
 }
 
 table.cw_view tr td
 {
-    background-color: white;
-    color: #444444;
-
     padding: 10px;
+    background-color: transparent;
+}
+
+table.cw_view tr:hover
+{
+    color: #cc223c;
 }
 
 table.cw_view thead tr td.transparent { background-color: transparent; }
