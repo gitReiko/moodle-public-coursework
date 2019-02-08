@@ -20,9 +20,10 @@ class ViewDatabaseEventHandler
     private $studentRecord;
 
     public function execute() : void
-    {
-        if($this->eventType === DEL.STUDENT) $this->delete_student_from_database();
+    { 
         if($this->eventType === UPDATE.STUDENT) $this->update_student_grade_and_comment();
+        else if($this->eventType == SELECT.THEME) $this->select_theme();
+        else if($this->eventType === DEL.STUDENT) $this->delete_student_from_database();
     }
 
     function __construct($course, $cm)
@@ -41,6 +42,11 @@ class ViewDatabaseEventHandler
         {
             $this->studentRecord = $this->get_student_record();
         }
+        else if($this->eventType == SELECT.THEME)
+        {
+            $this->prepare_data_for_tutor_selection();
+        }
+
     }
 
     private function get_student_record() : stdClass 
@@ -230,7 +236,139 @@ class ViewDatabaseEventHandler
 
         return cw_get_html_message($this->cm, $this->course->id, $message, $notification);
     }
-  
+
+    private function prepare_data_for_tutor_selection() : void
+    {
+        try
+        {
+            $record = new stdClass;
+            $record->id = optional_param(RECORD.ID, 0, PARAM_INT);
+            $record->coursework = $this->cm->instance;
+            $record->student = $this->get_student_id();
+            $record->tutor = $this->get_tutor_id();
+            $record->course = $this->get_course_id();
+            $record->theme = optional_param(THEME, 0, PARAM_INT);
+            $record->owntheme = optional_param(OWN_THEME, 0, PARAM_TEXT);
+
+            if(empty($record->theme) && empty($record->owntheme)) 
+            {
+                throw new Exception(get_string('e:missing-theme-and-owntheme', 'coursework'));
+            }
+            
+            $this->studentRecord = $record;
+        }
+        catch(Exception $e)
+        {
+            cw_print_error_message($e->getMessage());
+        }
+
+    }
+
+    private function get_student_id() : int 
+    {
+        $studentID = optional_param(STUDENT, 0, PARAM_INT);
+        if(empty($studentID)) throw new Exception(get_string('e:missing-student-id', 'coursework'));
+        return $studentID;
+    }
+
+    private function get_tutor_id() : int 
+    {
+        $tutorID = optional_param(TUTOR, 0, PARAM_INT);
+        if(empty($tutorID)) throw new Exception(get_string('e:missing-tutor-id', 'coursework'));
+        return $tutorID;
+    }
+
+    private function get_course_id() : int 
+    {
+        $courseID = optional_param(COURSE, 0, PARAM_INT);
+        if(empty($courseID)) throw new Exception(get_string('e:missing-course-id', 'coursework'));
+        return $courseID;
+    }
+
+    private function select_theme() : void 
+    {
+        try
+        {
+            if($this->is_theme_used()) throw new Exception(get_string('e:theme-already-used', 'coursework'));
+            if($this->is_tutor_quota_over()) throw new Exception(get_string('e:tutor-quota-over', 'coursework'));
+
+            if(empty($this->studentRecord->id)) $this->insert_student_selection();
+            else $this->update_student_record_with_selected_theme();
+        }
+        catch(Exception $e)
+        {
+            cw_print_error_message($e->getMessage());
+        }
+    }
+
+    private function is_theme_used() : bool
+    {
+        if($this->studentRecord->theme)
+        {
+            global $DB;
+            $conditions = array('coursework'=>$this->cm->instance, 'theme'=> $this->studentRecord->theme);
+
+            if($DB->record_exists('coursework_students',$conditions)) return true;
+            else return false;
+        }
+        else return false;
+    }
+
+    private function is_tutor_quota_over() : bool
+    {
+        global $DB;
+
+        $conditions = array('coursework'=>$this->cm->instance,
+                            'tutor'=>$this->studentRecord->tutor,
+                            'course'=>$this->studentRecord->course);
+        $tutor = $DB->get_record('coursework_tutors', $conditions);
+        $tutorsCount = $DB->count_records('coursework_students', $conditions);
+
+        if($tutorsCount >= $tutor->quota) return true;
+        else return false;
+    }
+
+    private function insert_student_selection()
+    {
+        global $DB;
+        if($DB->insert_record('coursework_students', $this->studentRecord)) 
+        {
+            $this->send_notification_to_tutor();
+        }
+        else throw new Exception(get_string('e:ins:student-not-selected', 'coursework'));
+    }
+
+    private function send_notification_to_tutor() : void 
+    {
+        $userto = $this->get_user_record($this->studentRecord->tutor);
+        $headerMessage = get_string('tutorselected:head','coursework');
+        $htmlMessage = $this->get_html_message_of_student();
+
+        $this->send_notification($userto, $headerMessage, $htmlMessage);
+
+    }
+
+    private function get_html_message_of_student() : string
+    {
+        $params = cw_prepare_data_for_message();
+        $message = get_string('tutor_message','coursework', $params);
+        $notification = get_string('answer_not_require', 'coursework');
+
+        return cw_get_html_message($this->cm, $this->course->id, $message, $notification);
+    }
+
+    private function update_student_record_with_selected_theme()
+    {
+        global $DB;
+        if($DB->update_record('coursework_students', $this->studentRecord)) 
+        {
+            $this->send_notification_to_tutor();
+        }
+        else throw new Exception(get_string('e:upd:student-not-selected', 'coursework'));
+    }
+
+
+
 
 
 }

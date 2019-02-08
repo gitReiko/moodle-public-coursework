@@ -59,12 +59,18 @@ $string['e:missing-student-id'] = 'Error: missing id of deleting student. Mail n
 $string['e:missing-grade-and-comment'] = 'Error: missing new grade and new comment.';
 $string['e:student-not-deleted'] = 'Database error: coursework student record not deleted.';
 $string['e:student-not-updated'] = 'Database error: coursework student record not updated.';
+$string['e:ins:student-not-selected'] = 'Database error: student record with selected theme not created.';
+$string['e:upd:student-not-selected'] = 'Database error: student record with selected theme not updated.';
+$string['e:missing-student-id'] = 'Error: missing student id.';
+$string['e:missing-tutor-id'] = 'Error: missing tutor id.';
+$string['e:missing-course-id'] = 'Error: missing course id.';
+$string['e:missing-theme-and-owntheme'] = 'Error: missing theme id and own theme.';
+$string['e:theme-already-used'] = 'Error: This theme is already being used by another student.';
+$string['e:tutor-quota-over'] = 'Error: The quota for the selected buch teacher + course is over.';
 
 $string['error_no_tutor_or_course'] = 'Error: missing tutor id and/or course id.';
 $string['error_missing_group_id'] = 'Error: missing group id.';
 $string['error_no_tutor_necessary_data'] = 'Error: missing tutor id and/or course id and/or quota.';
-$string['error_theme_already_used'] = 'Error: This theme is already being used by another student.';
-$string['error_tutor_quota_over'] = 'Error: The quota for the selected buch teacher + course is over.';
 $string['error_student_already_chosen_theme'] = 'Error: Student {$a} has already chosen the subject of his coursework.';
 $string['error_tutor_total_quota_over'] = 'Error: Tutor {$a->tutor} quota is exhausted. Student {$a->student} isnt assigned coursework.';
 

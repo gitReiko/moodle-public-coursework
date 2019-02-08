@@ -1,7 +1,6 @@
 const COURSES = 'courses';
 const STUDENT_FORM = 'student_form';
 
-const SELECT = 'select';
 const THEME = 'theme';
 
 const ru_confirm_theme_selection = 'Вы уверены, что хотите сделать именно такой выбор?\n(сделанный выбор невозможно самостоятельно отменить)';
@@ -121,7 +120,7 @@ function delete_previous_themes_select()
 function get_new_themes_select(courseOfNewTheme)
 {
     var themesSelect = document.createElement('select');
-    themesSelect.name = SELECT+THEME;
+    themesSelect.name = THEME;
     themesSelect.id = 'selected_theme';
     themesSelect.setAttribute('form', STUDENT_FORM);
     themesSelect.dataset.course = courseOfNewTheme;

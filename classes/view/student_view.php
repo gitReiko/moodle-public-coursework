@@ -10,164 +10,6 @@ class StudentCourseworkView extends CourseworkView
         parent::__construct($course, $cm);
     }
 
-    // Database functions
-    protected function database_events_handler() : void
-    {
-        $selectTutor = optional_param(ECM_SELECT_TUTOR, 0, PARAM_TEXT); // Eto pravilno????
-        $selectCourse = optional_param(ECM_SELECT_COURSE, 0, PARAM_TEXT);
-
-        if($selectTutor && !$this->is_coursework_students_exist())
-        {
-            $this->insert_coursework_students();
-        }
-        else if($selectCourse)
-        {
-            $this->update_coursework_students();
-        }
-    }
-
-    private function is_coursework_students_exist() : bool
-    {
-        global $DB, $USER;
-
-        $conditions = array('coursework'=>$this->cm->instance, 'student'=>$USER->id);
-
-        if($DB->record_exists('coursework_students', $conditions)) return true;
-        else return false;
-    }
-
-    private function insert_coursework_students() : void
-    {
-        global $DB, $USER;
-
-        $tutor = optional_param(TUTORS, 0, PARAM_INT);
-        $course = optional_param(COURSES, 0, PARAM_INT);
-        $theme = optional_param(SELECT.THEME, 0, PARAM_INT);
-        $ownTheme = optional_param(OWN_THEME, 0, PARAM_TEXT);
-
-        if($tutor && $course)
-        {
-            $tableRow = new stdClass();
-            $tableRow->coursework = $this->cm->instance;
-            $tableRow->student = $USER->id;
-            $tableRow->tutor = $tutor;
-            $tableRow->course = $course;
-            $tableRow->theme = $theme;
-            $tableRow->owntheme = $ownTheme;
-
-            if($this->is_theme_used($theme))
-            {
-                $this->error_message(get_string('error_theme_already_used', 'coursework'));
-            }
-            else if($this->is_tutor_quota_over($tutor, $course))
-            {
-                $this->error_message(get_string('error_tutor_quota_over', 'coursework'));
-            }
-            else
-            {
-                if($DB->insert_record('coursework_students', $tableRow)) $this->send_message($tutor);
-                else $this->error_message(get_string('error_no_tutor_or_course','coursework'));
-            }
-        }
-    }
-
-    private function update_coursework_students() : void
-    {
-        global $DB, $USER;
-
-        $course = optional_param(COURSES, 0, PARAM_INT);
-        $theme = optional_param(SELECT.THEME, 0, PARAM_INT);
-        $ownTheme = optional_param(OWN_THEME, null, PARAM_TEXT);
-
-        $temp = $this->get_coursework_students_id_and_tutor();
-        $temp->course = $course;
-        $temp->theme = $theme;
-        $temp->owntheme = $ownTheme;
-
-        if($this->is_theme_used($temp->theme))
-        {
-            $this->error_message(get_string('error_theme_already_used', 'coursework'));
-        }
-        else if($this->is_tutor_quota_over($temp->tutor, $temp->course))
-        {
-            $this->error_message(get_string('error_tutor_quota_over', 'coursework'));
-        }
-        else
-        {
-            if($DB->update_record('coursework_students', $temp)) $this->send_message($temp->tutor);
-        }
-
-    }
-
-    private function get_coursework_students_id_and_tutor() : stdClass
-    {
-        global $DB, $USER;
-        $conditions = array('coursework'=>$this->cm->instance, 'student'=>$USER->id);
-        return $DB->get_record('coursework_students', $conditions, 'id, student, tutor');
-    }
-
-    private function is_theme_used(int $themeID) : bool
-    {
-        if($themeID)
-        {
-            global $DB;
-            $conditions = array('coursework'=>$this->cm->instance, 'theme'=> $themeID);
-
-            if($DB->record_exists('coursework_students',$conditions)) return true;
-            else return false;
-        }
-        else return false;
-    }
-
-    private function is_tutor_quota_over(int $tutor, int $course) : bool
-    {
-        global $DB;
-
-        $conditions = array('coursework'=>$this->cm->instance,'tutor'=>$tutor,'course'=>$course);
-        $tutor = $DB->get_record('coursework_tutors', $conditions);
-        $tutorsCount = $DB->count_records('coursework_students', $conditions);
-
-        if($tutorsCount >= $tutor->quota) return true;
-        else return false;
-    }
-
-    private function error_message(string $message) : void
-    {
-        echo '<p style="background-color:LightCoral; padding:10px;">'.$message.'</p>';
-    }
-
-    // Message functions
-    private function send_message($tutor) : void
-    {
-        global $CFG, $USER;
-
-        $message = new \core\message\message();
-        $message->component = 'mod_coursework';
-        $message->name = 'tutorselected';
-        $message->userfrom = $USER;
-        $message->userto = $tutor;
-        $message->subject = get_string('tutorselected:head','coursework');
-        $message->fullmessage = get_string('tutorselected:head','coursework');
-        $message->fullmessageformat = FORMAT_MARKDOWN;
-        $message->fullmessagehtml = $this->get_html_message();
-        $message->smallmessage = get_string('tutorselected:head','coursework');
-        $message->notification = '1';
-        $message->contexturl = $CFG->wwwroot.'/coursework/view.php?id='.$this->cm->id;
-        $message->contexturlname = cw_get_coursework_name($this->cm->instance);
-        $message->courseid = $this->course->id;
-
-        message_send($message);
-    }
-
-    private function get_html_message() : string
-    {
-        $params = cw_prepare_data_for_message();
-        $message = get_string('tutor_message','coursework', $params);
-        $notification = get_string('answer_not_require', 'coursework');
-
-        return cw_get_html_message($this->cm, $this->course->id, $message, $notification);
-    }
-
     // Constructor functions
     protected function get_coursework_students_database_records() : array
     {
@@ -181,6 +23,7 @@ class StudentCourseworkView extends CourseworkView
 
         if(isset($coursework) && isset($coursework->id))
         {
+            $tableRow->id = $coursework->id;
             $tableRow->tutor = $coursework->tutor;
             $tableRow->course = $coursework->course;
             $tableRow->grade = $coursework->grade;
@@ -287,8 +130,10 @@ class StudentCourseworkView extends CourseworkView
     // GUI functions
     protected function get_interface_html_form() : string
     {
+        global $USER;
         $str = '<form id="'.STUDENT_FORM.'">';
         $str.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
+        $str.= '<input type="hidden" name="'.STUDENT.'" value="'.$USER->id.'">';
         $str.= '</form>';
         return $str;
     }
@@ -350,7 +195,7 @@ class StudentCourseworkView extends CourseworkView
 
         if(count($unique))
         {
-            $str = '<select class="select" id="selected_tutor" name="'.TUTORS.'" ';
+            $str = '<select class="select" id="selected_tutor" name="'.TUTOR.'" ';
             $str.= ' form="'.STUDENT_FORM.'" onchange="change_course_select()" autocomplete="off">';
             foreach($unique as $value)
             {
@@ -414,7 +259,7 @@ class StudentCourseworkView extends CourseworkView
         {
             $tutor = reset($tableRow->data)->tutor;
 
-            $str = '<select class="select" id="selected_course" name="'.COURSES.'" ';
+            $str = '<select class="select" id="selected_course" name="'.COURSE.'" ';
             $str.= ' form="'.STUDENT_FORM.'" autocomplete="off" onchange="change_themes_select(this.value)">';
             foreach($tableRow->data as $value)
             {
@@ -453,7 +298,7 @@ class StudentCourseworkView extends CourseworkView
     private function get_available_themes_select($tableRow) : string
     {
         $str = '<select id="selected_theme" form="'.STUDENT_FORM.'" ';
-        $str.= ' name="'.SELECT.THEME.'" data-course="'.$this->chosenCourse.'">';
+        $str.= ' name="'.THEME.'" data-course="'.$this->chosenCourse.'">';
 
         if($this->isThemesOfChosenCourseExist($tableRow))
         {
@@ -501,12 +346,14 @@ class StudentCourseworkView extends CourseworkView
 
         if(empty($tableRow->tutor))
         {
-            $str.= '<input type="hidden" name="'.ECM_SELECT_TUTOR.'" value="'.ECM_SELECT_TUTOR.'" form="'.STUDENT_FORM.'">';
+            $str.= '<input type="hidden" name="'.DB_EVENT.'" value="'.SELECT.THEME.'" form="'.STUDENT_FORM.'">';
             $str.= $this->get_theme_select_button();
         }
         else if(empty($tableRow->course))
         {
-            $str.= '<input type="hidden" name="'.ECM_SELECT_COURSE.'" value="'.ECM_SELECT_COURSE.'" form="'.STUDENT_FORM.'">';
+            $str.= '<input type="hidden" name="'.DB_EVENT.'" value="'.SELECT.THEME.'" form="'.STUDENT_FORM.'">';
+            $str.= '<input type="hidden" name="'.RECORD.ID.'" value="'.$tableRow->id.'" form="'.STUDENT_FORM.'">';
+            $str.= '<input type="hidden" name="'.TUTOR.'" value="'.$tableRow->tutor.'" form="'.STUDENT_FORM.'">';
             $str.= $this->get_theme_select_button();
         }
 
