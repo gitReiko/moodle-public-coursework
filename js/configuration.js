@@ -12,8 +12,8 @@ const THEMES_MANAGEMENT = 'themes_management';
 // Types of database events
 const DB_EVENT = 'database_event';
 const ADD = 'add';
-const EDIT = 'edit';
 const DEL = 'delete';
+const UPDATE = 'update';
 
 // Type of database abstractions
 const THEME = 'theme';
@@ -249,7 +249,7 @@ function edit_theme(cmid, id, name)
     var db = document.createElement('input');
     db.type = 'hidden';
     db.name = DB_EVENT;
-    db.value = EDIT+THEME;
+    db.value = UPDATE+THEME;
     form.appendChild(db);
 
     var themeid = document.createElement('input');

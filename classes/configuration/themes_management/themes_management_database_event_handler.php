@@ -9,7 +9,7 @@ class ThemesManagementDatabaseEventHandler
     public function execute(string $event) : void 
     {
         if($event === ADD.THEME) $this->add_theme();
-        else if($event === EDIT.THEME) $this->update_theme();
+        else if($event === UPDATE.THEME) $this->update_theme();
         else if($event === DEL.THEME) $this->delete_theme();
     }
 

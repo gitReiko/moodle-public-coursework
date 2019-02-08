@@ -126,28 +126,6 @@ function cw_get_coursework_student(int $coursework, int $student)
     return $DB->get_record('coursework_students', $conditions);
 }
 
-function cw_add_user_names($usersid) : array
-{
-    $users = array();
-
-    foreach($usersid as $userid)
-    {
-        $user = new stdClass;
-        $user->id = $userid;
-        $user->name = cw_get_user_name($userid);
-
-        $users[] = $user;
-    }
-
-    return $users;
-}
-
-function cw_cmp_users(stdClass $a, stdClass $b) : int
-{
-    if ($a->name == $b->name) return 0;
-    else return ($a->name < $b->name) ? -1 : 1;
-}
-
 function cw_get_course_name($id) : string
 {
     global $DB;
@@ -157,17 +135,6 @@ function cw_get_course_name($id) : string
     $str.= $course->fullname;
 
     return $str;
-}
-
-function cw_get_coursework_students_id($cm, $student) : int
-{
-    global $DB;
-    $student = optional_param(ECM_STUDENTS, 0, PARAM_INT);
-    $conditions = array('coursework'=>$cm, 'student'=>$student);
-    $coursework = $DB->get_record('coursework_students', $conditions);
-
-    if(isset($coursework->id) && $coursework->id) return $coursework->id;
-    else return 0;
 }
 
 function cw_get_user_photo($userID) : string
@@ -227,17 +194,6 @@ function cw_print_error_message(string $message) : void
 {
     echo '<p style="background-color:LightCoral; padding:10px;">'.$message.'</p>';
 }
-
-function cw_is_user_have_student_role_in_course(int $userid, int $course) : bool
-{
-    $roles = get_user_roles(context_course::instance($course), $userid);
-    foreach($roles as $role)
-    {
-        if($role->roleid == STUDENT_ROLE) return true;
-    }
-    return false;
-}
-
 
 // New refactoring
 // Database functions
