@@ -271,11 +271,23 @@ function cw_get_coursework_courses(int $courseworkID) : array
     return $courses;
 }
 
+function cw_get_all_course_users_with_archetype_roles(array $usersArchetypeRoles, int $courseID, int $CourseModuleID) : array 
+{
+    $allCourseGroups = cw_get_all_course_groups($courseID);
+
+    return cw_get_users_with_archetype_roles_from_group($allCourseGroups, $usersArchetypeRoles, $courseID, $CourseModuleID);
+}
+
 function cw_get_coursework_users_with_archetype_roles(array $usersArchetypeRoles, int $courseID, int $CourseModuleID) : array 
 {
-    $users = array();
-    $groups = cw_get_coursework_groups($CourseModuleID, $courseID);
+    $courseworkGroups = cw_get_coursework_groups($CourseModuleID, $courseID);
 
+    return cw_get_users_with_archetype_roles_from_group($courseworkGroups, $usersArchetypeRoles, $courseID, $CourseModuleID);
+}
+
+function cw_get_users_with_archetype_roles_from_group(array $groups, array $usersArchetypeRoles, int $courseID, int $CourseModuleID) : array 
+{
+    $users = array();
     foreach($groups as $group)
     {
         $members = cw_get_group_members($group->id);

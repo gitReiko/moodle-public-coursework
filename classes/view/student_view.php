@@ -5,31 +5,44 @@ class StudentCourseworkView extends CourseworkView
 {
     private $chosenCourse;
 
-    function __construct($course, $cm)
+    // Constructor functions
+    protected function checkExceptions() : void
     {
-        parent::__construct($course, $cm);
+        if(!$this->is_student_enrolled_in_coursework())
+        {
+            throw new Exception(get_string('e:student_not_enrolled', 'coursework'));
+        }
     }
 
-    // Constructor functions
+    private function is_student_enrolled_in_coursework() : bool 
+    {
+        global $USER;
+        $students = array();
+        $studentArchetypeRoles = cw_get_archetype_roles(array('student'));
+        $students = cw_get_coursework_users_with_archetype_roles($studentArchetypeRoles, $this->course->id, $this->cm->instance);
+        foreach($students as $student) if($student->id === $USER->id) return true;
+        return false;
+    }
+
     protected function get_coursework_students_database_records() : array
     {
         global $USER;
         $tableRow = cw_get_coursework_student($this->cm->instance, $USER->id);
-
+    
         if(empty($tableRow->student)) 
         {
             $tableRow = new stdClass;
             $tableRow->student = $USER->id;
         }
-        
+            
         $tableRow->group = cw_get_user_groups_names($this->course->id, $USER->id);
-
+    
         if(empty($tableRow->id) || empty($tableRow->course))
         {
             $tableRow->data = $this->get_available_tutors();
             $tableRow->availableThemes = $this->get_available_themes();
         }
-
+    
         return array($tableRow);
     }
 

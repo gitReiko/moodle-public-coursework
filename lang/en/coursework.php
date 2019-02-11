@@ -71,6 +71,10 @@ $string['e:missing-group-id'] = 'Error: missing group id.';
 $string['e:no-tutor-necessary-data'] = 'Error: missing tutor id and/or course id and/or quota.';
 $string['e:student-already-chosen-theme'] = 'Error: Student {$a} has already chosen the subject of his coursework.';
 $string['e:tutor-total-quota-over'] = 'Error: Tutor {$a->tutor} quota is exhausted. Student {$a->student} isnt assigned coursework.';
+$string['e:student_not_enrolled'] = 'Error: You are not enrolled in this coursework.';
+$string['e:students_not_enrolled'] = 'Error: Students are not enrolled in this coursework.';
+$string['e:tutors_not_enrolled'] = 'Error: Leaders are not enrolled in this coursework.';
+$string['no_one_has_chosen_you_as_leader'] = 'At the moment, no one has chosen you as leader.';
 
 // Messages strings
 $string['theme_selection_header'] = 'Student has chosen you as leader of the course work';

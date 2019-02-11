@@ -11,28 +11,78 @@ abstract class CourseworkView
 
     protected $tableRows = array();
 
+    protected $stopExecution = false;
+
     public function display() : void
     {
-        $str = $this->get_coursework_name();
-        $str.= $this->get_coursework_intro();
-        $str.= $this->get_coursework_interface();
-        $str.= $this->get_back_to_course_button();
-        $str.= $this->prepare_data_for_js();
+        $str = '';
+        if($this->stopExecution === false)
+        {
+            $str.= $this->get_coursework_name();
+            $str.= $this->get_coursework_intro();
+            $str.= $this->get_coursework_interface();
+            $str.= $this->get_back_to_course_button();
+            $str.= $this->prepare_data_for_js();
+        }
 
         echo $str;
     }
 
     function __construct($course, $cm)
     {
-        $this->course = $course;
-        $this->cm = $cm;
+        try
+        {
+            $this->course = $course;
+            $this->cm = $cm;
 
-        $this->database_events_handler();
-
-        $this->initilize_coursework_name_and_intro();
-
-        $this->tableRows = $this->get_coursework_students_database_records();
+            $this->check_coursework_configuration();
+            $this->checkExceptions();
+    
+            $this->database_events_handler();
+    
+            $this->initilize_coursework_name_and_intro();
+    
+            $this->tableRows = $this->get_coursework_students_database_records();
+        }
+        catch(Exception $e)
+        {
+            cw_print_error_message($e->getMessage());
+            $this->stopExecution = true;
+            return;
+        }
     }
+
+    private function check_coursework_configuration() : void 
+    {
+        if(!$this->is_students_enrolled())
+        {
+            throw new Exception(get_string('e:students_not_enrolled', 'coursework'));
+        }
+        if(!$this->is_tutors_enrolled())
+        {
+            throw new Exception(get_string('e:tutors_not_enrolled', 'coursework'));
+        }
+    }
+
+    private function is_students_enrolled() : bool 
+    {
+        $students = array();
+        $studentArchetypeRoles = cw_get_archetype_roles(array('student'));
+        $students = cw_get_coursework_users_with_archetype_roles($studentArchetypeRoles, $this->course->id, $this->cm->instance);
+
+        if(count($students)) return true;
+        else return false;
+    }
+
+    private function is_tutors_enrolled() : bool 
+    {
+        $tutors = cw_get_tutors($this->cm->instance);
+
+        if(count($tutors)) return true;
+        else return false;
+    }
+
+    abstract protected function checkExceptions() : void;
 
     protected function database_events_handler() : void
     {

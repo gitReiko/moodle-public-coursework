@@ -4,6 +4,8 @@ class ManagerCourseworkView extends CourseworkView
 {
 
     // Constructor functions
+    protected function checkExceptions() : void { }
+
     protected function get_coursework_students_database_records() : array
     {
         $students = $this->get_coursework_students();

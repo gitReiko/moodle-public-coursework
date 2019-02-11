@@ -4,12 +4,16 @@ class TutorCourseworkView extends CourseworkView
 {
 
     // Constructor functions
+    protected function checkExceptions() : void { }
+
     protected function get_coursework_students_database_records() : array
     {
         global $USER;
 
         $students = $this->get_coursework_students();
         $rows = array();
+
+        if(!count($students)) throw new Exception(get_string('no_one_has_chosen_you_as_leader', 'coursework'));
 
         foreach($students as $student)
         {
