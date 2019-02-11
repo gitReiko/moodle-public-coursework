@@ -94,8 +94,8 @@ class ViewDatabaseEventHandler
 
             if(empty($grade) && empty($comment)) throw new Exception(get_string('e:missing-grade-and-comment', 'coursework'));
 
-            if(isset($this->studentRecord->grade)) $this->studentRecord->grade = $grade;
-            if(isset($this->studentRecord->comment)) $this->studentRecord->comment = $comment;
+            if(isset($grade)) $this->studentRecord->grade = $grade;
+            if(isset($comment)) $this->studentRecord->comment = $comment;
         }
         catch(Exception $e)
         {

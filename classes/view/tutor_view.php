@@ -81,7 +81,7 @@ class TutorCourseworkView extends CourseworkView
 
         if(isset($tableRow->grade)) $str .= ' value="'.$tableRow->grade.'" ';
 
-        $str.= ' style="width: 40px;" >';
+        $str.= ' style="width: 40px;" min="0" max="10">';
         $str.= '</center></td>';
 
         return $str;
