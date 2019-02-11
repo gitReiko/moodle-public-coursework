@@ -21,6 +21,7 @@ abstract class CourseworkView
             $str.= $this->get_coursework_name();
             $str.= $this->get_coursework_intro();
             $str.= $this->get_coursework_interface();
+            $str.= $this->get_footer();
             $str.= $this->get_back_to_course_button();
             $str.= $this->prepare_data_for_js();
         }
@@ -228,6 +229,11 @@ abstract class CourseworkView
     }
 
     abstract protected function get_btn_cell($tableRow, $i) : string;
+
+    protected function get_footer() : string 
+    {
+        return '';
+    }
 
     protected function get_back_to_course_button() : string
     {

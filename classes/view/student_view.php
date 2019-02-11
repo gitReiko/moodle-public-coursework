@@ -298,8 +298,19 @@ class StudentCourseworkView extends CourseworkView
         return $str;
     }
 
-   protected function prepare_data_for_js() : string
-   {   
+    protected function get_footer() : string 
+    {
+        $str = '';
+        // $this->tableRows array have only one element for StudentCourseworkView.
+        if(empty(reset($this->tableRows)->course))
+        {
+            $str.= '<br>'.$this->get_theme_select_button();
+        }
+        return $str;
+    }
+
+    protected function prepare_data_for_js() : string
+    {   
         $str = '';
         $tableRow = reset($this->tableRows);
 
@@ -310,7 +321,7 @@ class StudentCourseworkView extends CourseworkView
         }
 
         return $str;
-   }
+    }
 
    private function is_js_data_necessary(stdClass $tableRow) : bool 
    {
