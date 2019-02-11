@@ -293,7 +293,7 @@ class StudentCourseworkView extends CourseworkView
         $str = '<button id="select_tutor" form="'.STUDENT_FORM.'" ';
         $str.= ' onclick=" return process_student_coursework_choice()" ';
         $str.= 'title="'.get_string('cant_be_undone', 'coursework').'">';
-        $str.= get_string('make_choice', 'coursework');
+        $str.= get_string('choose', 'coursework');
         $str.= '</button>';
         return $str;
     }
