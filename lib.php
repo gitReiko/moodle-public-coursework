@@ -200,9 +200,14 @@ function cw_print_error_message(string $message) : void
 function cw_get_tutors(int $courseworkID) : array 
 {
     global $DB;
-    $tutorsRecords = array();
-    $tutorsRecords = $DB->get_records('coursework_tutors', array('coursework'=>$courseworkID));
-    return $tutorsRecords;
+    $sql = 'SELECT ct.id, ct.tutor, ct.course, ct.quota, u.firstname, u.lastname
+        FROM {coursework_tutors} as ct, {user} as u
+        WHERE ct.tutor = u.id AND u.suspended = 0 AND ct.coursework = ?
+        ORDER BY u.lastname';
+    $conditions = array($courseworkID);
+    $tutors = array();
+    $tutors = $DB->get_records_sql($sql, $conditions);
+    return $tutors;
 }
 
 function cw_get_coursework_groups(int $courseworkID, int $courseID) : array 
@@ -388,6 +393,46 @@ function cw_prepare_data_for_message() : stdClass
     $data->time = date('G:i');
     return $data;
 }
+
+function cw_is_tutor_has_quota(int $courseworkID, int $tutorID, int $courseID) : bool 
+{
+    global $DB;
+
+    $tutorRecords = $DB->get_records('coursework_tutors', array('coursework'=>$courseworkID, 'tutor'=>$tutorID));
+    
+    $totalQuota = 0;
+    $courseQuota = 0;
+    foreach($tutorRecords as $tutor)
+    {
+        $totalQuota += $tutor->quota;
+        if((int)$tutor->course === $courseID) $courseQuota += $tutor->quota;
+    }
+
+    $usedTotalQuota = $DB->count_records('coursework_students', array('coursework'=>$courseworkID, 'tutor'=>$tutorID));
+    $usedCourseQuota = $DB->count_records('coursework_students', array('coursework'=>$courseworkID, 'tutor'=>$tutorID, 'course'=>$courseID));
+
+    if(($totalQuota - $usedTotalQuota) > 0) 
+    {
+        if(($courseQuota - $usedCourseQuota) > 0) return true;
+    }
+    else if(cw_is_this_tutor_already_chosen_for_this_student($courseworkID, $tutorID))
+    {
+        return true;
+    }
+
+    return false;
+}
+
+function cw_is_this_tutor_already_chosen_for_this_student(int $courseworkID, int $tutorID) : bool 
+{
+    global $DB, $USER;
+    $conditions = array('coursework'=>$courseworkID, 'student'=>$USER->id ,'tutor'=>$tutorID);
+    if($DB->record_exists('coursework_students', $conditions)) return true;
+    else return false;
+}
+
+
+
 
 
 

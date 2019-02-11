@@ -1,4 +1,4 @@
-const COURSES = 'courses';
+const COURSE = 'course';
 const STUDENT_FORM = 'student_form';
 
 const THEME = 'theme';
@@ -40,7 +40,7 @@ function delete_previous_courses_select()
 function get_new_courses_select()
 {
     var newCoursesSelect = document.createElement('select');
-    newCoursesSelect.name = COURSES;
+    newCoursesSelect.name = COURSE;
     newCoursesSelect.id = 'selected_course';
     newCoursesSelect.setAttribute('form', STUDENT_FORM);
     newCoursesSelect.className = 'course';

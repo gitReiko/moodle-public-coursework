@@ -3,6 +3,7 @@
 
 class StudentCourseworkView extends CourseworkView
 {
+    private $chosenTutor;
     private $chosenCourse;
 
     // Constructor functions
@@ -53,22 +54,12 @@ class StudentCourseworkView extends CourseworkView
         $availableTutors = array();
         foreach($tutors as $tutor)
         {
-            if($this->is_tutor_has_quota_for_course($tutor))
+            if(cw_is_tutor_has_quota($this->cm->instance, $tutor->tutor, $tutor->course))
             {
                 $availableTutors[] = $tutor;
             }
         }
         return $availableTutors;
-    }
-
-    private function is_tutor_has_quota_for_course(stdClass $tutor) : bool
-    {
-        global $DB;
-        $conditions = array('coursework'=>$this->cm->instance, 'tutor'=>$tutor->tutor, 'course'=>$tutor->course);
-        $usedQuota = $DB->count_records('coursework_students', $conditions);
-
-        if(($tutor->quota - $usedQuota) > 0) return true;
-        else return false;
     }
 
     private function get_available_themes() : array
@@ -127,6 +118,7 @@ class StudentCourseworkView extends CourseworkView
         if(!empty($tableRow->tutor))
         {
             $str.= cw_get_user_photo($tableRow->tutor).' '.cw_get_user_name((int)$tableRow->tutor);
+            $this->chosenTutor = (int)$tableRow->tutor;
         }
         else
         {
@@ -140,16 +132,14 @@ class StudentCourseworkView extends CourseworkView
     {
         $unique = $this->get_unique_leaders($tableRow);
 
-        if(count($unique))
+        $this->chosenTutor = reset($unique)->tutor;
+        
+        $str = '<select class="select" id="selected_tutor" name="'.TUTOR.'" form="'.STUDENT_FORM.'" onchange="change_course_select()" autocomplete="off">';
+        foreach($unique as $value)
         {
-            $str = '<select class="select" id="selected_tutor" name="'.TUTOR.'" form="'.STUDENT_FORM.'" onchange="change_course_select()" autocomplete="off">';
-            foreach($unique as $value)
-            {
-                $str.= '<option value="'.$value->tutor.'" >'.cw_get_user_name($value->tutor).'</option>';
-            }
-            $str .= '</select>';
+            $str.= '<option value="'.$value->tutor.'" >'.cw_get_user_name($value->tutor).'</option>';
         }
-        else $str = get_string('no_leaders', 'coursework');
+        $str .= '</select>';
 
         return $str;
     }
@@ -188,12 +178,10 @@ class StudentCourseworkView extends CourseworkView
 
         if(count($tableRow->data))
         {
-            $tutor = reset($tableRow->data)->tutor;
-
             $str.= '<select class="select" id="selected_course" name="'.COURSE.'" form="'.STUDENT_FORM.'" autocomplete="off" onchange="change_themes_select(this.value)">';
             foreach($tableRow->data as $value)
             {
-                if($value->tutor == $tutor)
+                if($value->tutor == $this->chosenTutor)
                 {
                     $str.= '<option value="'.$value->course.'" >'.cw_get_course_name($value->course).'</option>';
 
@@ -205,7 +193,9 @@ class StudentCourseworkView extends CourseworkView
                 }
             }
             $str .= '</select>';
+            
         }
+        else $str = get_string('not_available', 'coursework');
 
         return $str;
     }
@@ -223,27 +213,31 @@ class StudentCourseworkView extends CourseworkView
 
     private function get_available_themes_select($tableRow) : string
     {
-        $str = '<select id="selected_theme" form="'.STUDENT_FORM.'" ';
-        $str.= ' name="'.THEME.'" data-course="'.$this->chosenCourse.'">';
-
-        if($this->isThemesOfChosenCourseExist($tableRow))
+        if(count($tableRow->data))
         {
-            foreach ($tableRow->availableThemes as $theme)
+            $str = '<select id="selected_theme" form="'.STUDENT_FORM.'" ';
+            $str.= ' name="'.THEME.'" data-course="'.$this->chosenCourse.'">';
+    
+            if($this->isThemesOfChosenCourseExist($tableRow))
             {
-                if($theme->course === $this->chosenCourse)
+                foreach ($tableRow->availableThemes as $theme)
                 {
-                    $str.= '<option value="'.$theme->id.'">'.$theme->name.'</option>';
+                    if($theme->course === $this->chosenCourse)
+                    {
+                        $str.= '<option value="'.$theme->id.'">'.$theme->name.'</option>';
+                    }
                 }
             }
+            else
+            {
+                $str.= '<option id="no_available_themes" data-noavailablethemes="true">'.get_string('no_available_themes', 'coursework').'</option>';
+            }
+    
+            $str.= '</select>';
+    
+            $str.= $this->get_own_theme();
         }
-        else
-        {
-            $str.= '<option id="no_available_themes" data-noavailablethemes="true">'.get_string('no_available_themes', 'coursework').'</option>';
-        }
-
-        $str.= '</select>';
-
-        $str.= $this->get_own_theme();
+        else $str = get_string('not_available', 'coursework');
 
         return $str;
     }

@@ -49,7 +49,7 @@ $string['remove_selection'] = 'Отменить выбор';
 $string['cant_be_undone'] = 'Сделанный выбор невозможно самостоятельно отменить';
 $string['back_to_course'] = 'Вернуться к курсу';
 $string['not_selected'] = 'Не выбран(а)';
-$string['no_leaders'] = 'Нет доступных руководителей';
+$string['not_available'] = 'Недоступен(на)';
 
 // Errors strings
 $string['e:missing-coursework-student-record'] = 'Ошибка: отсутствует запись студента курсовой работы.';

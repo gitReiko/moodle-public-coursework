@@ -49,7 +49,7 @@ $string['remove_selection'] = 'Remove selection';
 $string['cant_be_undone'] = 'The choice made cannot be canceled by yourself.';
 $string['back_to_course'] = 'Back to course';
 $string['not_selected'] = 'Not selected';
-$string['no_leaders'] = 'No available leaders';
+$string['not_available'] = 'Not available';
 
 // Errors strings
 $string['e:missing-coursework-student-record'] = 'Error: missing record of coursework student.';

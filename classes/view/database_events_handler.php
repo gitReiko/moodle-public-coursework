@@ -290,7 +290,10 @@ class ViewDatabaseEventHandler
         try
         {
             if($this->is_theme_used()) throw new Exception(get_string('e:theme-already-used', 'coursework'));
-            if($this->is_tutor_quota_over()) throw new Exception(get_string('e:tutor-quota-over', 'coursework'));
+            if(!cw_is_tutor_has_quota($this->cm->instance, $this->studentRecord->tutor, $this->studentRecord->course))
+            {
+                throw new Exception(get_string('e:tutor-quota-over', 'coursework'));
+            }
 
             if(empty($this->studentRecord->id)) $this->insert_student_selection();
             else $this->update_student_record_with_selected_theme();
@@ -311,20 +314,6 @@ class ViewDatabaseEventHandler
             if($DB->record_exists('coursework_students',$conditions)) return true;
             else return false;
         }
-        else return false;
-    }
-
-    private function is_tutor_quota_over() : bool
-    {
-        global $DB;
-
-        $conditions = array('coursework'=>$this->cm->instance,
-                            'tutor'=>$this->studentRecord->tutor,
-                            'course'=>$this->studentRecord->course);
-        $tutor = $DB->get_record('coursework_tutors', $conditions);
-        $tutorsCount = $DB->count_records('coursework_students', $conditions);
-
-        if($tutorsCount >= $tutor->quota) return true;
         else return false;
     }
 
