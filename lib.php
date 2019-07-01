@@ -74,6 +74,44 @@ function coursework_extend_settings_navigation($settings, $navref)
     }
 }
 
+/**
+ * Return the list if Moodle features this module supports
+ *
+ * @param string $feature FEATURE_xx constant for requested feature
+ * @return mixed True if module supports feature, null if doesn't know
+ */
+function coursework_supports($feature) {
+    switch($feature) {
+        case FEATURE_GROUPS:
+            return true;
+        case FEATURE_GROUPINGS:
+            return true;
+        case FEATURE_MOD_INTRO:
+            return false;
+        case FEATURE_COMPLETION_TRACKS_VIEWS:
+            return false;
+        case FEATURE_COMPLETION_HAS_RULES:
+            return false;
+        case FEATURE_GRADE_HAS_GRADE:
+            return false;
+        case FEATURE_GRADE_OUTCOMES:
+            return false;
+        case FEATURE_BACKUP_MOODLE2:
+            return false;
+        case FEATURE_SHOW_DESCRIPTION:
+            return false;
+        case FEATURE_ADVANCED_GRADING:
+            return false;
+        case FEATURE_PLAGIARISM:
+            return false;
+        case FEATURE_COMMENT:
+            return false;
+
+        default:
+            return null;
+    }
+}
+
 // General coursework functions
 function cw_get_user_name(int $id) : string
 {
