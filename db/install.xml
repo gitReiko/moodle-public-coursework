@@ -19,19 +19,6 @@
       </KEYS>
     </TABLE>
 
-    <TABLE NAME="coursework_groups" COMMENT="Сonnects course works and cohorts.">
-      <FIELDS>
-        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" />
-        <FIELD NAME="coursework" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" />
-        <FIELD NAME="groupid" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" />
-      </FIELDS>
-      <KEYS>
-        <KEY NAME="primary" TYPE="primary" FIELDS="id" COMMENT="Primary key for certificate_issues" />
-        <KEY NAME="coursework" TYPE="foreign" FIELDS="coursework" REFTABLE="coursework" REFFIELDS="id" />
-        <KEY NAME="groupid" TYPE="foreign" FIELDS="groupid" REFTABLE="groups" REFFIELDS="id" />
-      </KEYS>
-    </TABLE>
-
     <TABLE NAME="coursework_tutors" COMMENT="Сonnects course works and tutors.">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" />
