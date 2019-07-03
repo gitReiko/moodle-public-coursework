@@ -26,7 +26,7 @@ class StudentsAssignment
         $this->handle_database_events();
 
         // Init other params
-        $this->studentsGroups = cw_get_coursework_groups($this->cm->instance, $this->course->id);
+        $this->studentsGroups = groups_get_activity_allowed_groups($this->cm);
         $this->tutors = $this->get_unique_tutors();
     }
 

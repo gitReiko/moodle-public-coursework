@@ -3,10 +3,9 @@
 require_once 'participants_management_database_event_handler.php';
 
 /**
- * 
+ *  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
  * @param stdClass $course - record of course Moodle database table
  * @param stdClass $cm - record of course_modules Moodle database table
- * @param array $groups - records of coursework_groups Moodle database table
  * @param array $tutors - records of coursework_tutors Moodle database table
  * @return string - gui of coursework configuration
  * @author Denis Makouski (Reiko)
@@ -17,10 +16,8 @@ class ParticipantsManagement
     private $course;
     private $cm;
 
-    private $courseworkGroups;
     private $courseworkTutors;
 
-    private $allGroups;
     private $allTutors;
     private $allCourses;
 
@@ -34,11 +31,9 @@ class ParticipantsManagement
         $this->handle_database_events();
 
         // Init other params
-        $this->courseworkGroups = cw_get_coursework_groups($this->cm->instance, $this->course->id);
         $this->courseworkTutors = cw_get_tutors($this->cm->instance);
 
         $this->allCourses = cw_get_all_courses();
-        $this->allGroups = cw_get_all_course_groups($this->course->id);
         $this->allTutors = $this->get_all_course_tutors();
     }
 
@@ -72,8 +67,6 @@ class ParticipantsManagement
     {
         $str = $this->get_participants_management_header();
         $str = $this->get_start_of_enroll_form();
-        $str.= $this->get_group_selection_panel();
-        $str.= $this->get_quota_left_label();
         $str.= $this->get_tutor_selection_panel();
         $str.= $this->get_add_tutor_html_button();
         $str.= $this->get_end_of_enroll_form();
@@ -90,44 +83,6 @@ class ParticipantsManagement
     private function get_start_of_enroll_form() : string
     {
         return '<form id="enroll_form">';
-    }
-
-    private function get_group_selection_panel() : string
-    {
-        $str = '<h3>'.get_string('select_groups', 'coursework').'</h3>';
-
-        $str.= '<select name="'.GROUPS.'[]" multiple required autocomplete="off" onchange="count_members()">';
-        foreach($this->allGroups as $group)
-        {
-            $str.= '<option class="group" value="'.$group->id.'" data-count="'.$group->studentsCount.'" ';
-
-            if($this->is_group_selected($group)) $str .= ' selected data-initial="true"';
-            else $str .= ' data-initial="false"';
-
-            $str.= '>'.$group->name.'</option>';
-        }
-        $str.= '</select>';
-
-        return $str;
-    }
-
-    private function is_group_selected($selectedGroup) : bool
-    {
-        foreach($this->courseworkGroups as $group)
-        {
-            if($group->id == $selectedGroup->id) return true;
-        }
-
-        return false;
-    }
-
-    private function get_quota_left_label() : string
-    {
-        $quotaLeft = 0;
-        foreach($this->allGroups as $group) if($this->is_group_selected($group)) $quotaLeft += $group->studentsCount;
-        foreach($this->courseworkTutors as $tutor) $quotaLeft -= $tutor->quota;
-
-        return '<h3>'.get_string('quota_left', 'coursework').'<span id="quota_left">'.$quotaLeft.'</span></h3>';
     }
 
     private function get_tutor_selection_panel() : string

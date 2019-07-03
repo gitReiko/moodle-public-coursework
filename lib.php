@@ -26,7 +26,6 @@ function coursework_delete_instance($id)
 
     if ($DB->record_exists('coursework', array('id'=>$id)))
     {
-        $DB->delete_records('coursework_groups', array('coursework'=>$id));
         $DB->delete_records('coursework_students', array('coursework'=>$id));
         $DB->delete_records('coursework_tutors', array('coursework'=>$id));
         $DB->delete_records('coursework', array('id'=>$id));
@@ -246,20 +245,6 @@ function cw_get_tutors(int $courseworkID) : array
     $tutors = array();
     $tutors = $DB->get_records_sql($sql, $conditions);
     return $tutors;
-}
-
-function cw_get_coursework_groups(int $courseworkID, int $courseID) : array 
-{
-    global $DB;
-    $sql = 'SELECT cg.groupid AS id, g.name
-            FROM {coursework_groups} AS cg, {groups} AS g
-            WHERE cg.groupid = g.id AND cg.coursework = ?
-            ORDER BY g.name';
-    $conditions = array($courseworkID);
-    $groups = array();
-    $groups = $DB->get_records_sql($sql, $conditions);
-    $groups = cw_add_students_count_to_groups($groups, $courseID);
-    return $groups;
 }
 
 function cw_get_all_course_groups(int $courseID) : array
