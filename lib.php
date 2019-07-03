@@ -321,12 +321,34 @@ function cw_get_all_course_users_with_archetype_roles(array $usersArchetypeRoles
     return cw_get_users_with_archetype_roles_from_group($allCourseGroups, $usersArchetypeRoles, $courseID, $CourseModuleID);
 }
 
+
+//Старая функция !!!!!!!!!!!!!!!!!
 function cw_get_coursework_users_with_archetype_roles(array $usersArchetypeRoles, int $courseID, int $CourseModuleID) : array 
 {
     $courseworkGroups = cw_get_coursework_groups($CourseModuleID, $courseID);
 
     return cw_get_users_with_archetype_roles_from_group($courseworkGroups, $usersArchetypeRoles, $courseID, $CourseModuleID);
 }
+// Delete
+
+/**
+ * 
+ * @param array $archetypes - list of user archetypes
+ * @param stdClass $cm - moodle course module object
+ * @param int $courseId - id of course
+ * 
+ * @return array of users -> array (stdClass (id, firstname, lastname, fullname))
+ */
+function cw_get_coursework_users_with_archetypes_roles(array $archetypes, stdClass $cm, int $courseId) : array 
+{
+    $archetypesRoles = cw_get_archetype_roles($archetypes);
+    $groups = groups_get_activity_allowed_groups($cm);
+
+    print_r(cw_get_users_with_archetype_roles_from_group($groups, $archetypesRoles, $courseId, $cm->instance));
+
+    return cw_get_users_with_archetype_roles_from_group($groups, $archetypesRoles, $courseId, $cm->instance);
+}
+
 
 function cw_get_users_with_archetype_roles_from_group(array $groups, array $usersArchetypeRoles, int $courseID, int $CourseModuleID) : array 
 {

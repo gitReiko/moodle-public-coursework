@@ -38,10 +38,7 @@ class ManagerCourseworkView extends CourseworkView
 
     private function get_coursework_students() : array 
     {
-        $students = array();
-        $studentArchetypeRoles = cw_get_archetype_roles(array('student'));
-        $students = cw_get_coursework_users_with_archetype_roles($studentArchetypeRoles, $this->course->id, $this->cm->instance);
-        return $students;
+        return cw_get_coursework_users_with_archetypes_roles(array('student'), $this->cm, $this->course->id);
     }
 
     // Gui functions

@@ -68,8 +68,7 @@ abstract class CourseworkView
     private function is_students_enrolled() : bool 
     {
         $students = array();
-        $studentArchetypeRoles = cw_get_archetype_roles(array('student'));
-        $students = cw_get_coursework_users_with_archetype_roles($studentArchetypeRoles, $this->course->id, $this->cm->instance);
+        $students = cw_get_coursework_users_with_archetypes_roles(array('student'), $this->cm, $this->course->id);
 
         if(count($students)) return true;
         else return false;
