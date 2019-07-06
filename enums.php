@@ -2,7 +2,7 @@
 
 // Coursework configuration modules
 const CONFIG_MODULE = 'config_module';
-const LEADERS_SETTING = 'participants_management';
+const LEADERS_SETTING = 'leaders_setting';
 const THEMES_MANAGEMENT = 'themes_management';
 const STUDENTS_ASSIGNMENT = 'students_assignment';
 const CONFIG_MODULES = array(LEADERS_SETTING, THEMES_MANAGEMENT, STUDENTS_ASSIGNMENT);
@@ -25,8 +25,8 @@ const GROUP = 'group';
 const GROUPS = 'groups';
 const PERSONAL = 'personal';
 const OWN_THEME = 'own_theme';
-const TUTOR = 'tutor';
-const TEACHERS = 'tutors';
+const TEACHER = 'teacher';
+const TEACHERS = 'teachers';
 const COURSEWORK = 'coursework';
 const ASSIGNMENT = 'assignment';
 const QUOTAS = 'quotas';

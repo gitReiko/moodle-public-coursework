@@ -10,7 +10,7 @@ $string['pluginadministration'] = 'Course work administration';
 
 // Coursework configuration
 $string['coursework_configuration'] = 'Coursework configuration';
-$string['participants_management'] = 'Participants management';
+$string['leaders_setting'] = 'Leaders setting';
 $string['theme'] = 'Theme';
 $string['themes_management'] = 'Themes management';
 $string['no_available_themes'] = 'No available themes';
@@ -69,7 +69,7 @@ $string['e:missing-theme-and-owntheme'] = 'Error: missing theme id and own theme
 $string['e:theme-already-used'] = 'Error: This theme is already being used by another student.';
 $string['e:tutor-quota-over'] = 'Error: The quota for the selected buch teacher + course is over.';
 $string['e:missing-group-id'] = 'Error: missing group id.';
-$string['e:no-tutor-necessary-data'] = 'Error: missing tutor id and/or course id and/or quota.';
+$string['e:no-teacher-necessary-data'] = 'Error: missing tutor id and/or course id and/or quota.';
 $string['e:student-already-chosen-theme'] = 'Error: Student {$a} has already chosen the subject of his coursework.';
 $string['e:tutor-total-quota-over'] = 'Error: Tutor {$a->tutor} quota is exhausted. Student {$a->student} isnt assigned coursework.';
 $string['e:student_not_enrolled'] = 'Error: You are not enrolled in this coursework.';

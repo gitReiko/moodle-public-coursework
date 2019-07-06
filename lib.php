@@ -27,7 +27,7 @@ function coursework_delete_instance($id)
     if ($DB->record_exists('coursework', array('id'=>$id)))
     {
         $DB->delete_records('coursework_students', array('coursework'=>$id));
-        $DB->delete_records('coursework_tutors', array('coursework'=>$id));
+        $DB->delete_records('coursework_teachers', array('coursework'=>$id));
         $DB->delete_records('coursework', array('id'=>$id));
 
         return true;
@@ -237,9 +237,9 @@ function cw_print_error_message(string $message) : void
 function cw_get_teachers(int $courseworkID) : array 
 {
     global $DB;
-    $sql = 'SELECT ct.id, ct.tutor, ct.course, ct.quota, u.firstname, u.lastname
-        FROM {coursework_tutors} as ct, {user} as u
-        WHERE ct.tutor = u.id AND u.suspended = 0 AND ct.coursework = ?
+    $sql = 'SELECT ct.id, ct.teacher, ct.course, ct.quota, u.firstname, u.lastname
+        FROM {coursework_teachers} as ct, {user} as u
+        WHERE ct.teacher = u.id AND u.suspended = 0 AND ct.coursework = ?
         ORDER BY u.lastname';
     $conditions = array($courseworkID);
     $tutors = array();
@@ -291,7 +291,7 @@ function cw_get_coursework_courses(int $courseworkID) : array
     global $DB;
     $courses = array();
     $sql = 'SELECT DISTINCT ct.course, c.id, c.fullname
-            FROM {coursework_tutors} AS ct, {course} AS c
+            FROM {coursework_teachers} AS ct, {course} AS c
             WHERE ct.course = c.id AND ct.coursework = ?
             ORDER BY c.fullname';
     $conditions = array($courseworkID);
@@ -424,7 +424,7 @@ function cw_is_tutor_has_quota(int $courseworkID, int $tutorID, int $courseID) :
 {
     global $DB;
 
-    $tutorRecords = $DB->get_records('coursework_tutors', array('coursework'=>$courseworkID, 'tutor'=>$tutorID));
+    $tutorRecords = $DB->get_records('coursework_teachers', array('coursework'=>$courseworkID, 'tutor'=>$tutorID));
     
     $totalQuota = 0;
     $courseQuota = 0;
@@ -434,8 +434,8 @@ function cw_is_tutor_has_quota(int $courseworkID, int $tutorID, int $courseID) :
         if((int)$tutor->course === $courseID) $courseQuota += $tutor->quota;
     }
 
-    $usedTotalQuota = $DB->count_records('coursework_students', array('coursework'=>$courseworkID, 'tutor'=>$tutorID));
-    $usedCourseQuota = $DB->count_records('coursework_students', array('coursework'=>$courseworkID, 'tutor'=>$tutorID, 'course'=>$courseID));
+    $usedTotalQuota = $DB->count_records('coursework_students', array('coursework'=>$courseworkID, 'teacher'=>$tutorID));
+    $usedCourseQuota = $DB->count_records('coursework_students', array('coursework'=>$courseworkID, 'teacher'=>$tutorID, 'course'=>$courseID));
 
     if(($totalQuota - $usedTotalQuota) > 0) 
     {
@@ -452,7 +452,7 @@ function cw_is_tutor_has_quota(int $courseworkID, int $tutorID, int $courseID) :
 function cw_is_this_tutor_already_chosen_for_this_student(int $courseworkID, int $tutorID) : bool 
 {
     global $DB, $USER;
-    $conditions = array('coursework'=>$courseworkID, 'student'=>$USER->id ,'tutor'=>$tutorID);
+    $conditions = array('coursework'=>$courseworkID, 'student'=>$USER->id ,'teacher'=>$tutorID);
     if($DB->record_exists('coursework_students', $conditions)) return true;
     else return false;
 }

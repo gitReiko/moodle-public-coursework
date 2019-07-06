@@ -1,6 +1,6 @@
 <?php
 
-require_once 'participants_management_database_event_handler.php';
+require_once 'leaders_setting_database_event_handler.php';
 
 /**
  * This class is designed to customize coursework leaders.
@@ -51,7 +51,7 @@ class LeadersSetting
 
         if($event)
         {
-            $handler = new ParticipantsManagementDatabaseEventHandler($this->course, $this->cm);
+            $handler = new LeadersSettingDatabaseEventHandler($this->course, $this->cm);
             $handler->execute();
         }
     }
@@ -164,7 +164,7 @@ class LeadersSetting
     /**
      * Returns html select element with all course teachers.
      * 
-     * @param stdClass $selectedTeacher instance of coursework_tutors table.
+     * @param stdClass $selectedTeacher instance of coursework_teachers table.
      * 
      * @return string of html select element with all course teachers.
      */
@@ -177,7 +177,7 @@ class LeadersSetting
         foreach($this->allTeachers as $teacher)
         {
             $str.= '<option value="'.$teacher->id.'" ';
-            if($teacher->id == $selectedTeacher->tutor) $str .= ' selected ';
+            if($teacher->id == $selectedTeacher->teacher) $str .= ' selected ';
             $str.= ' >'.$teacher->fullname.'</option>';
         }
         $str.= '</select>';
@@ -188,7 +188,7 @@ class LeadersSetting
     /**
      * Returns html select element with all site courses.
      * 
-     * @param int $course id of course chosen by the teacher (stored in coursework_tutors db table)
+     * @param int $course id of course chosen by the teacher (stored in coursework_teachers db table)
      * 
      * @return string html select element with all site courses.
      */
@@ -251,7 +251,7 @@ class LeadersSetting
     */
     private function get_html_form_end()
     {
-        $str = '<button onclick="return submit_form()">'.get_string('save_changes', 'coursework').'</button>';
+        $str = '<button>'.get_string('save_changes', 'coursework').'</button>';
         $str.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
         $str.= '<input type="hidden" name="'.DB_EVENT.'" value="'.DB_EVENT.'" >';
         $str.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.LEADERS_SETTING.'">';
@@ -313,7 +313,7 @@ class LeadersSetting
      */
     private function get_hidden_element(string $className, $id, $name) : string
     {
-        return '<p class="hidden '.$class.'" data-id="'.$id.'" data-name="'.$name.'" ></p>';
+        return '<p class="hidden '.$className.'" data-id="'.$id.'" data-name="'.$name.'" ></p>';
     }
 
 

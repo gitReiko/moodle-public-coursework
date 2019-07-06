@@ -48,7 +48,7 @@ class TutorCourseworkView extends CourseworkView
         $sql = 'SELECT cs.student AS id, u.firstname, u.lastname
                 FROM {coursework_students} as cs, {user} as u
                 WHERE cs.student = u.id AND u.suspended = 0 
-                AND cs.coursework = ? AND cs.tutor = ?
+                AND cs.coursework = ? AND cs.teacher = ?
                 ORDER BY u.lastname';
         $conditions = array($this->cm->instance, $USER->id);
         $students = array();

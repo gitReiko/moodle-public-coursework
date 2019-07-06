@@ -49,7 +49,7 @@ class StudentCourseworkView extends CourseworkView
     private function get_available_tutors() : array
     {
         global $DB;
-        $tutors = $DB->get_records('coursework_tutors', array('coursework'=>$this->cm->instance));
+        $tutors = $DB->get_records('coursework_teachers', array('coursework'=>$this->cm->instance));
         $availableTutors = array();
         foreach($tutors as $tutor)
         {
@@ -133,7 +133,7 @@ class StudentCourseworkView extends CourseworkView
 
         $this->chosenTutor = reset($unique)->tutor;
         
-        $str = '<select class="select" id="selected_tutor" name="'.TUTOR.'" form="'.STUDENT_FORM.'" onchange="change_course_select()" autocomplete="off">';
+        $str = '<select class="select" id="selected_tutor" name="'.TEACHER.'" form="'.STUDENT_FORM.'" onchange="change_course_select()" autocomplete="off">';
         foreach($unique as $value)
         {
             $str.= '<option value="'.$value->tutor.'" >'.cw_get_user_name($value->tutor).'</option>';
@@ -272,7 +272,7 @@ class StudentCourseworkView extends CourseworkView
         {
             $str.= '<input type="hidden" name="'.DB_EVENT.'" value="'.SELECT.THEME.'" form="'.STUDENT_FORM.'">';
             $str.= '<input type="hidden" name="'.RECORD.ID.'" value="'.$tableRow->id.'" form="'.STUDENT_FORM.'">';
-            $str.= '<input type="hidden" name="'.TUTOR.'" value="'.$tableRow->tutor.'" form="'.STUDENT_FORM.'">';
+            $str.= '<input type="hidden" name="'.TEACHER.'" value="'.$tableRow->tutor.'" form="'.STUDENT_FORM.'">';
             $str.= $this->get_theme_select_button();
         }
 

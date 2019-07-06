@@ -23,7 +23,7 @@ class StudentsAssignmentDatabaseEventsHandler
         $this->cm = $cm;
 
         $this->groups = optional_param_array(GROUP.ASSIGNMENT.GROUP.ID, array(), PARAM_INT);
-        $this->tutors = optional_param_array(GROUP.ASSIGNMENT.TUTOR.ID, array(), PARAM_INT);
+        $this->tutors = optional_param_array(GROUP.ASSIGNMENT.TEACHER.ID, array(), PARAM_INT);
     }
 
     private function is_group_assignment_event_has_been_sent() : bool
@@ -129,7 +129,7 @@ class StudentsAssignmentDatabaseEventsHandler
     {
         global $DB;
         $conditions = array('coursework'=>$assignment->coursework, 'tutor' => $assignment->tutor);
-        $tutorsRecords = $DB->get_records('coursework_tutors', $conditions);
+        $tutorsRecords = $DB->get_records('coursework_teachers', $conditions);
 
         $totalQuota = 0;
         foreach($tutorsRecords as $tutorRecord)
@@ -142,7 +142,7 @@ class StudentsAssignmentDatabaseEventsHandler
     private function get_used_tutor_quota(stdClass $assignment) : int
     {
         global $DB;
-        $conditions = array('coursework'=>$assignment->coursework, 'tutor' => $assignment->tutor);
+        $conditions = array('coursework'=>$assignment->coursework, 'teacher' => $assignment->tutor);
         return $DB->count_records('coursework_students', $conditions);
     }
 

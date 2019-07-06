@@ -44,9 +44,9 @@ class StudentsAssignment
     private function get_unique_tutors() : array
     {
         global $DB;
-        $sql = 'SELECT DISTINCT ct.tutor AS id, u.firstname, u.lastname
-                FROM {coursework_tutors} AS ct, {user} AS u
-                WHERE ct.tutor = u.id AND u.suspended = 0 AND ct.coursework = ?
+        $sql = 'SELECT DISTINCT ct.teacher AS id, u.firstname, u.lastname
+                FROM {coursework_teachers} AS ct, {user} AS u
+                WHERE ct.teacher = u.id AND u.suspended = 0 AND ct.coursework = ?
                 ORDER BY u.lastname';
         $conditions = array($this->cm->instance);
         $tutors = array();
@@ -70,7 +70,7 @@ class StudentsAssignment
             $totalQuota = 0;
 
             $conditions = array('coursework'=>$this->cm->instance, 'tutor'=>$tutor->id);
-            $tutorRecords = $DB->get_records('coursework_tutors', $conditions);
+            $tutorRecords = $DB->get_records('coursework_teachers', $conditions);
 
             foreach ($tutorRecords as $tutorRecord)
             {
@@ -139,7 +139,7 @@ class StudentsAssignment
     private function get_tutors_table_cell(stdClass $group) : string
     {
         $str = '<td>';
-        $str.= '<select form="'.TUTOR_FORM.'" name="'.GROUP.ASSIGNMENT.TUTOR.ID.'[]"';
+        $str.= '<select form="'.TUTOR_FORM.'" name="'.GROUP.ASSIGNMENT.TEACHER.ID.'[]"';
         $str.= ' onchange="check_tutor_quota_sufficiency(this)" autocomplete="off" >';
         $str.= $this->get_no_assign_option();
         foreach($this->tutors as $tutor)

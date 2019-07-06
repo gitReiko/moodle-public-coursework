@@ -273,7 +273,7 @@ class ViewDatabaseEventHandler
 
     private function get_tutor_id() : int 
     {
-        $tutorID = optional_param(TUTOR, 0, PARAM_INT);
+        $tutorID = optional_param(TEACHER, 0, PARAM_INT);
         if(empty($tutorID)) throw new Exception(get_string('e:missing-tutor-id', 'coursework'));
         return $tutorID;
     }

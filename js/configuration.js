@@ -1,8 +1,8 @@
 const GROUPS = 'groups';
-const TEACHERS = 'tutors';
+const TEACHERS = 'teachers';
 const COURSES = 'courses';
 const QUOTAS = 'quotas';
-const TUTOR = 'tutor';
+const TEACHER = 'teacher';
 const CONFIG_MODULE = 'config_module';
 
 // Coursework modules
@@ -196,7 +196,7 @@ function delete_tutor(rowID)
 
             var input = document.createElement('input');
             input.type = 'hidden';
-            input.name = DEL+TUTOR;
+            input.name = DEL+TEACHER;
             input.value = rowID;
 
             form.appendChild(input);
