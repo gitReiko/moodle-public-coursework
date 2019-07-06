@@ -1,12 +1,12 @@
 const GROUPS = 'groups';
-const TUTORS = 'tutors';
+const TEACHERS = 'tutors';
 const COURSES = 'courses';
 const QUOTAS = 'quotas';
 const TUTOR = 'tutor';
 const CONFIG_MODULE = 'config_module';
 
 // Coursework modules
-const PARTICIPANTS_MANAGEMENT = 'participants_management';
+const LEADERS_SETTING = 'participants_management';
 const THEMES_MANAGEMENT = 'themes_management';
 
 // Types of database events
@@ -57,7 +57,7 @@ function tutor_cell()
     var tutors = document.getElementsByClassName('tutors');
 
     var select = document.createElement('select');
-    select.name = TUTORS+'[]';
+    select.name = TEACHERS+'[]';
     select.style = 'width: 250px;';
 
     select.autocomplete = "off";

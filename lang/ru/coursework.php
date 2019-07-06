@@ -41,6 +41,7 @@ $string['fullname'] = 'ФИО';
 $string['group'] = 'Группа';
 $string['leader'] = 'Руководитель';
 $string['course'] = 'Курс';
+$string['quota'] = 'Квота';
 $string['grade'] = 'Пред. оценка';
 $string['comment'] = 'Комментарий';
 $string['choose'] = 'Выбрать';

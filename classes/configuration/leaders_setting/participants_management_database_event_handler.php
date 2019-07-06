@@ -25,8 +25,8 @@ class ParticipantsManagementDatabaseEventHandler
 
     private function handle_coursework_tutors_database_table() : void
     {
-        $id = optional_param_array(COURSEWORK.TUTORS.ID, array(), PARAM_INT);
-        $tutors = optional_param_array(TUTORS, array(), PARAM_INT);
+        $id = optional_param_array(COURSEWORK.TEACHERS.ID, array(), PARAM_INT);
+        $tutors = optional_param_array(TEACHERS, array(), PARAM_INT);
         $courses = optional_param_array(COURSES, array(), PARAM_INT);
         $quotas = optional_param_array(QUOTAS, array(), PARAM_INT);
         $deleteEvent = optional_param(DEL.TUTOR, 0, PARAM_INT);

@@ -1,6 +1,6 @@
 <?php
 
-require_once 'classes/configuration/participants_management/participants_management.php';
+require_once 'classes/configuration/leaders_setting/leaders_setting.php';
 require_once 'classes/configuration/themes_management/themes_management.php';
 require_once 'classes/configuration/students_assignment/students_assignment.php';
 
@@ -52,7 +52,7 @@ class CourseworkConfiguration
         $module = optional_param(CONFIG_MODULE, 0 , PARAM_TEXT);
 
         if($module) return $module;
-        else return PARTICIPANTS_MANAGEMENT;
+        else return LEADERS_SETTING;
     }
 
     private function is_user_has_right_configurate_coursework() : bool 
@@ -105,9 +105,9 @@ class CourseworkConfiguration
     private function get_configuration_module() : string 
     {
         $str = '';
-        if($this->module === PARTICIPANTS_MANAGEMENT)
+        if($this->module === LEADERS_SETTING)
         {
-            $participants = new ParticipantsManagement($this->course, $this->cm);
+            $participants = new LeadersSetting($this->course, $this->cm);
             $str .= $participants->execute();
         }
         else if($this->module === THEMES_MANAGEMENT)

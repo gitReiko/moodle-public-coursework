@@ -41,6 +41,7 @@ $string['fullname'] = 'Fullname';
 $string['group'] = 'Group';
 $string['leader'] = 'Leader';
 $string['course'] = 'Course';
+$string['quota'] = 'Quota';
 $string['grade'] = 'Preliminary grade';
 $string['comment'] = 'Comment';
 $string['choose'] = 'Choose';

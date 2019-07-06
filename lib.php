@@ -234,7 +234,7 @@ function cw_print_error_message(string $message) : void
 
 // New refactoring
 // Database functions
-function cw_get_tutors(int $courseworkID) : array 
+function cw_get_teachers(int $courseworkID) : array 
 {
     global $DB;
     $sql = 'SELECT ct.id, ct.tutor, ct.course, ct.quota, u.firstname, u.lastname
@@ -297,13 +297,6 @@ function cw_get_coursework_courses(int $courseworkID) : array
     $conditions = array($courseworkID);
     $courses = $DB->get_records_sql($sql, $conditions);
     return $courses;
-}
-
-function cw_get_all_course_users_with_archetype_roles(array $usersArchetypeRoles, int $courseID, int $CourseModuleID) : array 
-{
-    $allCourseGroups = cw_get_all_course_groups($courseID);
-
-    return cw_get_users_with_archetype_roles_from_group($allCourseGroups, $usersArchetypeRoles, $courseID, $CourseModuleID);
 }
 
 /**
