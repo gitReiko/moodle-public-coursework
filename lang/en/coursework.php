@@ -16,7 +16,13 @@ $string['themes_management'] = 'Themes management';
 $string['no_available_themes'] = 'No available themes';
 $string['use_own_theme'] = 'Use own theme';
 
-// Enrollment strings
+// Leaders setting
+$string['leaders_overview_table_header'] = 'List of coursework leaders';
+$string['add_leader_header'] = 'Adding a new leader';
+
+
+
+//!!!!!
 $string['configurate_coursework'] = 'Configurate coursework';
 $string['select_groups'] = 'Select groups whose students will participate in this course work';
 $string['quota_left'] = 'Need to allocate quotas: ';
@@ -24,6 +30,7 @@ $string['add_tutor'] = 'Add tutor';
 $string['no_permission'] = 'You don\'t have permission to view this page';
 $string['save_changes'] = 'Save changes';
 $string['delete'] = 'Delete';
+//!!!!!
 
 // Themes management
 $string['coursework_themes_management'] = 'Coursework themes management';

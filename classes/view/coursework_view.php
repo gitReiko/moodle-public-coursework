@@ -76,7 +76,7 @@ abstract class CourseworkView
 
     private function is_tutors_enrolled() : bool 
     {
-        $tutors = cw_get_teachers($this->cm->instance);
+        $tutors = cw_get_coursework_teachers($this->cm->instance);
 
         if(count($tutors)) return true;
         else return false;

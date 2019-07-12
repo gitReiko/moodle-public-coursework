@@ -16,7 +16,12 @@ $string['themes_management'] = 'Управление тематикой';
 $string['no_available_themes'] = 'Нет доступных тем';
 $string['use_own_theme'] = 'Использовать собственную тему';
 
-// Enrollment strings
+// Leaders setting
+$string['leaders_overview_table_header'] = 'Список руководителей курсовой работы';
+$string['add_leader_header'] = 'Добавление нового руководителя';
+
+
+//!!!!!
 $string['configurate_coursework'] = 'Настройка курсовой работы';
 $string['select_groups'] = 'Выберите группы, студенты которых будут участвовать в данной курсовой работе';
 $string['quota_left'] = 'Необходимо распределить квот: ';
@@ -24,6 +29,7 @@ $string['add_tutor'] = 'Добавить преподавателя';
 $string['no_permission'] = 'У вас нету разрешения просматривать эту страницу';
 $string['save_changes'] = 'Сохранить изменения';
 $string['delete'] = 'Удалить';
+//!!!!!
 
 // Themes management
 $string['coursework_themes_management'] = 'Управление тематикой курсовых работ';

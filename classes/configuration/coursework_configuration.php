@@ -107,8 +107,8 @@ class CourseworkConfiguration
         $str = '';
         if($this->module === LEADERS_SETTING)
         {
-            $participants = new LeadersSetting($this->course, $this->cm);
-            $str .= $participants->execute();
+            $leadersSetting = new LeadersSetting($this->course, $this->cm);
+            $str .= $leadersSetting->execute();
         }
         else if($this->module === THEMES_MANAGEMENT)
         {

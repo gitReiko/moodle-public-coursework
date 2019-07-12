@@ -234,7 +234,7 @@ function cw_print_error_message(string $message) : void
 
 // New refactoring
 // Database functions
-function cw_get_teachers(int $courseworkID) : array 
+function cw_get_coursework_teachers(int $courseworkID) : array 
 {
     global $DB;
     $sql = 'SELECT ct.id, ct.teacher, ct.course, ct.quota, u.firstname, u.lastname
