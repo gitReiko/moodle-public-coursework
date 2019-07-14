@@ -29,6 +29,7 @@ const TEACHER = 'teacher';
 const TEACHERS = 'teachers';
 const COURSEWORK = 'coursework';
 const ASSIGNMENT = 'assignment';
+const QUOTA = 'quota';
 const QUOTAS = 'quotas';
 const STUDENT = 'student';
 const RECORD = 'record';

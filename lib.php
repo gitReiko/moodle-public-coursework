@@ -237,9 +237,10 @@ function cw_print_error_message(string $message) : void
 function cw_get_coursework_teachers(int $courseworkID) : array 
 {
     global $DB;
-    $sql = 'SELECT ct.id, ct.teacher, ct.course, ct.quota, u.firstname, u.lastname
-        FROM {coursework_teachers} as ct, {user} as u
-        WHERE ct.teacher = u.id AND u.suspended = 0 AND ct.coursework = ?
+    $sql = 'SELECT ct.id, ct.teacher, ct.course, c.fullname as coursename, ct.quota, u.firstname, u.lastname
+        FROM {coursework_teachers} as ct, {user} as u, {course} as c
+        WHERE ct.teacher = u.id AND ct.course = c.id
+            AND u.suspended = 0 AND ct.coursework = ?
         ORDER BY u.lastname';
     $conditions = array($courseworkID);
     $tutors = array();

@@ -5,9 +5,6 @@
   --darkblue-color: #121d54;
 }
 
-
-#quota_left { color: darkred; }
-
 .darkred { color: darkred; }
 
 .hidden { display: none }
@@ -59,3 +56,18 @@ table.students_assignment tr td
     border-bottom: 1px solid var(--darkblue-color);
     padding: 7px;
 }
+
+/* => Leaders overview start <= */
+
+table.leaders_overview tr td
+{
+    padding: 3px 5px;
+}
+
+table.leaders_overview tr.header td
+{
+    font-weight: bold;
+}
+
+
+/* => Leaders overview end <= */

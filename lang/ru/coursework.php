@@ -19,12 +19,14 @@ $string['use_own_theme'] = 'Использовать собственную те
 // Leaders setting
 $string['leaders_overview_table_header'] = 'Список руководителей курсовой работы';
 $string['add_leader_header'] = 'Добавление нового руководителя';
+$string['edit_leader_header'] = 'Редактирование руководителя';
+$string['quota_title'] = 'Квота устанавливает численность студентов, с которыми будет работать руководитель.';
+$string['add_leader'] = 'Добавить руководителя';
+
 
 
 //!!!!!
 $string['configurate_coursework'] = 'Настройка курсовой работы';
-$string['select_groups'] = 'Выберите группы, студенты которых будут участвовать в данной курсовой работе';
-$string['quota_left'] = 'Необходимо распределить квот: ';
 $string['add_tutor'] = 'Добавить преподавателя';
 $string['no_permission'] = 'У вас нету разрешения просматривать эту страницу';
 $string['save_changes'] = 'Сохранить изменения';
@@ -41,6 +43,7 @@ $string['students_assignment'] = 'Распределение студентов'
 $string['students_assignment_header'] = 'Распределение студентов по элементам курсовой работы';
 $string['group_assignment'] = 'Групповое распределение';
 $string['no_assign'] = 'Не назначено';
+$string['back'] = 'Назад';
 
 // View strings
 $string['fullname'] = 'ФИО';
@@ -74,14 +77,23 @@ $string['e:missing-course-id'] = 'Ошибка: отсутствует id кур
 $string['e:missing-theme-and-owntheme'] = 'Ошибка: отсутствует id темы и собственная тема.';
 $string['e:theme-already-used'] = 'Ошибка: Данная тема уже используется другим студентом.';
 $string['e:tutor-quota-over'] = 'Ошибка: Квота на выбранную связку преподаватель + курс исчерана.';
-$string['e:missing-group-id'] = 'Ошибка: отсутствует id группы.';
-$string['e:no-teacher-necessary-data'] = 'Ошибка: отсутствует id преподавателя и/или id курса и/или квота.';
 $string['e:student-already-chosen-theme'] = 'Ошибка: Студент {$a} уже выбрал(а) тематику своей курсовой работы.';
 $string['e:tutor-total-quota-over'] = 'Ошибка: Квота преподавателя {$a->tutor} исчерпана. Студенту {$a->student} не назначена тематика курсовой работы.';
 $string['e:student_not_enrolled'] = 'Ошибка: Вы не записаны в эту курсовую работу.';
 $string['e:students_not_enrolled'] = 'Ошибка: В эту курсовую работу не записаны студенты.';
 $string['e:tutors_not_enrolled'] = 'Ошибка: В эту курсовую работу не записаны руководители.';
 $string['no_one_has_chosen_you_as_leader'] = 'На данный момент никто не выбрал(а) Вас в качестве руководителя.';
+
+// new errors
+// e - error
+// le - leaders setting
+// ev - events handler
+$string['e-le-ev:missing_coursework'] = 'Отсутствует обязательный для leaders_events_handler параметр id курсовой работы.';
+$string['e-le-ev:missing_teacher'] = 'Отсутствует обязательный для leaders_events_handler параметр id учителя.';
+$string['e-le-ev:missing_course'] = 'Отсутствует обязательный для leaders_events_handler параметр id курса.';
+$string['e-le-ev:missing_quota'] = 'Отсутствует обязательный для leaders_events_handler параметр квота студентов.';
+$string['e-le-ev:missing_row_id'] = 'Отсутствует обязательный для leaders_events_handler параметр coursework_teachers id.';
+$string['e-le-ev:leader_already_exist'] = 'Одновременно может существовать только одна связка руководитель + курс.';
 
 // Messages strings
 $string['theme_selection_header'] = 'Студент выбрал Вас в качестве руководителя курсовой работы';

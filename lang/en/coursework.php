@@ -19,18 +19,15 @@ $string['use_own_theme'] = 'Use own theme';
 // Leaders setting
 $string['leaders_overview_table_header'] = 'List of coursework leaders';
 $string['add_leader_header'] = 'Adding a new leader';
-
-
-
-//!!!!!
+$string['edit_leader_header'] = 'Leader Editing';
+$string['quota_title'] = 'The quota sets the number of students with whom the leader will work.';
+$string['add_leader'] = 'Add leader';
+$string['back'] = 'Back';
 $string['configurate_coursework'] = 'Configurate coursework';
-$string['select_groups'] = 'Select groups whose students will participate in this course work';
-$string['quota_left'] = 'Need to allocate quotas: ';
 $string['add_tutor'] = 'Add tutor';
 $string['no_permission'] = 'You don\'t have permission to view this page';
 $string['save_changes'] = 'Save changes';
 $string['delete'] = 'Delete';
-//!!!!!
 
 // Themes management
 $string['coursework_themes_management'] = 'Coursework themes management';
@@ -75,14 +72,23 @@ $string['e:missing-course-id'] = 'Error: missing course id.';
 $string['e:missing-theme-and-owntheme'] = 'Error: missing theme id and own theme.';
 $string['e:theme-already-used'] = 'Error: This theme is already being used by another student.';
 $string['e:tutor-quota-over'] = 'Error: The quota for the selected buch teacher + course is over.';
-$string['e:missing-group-id'] = 'Error: missing group id.';
-$string['e:no-teacher-necessary-data'] = 'Error: missing tutor id and/or course id and/or quota.';
 $string['e:student-already-chosen-theme'] = 'Error: Student {$a} has already chosen the subject of his coursework.';
 $string['e:tutor-total-quota-over'] = 'Error: Tutor {$a->tutor} quota is exhausted. Student {$a->student} isnt assigned coursework.';
 $string['e:student_not_enrolled'] = 'Error: You are not enrolled in this coursework.';
 $string['e:students_not_enrolled'] = 'Error: Students are not enrolled in this coursework.';
 $string['e:tutors_not_enrolled'] = 'Error: Leaders are not enrolled in this coursework.';
 $string['no_one_has_chosen_you_as_leader'] = 'At the moment, no one has chosen you as leader.';
+
+// new errors
+// e - error
+// le - leaders setting
+// ev - events handler
+$string['e-le-ev:missing_coursework'] = 'Missing param coursework id required for leaders_events_handler.';
+$string['e-le-ev:missing_teacher'] = 'Missing param teacher id required for leaders_events_handler.';
+$string['e-le-ev:missing_course'] = 'Missing param course id required for leaders_events_handler.';
+$string['e-le-ev:missing_quota'] = 'Missing param students quota required for leaders_events_handler.';
+$string['e-le-ev:missing_row_id'] = 'Missing param coursework_teachers id required for leaders_events_handler.';
+$string['e-le-ev:leader_already_exist'] = 'At the same time there can be only one bundle of leader + course.';
 
 // Messages strings
 $string['theme_selection_header'] = 'Student has chosen you as leader of the course work';

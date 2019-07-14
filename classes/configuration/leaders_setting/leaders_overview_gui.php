@@ -31,7 +31,7 @@ class LeadersOverviewGUI
 
     private function get_coursework_leaders()
     {
-        $leaders = cw_get_coursework_teachers($this->cm->instance); // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Rename function get_coursework_teachers !!!
+        $leaders = cw_get_coursework_teachers($this->cm->instance);
         cw_add_fullnames_to_users_array($leaders);
         return $leaders;
     }
@@ -54,7 +54,7 @@ class LeadersOverviewGUI
 
     private function get_coursework_leaders_table_header() : string 
     {
-        $header = '<tr>';
+        $header = '<tr class="header">';
         $header.= '<td>'.get_string('leader', 'coursework').'</td>';
         $header.= '<td>'.get_string('course', 'coursework').'</td>';
         $header.= '<td>'.get_string('quota', 'coursework'). '</td>';
@@ -72,35 +72,41 @@ class LeadersOverviewGUI
         {
             $body.= '<tr>';
             $body.= '<td>'.$leader->fullname.'</td>';
-            $body.= '<td>'.$leader->course.'</td>';
-            $body.= '<td>'.$leader->quota.'</td>';
-            $body.= '<td>'.$this->get_edit_button($leader->id).'</td>';
+            $body.= '<td>'.$leader->coursename.'</td>';
+            $body.= '<td align="center">'.$leader->quota.'</td>';
+            $body.= '<td>'.$this->get_edit_button($leader).'</td>';
             $body.= '<td>'.$this->get_delete_button($leader->id).'</td>';
         }
 
         return $body;
     }
 
-    private function get_edit_button(int $id) : string 
+    private function get_edit_button(stdClass $leader) : string 
     {
         $button = '<form>';
         $button.= '<input type="submit" value="'.get_string('edit', 'coursework').'">';
+        $button.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
+        $button.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.LEADERS_SETTING.'">';
+        $button.= '<input type="hidden" name="'.LeadersSetting::GUI_TYPE.'" value="'.LeadersSetting::EDIT_LEADER.'">';
+        $button.= '<input type="hidden" name="'.TEACHER.ID.'" value="'.$leader->teacher.'">';
+        $button.= '<input type="hidden" name="'.COURSE.ID.'" value="'.$leader->course.'">';
+        $button.= '<input type="hidden" name="'.QUOTA.ID.'" value="'.$leader->quota.'">';
+        $button.= '<input type="hidden" name="'.LeadersSetting::LEADER_ROW_ID.'" value="'.$leader->id.'">';
         $button.= '</form>';
         return $button;
-
-        // +++ params
-        // Объединить через что-то с удалить
     }
 
     private function get_delete_button(int $id) : string 
     {
         $button = '<form>';
         $button.= '<input type="submit" value="'.get_string('delete', 'coursework').'">';
+        $button.= '<input type="hidden" name="'.ID.'" value="'.$this->cm->id.'" >';
+        $button.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.LEADERS_SETTING.'">';
+        $button.= '<input type="hidden" name="'.LeadersSetting::GUI_TYPE.'" value="'.LeadersSetting::OVERVIEW.'">';
+        $button.= '<input type="hidden" name="'.LeadersSetting::DATABASE_EVENT.'" value="'.LeadersSetting::DELETE_LEADER.'">';
+        $button.= '<input type="hidden" name="'.LeadersSetting::LEADER_ROW_ID.'" value="'.$id.'">';
         $button.= '</form>';
         return $button;
-
-        // +++ params
-        // Объединить через что-то с редактирвоать
     }
 
     private function get_add_leader_button() : string 
@@ -109,12 +115,9 @@ class LeadersOverviewGUI
         $button.= '<input type="submit" value="'.get_string('add_tutor', 'coursework').'">';
         $button.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
         $button.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.LEADERS_SETTING.'">';
-        $button.= '<input type="hidden" name="'.LeadersSetting::DATABASE_EVENT.'" value="'.LeadersSetting::ADD_LEADER.'">';
         $button.= '<input type="hidden" name="'.LeadersSetting::GUI_TYPE.'" value="'.LeadersSetting::ADD_LEADER.'">';
         $button.= '</form>';
         return $button;
-
-        // Объединить через что-то с редактирвоать
     }
 
 }

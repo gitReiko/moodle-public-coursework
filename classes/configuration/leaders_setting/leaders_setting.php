@@ -3,6 +3,8 @@
 require_once 'leaders_overview_gui.php';
 require_once 'leaders_action_gui.php';
 require_once 'leaders_add_gui.php';
+require_once 'leaders_edit_gui.php';
+require_once 'leaders_events_handler.php';
 
 class LeadersSetting
 {
@@ -14,6 +16,7 @@ class LeadersSetting
     const ADD_LEADER = 'add_leader';
     const EDIT_LEADER = 'edit_leader';
     const DELETE_LEADER = 'delete_leader';
+    const LEADER_ROW_ID = 'leader_row_id';
 
     private $course;
     private $cm;
@@ -34,7 +37,8 @@ class LeadersSetting
     {
         if($this->is_database_event_exist())
         {
-            // обработать события (отдел функция) !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            $handler = new LeadersEventsHandler($this->course, $this->cm);
+            $handler->execute();
         }
     }
 
@@ -42,7 +46,7 @@ class LeadersSetting
     {
         $event = optional_param(self::DATABASE_EVENT, null, PARAM_TEXT);
 
-        if(isset($dbEvent)) return true;
+        if(isset($event)) return true;
         else return false;
     }
 
@@ -50,13 +54,14 @@ class LeadersSetting
     {
         $gui = '';
         $guiType = optional_param(self::GUI_TYPE, null, PARAM_TEXT);
+
         if($guiType === self::ADD_LEADER)
         {
             $gui.= $this->get_add_leader_gui();
         }
-        else if(self::GUI_TYPE === self::EDIT_LEADER)
+        else if($guiType === self::EDIT_LEADER)
         {
-            // редактировать лидера  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            $gui.= $this->get_edit_leader_gui();
         }
         else
         {
@@ -78,6 +83,11 @@ class LeadersSetting
         return $addGUI->display();
     }
 
+    private function get_edit_leader_gui() : string 
+    {
+        $editGUI = new LeadersEditGUI($this->course, $this->cm);
+        return $editGUI->display();
+    }
 
 
 }
