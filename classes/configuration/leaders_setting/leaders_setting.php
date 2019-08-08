@@ -6,34 +6,21 @@ require_once 'leaders_add_gui.php';
 require_once 'leaders_edit_gui.php';
 require_once 'leaders_events_handler.php';
 
-class LeadersSetting
+class LeadersSetting extends ConfigurationManager
 {
-    const DATABASE_EVENT = 'database_event';
-    const GUI_TYPE = 'gui_type';
-
-    // Types of events and gui
+    // Types of events
     const OVERVIEW = 'overview';
     const ADD_LEADER = 'add_leader';
     const EDIT_LEADER = 'edit_leader';
     const DELETE_LEADER = 'delete_leader';
     const LEADER_ROW_ID = 'leader_row_id';
 
-    private $course;
-    private $cm;
-
     function __construct(stdClass $course, stdClass $cm)
     {
-        $this->course = $course;
-        $this->cm = $cm;
+        parent::__construct($course, $cm);
     }
 
-    public function execute() : string 
-    {
-        $this->handle_database_event();
-        return $this->get_gui();
-    }
-
-    private function handle_database_event() : void
+    protected function handle_database_event() : void
     {
         if($this->is_database_event_exist())
         {
@@ -42,15 +29,7 @@ class LeadersSetting
         }
     }
 
-    private function is_database_event_exist() : bool 
-    {
-        $event = optional_param(self::DATABASE_EVENT, null, PARAM_TEXT);
-
-        if(isset($event)) return true;
-        else return false;
-    }
-
-    private function get_gui() : string 
+    protected function get_gui() : string 
     {
         $gui = '';
         $guiType = optional_param(self::GUI_TYPE, null, PARAM_TEXT);

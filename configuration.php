@@ -4,6 +4,7 @@ require_once '../../config.php';
 require_once 'classes/configuration/coursework_configuration.php';
 require_once 'enums.php';
 require_once 'lib.php';
+require_once 'newlib.php';
 
 $id = required_param('id', PARAM_INT);    // Course Module ID
 

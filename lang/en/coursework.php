@@ -34,6 +34,19 @@ $string['coursework_themes_management'] = 'Coursework themes management';
 $string['add_new_theme'] = 'Add new theme';
 $string['edit'] = 'Edit';
 
+// Students distribution - sd
+$string['students_distribution'] = 'Students distribution';
+$string['sd_overview_header'] = 'Select students to distribute';
+$string['select'] = 'Select: ';
+$string['all_participants'] = 'All participants';
+$string['cancel_choice'] = 'Cancel choice';
+$string['distribute'] = 'Distribute';
+$string['distribute_student_header'] = 'Distribute student';
+$string['distribute_students_header'] = 'Distribute next students:';
+$string['quota_exceeded'] = 'Count of students exceeds the quota of the leader.';
+$string['expand_quota'] = 'Increase leaders quota to distribute all students.';
+$string['dont_change_quota'] = 'Dont change quota (distribute part of the students).';
+
 // Students assignment
 $string['students_assignment'] = 'Students assignment';
 $string['students_assignment_header'] = 'Students assignment by coursework items';
@@ -82,6 +95,7 @@ $string['no_one_has_chosen_you_as_leader'] = 'At the moment, no one has chosen y
 // new errors
 // e - error
 // le - leaders setting
+// sd - students distribution
 // ev - events handler
 $string['e-le-ev:missing_coursework'] = 'Missing param coursework id required for leaders_events_handler.';
 $string['e-le-ev:missing_teacher'] = 'Missing param teacher id required for leaders_events_handler.';
@@ -89,6 +103,7 @@ $string['e-le-ev:missing_course'] = 'Missing param course id required for leader
 $string['e-le-ev:missing_quota'] = 'Missing param students quota required for leaders_events_handler.';
 $string['e-le-ev:missing_row_id'] = 'Missing param coursework_teachers id required for leaders_events_handler.';
 $string['e-le-ev:leader_already_exist'] = 'At the same time there can be only one bundle of leader + course.';
+$string['e-sd:no_leaders'] = 'The distribution of students by leaders is possible only after the determination of these leaders.';
 
 // Messages strings
 $string['theme_selection_header'] = 'Student has chosen you as leader of the course work';

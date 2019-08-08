@@ -1,8 +1,10 @@
 <?php
 
+require_once 'classes/configuration/configuration_manager.php';
 require_once 'classes/configuration/leaders_setting/leaders_setting.php';
 require_once 'classes/configuration/themes_management/themes_management.php';
-require_once 'classes/configuration/students_assignment/students_assignment.php';
+//require_once 'classes/configuration/students_assignment/students_assignment.php';
+require_once 'classes/configuration/students_distribution/students_distribution.php';
 
 /**
  * Coursework configuration starts from this class. 
@@ -115,10 +117,12 @@ class CourseworkConfiguration
             $themes = new ThemesManagement($this->course, $this->cm);
             $str .= $themes->display();
         }
-        else if($this->module === STUDENTS_ASSIGNMENT)
+        else if($this->module === STUDENTS_DISTRIBUTION)
         {
-            $assignment = new StudentsAssignment($this->course, $this->cm);
-            $str .= $assignment->execute();
+            //$assignment = new StudentsAssignment($this->course, $this->cm);
+            //$str .= $assignment->execute();
+            $studentsDistribution = new StudentsDistribution($this->course, $this->cm);
+            $str .= $studentsDistribution->execute();
         }
         return $str;
     }

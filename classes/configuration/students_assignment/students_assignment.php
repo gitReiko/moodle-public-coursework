@@ -180,7 +180,7 @@ class StudentsAssignment
     private function get_necessary_form_inputs() : string
     {
         $str = '<input type="hidden" name="'.ID.'" value="'.$this->cm->id.'">';
-        $str.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.STUDENTS_ASSIGNMENT.'">';
+        $str.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.STUDENTS_DISTRIBUTION.'">';
         $str.= '<input type="hidden" name="'.DB_EVENT.'" value="'.DB_EVENT.'" >';
         return $str;
     }
