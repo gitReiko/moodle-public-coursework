@@ -46,6 +46,9 @@ $string['distribute_students_header'] = 'Distribute next students:';
 $string['quota_exceeded'] = 'Count of students exceeds the quota of the leader.';
 $string['expand_quota'] = 'Increase leaders quota to distribute all students.';
 $string['dont_change_quota'] = 'Dont change quota (distribute part of the students).';
+$string['student_redistribution_impossible'] = 'Re-distribution of student {$a->fullname} is impossible.';
+$string['student_successfully_distributed'] = 'Student {$a->fullname} successfully distributed.';
+$string['not_enough_quota_for_distribution'] = 'Not enough quota for student {$a->fullname} distribution.';
 
 // Students assignment
 $string['students_assignment'] = 'Students assignment';
@@ -104,6 +107,10 @@ $string['e-le-ev:missing_quota'] = 'Missing param students quota required for le
 $string['e-le-ev:missing_row_id'] = 'Missing param coursework_teachers id required for leaders_events_handler.';
 $string['e-le-ev:leader_already_exist'] = 'At the same time there can be only one bundle of leader + course.';
 $string['e-sd:no_leaders'] = 'The distribution of students by leaders is possible only after the determination of these leaders.';
+$string['e-sd-ev:missing_leader_id'] = 'Missing required parameter leader id.';
+$string['e-sd-ev:missing_course_id'] = 'Missing required parameter course id.';
+$string['e-sd-ev:missing_leader_quota'] = 'Missing required parameter leader quota.';
+$string['e-sd-ev:quota_isnt_numeric'] = 'Leader quota isnt integer.';
 
 // Messages strings
 $string['theme_selection_header'] = 'Student has chosen you as leader of the course work';

@@ -89,8 +89,8 @@ class StudentsDistributionOverview
 
                 if(isset($temp->teacher))
                 {
-                    $student->leader = $temp->teacher;
-                    $student->course = $temp->course;
+                    $student->leader = cw_get_user_name($temp->teacher);
+                    $student->course = cw\get_course_fullname($temp->course);
                 }
                 else
                 {
@@ -201,14 +201,19 @@ class StudentsDistributionOverview
 
     private function get_table_data_groupnames(array $groups) : string 
     {
-        $td = '';
-        foreach($groups as $group)
+        
+        if(count($groups) == 1) return reset($groups)->name;
+        else
         {
-            if(empty($td)) $td.= $group->name;
-            else $td.= $group->name. ', ';
-        }
+            $td = '';
 
-        return $td;
+            foreach($groups as $group)
+            {
+                $td.= $group->name.'<br>';
+            }
+
+            return $td;
+        }
     }
 
     private function get_distribute_button() : string 

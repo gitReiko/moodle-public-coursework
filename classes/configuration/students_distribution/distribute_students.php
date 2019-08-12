@@ -19,27 +19,8 @@ class DistributeStudents
         $this->course = $course;
         $this->cm = $cm;
         
-        $this->students = $this->get_students();
+        $this->students = cw\get_distribute_students();
         $this->leaders = cw\get_coursework_teachers($this->cm->instance);
-    }
-
-    private function get_students() : array 
-    {
-        $students = array();
-        $strings = optional_param_array(STUDENT, null, PARAM_TEXT);
-
-        foreach($strings as $string) 
-        {
-            $str = explode(SEPARATOR, $string);
-
-            $student = new stdClass;
-            $student->id = $str[0];
-            $student->fullname = $str[1];
-
-            $students[] = $student;
-        }
-
-        return $students;
     }
 
     public function get_gui() : string 
@@ -47,6 +28,7 @@ class DistributeStudents
         $gui = $this->get_html_form_start();
         $gui.= $this->get_students_distribution_header();
         $gui.= $this->get_list_of_the_students_being_distributed();
+        $gui.= $this->get_hidden_students_inputs();
         $gui.= $this->get_leader_header();
         $gui.= $this->get_leader_select();
         $gui.= $this->get_course_header();
@@ -82,6 +64,18 @@ class DistributeStudents
         return $names;
     }
 
+    private function get_hidden_students_inputs() : string 
+    {
+        $inputs = '';
+        foreach($this->students as $student)
+        {
+            $inputs.= '<input type="hidden" name="'.STUDENT.'[]" ';
+            $inputs.= 'value="'.$student->id.SEPARATOR.$student->fullname.'">';
+        }
+
+        return $inputs;
+    }
+
     private function get_leader_header() : string 
     {
         return '<h3>'.get_string('leader', 'coursework').'</h3>';
@@ -91,13 +85,13 @@ class DistributeStudents
     {
         $leaders = $this->get_unique_leaders();
 
-        $select = '<select id="leaderselect" onchange="change_leader_courses()" autocomplete="off">';
+        $select = '<select id="leaderselect" name="'.TEACHER.'" onchange="change_leader_courses()" autocomplete="off">';
         foreach($leaders as $leader)
         {
             if(empty($this->selectedLeaderId))
             {
                 $this->selectedLeaderId = $leader->teacherid;
-                $this->leaderQuota = $leader->quota;
+                $this->leaderQuota = cw\get_remaining_leader_quota($this->cm->instance, $leader->teacherid);
             }
 
             $select.= "<option value='{$leader->teacherid}'>".$leader->fullname.'</option>';
@@ -137,7 +131,7 @@ class DistributeStudents
 
     private function get_course_select() : string
     {
-        $select = '<select id="coursesselect" autocomplete="off"';
+        $select = '<select id="coursesselect" name="'.COURSE.'" autocomplete="off"';
         $select.= ' onchange="display_or_hide_expand_quota_panel_when_course_changes()">';
         foreach($this->leaders as $leader)
         {
@@ -159,9 +153,9 @@ class DistributeStudents
         $panel.= '">';
 
         $panel.= '<p><b>'.get_string('quota_exceeded', 'coursework').'</b></p>';
-        $panel.= '<p><input type="radio" name="'.StudentsDistribution::EXPAND_QUOTA.'" value="'.StudentsDistribution::EXPAND_QUOTA.'"> ';
+        $panel.= '<p><input type="radio" name="'.StudentsDistribution::EXPAND_QUOTA.'" value="'.true.'"> ';
         $panel.= get_string('expand_quota', 'coursework').'</p>';
-        $panel.= '<p><input type="radio" name="'.StudentsDistribution::EXPAND_QUOTA.'" value="" checked> ';
+        $panel.= '<p><input type="radio" name="'.StudentsDistribution::EXPAND_QUOTA.'" value="'.false.'" checked> ';
         $panel.= get_string('dont_change_quota', 'coursework').'</p>';
 
         $panel.= '</div>';
