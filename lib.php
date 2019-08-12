@@ -142,15 +142,13 @@ function cw_get_user_groups_names(int $course, int $user) : string
 
     $groups = groups_get_user_groups($course, $user);
 
-    for($i = 0; $i < count($groups); $i++)
+    // Reset is used because the groups array contains two identical arrays.
+    foreach(reset($groups) as $group)
     {
-        for($j = 0; $j < count($groups[$i]); $j++)
-        {
-            $name = groups_get_group_name($groups[$i][$j]);
+        $name = groups_get_group_name($group);
 
-            if($j) $str .= '<br>';
-            $str.= $name;
-        }
+        if($str != '') $str .= '<br>';
+        $str.= $name;     
     }
 
     return $str;
