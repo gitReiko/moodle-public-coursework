@@ -334,6 +334,7 @@ function cw_get_users_with_archetype_roles_from_group(array $groups, array $user
     }
 
     $users = cw_array_unique_for_stdclass($users);
+    usort($users, "compare_user_fullnames");
 
     return $users;
 }
@@ -344,6 +345,11 @@ function cw_array_unique_for_stdclass(array $array) : array
     $array = array_unique($array);
     $array = array_map('json_decode', $array);
     return $array;
+}
+
+function compare_user_fullnames($a, $b)
+{
+    return strcmp($a->fullname, $b->fullname);
 }
 
 function cw_get_group_members(int $groupid) : array 

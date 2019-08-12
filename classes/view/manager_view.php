@@ -22,7 +22,7 @@ class ManagerCourseworkView extends CourseworkView
             if(isset($coursework) && isset($coursework->id))
             {
                 $tableRow->id = $coursework->id;
-                $tableRow->tutor = $coursework->tutor;
+                $tableRow->tutor = $coursework->teacher;
                 $tableRow->course = $coursework->course;
                 $tableRow->theme = $coursework->theme;
                 $tableRow->owntheme = $coursework->owntheme;
