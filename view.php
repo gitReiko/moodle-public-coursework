@@ -3,7 +3,7 @@
 require_once '../../config.php';
 require_once 'classes/view/coursework_view.php';
 require_once 'classes/view/student_view.php';
-require_once 'classes/view/tutor_view.php';
+require_once 'classes/view/teacher_view.php';
 require_once 'classes/view/manager_view.php';
 require_once 'classes/view/database_events_handler.php';
 require_once 'enums.php';
@@ -42,10 +42,10 @@ if(has_capability('mod/coursework:removeselection', $PAGE->cm->context))
 }
 else if(has_capability('mod/coursework:gradestudent', $PAGE->cm->context))
 {
-    $coursework = new TutorCourseworkView($course, $cm);
+    $coursework = new TeacherCourseworkView($course, $cm);
     $coursework->display();
 }
-else if(has_capability('mod/coursework:selecttutor', $PAGE->cm->context))
+else if(has_capability('mod/coursework:selectteacher', $PAGE->cm->context))
 {
     $coursework = new StudentCourseworkView($course, $cm);
     $coursework->display();

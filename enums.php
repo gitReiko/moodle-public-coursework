@@ -39,7 +39,7 @@ const COMMENT = 'comment';
 
 // Forms
 const STUDENT_FORM = 'student_form';
-const TUTOR_FORM = 'tutor_form_';
+const TEACHER_FORM = 'teacher_form_';
 
 // Other
 const NO_ASSIGN = 'no_assign';

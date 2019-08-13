@@ -53,18 +53,18 @@ function get_course_fullname(int $courseid) : string
     return $course->fullname;
 }
 
-function get_remaining_leader_quota(int $courseworkid, int $teacherid) : int 
+function get_remaining_leader_quota(int $courseworkid, int $teacherid, int $courseid) : int 
 {
-    $allLeaderQuota = get_leader_quota($courseworkid, $teacherid);
-    $usedQuota = get_used_quota($courseworkid, $teacherid);
+    $allLeaderQuota = get_leader_quota($courseworkid, $teacherid, $courseid);
+    $usedQuota = get_used_quota($courseworkid, $teacherid, $courseid);
 
     return $allLeaderQuota - $usedQuota;
 }
 
-function get_leader_quota(int $courseworkid, int $teacherid) : int 
+function get_leader_quota(int $courseworkid, int $teacherid, int $courseid) : int 
 {
     global $DB;
-    $conditions = array('coursework'=>$courseworkid, 'teacher'=>$teacherid);
+    $conditions = array('coursework'=>$courseworkid, 'teacher'=>$teacherid, 'course'=>$courseid);
 
     $leader = $DB->get_record('coursework_teachers', $conditions);
 
@@ -74,10 +74,10 @@ function get_leader_quota(int $courseworkid, int $teacherid) : int
     return (int)$leader->quota;
 }
 
-function get_used_quota(int $courseworkid, int $teacherid) : int 
+function get_used_quota(int $courseworkid, int $teacherid, int $courseid) : int 
 {
     global $DB;
-    $conditions = array('coursework'=>$courseworkid, 'teacher'=>$teacherid);
+    $conditions = array('coursework'=>$courseworkid, 'teacher'=>$teacherid, 'course'=>$courseid);
 
     return $DB->count_records('coursework_students', $conditions);
 }

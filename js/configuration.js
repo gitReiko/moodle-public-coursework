@@ -63,7 +63,7 @@ function edit_theme(cmid, id, name)
     form.submit();
 }
 
-function check_tutor_quota_sufficiency(event)
+function check_teacher_quota_sufficiency(event)
 {
     var selectValue = parseInt(event.value);
 
@@ -75,13 +75,13 @@ function check_tutor_quota_sufficiency(event)
 
             if(selectValue === optionValue)
             {
-                var tutorQuota = parseInt(event.childNodes[i].dataset.tutorQuota);
+                var teacherQuota = parseInt(event.childNodes[i].dataset.teacherQuota);
                 var countOfStudentsInGroup = parseInt(event.childNodes[i].dataset.countOfStudentsInGroup);
 
-                if(tutorQuota < countOfStudentsInGroup)
+                if(teacherQuota < countOfStudentsInGroup)
                 {
                     var message = ru_warning_not_enough_quota;
-                    message += '( '+tutorQuota+' < '+countOfStudentsInGroup+' )\n';
+                    message += '( '+teacherQuota+' < '+countOfStudentsInGroup+' )\n';
                     message += ru_some_student_will_not_be_assign;
 
                     alert(message);

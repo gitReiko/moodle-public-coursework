@@ -1,6 +1,6 @@
 <?php
 
-class TutorCourseworkView extends CourseworkView
+class TeacherCourseworkView extends CourseworkView
 {
 
     // Constructor functions
@@ -26,7 +26,7 @@ class TutorCourseworkView extends CourseworkView
             if(isset($coursework) && isset($coursework->id))
             {
                 $tableRow->dbRecordId = $coursework->id;
-                $tableRow->tutor = $coursework->tutor;
+                $tableRow->teacher = $coursework->teacher;
                 $tableRow->course = $coursework->course;
                 $tableRow->grade = $coursework->grade;
                 $tableRow->theme = $coursework->theme;
@@ -63,7 +63,7 @@ class TutorCourseworkView extends CourseworkView
         $str = '';
         for($i = 0; $i < count($this->tableRows); $i++)
         {
-            $str.= '<form id="'.TUTOR_FORM.$i.'">';
+            $str.= '<form id="'.TEACHER_FORM.$i.'">';
             $str.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
             $str.= '<input type="hidden" name="'.STUDENT.ID.'" value="'.$this->tableRows[$i]->student.'" >';
             $str.= '<input type="hidden" name="'.RECORD.ID.'" value="'.$this->tableRows[$i]->dbRecordId.'" >';
@@ -76,7 +76,7 @@ class TutorCourseworkView extends CourseworkView
     protected function get_grade_cell($tableRow, $i) : string
     {
         $str = '<td><center>';
-        $str.= '<input type="number" form="'.TUTOR_FORM.$i.'" ';
+        $str.= '<input type="number" form="'.TEACHER_FORM.$i.'" ';
         $str.= 'name="'.GRADE.'" ';
 
         if(isset($tableRow->grade)) $str .= ' value="'.$tableRow->grade.'" ';
@@ -90,7 +90,7 @@ class TutorCourseworkView extends CourseworkView
     protected function get_comment_cell($tableRow, $i) : string
     {
         $str = '<td><center>';
-        $str.= '<textarea form="'.TUTOR_FORM.$i.'" name="'.COMMENT.'" >';
+        $str.= '<textarea form="'.TEACHER_FORM.$i.'" name="'.COMMENT.'" >';
 
         if(isset($tableRow->comment)) $str .= $tableRow->comment;
 
@@ -102,7 +102,7 @@ class TutorCourseworkView extends CourseworkView
     protected function get_btn_cell($tableRow, $i) : string
     {
         $str = '<td class="transparent">';
-        $str.= '<button  form="'.TUTOR_FORM.$i.'" >';
+        $str.= '<button  form="'.TEACHER_FORM.$i.'" >';
         $str.= get_string('grade_student', 'coursework');
         $str.= '</button></td>';
 

@@ -241,9 +241,9 @@ function cw_get_coursework_teachers(int $courseworkID) : array
             AND u.suspended = 0 AND ct.coursework = ?
         ORDER BY u.lastname';
     $conditions = array($courseworkID);
-    $tutors = array();
-    $tutors = $DB->get_records_sql($sql, $conditions);
-    return $tutors;
+    $teachers = array();
+    $teachers = $DB->get_records_sql($sql, $conditions);
+    return $teachers;
 }
 
 function cw_get_all_course_groups(int $courseID) : array
@@ -419,34 +419,34 @@ function cw_prepare_data_for_message() : stdClass
 {
     global $USER;
     $data = new stdClass;
-    $data->tutor = cw_get_user_name($USER->id);
+    $data->teacher = cw_get_user_name($USER->id);
     $data->date = date('d-m-Y');
     $data->time = date('G:i');
     return $data;
 }
 
-function cw_is_tutor_has_quota(int $courseworkID, int $tutorID, int $courseID) : bool 
+function cw_is_teacher_has_quota(int $courseworkID, int $teacherid, int $courseID) : bool 
 {
     global $DB;
 
-    $tutorRecords = $DB->get_records('coursework_teachers', array('coursework'=>$courseworkID, 'tutor'=>$tutorID));
+    $teacherRecords = $DB->get_records('coursework_teachers', array('coursework'=>$courseworkID, 'teacher'=>$teacherid));
     
     $totalQuota = 0;
     $courseQuota = 0;
-    foreach($tutorRecords as $tutor)
+    foreach($teacherRecords as $teacher)
     {
-        $totalQuota += $tutor->quota;
-        if((int)$tutor->course === $courseID) $courseQuota += $tutor->quota;
+        $totalQuota += $teacher->quota;
+        if((int)$teacher->course === $courseID) $courseQuota += $teacher->quota;
     }
 
-    $usedTotalQuota = $DB->count_records('coursework_students', array('coursework'=>$courseworkID, 'teacher'=>$tutorID));
-    $usedCourseQuota = $DB->count_records('coursework_students', array('coursework'=>$courseworkID, 'teacher'=>$tutorID, 'course'=>$courseID));
+    $usedTotalQuota = $DB->count_records('coursework_students', array('coursework'=>$courseworkID, 'teacher'=>$teacherid));
+    $usedCourseQuota = $DB->count_records('coursework_students', array('coursework'=>$courseworkID, 'teacher'=>$teacherid, 'course'=>$courseID));
 
     if(($totalQuota - $usedTotalQuota) > 0) 
     {
         if(($courseQuota - $usedCourseQuota) > 0) return true;
     }
-    else if(cw_is_this_tutor_already_chosen_for_this_student($courseworkID, $tutorID))
+    else if(cw_is_this_teacher_already_chosen_for_this_student($courseworkID, $teacherid))
     {
         return true;
     }
@@ -454,10 +454,10 @@ function cw_is_tutor_has_quota(int $courseworkID, int $tutorID, int $courseID) :
     return false;
 }
 
-function cw_is_this_tutor_already_chosen_for_this_student(int $courseworkID, int $tutorID) : bool 
+function cw_is_this_teacher_already_chosen_for_this_student(int $courseworkID, int $teacherid) : bool 
 {
     global $DB, $USER;
-    $conditions = array('coursework'=>$courseworkID, 'student'=>$USER->id ,'teacher'=>$tutorID);
+    $conditions = array('coursework'=>$courseworkID, 'student'=>$USER->id ,'teacher'=>$teacherid);
     if($DB->record_exists('coursework_students', $conditions)) return true;
     else return false;
 }

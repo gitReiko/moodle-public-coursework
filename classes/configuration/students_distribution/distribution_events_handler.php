@@ -46,7 +46,7 @@ class StudentsDistributionDBEventsHandler
         if(empty($leader->id)) throw new Exception(get_string('e-sd-ev:missing_leader_id', 'coursework'));
         if(empty($leader->course)) throw new Exception(get_string('e-sd-ev:missing_course_id', 'coursework'));
 
-        $leader->remainingQuota = cw\get_remaining_leader_quota($this->cm->instance, $leader->id);
+        $leader->remainingQuota = cw\get_remaining_leader_quota($this->cm->instance, $leader->id, $leader->course);
 
         return $leader;
     }

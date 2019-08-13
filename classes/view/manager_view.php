@@ -22,7 +22,7 @@ class ManagerCourseworkView extends CourseworkView
             if(isset($coursework) && isset($coursework->id))
             {
                 $tableRow->id = $coursework->id;
-                $tableRow->tutor = $coursework->teacher;
+                $tableRow->teacher = $coursework->teacher;
                 $tableRow->course = $coursework->course;
                 $tableRow->theme = $coursework->theme;
                 $tableRow->owntheme = $coursework->owntheme;
@@ -50,7 +50,7 @@ class ManagerCourseworkView extends CourseworkView
     protected function get_btn_cell($tableRow, $i) : string
     {
         $str = '<td class="transparent">';
-        if(isset($tableRow->tutor))
+        if(isset($tableRow->teacher))
         {
             $str.= '<form>';
             $str.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';

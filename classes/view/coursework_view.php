@@ -59,9 +59,9 @@ abstract class CourseworkView
         {
             throw new Exception(get_string('e:students_not_enrolled', 'coursework'));
         }
-        if(!$this->is_tutors_enrolled())
+        if(!$this->is_teachers_enrolled())
         {
-            throw new Exception(get_string('e:tutors_not_enrolled', 'coursework'));
+            throw new Exception(get_string('e:teachers_not_enrolled', 'coursework'));
         }
     }
 
@@ -74,11 +74,11 @@ abstract class CourseworkView
         else return false;
     }
 
-    private function is_tutors_enrolled() : bool 
+    private function is_teachers_enrolled() : bool 
     {
-        $tutors = cw_get_coursework_teachers($this->cm->instance);
+        $teachers = cw_get_coursework_teachers($this->cm->instance);
 
-        if(count($tutors)) return true;
+        if(count($teachers)) return true;
         else return false;
     }
 
@@ -182,10 +182,10 @@ abstract class CourseworkView
     protected function get_leader_cell($tableRow, $i) : string
     {
         $str = '<td>';
-        if(isset($tableRow->tutor))
+        if(isset($tableRow->teacher))
         {
-            $str.= cw_get_user_photo($tableRow->tutor);
-            $str.= ' '.cw_get_user_name($tableRow->tutor);
+            $str.= cw_get_user_photo($tableRow->teacher);
+            $str.= ' '.cw_get_user_name($tableRow->teacher);
         }
         else $str .= get_string('not_selected', 'coursework');
         $str.= '</td>';

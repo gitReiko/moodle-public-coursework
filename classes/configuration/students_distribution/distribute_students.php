@@ -91,7 +91,7 @@ class DistributeStudents
             if(empty($this->selectedLeaderId))
             {
                 $this->selectedLeaderId = $leader->teacherid;
-                $this->leaderQuota = cw\get_remaining_leader_quota($this->cm->instance, $leader->teacherid);
+                $this->leaderQuota = cw\get_remaining_leader_quota($this->cm->instance, $leader->teacherid, $leader->course);
             }
 
             $select.= "<option value='{$leader->teacherid}'>".$leader->fullname.'</option>';

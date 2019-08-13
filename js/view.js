@@ -13,14 +13,14 @@ function change_course_select()
     delete_previous_courses_select();
 
     var newCoursesSelect = get_new_courses_select();
-    var allTutors = document.getElementsByClassName('js_tutors');
-    var newTutor = document.getElementById('selected_tutor');
+    var allTeachers = document.getElementsByClassName('js_teacher');
+    var newTeacher = document.getElementById('selected_teacher');
 
-    for(var i = 0; i < allTutors.length; i++)
+    for(var i = 0; i < allTeachers.length; i++)
     {
-        if(allTutors[i].dataset.tutorid == newTutor.value)
+        if(allTeachers[i].dataset.teacherid == newTeacher.value)
         {
-            var newCourseOption = get_new_course_option(allTutors[i]);
+            var newCourseOption = get_new_course_option(allTeachers[i]);
             newCoursesSelect.appendChild(newCourseOption);
         }
     }
@@ -28,7 +28,7 @@ function change_course_select()
     var courseCell = document.getElementById('course_cell');
     courseCell.appendChild(newCoursesSelect);
 
-    var courseOfNewTheme = get_course_of_new_theme(allTutors, newTutor.value);
+    var courseOfNewTheme = get_course_of_new_theme(allTeachers, newTeacher.value);
     change_themes_select(courseOfNewTheme);
 }
 
@@ -49,23 +49,23 @@ function get_new_courses_select()
     return newCoursesSelect;
 }
 
-function get_new_course_option(newTutor)
+function get_new_course_option(newTeacher)
 {
     var newCourseOption = document.createElement('option');
-    newCourseOption.value = newTutor.dataset.courseid;
-    newCourseOption.text = newTutor.dataset.coursename;
+    newCourseOption.value = newTeacher.dataset.courseid;
+    newCourseOption.text = newTeacher.dataset.coursename;
     return newCourseOption;
 }
 
-function get_course_of_new_theme(allTutors, newTutor)
+function get_course_of_new_theme(allTeachers, newTeacher)
 {
     var courseOfNewTheme;
 
-    for(var i = 0; i < allTutors.length; i++)
+    for(var i = 0; i < allTeachers.length; i++)
     {
-        if(allTutors[i].dataset.tutorid == newTutor)
+        if(allTeachers[i].dataset.teacherid == newTeacher)
         {
-            courseOfNewTheme = allTutors[i].dataset.courseid;
+            courseOfNewTheme = allTeachers[i].dataset.courseid;
             break;
         }
     }
@@ -168,7 +168,7 @@ function process_own_theme_checkbox(event)
 
 function process_student_coursework_choice()
 {
-    if(checkAvailabilityOfThemes() && confirm_tutor_selection()) return true;
+    if(checkAvailabilityOfThemes() && confirm_teacher_selection()) return true;
     else return false;
 }
 
@@ -191,7 +191,7 @@ function checkAvailabilityOfThemes()
     return true;
 }
 
-function confirm_tutor_selection()
+function confirm_teacher_selection()
 {
     var isConfirm = confirm(ru_confirm_theme_selection);
 

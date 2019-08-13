@@ -44,7 +44,7 @@ class ViewDatabaseEventHandler
         }
         else if($this->eventType == SELECT.THEME)
         {
-            $this->prepare_data_for_tutor_selection();
+            $this->prepare_data_for_teacher_selection();
         }
 
     }
@@ -116,7 +116,7 @@ class ViewDatabaseEventHandler
             global $DB;
             if($DB->update_record('coursework_students', $record))
             {
-                $this->send_notification_from_tutor();
+                $this->send_notification_from_teacher();
             }
             else throw new Exception(get_string('e:student-not-updated', 'coursework'));
         }
@@ -143,7 +143,7 @@ class ViewDatabaseEventHandler
         }
     }
 
-    private function send_notification_from_tutor() : void
+    private function send_notification_from_teacher() : void
     {
         try
         {
@@ -151,7 +151,7 @@ class ViewDatabaseEventHandler
 
             $userto = $this->get_user_record($this->studentRecord->student);
             $headerMessage = get_string('student_graded_header','coursework');
-            $htmlMessage = $this->get_tutor_html_message();
+            $htmlMessage = $this->get_teacher_html_message();
 
             $this->send_notification($userto, $headerMessage, $htmlMessage);
         }
@@ -218,10 +218,10 @@ class ViewDatabaseEventHandler
         message_send($message);
     }
 
-    private function get_tutor_html_message() : string 
+    private function get_teacher_html_message() : string 
     {
         $params = cw_prepare_data_for_message();
-        $message = get_string('tutor_message','coursework', $params);
+        $message = get_string('teacher_message','coursework', $params);
         $notification = get_string('grade_isnt_final', 'coursework');
         $notification.= get_string('answer_not_require', 'coursework');
 
@@ -237,18 +237,28 @@ class ViewDatabaseEventHandler
         return cw_get_html_message($this->cm, $this->course->id, $message, $notification);
     }
 
-    private function prepare_data_for_tutor_selection() : void
+    private function prepare_data_for_teacher_selection() : void
     {
         try
         {
-            $record = new stdClass;
-            $record->id = optional_param(RECORD.ID, 0, PARAM_INT);
-            $record->coursework = $this->cm->instance;
-            $record->student = $this->get_student_id();
-            $record->tutor = $this->get_tutor_id();
-            $record->course = $this->get_course_id();
-            $record->theme = optional_param(THEME, 0, PARAM_INT);
-            $record->owntheme = optional_param(OWN_THEME, 0, PARAM_TEXT);
+            $recordid = optional_param(RECORD.ID, null, PARAM_INT);
+
+            if($recordid)
+            {
+                $record = $this->get_student_record_from_database($recordid);
+            }
+            else
+            {
+                $record = new stdClass;
+                $record->id = $recordid;
+                $record->coursework = $this->cm->instance;
+                $record->student = $this->get_student_id();
+                $record->teacher = $this->get_teacher_id();
+                $record->course = $this->get_course_id();
+            }
+
+            $record->theme = optional_param(THEME, null, PARAM_INT);
+            $record->owntheme = optional_param(OWN_THEME, null, PARAM_TEXT);
 
             if(empty($record->theme) && empty($record->owntheme)) 
             {
@@ -264,6 +274,13 @@ class ViewDatabaseEventHandler
 
     }
 
+    private function get_student_record_from_database(int $rowid)
+    {
+        global $DB;
+
+        return $DB->get_record('coursework_students', array('id'=>$rowid));
+    }
+
     private function get_student_id() : int 
     {
         $studentID = optional_param(STUDENT, 0, PARAM_INT);
@@ -271,11 +288,11 @@ class ViewDatabaseEventHandler
         return $studentID;
     }
 
-    private function get_tutor_id() : int 
+    private function get_teacher_id() : int 
     {
-        $tutorID = optional_param(TEACHER, 0, PARAM_INT);
-        if(empty($tutorID)) throw new Exception(get_string('e:missing-tutor-id', 'coursework'));
-        return $tutorID;
+        $teacherid = optional_param(TEACHER, 0, PARAM_INT);
+        if(empty($teacherid)) throw new Exception(get_string('e:missing-teacher-id', 'coursework'));
+        return $teacherid;
     }
 
     private function get_course_id() : int 
@@ -290,9 +307,9 @@ class ViewDatabaseEventHandler
         try
         {
             if($this->is_theme_used()) throw new Exception(get_string('e:theme-already-used', 'coursework'));
-            if(!cw_is_tutor_has_quota($this->cm->instance, $this->studentRecord->tutor, $this->studentRecord->course))
+            if(!cw_is_teacher_has_quota($this->cm->instance, $this->studentRecord->teacher, $this->studentRecord->course))
             {
-                throw new Exception(get_string('e:tutor-quota-over', 'coursework'));
+                throw new Exception(get_string('e:teacher-quota-over', 'coursework'));
             }
 
             if(empty($this->studentRecord->id)) $this->insert_student_selection();
@@ -322,14 +339,14 @@ class ViewDatabaseEventHandler
         global $DB;
         if($DB->insert_record('coursework_students', $this->studentRecord)) 
         {
-            $this->send_notification_to_tutor();
+            $this->send_notification_to_teacher();
         }
         else throw new Exception(get_string('e:ins:student-not-selected', 'coursework'));
     }
 
-    private function send_notification_to_tutor() : void 
+    private function send_notification_to_teacher() : void 
     {
-        $userto = $this->get_user_record($this->studentRecord->tutor);
+        $userto = $this->get_user_record($this->studentRecord->teacher);
         $headerMessage = get_string('theme_selection_header','coursework');
         $htmlMessage = $this->get_html_message_of_student();
 
@@ -340,7 +357,7 @@ class ViewDatabaseEventHandler
     private function get_html_message_of_student() : string
     {
         $params = cw_prepare_data_for_message();
-        $message = get_string('tutor_message','coursework', $params);
+        $message = get_string('teacher_message','coursework', $params);
         $notification = get_string('answer_not_require', 'coursework');
 
         return cw_get_html_message($this->cm, $this->course->id, $message, $notification);
@@ -351,7 +368,7 @@ class ViewDatabaseEventHandler
         global $DB;
         if($DB->update_record('coursework_students', $this->studentRecord)) 
         {
-            $this->send_notification_to_tutor();
+            $this->send_notification_to_teacher();
         }
         else throw new Exception(get_string('e:upd:student-not-selected', 'coursework'));
     }
