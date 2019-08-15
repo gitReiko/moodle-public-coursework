@@ -8,6 +8,7 @@ require_once 'classes/view/manager_view.php';
 require_once 'classes/view/database_events_handler.php';
 require_once 'enums.php';
 require_once 'lib.php';
+require_once 'newlib.php';
  
 $id = required_param('id', PARAM_INT);    // Course Module ID
  

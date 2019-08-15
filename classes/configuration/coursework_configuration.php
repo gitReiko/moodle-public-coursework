@@ -3,7 +3,6 @@
 require_once 'classes/configuration/configuration_manager.php';
 require_once 'classes/configuration/leaders_setting/leaders_setting.php';
 require_once 'classes/configuration/themes_management/themes_management.php';
-//require_once 'classes/configuration/students_assignment/students_assignment.php';
 require_once 'classes/configuration/students_distribution/students_distribution.php';
 
 /**

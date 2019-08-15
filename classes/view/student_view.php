@@ -1,5 +1,6 @@
 <?php
 
+use coursework_lib as cw;
 
 class StudentCourseworkView extends CourseworkView
 {
@@ -107,18 +108,35 @@ class StudentCourseworkView extends CourseworkView
     // GUI functions
     protected function get_coursework_interface() : string 
     {
-        $str = '<table class="cw_view">';
-        $str.= $this->get_table_header();
-        $str.= $this->get_table_body();
-        $str.= '</table>';
-        $str.= $this->get_interface_html_form();
+        if($this->is_unallocated_quota_exist() || $this->is_student_chose_leader())
+        {
+            $str = '<table class="cw_view">';
+            $str.= $this->get_table_header();
+            $str.= $this->get_table_body();
+            $str.= '</table>';
+            $str.= $this->get_interface_html_form();
+        }
+        else
+        {
+            $str = cw\get_red_message(get_string('e-sv:quota_ended', 'coursework'));
+        }
+
         return $str;
     }
 
-    private function is_unallocated_quota_exist() : string 
+    private function is_student_chose_leader() : bool
     {
-        $this->get_unique_leaders($tableRow); // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        // Студенты без темы могут войти в активность с израсходованной квотой
+        global $DB, $USER;
+        $conditions = array('coursework'=>$this->cm->instance, 'student'=>$USER->id);
+
+        if($DB->record_exists('coursework_students', $conditions)) return true;
+        else return false;
+    }
+
+    private function is_unallocated_quota_exist() : bool 
+    {
+        if(empty(reset($this->tableRows)->data)) return false;
+        else return true;
     }
 
     protected function get_interface_html_form() : string
@@ -296,7 +314,6 @@ class StudentCourseworkView extends CourseworkView
         {
             $str.= '<input type="hidden" name="'.DB_EVENT.'" value="'.SELECT.THEME.'" form="'.STUDENT_FORM.'">';
             $str.= '<input type="hidden" name="'.RECORD.ID.'" value="'.$tableRow->id.'" form="'.STUDENT_FORM.'">';
-            //$str.= '<input type="hidden" name="'.TEACHER.'" value="'.$tableRow->teacher.'" form="'.STUDENT_FORM.'">';
             $str.= $this->get_theme_select_button();
         }
 
@@ -317,13 +334,15 @@ class StudentCourseworkView extends CourseworkView
 
     protected function get_footer() : string 
     {
+        /*
         $str = '';
         // $this->tableRows array have only one element for StudentCourseworkView.
         if(empty(reset($this->tableRows)->course))
         {
             $str.= '<br>'.$this->get_theme_select_button();
         }
-        return $str;
+        */
+        return '';
     }
 
     protected function prepare_data_for_js() : string
