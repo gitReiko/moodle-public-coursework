@@ -256,7 +256,7 @@ class StudentCourseworkView extends CourseworkView
     {
         if(count($tableRow->availableThemes))
         {
-            $str = '<select id="selected_theme" form="'.STUDENT_FORM.'" ';
+            $str = '<p><select id="selected_theme" form="'.STUDENT_FORM.'" ';
             $str.= ' name="'.THEME.'" data-course="'.$this->chosenCourse.'">';
     
             if($this->isThemesOfChosenCourseExist($tableRow))
@@ -274,7 +274,7 @@ class StudentCourseworkView extends CourseworkView
                 $str.= '<option id="no_available_themes" data-noavailablethemes="true">'.get_string('no_available_themes', 'coursework').'</option>';
             }
     
-            $str.= '</select>';
+            $str.= '</select></p>';
         }
         else $str = get_string('not_available', 'coursework');
 
@@ -296,8 +296,8 @@ class StudentCourseworkView extends CourseworkView
     {
         $str = '<label class="nowrap" id="own_theme_checkbox_label">';
         $str.= '<input type="checkbox" class="nomargin" id="own_theme_checkbox" onclick="process_own_theme_checkbox(this)" autocomplete="off"/>';
-        $str.= get_string('use_own_theme', 'coursework').'</label>';
-        $str.= '<input id="own_theme_input" type="text" maxlength="255" name="'.OWN_THEME.'" form="'.STUDENT_FORM.'" disabled />';
+        $str.= ' '.get_string('use_own_theme', 'coursework').'</label>';
+        $str.= '<p><input id="own_theme_input" type="text" maxlength="255" name="'.OWN_THEME.'" form="'.STUDENT_FORM.'" disabled /></p>';
         return $str;
     }
 
