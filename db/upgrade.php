@@ -44,7 +44,7 @@ function xmldb_coursework_upgrade($oldversion)
         $table->add_key('coursework', XMLDB_KEY_FOREIGN, array('coursework'), 'coursework', array('id'));
         $table->add_key('course', XMLDB_KEY_FOREIGN, array('course'), 'course', array('id'));
         // Conditionally launch create table for coursework_themes.
-        if (!$dbman->table_exists($table))
+        if(!$dbman->table_exists($table))
         {
             $dbman->create_table($table);
         }
@@ -52,18 +52,69 @@ function xmldb_coursework_upgrade($oldversion)
         // Adding new fields to coursework_students table
         $table = new xmldb_table('coursework_students');
         $themeField = new xmldb_field('theme', XMLDB_TYPE_INTEGER, '10', null, null, null, null, 'course');
-        if (!$dbman->field_exists($table, $themeField))
+        if(!$dbman->field_exists($table, $themeField))
         {
             $dbman->add_field($table, $themeField);
         }
         $ownThemeField = new xmldb_field('owntheme', XMLDB_TYPE_CHAR, '255', null, null, null, null, 'theme');
-        if (!$dbman->field_exists($table, $ownThemeField))
+        if(!$dbman->field_exists($table, $ownThemeField))
         {
             $dbman->add_field($table, $ownThemeField);
         }
 
         // Coursework savepoint reached.
         upgrade_plugin_savepoint(true, 2019012300, 'mod', 'coursework');
+    }
+
+    if($oldversion < 2019081700)
+    {
+        // Delete coursework_groups table
+        $table = new xmldb_table('coursework_groups');
+        if($dbman->table_exists($table))
+        {
+            $dbman->drop_table($table);
+        }
+
+        // Rename coursework_tutors table to coursework_teachers
+        $table = new xmldb_table('coursework_tutors');
+        if($dbman->table_exists($table))
+        {
+            $dbman->rename_table($table, 'coursework_teachers');
+        }
+
+        // Rename field tutor to teacher in coursework_teachers table
+        $table = new xmldb_table('coursework_teachers');
+        $field = new xmldb_field('tutor');
+        if($dbman->field_exists($table, $field))
+        {
+            $dbman->rename_field($table, $field, 'teacher');
+        }
+
+        // Rename field tutor to teacher in coursework_students table
+        $table = new xmldb_table('coursework_students');
+        $field = new xmldb_field('tutor');
+        if($dbman->field_exists($table, $field))
+        {
+            $dbman->rename_field($table, $field, 'teacher');
+        }
+
+        // Delete old foreign key and create new in coursework_teachers table
+        $table = new xmldb_table('coursework_teachers');
+        $key = new xmldb_key('tutor');
+        
+        $dbman->drop_key($table, $key);
+
+        $key = new xmldb_key('teacher');
+        $key->set_attributes(XMLDB_KEY_FOREIGN, array('teacher'), 'user', array('id'));
+
+        // Delete old foreign key and create new in coursework_students table
+        $table = new xmldb_table('coursework_students');
+        $key = new xmldb_key('tutor');
+        
+        $dbman->drop_key($table, $key);
+
+        $key = new xmldb_key('teacher');
+        $key->set_attributes(XMLDB_KEY_FOREIGN, array('teacher'), 'user', array('id'));
     }
 
     return true;
