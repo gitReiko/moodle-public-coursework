@@ -87,6 +87,7 @@ function xmldb_coursework_upgrade($oldversion)
         $field = new xmldb_field('tutor');
         if($dbman->field_exists($table, $field))
         {
+            $field->set_attributes(XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0', 'tutor');
             $dbman->rename_field($table, $field, 'teacher');
         }
 
@@ -95,6 +96,7 @@ function xmldb_coursework_upgrade($oldversion)
         $field = new xmldb_field('tutor');
         if($dbman->field_exists($table, $field))
         {
+            $field->set_attributes(XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0', 'tutor');
             $dbman->rename_field($table, $field, 'teacher');
         }
 
