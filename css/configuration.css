@@ -42,21 +42,6 @@ ol.theme_creation
     margin: 0;
 }
 
-table.students_assignment tr { border: 1px solid var(--darkblue-color); }
-
-table.students_assignment tr.header td
-{
-    background-color: Gainsboro;
-    text-align: center;
-}
-
-table.students_assignment tr td
-{
-    border-top: 1px solid var(--darkblue-color);
-    border-bottom: 1px solid var(--darkblue-color);
-    padding: 7px;
-}
-
 /* => Leaders overview start <= */
 
 table.leaders_overview tr td

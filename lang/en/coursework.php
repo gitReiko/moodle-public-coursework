@@ -50,11 +50,12 @@ $string['student_redistribution_impossible'] = 'Re-distribution of student {$a->
 $string['student_successfully_distributed'] = 'Student {$a->fullname} successfully distributed.';
 $string['not_enough_quota_for_distribution'] = 'Not enough quota for student {$a->fullname} no_one_has_chosen_you_as_leader. Work with this activity will be possible after at least one student has chosen you as leader.';
 
-// Students assignment
-$string['students_assignment'] = 'Students assignment';
-$string['students_assignment_header'] = 'Students assignment by coursework items';
-$string['group_assignment'] = 'Group assignment';
-$string['no_assign'] = 'No assign';
+// Remove distribution
+$string['remove_distribution'] = 'Remove distribution';
+$string['no_distributed_students'] = 'No one student is distributed, therefore it is impossible to remove the distribution.';
+$string['remove_distribution_header'] = 'Remove students distribution';
+$string['student'] = 'Student';
+
 
 // View strings
 $string['fullname'] = 'Fullname';
