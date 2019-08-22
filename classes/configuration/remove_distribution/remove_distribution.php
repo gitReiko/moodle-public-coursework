@@ -1,5 +1,7 @@
 <?php
 
+require_once 'remove_events_handler.php';
+
 use coursework_lib as cw;
 
 class RemoveDistribution 
@@ -19,9 +21,23 @@ class RemoveDistribution
 
     public function execute() : string 
     {
-        // database
+        if($this->is_database_event_isset())
+        {
+            $handler = new RemoveDistributionDatabaseEventsHandler();
+            $handler->execute();
+
+            // ALERT перед срабатыванием !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        }
         
         return $this->get_gui();
+    }
+
+    private function is_database_event_isset() : bool 
+    {
+        $dbEvent = optional_param(DB_EVENT, null, PARAM_TEXT);
+
+        if(isset($dbEvent)) return true;
+        else return false;
     }
 
     private function get_students() : array
@@ -61,8 +77,8 @@ class RemoveDistribution
             $gui.= $this->get_html_form_begin();
             $gui.= $this->get_remove_distribution_header();
             $gui.= $this->get_remove_distribution_table();
-
-
+            $gui.= $this->get_remove_distribution_button();
+            $gui.= $this->get_hidden_input_params();
             $gui.= $this->get_html_form_end();
         }
         else
@@ -152,6 +168,20 @@ class RemoveDistribution
         {
             return $student->owntheme;
         }
+    }
+
+    private function get_remove_distribution_button() : string
+    {
+        return '<button>'.get_string('remove_distribution', 'coursework').'</button>';
+    }
+
+    private function get_hidden_input_params() : string 
+    {
+        $params = '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.REMOVE_DISTRIBUTION.'"/>';
+        $params.= '<input type="hidden" name="'.ID.'" value="'.$this->cm->id.'"/>';
+        $params.= '<input type="hidden" name="'.DB_EVENT.'" value="'.REMOVE_DISTRIBUTION.'"/>';
+
+        return $params;
     }
 
     private function get_html_form_end() : string
