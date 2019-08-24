@@ -37,6 +37,7 @@ const STUDENTS = 'students';
 const RECORD = 'record';
 const GRADE = 'grade';
 const COMMENT = 'comment';
+const ROW = 'row';
 
 // Forms
 const STUDENT_FORM = 'student_form';

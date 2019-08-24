@@ -16,19 +16,17 @@ class RemoveDistribution
     {
         $this->course = $course;
         $this->cm = $cm;
+
+        if($this->is_database_event_isset())
+        {
+            $this->execute_database_handler();
+        }      
+
         $this->students = $this->get_students();
     }
 
     public function execute() : string 
     {
-        if($this->is_database_event_isset())
-        {
-            $handler = new RemoveDistributionDatabaseEventsHandler();
-            $handler->execute();
-
-            // ALERT перед срабатыванием !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        }
-        
         return $this->get_gui();
     }
 
@@ -38,6 +36,12 @@ class RemoveDistribution
 
         if(isset($dbEvent)) return true;
         else return false;
+    }
+
+    private function execute_database_handler()
+    {
+        $handler = new RemoveDistributionDatabaseEventsHandler($this->course, $this->cm);
+        $handler->execute();  
     }
 
     private function get_students() : array
@@ -91,7 +95,7 @@ class RemoveDistribution
 
     private function get_html_form_begin() : string 
     {
-        return '<form>';
+        return '<form onsubmit="return validate_students_removing()">';
     }
 
     private function get_remove_distribution_header() : string 
@@ -140,7 +144,7 @@ class RemoveDistribution
 
     private function get_remove_distribution_checkbox(stdClass $student) : string 
     {
-        return "<input type='checkbox' name='".STUDENT."[]' value='{$student->student}' >";
+        return "<input class='removeCheckbox' type='checkbox' name='".STUDENT.ROW.ID."[]' value='{$student->id}' >";
     }
 
     private function get_student_name(stdClass $student) : string 
@@ -158,7 +162,7 @@ class RemoveDistribution
         return cw\get_course_fullname($student->course);
     }
 
-    private function get_theme(stdClass $student) : string 
+    private function get_theme(stdClass $student) 
     {
         if(!empty($student->theme))
         {

@@ -240,3 +240,37 @@ function get_leader_quota(leader, course)
 }
 
 // StudentsDistributionDistribute functions End -->
+
+// RemoveDistribution functions Start -->
+function validate_students_removing()
+{
+    if(is_student_removal_selected())
+    {
+        if(confirm_students_removing()) return true;
+    }
+
+    return false;
+}
+
+function is_student_removal_selected()
+{
+    var checkboxes = document.getElementsByClassName('removeCheckbox');
+
+    for(var i = 0; i < checkboxes.length; i++)
+    {
+        if(checkboxes[i].checked) return true;
+    }
+
+    return false;
+}
+
+function confirm_students_removing()
+{
+    var message = 'Вы уверены, что хотите удалить всю текущую деятельность выбранных студент? (восстановление удалённой информации невозможно)';
+    var isConfirm = confirm(message);
+
+    if(isConfirm) return true;
+    else return false;
+}
+
+// RemoveDistribution functions End -->
