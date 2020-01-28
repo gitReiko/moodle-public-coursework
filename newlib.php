@@ -93,6 +93,28 @@ function get_red_message(string $message) : string
     return '<span style="background-color: #fa8072;">'.$message.'</span><br>';
 }
 
+// Notifications functions\
 
+function send_notification(\stdClass $cm, int $courseid, string $messagename, \stdClass $userto, string $headerMessage, string $htmlMessage) : void 
+{
+    global $CFG, $USER;
+
+    $message = new \core\message\message();
+    $message->component = 'mod_coursework';
+    $message->name = $messagename;
+    $message->userfrom = $USER;
+    $message->userto = $userto;
+    $message->subject = $headerMessage;
+    $message->fullmessage = $headerMessage;
+    $message->fullmessageformat = FORMAT_MARKDOWN;
+    $message->fullmessagehtml = $htmlMessage;
+    $message->smallmessage = $headerMessage;
+    $message->notification = '1';
+    $message->contexturl = $CFG->wwwroot.'/coursework/view.php?id='.$cm->id;
+    $message->contexturlname = cw_get_coursework_name($cm->instance);
+    $message->courseid = $courseid;
+
+    message_send($message);
+}
 
 

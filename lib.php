@@ -425,11 +425,11 @@ function cw_prepare_data_for_message() : stdClass
     return $data;
 }
 
-function cw_is_teacher_has_quota(int $courseworkID, int $teacherid, int $courseID) : bool 
+function cw_is_teacher_has_quota($cm, int $teacherid, int $courseID) : bool 
 {
     global $DB;
 
-    $teacherRecords = $DB->get_records('coursework_teachers', array('coursework'=>$courseworkID, 'teacher'=>$teacherid));
+    $teacherRecords = $DB->get_records('coursework_teachers', array('coursework'=>$cm->instance, 'teacher'=>$teacherid));
     
     $totalQuota = 0;
     $courseQuota = 0;
@@ -439,19 +439,96 @@ function cw_is_teacher_has_quota(int $courseworkID, int $teacherid, int $courseI
         if((int)$teacher->course === $courseID) $courseQuota += $teacher->quota;
     }
 
-    $usedTotalQuota = $DB->count_records('coursework_students', array('coursework'=>$courseworkID, 'teacher'=>$teacherid));
-    $usedCourseQuota = $DB->count_records('coursework_students', array('coursework'=>$courseworkID, 'teacher'=>$teacherid, 'course'=>$courseID));
+    $usedTotalQuota = cw_get_teacher_total_quota($cm, $teacherid);
+    $usedCourseQuota = cw_get_teacher_course_total_quota($cm, $teacherid, $courseID);
 
-    if(($totalQuota - $usedTotalQuota) > 0) 
+    if(($totalQuota - $usedTotalQuota) > 0)
     {
         if(($courseQuota - $usedCourseQuota) > 0) return true;
     }
-    else if(cw_is_this_teacher_already_chosen_for_this_student($courseworkID, $teacherid))
+    else if(cw_is_this_teacher_already_chosen_for_this_student($cm->instance, $teacherid))
     {
         return true;
     }
 
     return false;
+}
+
+function cw_get_teacher_total_quota($cm, $teacherid)
+{
+    global $DB;
+    $students = cw_get_students_sql_ids_string($cm);
+    $sql = "SELECT id
+            FROM {coursework_students} 
+            WHERE coursework = ?
+            AND teacher = ?
+            AND student IN ($students)";
+
+    $params = array($cm->instance, $teacherid);
+
+    $result = $DB->get_records_sql($sql, $params);
+    
+    if(empty($result)) return 0;
+    else return count($result);
+}
+
+function cw_get_teacher_course_total_quota($cm, $teacherid, $courseID)
+{
+    global $DB;
+    $students = cw_get_students_sql_ids_string($cm);
+    $sql = "SELECT id
+            FROM {coursework_students} 
+            WHERE coursework = ?
+            AND teacher = ?
+            AND course = ?
+            AND student IN ($students)";
+    $params = array($cm->instance, $teacherid, $courseID);
+    
+    $result = $DB->get_records_sql($sql, $params);
+    
+    if(empty($result)) return 0;
+    else return count($result);
+}
+
+function cw_get_students_sql_ids_string($cm)
+{
+    $students = cw_get_students($cm);
+
+    $str = '';
+    foreach($students as $student)
+    {
+        $str.= $student . ',';
+    }
+    $str = substr($str, 0, -1);
+
+    return $str;
+}
+
+function cw_get_students($cm) : array
+{
+    $students = array();
+    $allowedGroups = groups_get_activity_allowed_groups($cm);
+
+    foreach($allowedGroups as $group)
+    {
+        $students = array_merge($students, cw_get_group_members($group->id));
+    }
+
+    $students = cw_convert_students_array_to_students_ids_array($students);
+    $students = array_unique($students);
+
+    return $students;
+}
+
+function cw_convert_students_array_to_students_ids_array($students)
+{
+    $studentsIds = array();
+    foreach($students as $student)
+    {
+        $studentsIds[] = $student->id;
+    }
+
+    return $studentsIds;
 }
 
 function cw_is_this_teacher_already_chosen_for_this_student(int $courseworkID, int $teacherid) : bool 

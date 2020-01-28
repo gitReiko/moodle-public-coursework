@@ -54,12 +54,11 @@ $string['student_redistribution_impossible'] = 'Повторное распре�
 $string['student_successfully_distributed'] = 'Cтудент {$a->fullname} успешно распределён.';
 $string['not_enough_quota_for_distribution'] = 'Не достаточно квоты для распределения студента {$a->fullname}.';
 
-// Students assignment
-$string['students_assignment'] = 'Распределение студентов';
-$string['students_assignment_header'] = 'Распределение студентов по элементам курсовой работы';
-$string['group_assignment'] = 'Групповое распределение';
-$string['no_assign'] = 'Не назначено';
-$string['back'] = 'Назад';
+// Remove distribution
+$string['remove_distribution'] = 'Отменить распределение';
+$string['no_distributed_students'] = 'Ни один студент не распределён, поэтому отменить распределение невозможно.';
+$string['remove_distribution_header'] = 'Отменить распределение студентов';
+$string['student'] = 'Студент';
 
 // View strings
 $string['fullname'] = 'ФИО';

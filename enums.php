@@ -5,7 +5,8 @@ const CONFIG_MODULE = 'config_module';
 const LEADERS_SETTING = 'leaders_setting';
 const THEMES_MANAGEMENT = 'themes_management';
 const STUDENTS_DISTRIBUTION = 'students_distribution';
-const CONFIG_MODULES = array(LEADERS_SETTING, THEMES_MANAGEMENT, STUDENTS_DISTRIBUTION);
+const REMOVE_DISTRIBUTION = 'remove_distribution';
+const CONFIG_MODULES = array(LEADERS_SETTING, THEMES_MANAGEMENT, STUDENTS_DISTRIBUTION, REMOVE_DISTRIBUTION);
 
 const DB_EVENT = 'database_event';
 
@@ -36,13 +37,11 @@ const STUDENTS = 'students';
 const RECORD = 'record';
 const GRADE = 'grade';
 const COMMENT = 'comment';
+const ROW = 'row';
 
 // Forms
 const STUDENT_FORM = 'student_form';
 const TEACHER_FORM = 'teacher_form_';
-
-// Other
-const NO_ASSIGN = 'no_assign';
 
 // Group mode
 const NO_GROUPS_ = '0';

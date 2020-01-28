@@ -58,7 +58,7 @@ class StudentCourseworkView extends CourseworkView
         $availableTeachers = array();
         foreach($teachers as $teacher)
         {
-            if(cw_is_teacher_has_quota($this->cm->instance, $teacher->teacher, $teacher->course))
+            if(cw_is_teacher_has_quota($this->cm, $teacher->teacher, $teacher->course))
             {
                 $availableTeachers[] = $teacher;
             }
@@ -95,13 +95,21 @@ class StudentCourseworkView extends CourseworkView
     private function get_used_themes() : array
     {
         global $DB;
+        $students = cw_get_students_sql_ids_string($this->cm);
+        $sql = "SELECT *
+                FROM {coursework_students}
+                WHERE coursework = ?
+                AND student IN($students)
+                ORDER BY course";
+        $params = array($this->cm->instance);
+        $temp = $DB->get_records_sql($sql, $params);
 
-        $temp = $DB->get_records('coursework_students', array('coursework'=>$this->cm->instance), 'course');
         $themes = array();
         foreach ($temp as $value)
         {
             if(isset($value->theme)) $themes[] = $value->theme;
         }
+
         return $themes;
     }
 
