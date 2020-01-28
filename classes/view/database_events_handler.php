@@ -307,7 +307,7 @@ class ViewDatabaseEventHandler
         try
         {
             if($this->is_theme_used()) throw new Exception(get_string('e:theme-already-used', 'coursework'));
-            if(!cw_is_teacher_has_quota($this->cm->instance, $this->studentRecord->teacher, $this->studentRecord->course))
+            if(!cw_is_teacher_has_quota($this->cm, $this->studentRecord->teacher, $this->studentRecord->course))
             {
                 throw new Exception(get_string('e:teacher-quota-over', 'coursework'));
             }
@@ -326,10 +326,18 @@ class ViewDatabaseEventHandler
         if($this->studentRecord->theme)
         {
             global $DB;
-            $conditions = array('coursework'=>$this->cm->instance, 'theme'=> $this->studentRecord->theme);
+            $students = cw_get_students_sql_ids_string($this->cm);
+            $sql = "SELECT id 
+                    FROM {coursework_students}
+                    WHERE coursework = ?
+                    AND theme = ? 
+                    AND student IN ($students)";
+            $params = array($this->cm->instance, $this->studentRecord->theme);
 
-            if($DB->record_exists('coursework_students',$conditions)) return true;
-            else return false;
+            $res = $DB->get_record_sql($sql, $params);
+
+            if(empty($res->id)) return false;
+            else return true;
         }
         else return false;
     }
