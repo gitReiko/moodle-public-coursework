@@ -1,5 +1,7 @@
 <?php
 
+use coursework_lib as lib;
+
 abstract class LeadersActionGUI 
 {
     protected $course;
@@ -48,9 +50,10 @@ abstract class LeadersActionGUI
 
     private function get_all_course_teachers() : array 
     {
-        $allRolesOfTeachersArchetypes = cw_get_archetype_roles(array('editingteacher', 'teacher'));
-        $allCourseGroups = groups_get_all_groups($this->course->id);
-        return cw_get_users_with_archetype_roles_from_group($allCourseGroups, $allRolesOfTeachersArchetypes, $this->course->id, $this->cm->instance);
+        // This method returns list of users with given capability, it ignores enrolment status and should be used only above the course contex.
+        $teachers = get_users_by_capability(context_module::instance($this->cm->id), 'mod/coursework:is_teacher', 'u.id,u.firstname,u.lastname', 'u.lastname');
+        $teachers = cw_add_fullnames_to_users_array($teachers);
+        return $teachers;
     }
 
     private function get_html_form_start() : string { return '<form id="'.self::ACTION_FORM.'">'; }

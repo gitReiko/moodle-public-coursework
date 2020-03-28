@@ -117,4 +117,24 @@ function send_notification(\stdClass $cm, int $courseid, string $messagename, \s
     message_send($message);
 }
 
+// Roles
+function is_user_manager(stdClass $cm, int $userId) : bool 
+{
+    if(has_capability('mod/coursework:is_manager', \context_module::instance($cm->id), $userId))
+    {
+        return true;
+    }
+    else 
+    {
+        return false;
+    }
+}
+
+
+
+
+
+
+
+
 
