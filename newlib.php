@@ -240,3 +240,32 @@ function get_student_leader_and_course(\stdClass $cm, \stdClass $student)
     return $DB->get_record('coursework_students', $conditions);
 }
 
+function get_all_course_teachers(\stdClass $cm) : array 
+{
+    // This method returns list of users with given capability, it ignores enrolment status and should be used only above the course contex.
+    $teachers = get_users_by_capability(\context_module::instance($cm->id), 'mod/coursework:is_teacher', 'u.id,u.firstname,u.lastname', 'u.lastname');
+    $teachers = cw_add_fullnames_to_users_array($teachers);
+    return $teachers;
+}
+
+function get_user_record(int $userID) : \stdClass
+{
+    try
+    {
+        global $DB;
+        $user = $DB->get_record('user', array('id'=>$userID));
+
+        if(empty($user->id)) throw new Exception(get_string('e:missing-user-record', 'coursework'));
+
+        return $user;
+    }
+    catch(Exception $e)
+    {
+        cw_print_error_message($e->getMessage());
+    }
+}
+
+
+
+
+

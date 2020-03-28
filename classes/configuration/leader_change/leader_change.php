@@ -1,8 +1,8 @@
 <?php
 
 require_once 'change_overview.php';
-//require_once 'distribute_students.php';
-//require_once 'distribution_events_handler.php';
+require_once 'change_action.php';
+require_once 'change_events_handler.php';
 
 class LeaderChange extends ConfigurationManager
 {
@@ -19,8 +19,8 @@ class LeaderChange extends ConfigurationManager
     {
         if($this->is_database_event_exist())
         {
-            //$handler = new StudentsDistributionDBEventsHandler($this->course, $this->cm);
-            //$handler->execute();
+            $handler = new ChangeLeaderDBEventsHandler($this->course, $this->cm);
+            $handler->execute();
         }
     }
 
@@ -31,8 +31,7 @@ class LeaderChange extends ConfigurationManager
 
         if($guiType === self::LEADER_CHANGE)
         {
-            //$gui.= $this->get_distribute_student_gui();
-            $gui.= 'dsvs';
+            $gui.= $this->get_action_gui();
         }
         else
         {
@@ -48,9 +47,9 @@ class LeaderChange extends ConfigurationManager
         return $overview->get_gui();
     }
 
-    private function get_distribute_student_gui() : string 
+    private function get_action_gui() : string 
     {
-        $distributeStudents = new DistributeStudents($this->course, $this->cm);
+        $distributeStudents = new LeaderChangeAction($this->course, $this->cm);
         return $distributeStudents->get_gui();
     }
 

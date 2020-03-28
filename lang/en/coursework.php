@@ -7,6 +7,7 @@ $string['modulenameplural'] = 'Course works';
 $string['name'] = 'Name';
 $string['intro'] = 'Introduction';
 $string['pluginadministration'] = 'Course work administration';
+$string['change'] = 'Change';
 
 // Coursework configuration
 $string['coursework_configuration'] = 'Coursework configuration';
@@ -60,6 +61,7 @@ $string['student'] = 'Student';
 $string['leader_change'] = 'Leader change';
 $string['lc_overview_header'] = 'Select students who need to change their leader';
 $string['change_leader_for_selected_students'] = 'Change leader for selected students';
+$string['change_leader_for_students_header'] = 'Change leader for students:';
 
 
 // View strings
@@ -107,6 +109,7 @@ $string['e-sv:quota_ended'] = 'There are no free course leaders left. Contact yo
 // le - leaders setting
 // sd - students distribution
 // ev - events handler
+// tc - teacher change
 $string['e-le-ev:missing_coursework'] = 'Missing param coursework id required for leaders_events_handler.';
 $string['e-le-ev:missing_teacher'] = 'Missing param teacher id required for leaders_events_handler.';
 $string['e-le-ev:missing_course'] = 'Missing param course id required for leaders_events_handler.';
@@ -118,6 +121,7 @@ $string['e-sd-ev:missing_leader_id'] = 'Missing required parameter leader id.';
 $string['e-sd-ev:missing_course_id'] = 'Missing required parameter course id.';
 $string['e-sd-ev:missing_leader_quota'] = 'Missing required parameter leader quota.';
 $string['e-sd-ev:quota_isnt_numeric'] = 'Leader quota isnt integer.';
+$string['e-tc:leader_not_changed'] = 'Coursework leader has not been changed.';
 
 // Messages strings
 $string['theme_selection_header'] = 'Student has chosen you as leader of the course work';
@@ -130,6 +134,8 @@ $string['answer_not_require'] = '<p>*This message was sent automatically and doe
 $string['grade_isnt_final'] = '<p>*Preliminary grade is not final.</p>';
 $string['coursework_link1'] = 'Course work ';
 $string['coursework_link2'] = 'available on site.';
+
+$string['leader_changed_for_student'] = 'Changed coursework leader';
 
 
 

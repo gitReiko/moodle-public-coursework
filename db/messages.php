@@ -19,6 +19,11 @@ $messageproviders = array(
     'selectionremoved' => array(
         'capability' => 'mod/coursework:removeselection'
     ),
+
+    // Notify that student selection was removed
+    'leader_changed' => array(
+        'capability' => 'mod/coursework:is_student'
+    ),
 );
 
 

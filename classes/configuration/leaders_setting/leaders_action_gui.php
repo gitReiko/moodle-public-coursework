@@ -17,7 +17,7 @@ abstract class LeadersActionGUI
         $this->course = $course;
         $this->cm = $cm;
 
-        $this->courseTeachers = $this->get_all_course_teachers();
+        $this->courseTeachers = lib\get_all_course_teachers($this->cm);
         $this->siteCourses = $this->get_all_site_courses();
     }
 
@@ -46,14 +46,6 @@ abstract class LeadersActionGUI
         $courses = array();
         $courses = $DB->get_records('course', array(), 'fullname', 'id, fullname');
         return $courses;
-    }
-
-    private function get_all_course_teachers() : array 
-    {
-        // This method returns list of users with given capability, it ignores enrolment status and should be used only above the course contex.
-        $teachers = get_users_by_capability(context_module::instance($this->cm->id), 'mod/coursework:is_teacher', 'u.id,u.firstname,u.lastname', 'u.lastname');
-        $teachers = cw_add_fullnames_to_users_array($teachers);
-        return $teachers;
     }
 
     private function get_html_form_start() : string { return '<form id="'.self::ACTION_FORM.'">'; }

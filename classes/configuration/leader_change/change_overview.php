@@ -19,7 +19,7 @@ class LeaderChangeOverview
         $this->cm = $cm;
 
         $this->groups = groups_get_activity_allowed_groups($cm);
-        $this->students = lib\get_coursework_students_with_groups_leaders_courses($this->cm, $this->groups);
+        $this->students = $this->get_students();
     }
 
     public function get_gui() : string 
@@ -31,6 +31,27 @@ class LeaderChangeOverview
         $gui.= $this->get_distribute_button();
         
         return $gui;
+    }
+
+    private function get_students()
+    {
+        $students = lib\get_coursework_students_with_groups_leaders_courses($this->cm, $this->groups);
+        $students = $this->remove_all_students_without_leader($students);
+        return $students;
+    }
+
+    private function remove_all_students_without_leader(array $allStudents)
+    {
+        $studentsWithLeader = array();
+        foreach($allStudents as $student)
+        {
+            if(!empty($student->leader))
+            {
+                $studentsWithLeader[] = $student;
+            }
+        }
+
+        return $studentsWithLeader;
     }
 
     private function get_html_form() : string 
