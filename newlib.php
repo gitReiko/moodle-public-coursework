@@ -117,8 +117,7 @@ function send_notification(\stdClass $cm, int $courseid, string $messagename, \s
     message_send($message);
 }
 
-// Roles
-function is_user_manager(stdClass $cm, int $userId) : bool 
+function is_user_manager(\stdClass $cm, int $userId) : bool 
 {
     if(has_capability('mod/coursework:is_manager', \context_module::instance($cm->id), $userId))
     {
@@ -130,7 +129,32 @@ function is_user_manager(stdClass $cm, int $userId) : bool
     }
 }
 
+function is_user_teacher(\stdClass $cm, int $userId) : bool 
+{
+    // Managers can also be teachers.
+    if(has_capability('mod/coursework:is_teacher', \context_module::instance($cm->id), $userId))
+    {
+        return true;
+    }
+    else 
+    {
+        return false;
+    }
+}
 
+function is_user_student(\stdClass $cm, int $userId) : bool 
+{
+    // Managers and teachers cannot be students.
+    if(has_capability('mod/coursework:is_student', \context_module::instance($cm->id), $userId)
+        && !has_capability('mod/coursework:is_teacher', \context_module::instance($cm->id), $userId))
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
 
 
 
