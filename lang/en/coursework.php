@@ -56,6 +56,11 @@ $string['no_distributed_students'] = 'No one student is distributed, therefore i
 $string['remove_distribution_header'] = 'Remove students distribution';
 $string['student'] = 'Student';
 
+// Leader change
+$string['leader_change'] = 'Leader change';
+$string['lc_overview_header'] = 'Select students who need to change their leader';
+$string['change_leader_for_selected_students'] = 'Change leader for selected students';
+
 
 // View strings
 $string['fullname'] = 'Fullname';

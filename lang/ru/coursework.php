@@ -60,6 +60,11 @@ $string['no_distributed_students'] = 'Ни один студент не расп
 $string['remove_distribution_header'] = 'Отменить распределение студентов';
 $string['student'] = 'Студент';
 
+// Leader change
+$string['leader_change'] = 'Смена руководителя';
+$string['lc_overview_header'] = 'Выберите студентов, которым нужно сменить руководителя';
+$string['change_leader_for_selected_students'] = 'Сменить руководителя выбранным студентам';
+
 // View strings
 $string['fullname'] = 'ФИО';
 $string['group'] = 'Группа';

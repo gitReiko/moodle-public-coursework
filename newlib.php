@@ -180,8 +180,63 @@ function get_coursework_students(\stdClass $cm)
     return $students;
 }
 
+function get_coursework_students_with_groups_leaders_courses(\stdClass $cm, array $allowedActivityGroups)
+{
+    $students = get_coursework_students($cm);
+    $student = add_groups_to_students_array($students, $allowedActivityGroups);
+    $student = add_leaders_and_courses_to_students_array($cm, $students);
 
+    return $students;
+}
 
+function add_groups_to_students_array(array $students, array $allowedActivityGroups) : array 
+{
+    foreach($students as $student)
+    {
+        foreach($allowedActivityGroups as $group)
+        {
+            if(groups_is_member($group->id, $student->id))
+            {
+                $temp = new \stdClass;
+                $temp->id = $group->id;
+                $temp->name = $group->name;
 
+                $student->groups[] = $temp;
+            }
+        }
+    }
 
+    return $students;
+}
+
+function add_leaders_and_courses_to_students_array(\stdClass $cm, array $students) : array 
+{
+    foreach($students as $student)
+    {
+        if(empty($student->leader))
+        {
+            $temp = get_student_leader_and_course($cm, $student);
+
+            if(isset($temp->teacher))
+            {
+                $student->leader = cw_get_user_name($temp->teacher);
+                $student->course = get_course_fullname($temp->course);
+            }
+            else
+            {
+                $student->leader = '';
+                $student->course = '';                 
+            }
+        }
+    }
+
+    return $students;
+}
+
+function get_student_leader_and_course(\stdClass $cm, \stdClass $student) 
+{
+    global $DB;
+    $conditions = array('coursework'=>$cm->instance, 'student'=>$student->id);
+    return $DB->get_record('coursework_students', $conditions);
+}
 

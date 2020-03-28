@@ -119,7 +119,7 @@ function unselect_students_checkboxes()
     }
 }
 
-function validate_students_distribution_overview_form() 
+function validate_students_mass_action() 
 {
     if(is_student_selected())
     {
@@ -127,7 +127,7 @@ function validate_students_distribution_overview_form()
     }
     else
     {
-        alert('Для распределение нужно выбрать хотя бы одного студента.');
+        alert('Для выполнения действия нужно выбрать хотя бы одного студента.');
         return false;
     }
 }

@@ -1,6 +1,8 @@
 <?php
 
+require_once 'classes/configuration/students_mass_actions_gui_templates.php';
 require_once 'classes/configuration/configuration_manager.php';
+require_once 'classes/configuration/leader_change/leader_change.php';
 require_once 'classes/configuration/leaders_setting/leaders_setting.php';
 require_once 'classes/configuration/themes_management/themes_management.php';
 require_once 'classes/configuration/students_distribution/students_distribution.php';
@@ -125,6 +127,11 @@ class CourseworkConfiguration
         else if($this->module === REMOVE_DISTRIBUTION)
         {
             $removeDistribution = new RemoveDistribution($this->course, $this->cm);
+            $str .= $removeDistribution->execute();
+        }
+        else if($this->module === LEADER_CHANGE)
+        {
+            $removeDistribution = new LeaderChange($this->course, $this->cm);
             $str .= $removeDistribution->execute();
         }
         return $str;
