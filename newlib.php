@@ -265,6 +265,14 @@ function get_user_record(int $userID) : \stdClass
     }
 }
 
+function get_all_site_courses() : array
+{
+    global $DB;
+    $courses = array();
+    $courses = $DB->get_records('course', array(), 'fullname', 'id, fullname');
+    return $courses;
+}
+
 
 
 

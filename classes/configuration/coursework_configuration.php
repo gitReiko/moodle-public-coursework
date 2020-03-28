@@ -2,6 +2,7 @@
 
 require_once 'classes/configuration/students_mass_actions_gui_templates.php';
 require_once 'classes/configuration/configuration_manager.php';
+require_once 'classes/configuration/collections_management/collections_management.php';
 require_once 'classes/configuration/leader_change/leader_change.php';
 require_once 'classes/configuration/leaders_setting/leaders_setting.php';
 require_once 'classes/configuration/themes_management/themes_management.php';
@@ -134,6 +135,11 @@ class CourseworkConfiguration
             $removeDistribution = new LeaderChange($this->course, $this->cm);
             $str .= $removeDistribution->execute();
         }
+        else if($this->module === COLLECTIONS_MANAGEMENT)
+        {
+            $removeDistribution = new CollectionsManagement($this->course, $this->cm);
+            $str .= $removeDistribution->execute();
+        }  
         return $str;
     }
 

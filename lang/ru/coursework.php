@@ -9,6 +9,7 @@ $string['intro'] = 'Вступление';
 $string['pluginadministration'] = 'Управление курсовой работой';
 $string['back'] = 'Назад';
 $string['change'] = 'Сменить';
+$string['description'] = 'Описание';
 
 // Coursework configuration
 $string['coursework_configuration'] = 'Настройка курсовой работы';
@@ -68,11 +69,16 @@ $string['lc_overview_header'] = 'Выберите студентов, котор
 $string['change_leader_for_selected_students'] = 'Сменить руководителя выбранным студентам';
 $string['change_leader_for_students_header'] = 'Сменить руководителя следующим студентам:';
 
+// Collections management
+$string['collections_management'] = 'Управление коллекциями';
+$string['collections_list'] = 'Список коллекций';
+$string['add_collection'] = 'Добавить коллекцию';
+
 // View strings
 $string['fullname'] = 'ФИО';
 $string['group'] = 'Группа';
 $string['leader'] = 'Руководитель';
-$string['course'] = 'Курс';
+$string['course'] = 'Дисциплина';
 $string['quota'] = 'Квота';
 $string['grade'] = 'Пред. оценка';
 $string['comment'] = 'Комментарий';

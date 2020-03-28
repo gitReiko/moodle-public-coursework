@@ -7,7 +7,8 @@ const THEMES_MANAGEMENT = 'themes_management';
 const STUDENTS_DISTRIBUTION = 'students_distribution';
 const REMOVE_DISTRIBUTION = 'remove_distribution';
 const LEADER_CHANGE = 'leader_change';
-const CONFIG_MODULES = array(LEADERS_SETTING, THEMES_MANAGEMENT, STUDENTS_DISTRIBUTION, REMOVE_DISTRIBUTION, LEADER_CHANGE);
+const COLLECTIONS_MANAGEMENT = 'collections_management';
+const CONFIG_MODULES = array(LEADERS_SETTING, THEMES_MANAGEMENT, STUDENTS_DISTRIBUTION, REMOVE_DISTRIBUTION, LEADER_CHANGE, COLLECTIONS_MANAGEMENT);
 
 const DB_EVENT = 'database_event';
 
@@ -39,6 +40,7 @@ const RECORD = 'record';
 const GRADE = 'grade';
 const COMMENT = 'comment';
 const ROW = 'row';
+const DESCRIPTION = 'description';
 
 // Forms
 const STUDENT_FORM = 'student_form';

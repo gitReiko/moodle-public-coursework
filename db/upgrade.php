@@ -119,5 +119,31 @@ function xmldb_coursework_upgrade($oldversion)
         $key->set_attributes(XMLDB_KEY_FOREIGN, array('teacher'), 'user', array('id'));
     }
 
+    if($oldversion < 2019082000)
+    {
+        // Define table coursework_themes to be created.
+        $table = new xmldb_table('coursework_theme_collections');
+        // Adding fields to table coursework_themes.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table->add_field('coursework', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+        $table->add_field('course', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0');
+        $table->add_field('name', XMLDB_TYPE_CHAR, '255', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('description', XMLDB_TYPE_TEXT, 'small', null, null, null, null);
+        // Adding keys to table coursework_themes.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
+        $table->add_key('coursework', XMLDB_KEY_FOREIGN, array('coursework'), 'coursework', array('id'));
+        $table->add_key('course', XMLDB_KEY_FOREIGN, array('course'), 'course', array('id'));
+        // Conditionally launch create table for coursework_themes.
+        if(!$dbman->table_exists($table))
+        {
+            $dbman->create_table($table);
+        }
+
+
+
+
+
+    }
+
     return true;
 }

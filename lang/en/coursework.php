@@ -8,6 +8,7 @@ $string['name'] = 'Name';
 $string['intro'] = 'Introduction';
 $string['pluginadministration'] = 'Course work administration';
 $string['change'] = 'Change';
+$string['description'] = 'Description';
 
 // Coursework configuration
 $string['coursework_configuration'] = 'Coursework configuration';
@@ -62,6 +63,11 @@ $string['leader_change'] = 'Leader change';
 $string['lc_overview_header'] = 'Select students who need to change their leader';
 $string['change_leader_for_selected_students'] = 'Change leader for selected students';
 $string['change_leader_for_students_header'] = 'Change leader for students:';
+
+// Collections management
+$string['collections_management'] = 'Collections management';
+$string['collections_list'] = 'Collections list';
+$string['add_collection'] = 'Add collection';
 
 
 // View strings
