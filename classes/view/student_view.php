@@ -20,7 +20,7 @@ class StudentCourseworkView extends CourseworkView
     {
         global $USER;
         $students = array();
-        $students = cw_get_coursework_users_with_archetypes_roles(array('student'), $this->cm, $this->course->id);
+        $students = cw\get_coursework_students($this->cm);
         foreach($students as $student) if($student->id === $USER->id) return true;
         return false;
     }

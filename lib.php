@@ -1,5 +1,6 @@
 <?php
 
+use coursework_lib as lib;
 // Moodle module functions
 
 function coursework_add_instance($coursework)
@@ -309,6 +310,7 @@ function cw_get_coursework_courses(int $courseworkID) : array
  */
 function cw_get_coursework_users_with_archetypes_roles(array $archetypes, stdClass $cm, int $courseId) : array 
 {
+    lib\get_coursework_students($cm);
     $archetypesRoles = cw_get_archetype_roles($archetypes);
     $groups = groups_get_activity_allowed_groups($cm);
     return cw_get_users_with_archetype_roles_from_group($groups, $archetypesRoles, $courseId, $cm->instance);

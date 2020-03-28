@@ -1,5 +1,6 @@
 <?php
 
+use coursework_lib as lib;
 
 abstract class CourseworkView
 {
@@ -68,7 +69,7 @@ abstract class CourseworkView
     private function is_students_enrolled() : bool 
     {
         $students = array();
-        $students = cw_get_coursework_users_with_archetypes_roles(array('student'), $this->cm, $this->course->id);
+        $students = lib\get_coursework_students($this->cm);
 
         if(count($students)) return true;
         else return false;

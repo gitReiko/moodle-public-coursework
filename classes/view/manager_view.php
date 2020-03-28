@@ -1,5 +1,7 @@
 <?php
 
+use coursework_lib as lib;
+
 class ManagerCourseworkView extends CourseworkView
 {
 
@@ -38,7 +40,7 @@ class ManagerCourseworkView extends CourseworkView
 
     private function get_coursework_students() : array 
     {
-        return cw_get_coursework_users_with_archetypes_roles(array('student'), $this->cm, $this->course->id);
+        return lib\get_coursework_students($this->cm);
     }
 
     // Gui functions

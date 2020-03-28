@@ -156,6 +156,29 @@ function is_user_student(\stdClass $cm, int $userId) : bool
     }
 }
 
+function get_coursework_students(\stdClass $cm)
+{
+    $students = array();
+    $groups = groups_get_activity_allowed_groups($cm);
+    foreach($groups as $group)
+    {
+        $members = groups_get_members($group->id, 'u.id,u.firstname,u.lastname', 'u.lastname');
+
+        foreach($members as $member)
+        {
+            if(is_user_student($cm, $member->id))
+            {
+                $students[] = $member;
+            }
+        }
+    }
+
+    $students = cw_array_unique_for_stdclass($students);
+    $students = cw_add_fullnames_to_users_array($students);
+    usort($students, "compare_user_fullnames");
+
+    return $students;
+}
 
 
 
