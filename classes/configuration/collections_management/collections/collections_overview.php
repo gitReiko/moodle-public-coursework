@@ -62,6 +62,7 @@ class CollectionsOverview
         $header.= '<td>'.get_string('course', 'coursework').'</td>';
         $header.= '<td>'.get_string('description', 'coursework'). '</td>';
         $header.= '<td></td>';
+        $header.= '<td></td>';
         $header.= '</tr>';
         return $header;
     }
@@ -77,6 +78,7 @@ class CollectionsOverview
             $body.= '<td>'.$collection->coursename.'</td>';
             $body.= '<td style="max-width: 450px;">'.$collection->description.'</td>';
             $body.= '<td>'.$this->get_edit_button($collection).'</td>';
+            $body.= '<td>'.$this->get_themes_management_button($collection).'</td>';
             $body.= '</tr>';
         }
 
@@ -90,6 +92,18 @@ class CollectionsOverview
         $button.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
         $button.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.COLLECTIONS_MANAGEMENT.'">';
         $button.= '<input type="hidden" name="'.LeadersSetting::GUI_TYPE.'" value="'.CollectionsManagement::EDIT_COLLECTION.'">';
+        $button.= '<input type="hidden" name="'.COLLECTION.ID.'" value="'.$collection->id.'">';
+        $button.= '</form>';
+        return $button;
+    }
+
+    private function get_themes_management_button(stdClass $collection) : string 
+    {
+        $button = '<form>';
+        $button.= '<input type="submit" value="'.get_string('coursework_themes_management', 'coursework').'">';
+        $button.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
+        $button.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.COLLECTIONS_MANAGEMENT.'">';
+        $button.= '<input type="hidden" name="'.LeadersSetting::GUI_TYPE.'" value="'.CollectionsManagement::THEMES_MANAGEMENT.'">';
         $button.= '<input type="hidden" name="'.COLLECTION.ID.'" value="'.$collection->id.'">';
         $button.= '</form>';
         return $button;

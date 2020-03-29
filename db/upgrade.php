@@ -119,7 +119,7 @@ function xmldb_coursework_upgrade($oldversion)
         $key->set_attributes(XMLDB_KEY_FOREIGN, array('teacher'), 'user', array('id'));
     }
 
-    if($oldversion < 2019082100)
+    if($oldversion < 2019082300)
     {
         // Define table coursework_themes to be created.
         $table = new xmldb_table('coursework_theme_collections');
@@ -137,7 +137,61 @@ function xmldb_coursework_upgrade($oldversion)
             $dbman->create_table($table);
         }
 
+        // Get all themes from database
+        $themes = $DB->get_records('coursework_themes', array(), 'course, coursework');
+        // Update coursework_themes table
+        $table = new xmldb_table('coursework_themes');
+        // Delete old table fields and keys from table
+        $key = new xmldb_key('coursework');
+        $dbman->drop_key($table, $key);
+        $key = new xmldb_key('course');
+        $dbman->drop_key($table, $key);
+        // Remove indexes to change fields.
+        $index = new xmldb_index('mdl_courthem_cou_ix', XMLDB_INDEX_NOTUNIQUE, array('coursework'));
+        if ($dbman->index_exists($table, $index)) {
+            $dbman->drop_index($table, $index);
+        }
+        $index = new xmldb_index('mdl_courthem_cou2_ix', XMLDB_INDEX_NOTUNIQUE, array('course'));
+        if ($dbman->index_exists($table, $index)) {
+            $dbman->drop_index($table, $index);
+        }
+        $field = new xmldb_field('coursework');
+        $dbman->drop_field($table, $field);
+        $field = new xmldb_field('course');
+        $dbman->drop_field($table, $field);
+        // Add new field and key to table
+        $field = new xmldb_field('collection', XMLDB_TYPE_INTEGER, '10', null, null, null, null, null);
+        if(!$dbman->field_exists($table, $field))
+        {
+            $dbman->add_field($table, $field);
+        }
+        $key = new xmldb_key('collection', XMLDB_KEY_FOREIGN, array('collection'), 'coursework_theme_collections', array('id'));
+        $dbman->add_key($table, $key);
+        // Add old themes to collections
+        $previousCode = '';
+        $newCollectionId = 0;
+        foreach($themes as $theme)
+        {
+            $themeCode = $theme->coursework.'_'.$theme->course;
 
+            // Add new collection
+            if($themeCode != $previousCode)
+            {
+                $collection = new stdClass;
+                $collection->course = $theme->course;
+                $collection->name = $DB->get_field('coursework', 'name', array('id'=>$theme->coursework));
+
+                $newCollectionId = $DB->insert_record('coursework_theme_collections', $collection, true);
+
+                $previousCode = $themeCode;
+            }
+
+            // Update theme
+            unset($theme->coursework);
+            unset($theme->course);
+            $theme->collection = $newCollectionId;
+            $DB->update_record('coursework_themes', $theme);
+        }
 
 
 

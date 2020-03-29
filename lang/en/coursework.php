@@ -32,9 +32,11 @@ $string['save_changes'] = 'Save changes';
 $string['delete'] = 'Delete';
 
 // Themes management
-$string['coursework_themes_management'] = 'Coursework themes management';
+$string['coursework_themes_management'] = 'Themes management';
 $string['add_new_theme'] = 'Add new theme';
 $string['edit'] = 'Edit';
+$string['collection_themes_management_header'] = 'Collection themes management';
+$string['collection_course_header'] = 'By discipline';
 
 // Students distribution - sd
 $string['students_distribution'] = 'Students distribution';

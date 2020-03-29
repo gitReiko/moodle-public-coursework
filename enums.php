@@ -3,12 +3,11 @@
 // Coursework configuration modules
 const CONFIG_MODULE = 'config_module';
 const LEADERS_SETTING = 'leaders_setting';
-const THEMES_MANAGEMENT = 'themes_management';
 const STUDENTS_DISTRIBUTION = 'students_distribution';
 const REMOVE_DISTRIBUTION = 'remove_distribution';
 const LEADER_CHANGE = 'leader_change';
 const COLLECTIONS_MANAGEMENT = 'collections_management';
-const CONFIG_MODULES = array(LEADERS_SETTING, THEMES_MANAGEMENT, STUDENTS_DISTRIBUTION, REMOVE_DISTRIBUTION, LEADER_CHANGE, COLLECTIONS_MANAGEMENT);
+const CONFIG_MODULES = array(LEADERS_SETTING, STUDENTS_DISTRIBUTION, REMOVE_DISTRIBUTION, LEADER_CHANGE, COLLECTIONS_MANAGEMENT);
 
 const DB_EVENT = 'database_event';
 

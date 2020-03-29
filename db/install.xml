@@ -69,17 +69,15 @@
       </KEYS>
     </TABLE>
 
-    <TABLE NAME="coursework_themes" COMMENT="Сonnects course works and themes.">
+    <TABLE NAME="coursework_themes" COMMENT="Сonnects themes with collections.">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" />
         <FIELD NAME="name" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" />
-        <FIELD NAME="coursework" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" />
-        <FIELD NAME="course" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" />
+        <FIELD NAME="collection" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" />
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id" COMMENT="Primary key for certificate_issues" />
-        <KEY NAME="coursework" TYPE="foreign" FIELDS="coursework" REFTABLE="coursework" REFFIELDS="id" />
-        <KEY NAME="course" TYPE="foreign" FIELDS="course" REFTABLE="course" REFFIELDS="id" />
+        <KEY NAME="collection" TYPE="foreign" FIELDS="collection" REFTABLE="coursework_theme_collections" REFFIELDS="id" />
       </KEYS>
     </TABLE>
 

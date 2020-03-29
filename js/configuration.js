@@ -13,54 +13,26 @@ const ID = 'id';
 const ru_warning_not_enough_quota = 'Внимание: Квота преподавателя меньше количества студентов в группе.';
 const ru_some_student_will_not_be_assign = 'В случае распределения часть студентов не будет распределена.';
 
-const ru_enter_new_theme_name = 'Введите новое название темы';
-
 function change_bookmark(id)
 {
     document.getElementById(id).submit();
 }
 
 // theme management functions
-function edit_theme(cmid, id, name)
+function edit_theme(themeId, themeName)
 {
-    var newName = prompt(ru_enter_new_theme_name, name);
+    let newName = prompt('Введите новое название темы', themeName);
 
-    // Create form and submit it
-    var form = document.createElement('form');
-    form.method = 'form';
-
-    var cmidinput = document.createElement('input');
-    cmidinput.type = 'hidden';
-    cmidinput.name = ID;
-    cmidinput.value = cmid;
-    form.appendChild(cmidinput);
-
-    var mod = document.createElement('input');
-    mod.type = 'hidden';
-    mod.name = CONFIG_MODULE;
-    mod.value = THEMES_MANAGEMENT;
-    form.appendChild(mod);
-
-    var db = document.createElement('input');
-    db.type = 'hidden';
-    db.name = DB_EVENT;
-    db.value = UPDATE+THEME;
-    form.appendChild(db);
-
-    var themeid = document.createElement('input');
-    themeid.type = 'hidden';
-    themeid.name = THEME+ID;
-    themeid.value = id;
-    form.appendChild(themeid);
-
-    var name = document.createElement('input');
-    name.type = 'hidden';
-    name.name = THEME+NAME;
-    name.value = newName;
-    form.appendChild(name);
-
-    document.body.appendChild(form);
-    form.submit();
+    if((newName.length) < 5 || (newName.length > 254))
+    {
+        alert('Ошибка! Тема не изменена. Название темы должно быть не менее 4 символ и не более 254.');
+        return false;
+    }
+    else 
+    {
+        document.getElementById('theme'+themeId).value = newName;
+        return true;
+    }
 }
 
 function check_teacher_quota_sufficiency(event)

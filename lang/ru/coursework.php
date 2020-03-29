@@ -37,9 +37,11 @@ $string['delete'] = 'Удалить';
 //!!!!!
 
 // Themes management
-$string['coursework_themes_management'] = 'Управление тематикой курсовых работ';
+$string['coursework_themes_management'] = 'Управление темами';
 $string['add_new_theme'] = 'Добавить новую тему';
 $string['edit'] = 'Редактировать';
+$string['collection_themes_management_header'] = 'Управление темами коллекции';
+$string['collection_course_header'] = 'По дисциплине';
 
 // Students distribution - sd
 $string['students_distribution'] = 'Распределение студентов';

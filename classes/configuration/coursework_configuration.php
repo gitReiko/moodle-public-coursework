@@ -5,7 +5,6 @@ require_once 'classes/configuration/configuration_manager.php';
 require_once 'classes/configuration/collections_management/collections_management.php';
 require_once 'classes/configuration/leader_change/leader_change.php';
 require_once 'classes/configuration/leaders_setting/leaders_setting.php';
-require_once 'classes/configuration/themes_management/themes_management.php';
 require_once 'classes/configuration/students_distribution/students_distribution.php';
 require_once 'classes/configuration/remove_distribution/remove_distribution.php';
 
@@ -114,11 +113,6 @@ class CourseworkConfiguration
         {
             $leadersSetting = new LeadersSetting($this->course, $this->cm);
             $str .= $leadersSetting->execute();
-        }
-        else if($this->module === THEMES_MANAGEMENT)
-        {
-            $themes = new ThemesManagement($this->course, $this->cm);
-            $str .= $themes->display();
         }
         else if($this->module === STUDENTS_DISTRIBUTION)
         {
