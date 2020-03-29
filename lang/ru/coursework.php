@@ -73,6 +73,8 @@ $string['change_leader_for_students_header'] = 'Сменить руководи�
 $string['collections_management'] = 'Управление коллекциями';
 $string['collections_list'] = 'Список коллекций';
 $string['add_collection'] = 'Добавить коллекцию';
+$string['add_collection_header'] = 'Добавление новой коллекции';
+$string['edit_collection_header'] = 'Редактирование коллекции';
 
 // View strings
 $string['fullname'] = 'ФИО';

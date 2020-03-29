@@ -68,6 +68,8 @@ $string['change_leader_for_students_header'] = 'Change leader for students:';
 $string['collections_management'] = 'Collections management';
 $string['collections_list'] = 'Collections list';
 $string['add_collection'] = 'Add collection';
+$string['add_collection_header'] = 'New collection adding ';
+$string['edit_collection_header'] = 'Collection editing';
 
 
 // View strings

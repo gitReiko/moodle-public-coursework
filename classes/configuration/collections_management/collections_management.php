@@ -1,8 +1,10 @@
 <?php
 
-require_once 'collections_overview.php';
-require_once 'collections_action.php';
-require_once 'collections_add.php';
+require_once 'collections/collections_overview.php';
+require_once 'collections/collections_action.php';
+require_once 'collections/collections_add.php';
+require_once 'collections/collections_edit.php';
+require_once 'collections/database_events_handler.php';
 
 class CollectionsManagement extends ConfigurationManager
 {
@@ -23,8 +25,16 @@ class CollectionsManagement extends ConfigurationManager
     {
         if($this->is_database_event_exist())
         {
-            //$handler = new ChangeLeaderDBEventsHandler($this->course, $this->cm);
-            //$handler->execute();
+            $event = optional_param(ConfigurationManager::DATABASE_EVENT, null, PARAM_TEXT);
+
+            switch($event)
+            {
+                case self::ADD_COLLECTION: 
+                case self::EDIT_COLLECTION: 
+                    $handler = new CollectionsDBEventsHandler($this->course, $this->cm);
+                    $handler->execute(); 
+                    break;
+            }
         }
     }
 
@@ -36,6 +46,10 @@ class CollectionsManagement extends ConfigurationManager
         if($guiType === self::ADD_COLLECTION)
         {
             $gui.= $this->get_add_collection_gui();
+        }
+        else if($guiType === self::EDIT_COLLECTION)
+        {
+            $gui.= $this->get_edit_collection_gui();
         }
         else
         {
@@ -53,8 +67,14 @@ class CollectionsManagement extends ConfigurationManager
 
     private function get_add_collection_gui() : string 
     {
-        $distributeStudents = new CollectionsAdd($this->course, $this->cm);
-        return $distributeStudents->get_gui();
+        $addCollection = new CollectionsAdd($this->course, $this->cm);
+        return $addCollection->get_gui();
+    }
+
+    private function get_edit_collection_gui() : string 
+    {
+        $editCollection = new CollectionsEdit($this->course, $this->cm);
+        return $editCollection->get_gui();
     }
 
 

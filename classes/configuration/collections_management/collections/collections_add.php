@@ -10,7 +10,7 @@ class CollectionsAdd extends CollectionsAction
 
     protected function get_action_header() : string
     {
-        return '<h3>'.get_string('add_leader_header', 'coursework').'</h3>';
+        return '<h3>'.get_string('add_collection_header', 'coursework').'</h3>';
     }
 
     protected function get_name_input_value() : string
@@ -30,7 +30,7 @@ class CollectionsAdd extends CollectionsAction
 
     protected function get_action_button() : string
     {
-        return '<p><input type="submit" value="'.get_string('add_leader', 'coursework').'" ></p>';
+        return '<p><input type="submit" value="'.get_string('add_collection', 'coursework').'" ></p>';
     }
 
     protected function get_unique_form_hidden_inputs() : string

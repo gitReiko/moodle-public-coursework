@@ -41,6 +41,7 @@ const GRADE = 'grade';
 const COMMENT = 'comment';
 const ROW = 'row';
 const DESCRIPTION = 'description';
+const COLLECTION = 'collection';
 
 // Forms
 const STUDENT_FORM = 'student_form';
