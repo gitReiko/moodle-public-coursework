@@ -72,7 +72,7 @@ $string['change_leader_for_selected_students'] = 'Сменить руковод�
 $string['change_leader_for_students_header'] = 'Сменить руководителя следующим студентам:';
 
 // Collections management
-$string['collections_management'] = 'Управление коллекциями';
+$string['themes_collections_management'] = 'Управление коллекциями тем';
 $string['collections_list'] = 'Список коллекций';
 $string['add_collection'] = 'Добавить коллекцию';
 $string['add_collection_header'] = 'Добавление новой коллекции';

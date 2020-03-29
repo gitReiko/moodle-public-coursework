@@ -90,7 +90,7 @@ class CollectionsOverview
         $button = '<form>';
         $button.= '<input type="submit" value="'.get_string('edit', 'coursework').'">';
         $button.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
-        $button.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.COLLECTIONS_MANAGEMENT.'">';
+        $button.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.THEMES_COLLECTIONS_MANAGEMENT.'">';
         $button.= '<input type="hidden" name="'.LeadersSetting::GUI_TYPE.'" value="'.CollectionsManagement::EDIT_COLLECTION.'">';
         $button.= '<input type="hidden" name="'.COLLECTION.ID.'" value="'.$collection->id.'">';
         $button.= '</form>';
@@ -102,7 +102,7 @@ class CollectionsOverview
         $button = '<form>';
         $button.= '<input type="submit" value="'.get_string('coursework_themes_management', 'coursework').'">';
         $button.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
-        $button.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.COLLECTIONS_MANAGEMENT.'">';
+        $button.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.THEMES_COLLECTIONS_MANAGEMENT.'">';
         $button.= '<input type="hidden" name="'.LeadersSetting::GUI_TYPE.'" value="'.CollectionsManagement::THEMES_MANAGEMENT.'">';
         $button.= '<input type="hidden" name="'.COLLECTION.ID.'" value="'.$collection->id.'">';
         $button.= '</form>';
@@ -114,7 +114,7 @@ class CollectionsOverview
         $button = '<form>';
         $button.= '<input type="submit" value="'.get_string('add_collection', 'coursework').'">';
         $button.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
-        $button.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.COLLECTIONS_MANAGEMENT.'">';
+        $button.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.THEMES_COLLECTIONS_MANAGEMENT.'">';
         $button.= '<input type="hidden" name="'.LeadersSetting::GUI_TYPE.'" value="'.CollectionsManagement::ADD_COLLECTION.'">';
         $button.= '</form>';
         return $button;

@@ -129,7 +129,7 @@ class CourseworkConfiguration
             $removeDistribution = new LeaderChange($this->course, $this->cm);
             $str .= $removeDistribution->execute();
         }
-        else if($this->module === COLLECTIONS_MANAGEMENT)
+        else if($this->module === THEMES_COLLECTIONS_MANAGEMENT)
         {
             $removeDistribution = new CollectionsManagement($this->course, $this->cm);
             $str .= $removeDistribution->execute();

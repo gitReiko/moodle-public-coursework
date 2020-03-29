@@ -118,7 +118,7 @@ abstract class CollectionsAction
     private function get_form_hidden_inputs() : string 
     {
         $params = '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
-        $params.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.COLLECTIONS_MANAGEMENT.'">';
+        $params.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.THEMES_COLLECTIONS_MANAGEMENT.'">';
         $params.= '<input type="hidden" name="'.LeadersSetting::GUI_TYPE.'" value="'.CollectionsManagement::OVERVIEW.'">';
         $params.= $this->get_unique_form_hidden_inputs();
         return $params;
@@ -135,7 +135,7 @@ abstract class CollectionsAction
     {
         $button = "<form id='{$this->backToOverviewFormName}'>";
         $button.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
-        $button.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.COLLECTIONS_MANAGEMENT.'">';
+        $button.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.THEMES_COLLECTIONS_MANAGEMENT.'">';
         $button.= '<input type="hidden" name="'.LeadersSetting::GUI_TYPE.'" value="'.CollectionsManagement::OVERVIEW.'">';
         $button.= '</form>';
         return $button;

@@ -67,7 +67,7 @@ $string['change_leader_for_selected_students'] = 'Change leader for selected stu
 $string['change_leader_for_students_header'] = 'Change leader for students:';
 
 // Collections management
-$string['collections_management'] = 'Collections management';
+$string['themes_collections_management'] = 'Themes collections management';
 $string['collections_list'] = 'Collections list';
 $string['add_collection'] = 'Add collection';
 $string['add_collection_header'] = 'New collection adding ';

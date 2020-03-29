@@ -82,7 +82,7 @@ class ThemesManagement
         $str = '<form style="display:inline;">';
         $str.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
         $str.= '<input type="hidden" name="'.DB_EVENT.'" value="'.CollectionsManagement::EDIT_THEME.'">';
-        $str.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.COLLECTIONS_MANAGEMENT.'">';
+        $str.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.THEMES_COLLECTIONS_MANAGEMENT.'">';
         $str.= '<input type="hidden" name="'.ConfigurationManager::GUI_TYPE.'" value="'.CollectionsManagement::THEMES_MANAGEMENT.'">';
         $str.= '<input type="hidden" name="'.COLLECTION.ID.'" value="'.$this->collection->id.'">';
         $str.= '<input type="hidden" name="'.THEME.ID.'" value="'.$theme->id.'">';
@@ -97,7 +97,7 @@ class ThemesManagement
         $str = '<form style="display:inline;">';
         $str.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
         $str.= '<input type="hidden" name="'.DB_EVENT.'" value="'.CollectionsManagement::DELETE_THEME.'">';
-        $str.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.COLLECTIONS_MANAGEMENT.'">';
+        $str.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.THEMES_COLLECTIONS_MANAGEMENT.'">';
         $str.= '<input type="hidden" name="'.ConfigurationManager::GUI_TYPE.'" value="'.CollectionsManagement::THEMES_MANAGEMENT.'">';
         $str.= '<input type="hidden" name="'.COLLECTION.ID.'" value="'.$this->collection->id.'">';
         $str.= '<input type="hidden" name="'.THEME.ID.'" value="'.$theme->id.'">';
@@ -113,7 +113,7 @@ class ThemesManagement
         $str.= '<input type="text" minlength="5" maxlength="255" required name="'.NAME.'" size="80" autocomplete="off">';
         $str.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
         $str.= '<input type="hidden" name="'.DB_EVENT.'" value="'.CollectionsManagement::ADD_THEME.'">';
-        $str.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.COLLECTIONS_MANAGEMENT.'">';
+        $str.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.THEMES_COLLECTIONS_MANAGEMENT.'">';
         $str.= '<input type="hidden" name="'.ConfigurationManager::GUI_TYPE.'" value="'.CollectionsManagement::THEMES_MANAGEMENT.'">';
         $str.= '<input type="hidden" name="'.COLLECTION.ID.'" value="'.$this->collection->id.'">';
         $str.= '<input type="submit" value="'.get_string('add_new_theme', 'coursework').'" >';
@@ -126,7 +126,7 @@ class ThemesManagement
     {
         $button = "<p><form>";
         $button.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
-        $button.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.COLLECTIONS_MANAGEMENT.'">';
+        $button.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.THEMES_COLLECTIONS_MANAGEMENT.'">';
         $button.= '<input type="hidden" name="'.ConfigurationManager::GUI_TYPE.'" value="'.CollectionsManagement::OVERVIEW.'">';
         $button.= '<input type="submit" value="'.get_string('back', 'coursework').'" >';
         $button.= '</form></p>';

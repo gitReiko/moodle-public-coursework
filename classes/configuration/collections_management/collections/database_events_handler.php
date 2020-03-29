@@ -41,9 +41,7 @@ class CollectionsDBEventsHandler
 
         $collection->course = $this->get_collection_course();
         $collection->name = $this->get_collection_name();
-
-        $description = $this->get_collection_description();
-        if(!empty($description)) $collection->description = $description;
+        $collection->description = $this->get_collection_description();
 
         return $collection;
     }
@@ -69,7 +67,7 @@ class CollectionsDBEventsHandler
 
     private function get_collection_description() 
     {
-        return optional_param(DESCRIPTION, null, PARAM_TEXT);
+        return optional_param(DESCRIPTION, '', PARAM_TEXT);
     }
 
     private function add_collection() : void 
