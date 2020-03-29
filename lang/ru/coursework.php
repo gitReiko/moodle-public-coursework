@@ -10,6 +10,7 @@ $string['pluginadministration'] = 'Управление курсовой раб�
 $string['back'] = 'Назад';
 $string['change'] = 'Сменить';
 $string['description'] = 'Описание';
+$string['create'] = 'Создать';
 
 // Coursework configuration
 $string['coursework_configuration'] = 'Настройка курсовой работы';
@@ -77,6 +78,14 @@ $string['collections_list'] = 'Список коллекций';
 $string['add_collection'] = 'Добавить коллекцию';
 $string['add_collection_header'] = 'Добавление новой коллекции';
 $string['edit_collection_header'] = 'Редактирование коллекции';
+
+// Theme collections using 
+$string['theme_collections_using'] = 'Использование коллекций тем';
+$string['using_themes_collections_list'] = 'Список используемых коллекций тем';
+$string['use_new_theme_collection'] = 'Использовать новую коллекцию тем';
+$string['add_new_collection_using_header'] = 'Создание нового использования коллекции тем';
+$string['themes_collection'] = 'Коллекция тем';
+$string['not_suitable_for_use'] = 'Нет подходящих для использования.';
 
 // View strings
 $string['fullname'] = 'ФИО';

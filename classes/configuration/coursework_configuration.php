@@ -7,6 +7,7 @@ require_once 'classes/configuration/leader_change/leader_change.php';
 require_once 'classes/configuration/leaders_setting/leaders_setting.php';
 require_once 'classes/configuration/students_distribution/students_distribution.php';
 require_once 'classes/configuration/remove_distribution/remove_distribution.php';
+require_once 'classes/configuration/themes_collections_using/themes_collections_using.php';
 
 /**
  * Coursework configuration starts from this class. 
@@ -132,6 +133,11 @@ class CourseworkConfiguration
         else if($this->module === THEMES_COLLECTIONS_MANAGEMENT)
         {
             $removeDistribution = new CollectionsManagement($this->course, $this->cm);
+            $str .= $removeDistribution->execute();
+        }  
+        else if($this->module === THEME_COLLECTIONS_USING)
+        {
+            $removeDistribution = new ThemesCollectionsUsing($this->course, $this->cm);
             $str .= $removeDistribution->execute();
         }  
         return $str;

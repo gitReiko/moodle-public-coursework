@@ -9,6 +9,7 @@ $string['intro'] = 'Introduction';
 $string['pluginadministration'] = 'Course work administration';
 $string['change'] = 'Change';
 $string['description'] = 'Description';
+$string['create'] = 'Create';
 
 // Coursework configuration
 $string['coursework_configuration'] = 'Coursework configuration';
@@ -73,6 +74,13 @@ $string['add_collection'] = 'Add collection';
 $string['add_collection_header'] = 'New collection adding ';
 $string['edit_collection_header'] = 'Collection editing';
 
+// Theme collections using 
+$string['theme_collections_using'] = 'Theme collections using';
+$string['using_themes_collections_list'] = 'List of using themes collections';
+$string['use_new_theme_collection'] = 'Use new theme collection';
+$string['add_new_collection_using_header'] = 'Adding of new theme collection using';
+$string['themes_collection'] = 'Themes collection';
+$string['not_suitable_for_use'] = 'Not suitable for use.';
 
 // View strings
 $string['fullname'] = 'Fullname';
