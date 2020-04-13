@@ -87,6 +87,9 @@ $string['add_new_collection_using_header'] = 'Создание нового ис
 $string['themes_collection'] = 'Коллекция тем';
 $string['not_suitable_for_use'] = 'Нет подходящих для использования.';
 
+// Tasks templates management
+$string['tasks_templates_management'] = 'Управление шаблонами заданий';
+
 // View strings
 $string['fullname'] = 'ФИО';
 $string['group'] = 'Группа';

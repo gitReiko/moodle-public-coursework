@@ -82,6 +82,9 @@ $string['add_new_collection_using_header'] = 'Adding of new theme collection usi
 $string['themes_collection'] = 'Themes collection';
 $string['not_suitable_for_use'] = 'Not suitable for use.';
 
+// Tasks templates management
+$string['tasks_templates_management'] = 'Tasks templates management';
+
 // View strings
 $string['fullname'] = 'Fullname';
 $string['group'] = 'Group';
