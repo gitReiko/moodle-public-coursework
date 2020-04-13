@@ -10,6 +10,7 @@ $string['pluginadministration'] = 'Course work administration';
 $string['change'] = 'Change';
 $string['description'] = 'Description';
 $string['create'] = 'Create';
+$string['module'] = 'MODULE:';
 
 // Coursework configuration
 $string['coursework_configuration'] = 'Coursework configuration';

@@ -11,6 +11,7 @@ $string['back'] = 'Назад';
 $string['change'] = 'Сменить';
 $string['description'] = 'Описание';
 $string['create'] = 'Создать';
+$string['module'] = 'МОДУЛЬ:';
 
 // Coursework configuration
 $string['coursework_configuration'] = 'Настройка курсовой работы';

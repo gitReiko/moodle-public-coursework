@@ -70,28 +70,30 @@ class CourseworkConfiguration
 
     private function get_coursework_configuration_header() : string
     {
-        return '<h2>'.get_string('coursework_configuration', 'coursework').'</h2>';
+        $str = '<p><b>'.get_string('module', 'coursework').'</b> ';
+        $str.= '<select>';
+        foreach(CONFIG_MODULES as $module)
+        {
+            $str.= '<option ';
+            if($this->module === $module) $str.= ' selected ';
+            $str.= ' onclick="change_bookmark(`'.$module.'`)" ';
+            $str.= '>';
+            $str.= get_string($module, 'coursework');
+            $str.= '</option>';
+        }
+        $str.= '</select>';
+        $str.= '</p>';
+
+        return $str;
+
+        //return '<h2>'.get_string('coursework_configuration', 'coursework').'</h2>';
     }
 
     private function get_begin_of_frame_switching_modules() : string
     {
         $str = '<div class="coursework-configuration">';
-        $str.= $this->get_panel_switching_modules();
         $str.= $this->get_html_forms_for_switching_modules_panel();
         $str.= '<div style="padding: 10px;">';
-        return $str;
-    }
-
-    private function get_panel_switching_modules() : string 
-    {
-        $str = '<ol class="coursework-configuration">';
-        foreach(CONFIG_MODULES as $module)
-        {
-            if($this->module === $module) $str.= '<li class="selected">';
-            else $str.= '<li onclick="change_bookmark(`'.$module.'`)">';
-            $str.= get_string($module, 'coursework').'</li>';
-        }
-        $str.= '</ol>';
         return $str;
     }
 
