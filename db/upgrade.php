@@ -210,5 +210,23 @@ function xmldb_coursework_upgrade($oldversion)
         }
     }
 
+    if($oldversion < 2019082500)
+    {
+                // Create coursework_tasks table
+                $table = new xmldb_table('coursework_tasks');
+                // Adding fields to table coursework_tasks.
+                $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+                $table->add_field('name', XMLDB_TYPE_CHAR, '255', null, XMLDB_NOTNULL, null, null);
+                $table->add_field('description', XMLDB_TYPE_TEXT, 'small', null, null, null, null);
+                $table->add_field('template', XMLDB_TYPE_INTEGER, '1', XMLDB_UNSIGNED, XMLDB_NOTNULL, 0, null);
+                // Adding keys to table coursework_tasks.
+                $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
+                // Conditionally launch create table for coursework_tasks.
+                if(!$dbman->table_exists($table))
+                {
+                    $dbman->create_table($table);
+                }
+    }
+
     return true;
 }
