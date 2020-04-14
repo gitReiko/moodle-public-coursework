@@ -1,7 +1,11 @@
 <?php
 
-//require_once 'collections/collections_overview.php';
-//require_once 'collections/collections_action.php';
+require_once 'tasks/database_events_handler.php';
+require_once 'tasks/tasks_overview.php';
+require_once 'tasks/task_action.php';
+require_once 'tasks/task_add.php';
+require_once 'tasks/task_edit.php';
+
 
 class TasksManagement extends ConfigurationManager
 {
@@ -21,28 +25,26 @@ class TasksManagement extends ConfigurationManager
 
     protected function handle_database_event() : void
     {
-        /*
         if($this->is_database_event_exist())
         {
             $event = optional_param(ConfigurationManager::DATABASE_EVENT, null, PARAM_TEXT);
 
             switch($event)
             {
-                case self::ADD_COLLECTION: 
-                case self::EDIT_COLLECTION: 
-                    $handler = new CollectionsDBEventsHandler($this->course, $this->cm);
-                    $handler->execute(); 
+                case self::ADD_TASK: 
+                case self::EDIT_TASK: 
+                    $handler = new TasksDBEventsHandler($this->course, $this->cm);
+                    $handler->execute();
                     break;
 
-                case self::ADD_THEME: 
-                case self::EDIT_THEME:
-                case self::DELETE_THEME:   
-                    $handler = new ThemesDBEventsHandler($this->course, $this->cm);
-                    $handler->execute(); 
+                case self::ADD_SECTION: 
+                case self::EDIT_SECTION:
+                case self::DELETE_SECTION:   
+                    //$handler = new ThemesDBEventsHandler($this->course, $this->cm);
+                    //$handler->execute(); 
                     break;  
             }
         }
-        */
     }
 
     protected function get_gui() : string 
@@ -52,11 +54,11 @@ class TasksManagement extends ConfigurationManager
 
         if($guiType === self::ADD_TASK)
         {
-            //$gui.= $this->get_add_collection_gui();
+            $gui.= $this->get_add_task_gui();
         }
         else if($guiType === self::EDIT_TASK)
         {
-            //$gui.= $this->get_edit_collection_gui();
+            $gui.= $this->get_edit_task_gui();
         }
         else if($guiType === self::SECTIONS_MANAGEMENT)
         {
@@ -64,32 +66,31 @@ class TasksManagement extends ConfigurationManager
         }
         else
         {
-            //$gui.= $this->get_overview_gui();
-            $gui.= 'overview';
+            $gui.= $this->get_overview_gui();
         }
 
         return $gui;
     }
 
-    /*
+   
     private function get_overview_gui() : string 
     {
-        $overview = new CollectionsOverview($this->course, $this->cm);
+        $overview = new TasksOverview($this->course, $this->cm);
         return $overview->get_gui();
     }
 
-    private function get_add_collection_gui() : string 
+    private function get_add_task_gui() : string 
     {
-        $addCollection = new CollectionsAdd($this->course, $this->cm);
-        return $addCollection->get_gui();
+        $add = new TaskAdd($this->course, $this->cm);
+        return $add->get_gui();
     }
 
-    private function get_edit_collection_gui() : string 
+    private function get_edit_task_gui() : string 
     {
-        $editCollection = new CollectionsEdit($this->course, $this->cm);
-        return $editCollection->get_gui();
+        $edit = new TaskEdit($this->course, $this->cm);
+        return $edit->get_gui();
     }
-
+ /*
     private function get_themes_management_gui() : string 
     {
         $editCollection = new ThemesManagement($this->course, $this->cm);

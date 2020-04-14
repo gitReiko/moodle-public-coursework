@@ -90,6 +90,10 @@ $string['not_suitable_for_use'] = 'Нет подходящих для испол
 
 // Tasks templates management
 $string['tasks_templates_management'] = 'Управление шаблонами заданий';
+$string['tasks_templates_list'] = 'Список шаблонов задания';
+$string['add_task_template'] = 'Добавить шаблон задания';
+$string['add_task_header'] = 'Добавление шаблона задания';
+$string['edit_task_header'] = 'Редактирование шаблона задания';
 
 // View strings
 $string['fullname'] = 'ФИО';

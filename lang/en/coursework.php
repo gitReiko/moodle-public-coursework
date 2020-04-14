@@ -85,6 +85,10 @@ $string['not_suitable_for_use'] = 'Not suitable for use.';
 
 // Tasks templates management
 $string['tasks_templates_management'] = 'Tasks templates management';
+$string['tasks_templates_list'] = 'Tasks templates list';
+$string['add_task_template'] = 'Add task template';
+$string['add_task_header'] = 'New task template adding';
+$string['edit_task_header'] = 'Task template editing';
 
 // View strings
 $string['fullname'] = 'Fullname';

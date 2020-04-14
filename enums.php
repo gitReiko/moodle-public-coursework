@@ -50,6 +50,8 @@ const COMMENT = 'comment';
 const ROW = 'row';
 const DESCRIPTION = 'description';
 const COLLECTION = 'collection';
+const TEMPLATE = 'template';
+const TASK = 'task';
 
 // Forms
 const STUDENT_FORM = 'student_form';
