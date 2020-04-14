@@ -42,7 +42,7 @@ class TasksSectionsDBEventsHandler
 
         $task->name = $this->get_task_name();
         $task->description = $this->get_task_description();
-        $task->listpostion = $this->get_list_position();
+        $task->listposition = $this->get_list_position();
         $task->task = $this->get_task_id();
         $task->completiondate = $this->get_completion_date();
 
