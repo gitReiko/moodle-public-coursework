@@ -94,7 +94,7 @@
       </KEYS>
     </TABLE>
 
-    <TABLE NAME="coursework_tasks" COMMENT="Defines coursework tasks..">
+    <TABLE NAME="coursework_tasks" COMMENT="Defines coursework tasks.">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" />
         <FIELD NAME="name" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" />
@@ -105,6 +105,23 @@
         <KEY NAME="primary" TYPE="primary" FIELDS="id" COMMENT="Primary key for certificate_issues" />
       </KEYS>
     </TABLE>
+
+    <TABLE NAME="coursework_tasks_sections" COMMENT="Сonnects sections with tasks.">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" />
+        <FIELD NAME="name" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" />
+        <FIELD NAME="description" TYPE="text" LENGTH="small" NOTNULL="false" SEQUENCE="false" />
+        <FIELD NAME="listposition" TYPE="int" LENGTH="4" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" />
+        <FIELD NAME="task" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" />
+        <FIELD NAME="completiondate" TYPE="int" LENGTH="10" NOTNULL="false" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" />
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id" COMMENT="Primary key for certificate_issues" />
+        <KEY NAME="task" TYPE="foreign" FIELDS="task" REFTABLE="coursework_tasks" REFFIELDS="id" />
+      </KEYS>
+    </TABLE>
+
+
 
 </TABLES>
 </XMLDB>

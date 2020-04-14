@@ -7,8 +7,8 @@ class TasksSectionsOverview
     private $course;
     private $cm;
 
-    //private $tasks;
     private $task;
+    private $sections;
 
     function __construct(stdClass $course, stdClass $cm)
     {
@@ -16,8 +16,9 @@ class TasksSectionsOverview
         $this->cm = $cm;
 
         $this->task = locallib\get_task_from_post();
+        $this->sections = $this->get_sections();
 
-        //$this->tasks = $this->get_task_templates();
+        print_r($this->sections);
     }
 
     public function get_gui() : string 
@@ -36,18 +37,12 @@ class TasksSectionsOverview
         return $gui;
     }
 
-    private function get_task() : stdClass 
-    {
-
-    }
-
-    /*
-    private function get_task_templates()
+    private function get_sections()
     {
         global $DB;
-        return $DB->get_records('coursework_tasks', array('template' => 1), 'name');
+        $conditions = array('task' => $this->task->id);
+        return $DB->get_records('coursework_tasks_sections', $conditions, 'listposition, name');
     }
-    */
 
     private function get_overview_header() : string 
     {
@@ -114,6 +109,7 @@ class TasksSectionsOverview
         $button.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
         $button.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.TASKS_TEMPLATES_MANAGEMENT.'">';
         $button.= '<input type="hidden" name="'.LeadersSetting::GUI_TYPE.'" value="'.TasksManagement::ADD_SECTION.'">';
+        $button.= '<input type="hidden" name="'.TASK.ID.'" value="'.$this->task->id.'">';
         $button.= '</form>';
         return $button;
     }

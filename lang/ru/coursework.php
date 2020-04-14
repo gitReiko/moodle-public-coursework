@@ -97,6 +97,9 @@ $string['edit_task_header'] = 'Редактирование шаблона за�
 $string['task_sections_management'] = 'Управление разделами задания';
 $string['task_sections_list'] = 'Список разделов задания';
 $string['add_task_section'] = 'Добавить раздел задания';
+$string['completion_date'] = 'Дата завершения';
+$string['add_task_section_header'] = 'Добавление раздела задания';
+$string['position_in_task_list'] = 'Положение в списке разделов';
 
 // View strings
 $string['fullname'] = 'ФИО';

@@ -92,6 +92,9 @@ $string['edit_task_header'] = 'Task template editing';
 $string['task_sections_management'] = 'Task sections management';
 $string['task_sections_list'] = 'Task sections list';
 $string['add_task_section'] = 'Add task section';
+$string['completion_date'] = 'Completion date';
+$string['add_task_section_header'] = 'New task section adding';
+$string['position_in_task_list'] = 'Position in task list';
 
 // View strings
 $string['fullname'] = 'Fullname';

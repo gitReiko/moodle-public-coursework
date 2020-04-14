@@ -6,7 +6,10 @@ require_once 'tasks/task_action.php';
 require_once 'tasks/task_add.php';
 require_once 'tasks/task_edit.php';
 
+require_once 'sections/database_events_handler.php';
 require_once 'sections/sections_overview.php';
+require_once 'sections/section_action.php';
+require_once 'sections/section_add.php';
 
 require_once 'locallib.php';
 
@@ -19,7 +22,8 @@ class TasksManagement extends ConfigurationManager
     const SECTIONS_MANAGEMENT = 'sections_management';
     const ADD_SECTION = 'add_section';
     const EDIT_SECTION = 'edit_section';
-    const DELETE_SECTION = 'delete_section';
+    const COMPLETION_DATE = 'completion_date';
+    const LIST_POSITION = 'list_position';
 
     function __construct(stdClass $course, stdClass $cm)
     {
@@ -41,10 +45,9 @@ class TasksManagement extends ConfigurationManager
                     break;
 
                 case self::ADD_SECTION: 
-                case self::EDIT_SECTION:
-                case self::DELETE_SECTION:   
-                    //$handler = new ThemesDBEventsHandler($this->course, $this->cm);
-                    //$handler->execute(); 
+                case self::EDIT_SECTION: 
+                    $handler = new TasksSectionsDBEventsHandler($this->course, $this->cm);
+                    $handler->execute(); 
                     break;  
             }
         }
@@ -66,6 +69,10 @@ class TasksManagement extends ConfigurationManager
         else if($guiType === self::SECTIONS_MANAGEMENT)
         {
             $gui.= $this->get_sections_management_gui();
+        }
+        else if($guiType === self::ADD_SECTION)
+        {
+            $gui.= $this->get_add_section_gui();
         }
         else
         {
@@ -98,6 +105,12 @@ class TasksManagement extends ConfigurationManager
     {
         $sectionsOverview = new TasksSectionsOverview($this->course, $this->cm);
         return $sectionsOverview->get_gui();
+    }
+
+    private function get_add_section_gui() : string 
+    {
+        $add = new SectionAdd($this->course, $this->cm);
+        return $add->get_gui();
     }
 
 
