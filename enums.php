@@ -52,6 +52,7 @@ const DESCRIPTION = 'description';
 const COLLECTION = 'collection';
 const TEMPLATE = 'template';
 const TASK = 'task';
+const SECTION = 'section';
 
 
 // Forms

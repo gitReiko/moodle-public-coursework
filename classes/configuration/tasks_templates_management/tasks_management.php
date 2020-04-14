@@ -10,6 +10,7 @@ require_once 'sections/database_events_handler.php';
 require_once 'sections/sections_overview.php';
 require_once 'sections/section_action.php';
 require_once 'sections/section_add.php';
+require_once 'sections/section_edit.php';
 
 require_once 'locallib.php';
 
@@ -74,6 +75,10 @@ class TasksManagement extends ConfigurationManager
         {
             $gui.= $this->get_add_section_gui();
         }
+        else if($guiType === self::EDIT_SECTION)
+        {
+            $gui.= $this->get_edit_section_gui();
+        }
         else
         {
             $gui.= $this->get_overview_gui();
@@ -111,6 +116,12 @@ class TasksManagement extends ConfigurationManager
     {
         $add = new SectionAdd($this->course, $this->cm);
         return $add->get_gui();
+    }
+
+    private function get_edit_section_gui() : string 
+    {
+        $edit = new SectionEdit($this->course, $this->cm);
+        return $edit->get_gui();
     }
 
 

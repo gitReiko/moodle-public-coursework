@@ -95,6 +95,7 @@ $string['add_task_section'] = 'Add task section';
 $string['completion_date'] = 'Completion date';
 $string['add_task_section_header'] = 'New task section adding';
 $string['position_in_task_list'] = 'Position in task list';
+$string['edit_task_section_header'] = 'Task section editing';
 
 // View strings
 $string['fullname'] = 'Fullname';

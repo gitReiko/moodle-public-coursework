@@ -27,43 +27,40 @@ class TasksSectionsDBEventsHandler
                 $this->add_task_section();
                 break;
             case TasksManagement::EDIT_SECTION: 
-                echo 'edit';
-                //$this->update_task_section();
+                $this->update_task_section();
                 break;
         }
     }
 
     private function get_section() : stdClass 
     {
-        $task = new stdClass;
+        $section = new stdClass;
 
-        //$id = $this->get_task_id();
-        //if(!empty($id)) $task->id = $id;
+        $id = $this->get_section_id();
+        if(!empty($id)) $section->id = $id;
 
-        $task->name = $this->get_task_name();
-        $task->description = $this->get_task_description();
-        $task->listposition = $this->get_list_position();
-        $task->task = $this->get_task_id();
-        $task->completiondate = $this->get_completion_date();
+        $section->name = $this->get_section_name();
+        $section->description = $this->get_section_description();
+        $section->listposition = $this->get_list_position();
+        $section->task = $this->get_task_id();
+        $section->completiondate = $this->get_completion_date();
 
-        return $task;
+        return $section;
     }
 
-    /*
-    private function get_task_id() 
+    private function get_section_id() 
     {
-        return optional_param(TASK.ID, null, PARAM_INT);
+        return optional_param(SECTION.ID, null, PARAM_INT);
     }
-    */
 
-    private function get_task_name() : string 
+    private function get_section_name() : string 
     {
         $name = optional_param(NAME, null, PARAM_TEXT);
         if(empty($name)) throw new Exception('Missing task section name.');
         return $name;
     }
 
-    private function get_task_description() 
+    private function get_section_description() 
     {
         return optional_param(DESCRIPTION, '', PARAM_TEXT);
     }

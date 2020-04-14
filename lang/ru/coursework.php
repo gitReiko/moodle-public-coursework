@@ -100,6 +100,7 @@ $string['add_task_section'] = 'Добавить раздел задания';
 $string['completion_date'] = 'Дата завершения';
 $string['add_task_section_header'] = 'Добавление раздела задания';
 $string['position_in_task_list'] = 'Положение в списке разделов';
+$string['edit_task_section_header'] = 'Редактирование раздела задания';
 
 // View strings
 $string['fullname'] = 'ФИО';
