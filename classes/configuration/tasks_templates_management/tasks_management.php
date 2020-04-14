@@ -6,6 +6,9 @@ require_once 'tasks/task_action.php';
 require_once 'tasks/task_add.php';
 require_once 'tasks/task_edit.php';
 
+require_once 'sections/sections_overview.php';
+
+require_once 'locallib.php';
 
 class TasksManagement extends ConfigurationManager
 {
@@ -62,7 +65,7 @@ class TasksManagement extends ConfigurationManager
         }
         else if($guiType === self::SECTIONS_MANAGEMENT)
         {
-            //$gui.= $this->get_themes_management_gui();
+            $gui.= $this->get_sections_management_gui();
         }
         else
         {
@@ -90,13 +93,12 @@ class TasksManagement extends ConfigurationManager
         $edit = new TaskEdit($this->course, $this->cm);
         return $edit->get_gui();
     }
- /*
-    private function get_themes_management_gui() : string 
+
+    private function get_sections_management_gui() : string 
     {
-        $editCollection = new ThemesManagement($this->course, $this->cm);
-        return $editCollection->get_gui();
+        $sectionsOverview = new TasksSectionsOverview($this->course, $this->cm);
+        return $sectionsOverview->get_gui();
     }
-    */
 
 
 }

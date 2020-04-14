@@ -89,6 +89,9 @@ $string['tasks_templates_list'] = 'Tasks templates list';
 $string['add_task_template'] = 'Add task template';
 $string['add_task_header'] = 'New task template adding';
 $string['edit_task_header'] = 'Task template editing';
+$string['task_sections_management'] = 'Task sections management';
+$string['task_sections_list'] = 'Task sections list';
+$string['add_task_section'] = 'Add task section';
 
 // View strings
 $string['fullname'] = 'Fullname';

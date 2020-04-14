@@ -1,5 +1,7 @@
 <?php
 
+use task_templates_lib as locallib;
+
 class TaskEdit extends TaskAction 
 {
     private $task;
@@ -8,7 +10,7 @@ class TaskEdit extends TaskAction
     {
         parent::__construct($course, $cm);
 
-        $this->task = $this->get_task();
+        $this->task = locallib\get_task_from_post();
     }
 
     protected function get_action_header() : string
@@ -36,16 +38,6 @@ class TaskEdit extends TaskAction
         $inputs = '<input type="hidden" name="'.ConfigurationManager::DATABASE_EVENT.'" value="'.TasksManagement::EDIT_TASK.'"/>';
         $inputs.= '<input type="hidden" name="'.TASK.ID.'" value="'.$this->task->id.'">';
         return $inputs;
-    }
-
-    private function get_task() : stdClass 
-    {
-        $id = optional_param(TASK.ID, null, PARAM_INT);
-
-        if(empty($id)) throw new Exception('Missing task template id.');
-
-        global $DB;
-        return $DB->get_record('coursework_tasks', array('id' => $id));
     }
 
 }
