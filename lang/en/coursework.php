@@ -97,6 +97,15 @@ $string['add_task_section_header'] = 'New task section adding';
 $string['position_in_task_list'] = 'Position in task list';
 $string['edit_task_section_header'] = 'Task section editing';
 
+// Tasks using
+$string['tasks_using'] = 'Tasks templates using';
+$string['used_task_template'] = 'Used task template';
+$string['select_used_task_template'] = 'Select used task template';
+$string['used_task_template_selecting'] = 'Used task template using';
+$string['task_template'] = 'Task template';
+$string['select_task_template'] = 'Select task template';
+$string['task_sections_not_created'] = 'Task sections not created.';
+
 // View strings
 $string['fullname'] = 'Fullname';
 $string['group'] = 'Group';

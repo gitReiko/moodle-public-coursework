@@ -9,9 +9,11 @@ const LEADER_CHANGE = 'leader_change';
 const THEMES_COLLECTIONS_MANAGEMENT = 'themes_collections_management';
 const THEME_COLLECTIONS_USING = 'theme_collections_using';
 const TASKS_TEMPLATES_MANAGEMENT = 'tasks_templates_management';
+const TASKS_USING = 'tasks_using';
 const CONFIG_MODULES = array(
                         LEADERS_SETTING, 
                         THEME_COLLECTIONS_USING,
+                        TASKS_USING,
                         THEMES_COLLECTIONS_MANAGEMENT,
                         TASKS_TEMPLATES_MANAGEMENT, 
                         STUDENTS_DISTRIBUTION, 

@@ -102,6 +102,15 @@ $string['add_task_section_header'] = 'Добавление раздела зад
 $string['position_in_task_list'] = 'Положение в списке разделов';
 $string['edit_task_section_header'] = 'Редактирование раздела задания';
 
+// Tasks using
+$string['tasks_using'] = 'Использование шаблонов задания';
+$string['used_task_template'] = 'Используемый шаблон задания';
+$string['select_used_task_template'] = 'Выбрать используемый шаблон задания';
+$string['used_task_template_selecting'] = 'Выбор используемого шаблона задания';
+$string['task_template'] = 'Шаблон задания';
+$string['select_task_template'] = 'Выбрать шаблон задания';
+$string['task_sections_not_created'] = 'Разделы задания не созданы.';
+
 // View strings
 $string['fullname'] = 'ФИО';
 $string['group'] = 'Группа';

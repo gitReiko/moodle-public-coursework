@@ -9,6 +9,7 @@ require_once 'classes/configuration/tasks_templates_management/tasks_management.
 require_once 'classes/configuration/students_distribution/students_distribution.php';
 require_once 'classes/configuration/remove_distribution/remove_distribution.php';
 require_once 'classes/configuration/themes_collections_using/themes_collections_using.php';
+require_once 'classes/configuration/tasks_using/main.php';
 
 /**
  * Coursework configuration starts from this class. 
@@ -130,23 +131,28 @@ class CourseworkConfiguration
         }
         else if($this->module === LEADER_CHANGE)
         {
-            $removeDistribution = new LeaderChange($this->course, $this->cm);
-            $str .= $removeDistribution->execute();
+            $leaderChange = new LeaderChange($this->course, $this->cm);
+            $str .= $leaderChange->execute();
         }
         else if($this->module === TASKS_TEMPLATES_MANAGEMENT)
         {
-            $removeDistribution = new TasksManagement($this->course, $this->cm);
-            $str .= $removeDistribution->execute();
+            $tasksTemplatesUsing = new TasksManagement($this->course, $this->cm);
+            $str .= $tasksTemplatesUsing->execute();
         }
         else if($this->module === THEMES_COLLECTIONS_MANAGEMENT)
         {
-            $removeDistribution = new CollectionsManagement($this->course, $this->cm);
-            $str .= $removeDistribution->execute();
+            $ThemeCollectionManagement = new CollectionsManagement($this->course, $this->cm);
+            $str .= $ThemeCollectionManagement->execute();
         }  
         else if($this->module === THEME_COLLECTIONS_USING)
         {
-            $removeDistribution = new ThemesCollectionsUsing($this->course, $this->cm);
-            $str .= $removeDistribution->execute();
+            $themeCollectionsUsing = new ThemesCollectionsUsing($this->course, $this->cm);
+            $str .= $themeCollectionsUsing->execute();
+        }  
+        else if($this->module === TASKS_USING)
+        {
+            $tasksUsing = new TasksUsingMain($this->course, $this->cm);
+            $str .= $tasksUsing->execute();
         }  
         return $str;
     }
