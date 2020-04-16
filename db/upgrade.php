@@ -268,5 +268,17 @@ function xmldb_coursework_upgrade($oldversion)
         }
     }
 
+    if($oldversion < 2019083100)
+    {
+        // Update coursework_students table
+        $table = new xmldb_table('coursework_students');
+        // Add new field and key to table
+        $field = new xmldb_field('themeselectiondate', XMLDB_TYPE_INTEGER, '10', null, null, null, '0');
+        if(!$dbman->field_exists($table, $field))
+        {
+            $dbman->add_field($table, $field);
+        }
+    }
+
     return true;
 }

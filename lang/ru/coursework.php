@@ -126,6 +126,8 @@ $string['cant_be_undone'] = 'Сделанный выбор невозможно 
 $string['back_to_course'] = 'Вернуться к курсу';
 $string['not_selected'] = 'Не выбран(а)';
 $string['not_available'] = 'Недоступен(на)';
+$string['interaction_with_student_work_will_be_available_after_theme_selection'] = 'Взаимодействие с работой студента будет доступно после выбора темы.';
+
 
 // Errors strings
 $string['e:missing-coursework-student-record'] = 'Ошибка: отсутствует запись студента курсовой работы.';

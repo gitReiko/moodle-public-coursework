@@ -121,6 +121,7 @@ $string['cant_be_undone'] = 'The choice made cannot be canceled by yourself.';
 $string['back_to_course'] = 'Back to course';
 $string['not_selected'] = 'Not selected';
 $string['not_available'] = 'Not available';
+$string['interaction_with_student_work_will_be_available_after_theme_selection'] = 'Interaction with student work will be available after theme selection.';
 
 // Errors strings
 $string['e:missing-coursework-student-record'] = 'Error: missing record of coursework student.';
