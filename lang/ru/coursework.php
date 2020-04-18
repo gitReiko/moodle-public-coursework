@@ -127,6 +127,8 @@ $string['back_to_course'] = 'Вернуться к курсу';
 $string['not_selected'] = 'Не выбран(а)';
 $string['not_available'] = 'Недоступен(на)';
 $string['interaction_with_student_work_will_be_available_after_theme_selection'] = 'Взаимодействие с работой студента будет доступно после выбора темы.';
+$string['view_theme_selection_header'] = 'Выбор темы курсовой работы';
+
 
 
 // Errors strings

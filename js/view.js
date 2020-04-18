@@ -206,3 +206,73 @@ function confirm_remove_selection()
     if(isConfirm) return true;
     else return false;
 }
+
+// --------------------------------------------------------
+class SelectThemePage 
+{
+    static change_available_courses()
+    {
+        let availableCourses = this.get_leader_available_courses()
+        this.update_course_select(availableCourses)
+        let selectedCourse = document.getElementById('course_select').firstChild.value;
+    }
+
+    static get_leader_available_courses()
+    {
+        let selectedLeader = document.getElementById('leader_select').value;
+        let leaders = document.getElementsByClassName('leaders_courses_js');
+
+        let availableCourses;
+        for(let i = 0; i < leaders.length; i++)
+        {
+            if(leaders[i].dataset.leader == selectedLeader)
+            {
+                availableCourses = leaders[i].dataset.courses.split(' ');
+            }
+        }
+
+        return availableCourses;
+    }
+
+    static update_course_select(availableCourses)
+    {
+        // Delete select options
+        let courseSelect = document.getElementById('course_select');
+        courseSelect.innerHTML = '';
+
+        // Insert neccessary options
+        for(let course of availableCourses)
+        {
+            let option = document.createElement('option');
+            option.value = course;
+            option.innerHTML = this.get_course_name(course);
+
+            courseSelect.append(option);
+        }
+    }
+
+    static get_course_name(courseId)
+    {
+        let courses = document.getElementsByClassName('courses_js');
+        for(let course of courses)
+        {
+            if(course.dataset.id == courseId)
+            {
+                return course.dataset.fullname;
+            }
+        }
+    }
+
+
+}
+
+
+
+
+
+
+
+
+
+
+

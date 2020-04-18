@@ -1,6 +1,6 @@
 <?php
 
-require_once 'theme_selection_stage.php';
+require_once 'theme_selection_stage\main.php';
 
 use coursework_lib as lib;
 
@@ -33,7 +33,7 @@ class StudentWorkMain
 
     private function get_theme_selection_page() : string 
     {
-        $themeSelection = new ThemeSelectionStage($this->course, $this->cm, $this->studentId);
+        $themeSelection = new ThemeSelectionStageMain($this->course, $this->cm, $this->studentId);
         return $themeSelection->get_gui();
     }
 
@@ -41,7 +41,7 @@ class StudentWorkMain
     {
         global $DB;
         $conditions = array('coursework' => $this->cm->instance, 'student' => $this->studentId);
-        return $DB->record_exists('coursework_students', $conditions);
+        return !$DB->record_exists('coursework_students', $conditions);
     }
 
 

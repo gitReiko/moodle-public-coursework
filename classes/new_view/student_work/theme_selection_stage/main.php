@@ -1,8 +1,11 @@
 <?php
 
+require_once 'not_available_page.php';
+require_once 'theme_selection_page.php';
+
 use coursework_lib as lib;
 
-class ThemeSelectionStage 
+class ThemeSelectionStageMain 
 {
     private $course;
     private $cm;
@@ -23,7 +26,7 @@ class ThemeSelectionStage
         }
         else 
         {
-            return $this->interaction_with_student_work_will_be_available_after_theme_selection();
+            return $this->get_not_available_page();
         }
     }
 
@@ -34,16 +37,16 @@ class ThemeSelectionStage
         else return false;
     }
 
-    private function interaction_with_student_work_will_be_available_after_theme_selection() : string 
+    private function get_not_available_page() : string 
     {
-        return '<p>'.get_string('interaction_with_student_work_will_be_available_after_theme_selection', 'coursework').'</p>';
+        $notAvailable = new ThemeSelectionNotAvailablePage;
+        return $notAvailable->get_page();
     }
 
     private function get_theme_selection_page() : string 
     {
-        $page = 'theme selectionnnnnnn';
-
-        return $page;
+        $themeSelection = new ThemeSelectionPage($this->course, $this->cm, $this->studentId);
+        return $themeSelection->get_page();
     }
 
 
