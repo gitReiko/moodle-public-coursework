@@ -12,6 +12,7 @@ class ThemeSelectionPage
 
     private $leaders;
     private $courses;
+    private $themes;
 
     function __construct(stdClass $course, stdClass $cm, int $studentId)
     {
@@ -39,6 +40,7 @@ class ThemeSelectionPage
         $getter = new ThemeSelectionMainGetter($this->course, $this->cm);
         $this->leaders = $getter->get_available_leaders();
         $this->courses = $getter->get_available_courses();
+        $this->themes = $getter->get_available_themes();
     }
 
     private function get_start_of_html_form() : string 
