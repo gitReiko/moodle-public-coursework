@@ -212,9 +212,8 @@ class SelectThemePage
 {
     static change_available_courses()
     {
-        let availableCourses = this.get_leader_available_courses()
-        this.update_course_select(availableCourses)
-        let selectedCourse = document.getElementById('course_select').firstChild.value;
+        this.update_course_select();
+        this.update_themes_select();
     }
 
     static get_leader_available_courses()
@@ -234,13 +233,14 @@ class SelectThemePage
         return availableCourses;
     }
 
-    static update_course_select(availableCourses)
+    static update_course_select()
     {
         // Delete select options
         let courseSelect = document.getElementById('course_select');
         courseSelect.innerHTML = '';
 
         // Insert neccessary options
+        let availableCourses = this.get_leader_available_courses();
         for(let course of availableCourses)
         {
             let option = document.createElement('option');
@@ -259,6 +259,28 @@ class SelectThemePage
             if(course.dataset.id == courseId)
             {
                 return course.dataset.fullname;
+            }
+        }
+    }
+
+    static update_themes_select()
+    {
+        // Delete select options
+        let themeSelect = document.getElementById('theme_select');
+        themeSelect.innerHTML = '';
+
+        // Insert neccessary options
+        let selectedCourse = document.getElementById('course_select').value;
+        let themes = document.getElementsByClassName('themes_js');
+        for(let theme of themes)
+        {
+            if(theme.dataset.courseId == selectedCourse)
+            {
+                let option = document.createElement('option');
+                option.value = theme.dataset.themeId;
+                option.innerHTML = theme.dataset.name;
+    
+                themeSelect.append(option);
             }
         }
     }
