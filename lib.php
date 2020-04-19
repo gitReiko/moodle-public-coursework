@@ -459,7 +459,7 @@ function cw_is_teacher_has_quota($cm, int $teacherid, int $courseID) : bool
 function cw_get_teacher_total_quota($cm, $teacherid)
 {
     global $DB;
-    $students = cw_get_students_sql_ids_string($cm);
+    $students = cw_get_coursework_students_in_condition($cm);
     $sql = "SELECT id
             FROM {coursework_students} 
             WHERE coursework = ?
@@ -477,7 +477,7 @@ function cw_get_teacher_total_quota($cm, $teacherid)
 function cw_get_teacher_course_total_quota($cm, $teacherid, $courseID)
 {
     global $DB;
-    $students = cw_get_students_sql_ids_string($cm);
+    $students = cw_get_coursework_students_in_condition($cm);
     $sql = "SELECT id
             FROM {coursework_students} 
             WHERE coursework = ?
@@ -492,45 +492,18 @@ function cw_get_teacher_course_total_quota($cm, $teacherid, $courseID)
     else return count($result);
 }
 
-function cw_get_students_sql_ids_string($cm)
+function cw_get_coursework_students_in_condition($cm)
 {
-    $students = cw_get_students($cm);
+    $students = lib\get_coursework_students($cm);
 
     $str = '';
     foreach($students as $student)
     {
-        $str.= $student . ',';
+        $str.= $student->id . ',';
     }
     $str = substr($str, 0, -1);
 
     return $str;
-}
-
-function cw_get_students($cm) : array
-{
-    $students = array();
-    $allowedGroups = groups_get_activity_allowed_groups($cm);
-
-    foreach($allowedGroups as $group)
-    {
-        $students = array_merge($students, cw_get_group_members($group->id));
-    }
-
-    $students = cw_convert_students_array_to_students_ids_array($students);
-    $students = array_unique($students);
-
-    return $students;
-}
-
-function cw_convert_students_array_to_students_ids_array($students)
-{
-    $studentsIds = array();
-    foreach($students as $student)
-    {
-        $studentsIds[] = $student->id;
-    }
-
-    return $studentsIds;
 }
 
 function cw_is_this_teacher_already_chosen_for_this_student(int $courseworkID, int $teacherid) : bool 

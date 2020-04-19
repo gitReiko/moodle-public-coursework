@@ -75,6 +75,7 @@ class ThemeSelectionPage
     {
         $sel = '<p>';
         $sel.= '<select id="leader_select" ';
+        $sel.= ' name="'.TEACHER.'" ';
         $sel.= ' onchange="SelectThemePage.change_available_courses()"';
         $sel.= ' autocomplete="off" autofocus>';
         foreach($this->leaders as $leader)
@@ -100,6 +101,7 @@ class ThemeSelectionPage
         $sel = '<p>';
         $sel.= '<select id="course_select" ';
         $sel.= ' onchange="SelectThemePage.update_themes_select()"';
+        $sel.= ' name="'.COURSE.'" ';
         $sel.= ' autocomplete="off">';
         foreach($this->courses as $course)
         {
@@ -139,6 +141,7 @@ class ThemeSelectionPage
     {
         $sel = '<p>';
         $sel.= '<select id="theme_select" required ';
+        $sel.= ' name="'.THEME.'" ';
         $sel.= ' autocomplete="off" size="10">';
         foreach($this->themes as $container)
         {
@@ -186,6 +189,7 @@ class ThemeSelectionPage
     private function get_own_theme_input() : string 
     {
         $input = '<p><input type="text" id="own_theme_input"';
+        $input.= ' name="'.OWN_THEME.'" ';
         $input.= ' maxlength=254 minlength="5" size="140"';
         $input.= ' disabled autocomplete="off" required></p>';
         return $input;
@@ -202,7 +206,7 @@ class ThemeSelectionPage
     private function get_neccessary_form_inputs() : string 
     {
         $inputs = '<input type="hidden" name="'.ID.'" value="'.$this->cm->id.'"/>';
-        //$inputs.= '<input type="hidden" name="'.ConfigurationManager::DATABASE_EVENT.'" value="'.ThemesCollectionsUsing::ADD_THEME_USING.'"/>';
+        $inputs.= '<input type="hidden" name="'.DB_EVENT.'" value="'.ViewDatabaseHandler::SELECT_THEME.'">';
         return $inputs;
     }
 

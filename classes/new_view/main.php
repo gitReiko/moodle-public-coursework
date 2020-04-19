@@ -2,11 +2,14 @@
 
 require_once 'works_list.php';
 require_once 'student_work/main.php';
+require_once 'database_handlers/main.php';
 
 use coursework_lib as lib;
 
 class ViewMain 
 {
+    const DATABASE_EVENT = 'database_event';
+
     private $course;
     private $cm;
 
@@ -15,6 +18,10 @@ class ViewMain
         $this->course = $course;
         $this->cm = $cm;
 
+        if($this->is_database_event_exist())
+        {
+            $this->handle_database_event();
+        }
     }
 
     public function get_gui() : string 
@@ -29,6 +36,20 @@ class ViewMain
         {
             return $this->get_students_works_list_gui();
         }
+    }
+
+    private function is_database_event_exist() : bool 
+    {
+        $event = optional_param(DB_EVENT, null, PARAM_TEXT);
+
+        if($event) return true;
+        else return false;
+    }
+
+    private function handle_database_event() : void 
+    {
+        $database = new ViewDatabaseHandler($this->course, $this->cm);
+        $database->handle();
     }
 
     private function get_students_works_list_gui() : string 

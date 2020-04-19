@@ -28,6 +28,10 @@ class StudentWorkMain
         {
             return $this->get_theme_selection_page();
         }
+        else 
+        {
+            return $this->get_theme_selection_page();
+        }
         // Other stages
     }
 
