@@ -148,6 +148,7 @@ $string['e:students_not_enrolled'] = 'Error: Students are not enrolled in this c
 $string['e:teachers_not_enrolled'] = 'Error: Leaders are not enrolled in this coursework.';
 $string['no_one_has_chosen_you_as_leader'] = 'At the moment, no one has chosen you as leader.';
 $string['e-sv:quota_ended'] = 'There are no free course leaders left. Contact your administrator or teacher to resolve this issue.';
+$string['e:quota_is_over'] = 'Ошибка: закончились свободные руководители курсовой работы. Свяжитесь с администратором для увеличения квоты.';
 
 // new errors
 // e - error

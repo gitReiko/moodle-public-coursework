@@ -46,6 +46,13 @@ class ThemeSelectionPage
     {
         $getter = new ThemeSelectionMainGetter($this->course, $this->cm);
         $this->leaders = $getter->get_available_leaders();
+
+        // Сourses and leaders can only end at the same time.
+        if(empty($this->leaders))
+        {
+            throw new Exception(get_string('e:quota_is_over', 'coursework'));
+        }
+
         $this->courses = $getter->get_available_courses();
         $this->themes = $getter->get_available_themes();
 

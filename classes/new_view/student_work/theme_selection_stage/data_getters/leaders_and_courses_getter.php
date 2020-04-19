@@ -31,8 +31,15 @@ class LeadersAndCoursesGetter
 
     private function init_available_leaders() 
     {
-        $all = $this->get_all_coursework_leaders();
-        $available = $this->filter_leaders_with_used_quota($all);
+        if($this->is_leader_selected())
+        {
+            $available = $this->get_selected_leader();
+        }
+        else
+        {
+            $available = $this->get_all_coursework_leaders();
+        }
+        $available = $this->filter_leaders_with_used_quota($available);
 
         $this->availableLeaders = $this->get_available_leaders_from_bunchs($available);
         $this->availableCourses = $this->get_available_courses_from_bunchs($available);
@@ -70,6 +77,56 @@ class LeadersAndCoursesGetter
                        'teacher' => $leader->teacher, 
                        'course' => $leader->course);
         return $DB->count_records('coursework_students', $where);
+    }
+
+    private function is_leader_selected() : bool 
+    {
+        global $DB, $USER;
+        $where = array('coursework' => $this->cm->instance, 'student' =>$USER->id);
+        return $DB->record_exists('coursework_students', $where);
+    }
+
+    private function get_selected_leader() : array 
+    {
+        $studentSelect = $this->get_students_select();
+
+        if($this->is_course_selected($studentSelect))
+        {
+            return $this->get_selected_leader_with_course_bunch($studentSelect);
+        }
+        else 
+        {
+            return $this->get_selected_leader_bunchs($studentSelect);
+        }
+    }
+
+    private function get_students_select()
+    {
+        global $DB, $USER;
+        $where = array('coursework' => $this->cm->instance, 'student' =>$USER->id);
+        return $DB->get_record('coursework_students', $where);
+    }
+
+    private function is_course_selected(stdClass $bunch) : bool 
+    {
+        if(!empty($bunch->course)) return true;
+        else return false;
+    }
+
+    private function get_selected_leader_with_course_bunch(stdClass $bunch)
+    {
+        global $DB;
+        $where = array('coursework' => $this->cm->instance, 
+                        'teacher' => $bunch->teacher,
+                        'course' => $bunch->course);
+        return $DB->get_records('coursework_teachers', $where);
+    }
+
+    private function get_selected_leader_bunchs(stdClass $bunch)
+    {
+        global $DB;
+        $where = array('coursework' => $this->cm->instance, 'teacher' => $bunch->teacher);
+        return $DB->get_records('coursework_teachers', $where);
     }
 
     private function get_available_leaders_from_bunchs(array $bunchs) 
