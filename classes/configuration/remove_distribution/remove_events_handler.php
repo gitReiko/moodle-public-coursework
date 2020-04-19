@@ -56,11 +56,13 @@ class RemoveDistributionDatabaseEventsHandler
             if(empty($studentId)) throw new Exception(get_string('e:missing-student-id', 'coursework'));
 
             $messagename = 'selectionremoved';
+            global $USER;
+            $userfrom = $USER;
             $userto = $this->get_user_record($studentId);
             $headerMessage = get_string('selection_removed_header','coursework');
             $htmlMessage = $this->get_manager_html_message();
 
-            cw\send_notification($this->cm, $this->course->id, $messagename, $userto, $headerMessage, $htmlMessage);
+            cw\send_notification($this->cm, $this->course->id, $messagename, $userfrom, $userto, $headerMessage, $htmlMessage);
         }
         catch(Exception $e)
         {

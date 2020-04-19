@@ -1,5 +1,7 @@
 <?php
 
+use coursework_lib as lib;
+
 class ThemeSelectDatabaseHandler 
 {
       
@@ -168,7 +170,7 @@ class ThemeSelectDatabaseHandler
         global $DB;
         if($DB->insert_record('coursework_students', $row)) 
         {
-            //$this->send_notification_to_teacher();
+            $this->send_notification_to_teacher($row);
         }
         else
         {
@@ -181,14 +183,37 @@ class ThemeSelectDatabaseHandler
         global $DB;
         if($DB->update_record('coursework_students', $row)) 
         {
-            //$this->send_notification_to_teacher();
+            $this->send_notification_to_teacher($row);
         }
         else 
         {
             throw new Exception(get_string('e:upd:student-not-selected', 'coursework'));
         }
+    }
 
+    private function send_notification_to_teacher(stdClass $row) : void 
+    {
+        global $USER;
 
+        $cm = $this->cm;
+        $course = $this->course;
+        $messageName = 'selecttheme';
+        $userFrom = $USER;
+        $userTo = lib\get_user($row->teacher); 
+        $headerMessage = get_string('theme_selection_header','coursework');
+        $fullMessageHtml = $this->get_student_html_message();
+
+        lib\send_notification($cm, $course, $messageName, $userFrom, $userTo, $headerMessage, $fullMessageHtml);
+
+    }
+
+    private function get_student_html_message() : string
+    {
+        $params = cw_prepare_data_for_message();
+        $message = get_string('teacher_message','coursework', $params);
+        $notification = get_string('answer_not_require', 'coursework');
+
+        return cw_get_html_message($this->cm, $this->course->id, $message, $notification);
     }
 
 }

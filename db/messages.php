@@ -5,9 +5,9 @@
 defined('MOODLE_INTERNAL') || die();
 
 $messageproviders = array(
-    // Notify that the student chose their leader
-    'teacherselected' => array(
-        'capability' => 'mod/coursework:selectteacher'
+    // Notify that the student select their theme
+    'selecttheme' => array(
+        'capability' => 'mod/coursework:selecttheme'
     ),
 
     // Notify that the leader grade their student
