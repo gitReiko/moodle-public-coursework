@@ -33,6 +33,10 @@ class ThemeSelectionPage
         $page.= $this->get_leader_field();
         $page.= $this->get_course_field();
         $page.= $this->get_theme_field();
+        $page.= $this->get_use_own_theme_field();
+        $page.= $this->get_own_theme_field();
+        $page.= $this->get_select_button();
+        $page.= $this->get_neccessary_form_inputs();
         $page.= $this->get_end_of_html_form();
         $page.= $this->get_js_data();
         return $page;
@@ -72,7 +76,7 @@ class ThemeSelectionPage
         $sel = '<p>';
         $sel.= '<select id="leader_select" ';
         $sel.= ' onchange="SelectThemePage.change_available_courses()"';
-        $sel.= ' autocomplete="off">';
+        $sel.= ' autocomplete="off" autofocus>';
         foreach($this->leaders as $leader)
         {
             $sel.= '<option value="'.$leader->id.'">';
@@ -134,8 +138,8 @@ class ThemeSelectionPage
     private function get_theme_select() : string 
     {
         $sel = '<p>';
-        $sel.= '<select id="theme_select" ';
-        $sel.= ' autocomplete="off">';
+        $sel.= '<select id="theme_select" required ';
+        $sel.= ' autocomplete="off" size="10">';
         foreach($this->themes as $container)
         {
             if($container->course == $this->selectedCourse)
@@ -151,6 +155,55 @@ class ThemeSelectionPage
         $sel.= '</select>';
         $sel.= '</p>';
         return $sel;
+    }
+
+    private function get_use_own_theme_field()
+    {
+        $field = '<div>';
+        $field.= $this->get_use_own_theme_checkbox().' ';
+        $field.= '<h4 class="themeSelectCheckbox" onclick="SelectThemePage.use_own_theme()">';
+        $field.= get_string('use_own_theme', 'coursework');
+        $field.= '</h4>';
+        $field.= '</div>';
+        return $field;
+    }
+
+    private function get_use_own_theme_checkbox()
+    {
+        $input = '<input type="checkbox" id="useOwnTheme" ';
+        $input.= ' onclick="SelectThemePage.offer_or_own_theme_switcher()"';
+        $input.= ' autocomplete="off">';
+        return $input;
+    }
+
+    private function get_own_theme_field() : string 
+    {
+        $field = '<h4>'.get_string('own_theme', 'coursework').'</h4>';
+        $field.= $this->get_own_theme_input();
+        return $field;
+    }
+
+    private function get_own_theme_input() : string 
+    {
+        $input = '<p><input type="text" id="own_theme_input"';
+        $input.= ' maxlength=254 minlength="5" size="140"';
+        $input.= ' disabled autocomplete="off" required></p>';
+        return $input;
+    }
+
+    private function get_select_button() : string 
+    {
+        $btn = '<p><input type="submit" ';
+        $btn.= 'value="'.get_string('choose', 'coursework').'" ';
+        $btn.= '></p>';
+        return $btn;
+    }
+
+    private function get_neccessary_form_inputs() : string 
+    {
+        $inputs = '<input type="hidden" name="'.ID.'" value="'.$this->cm->id.'"/>';
+        //$inputs.= '<input type="hidden" name="'.ConfigurationManager::DATABASE_EVENT.'" value="'.ThemesCollectionsUsing::ADD_THEME_USING.'"/>';
+        return $inputs;
     }
 
     private function get_end_of_html_form() : string 
@@ -214,8 +267,6 @@ class ThemeSelectionPage
         }
         return $data;  
     }
-
-
 
 
 }

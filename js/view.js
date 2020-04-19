@@ -285,6 +285,41 @@ class SelectThemePage
         }
     }
 
+    static use_own_theme()
+    {
+        let useOwnTheme = document.getElementById('useOwnTheme');
+
+        if(useOwnTheme.checked)
+        {
+            useOwnTheme.checked = false;
+        }
+        else 
+        {
+            useOwnTheme.checked = true;
+        }
+
+        this.offer_or_own_theme_switcher();
+    }
+
+    static offer_or_own_theme_switcher()
+    {
+        let ownTheme = document.getElementById('theme_select');
+        let offerTheme = document.getElementById('own_theme_input');
+        let useOwnTheme = document.getElementById('useOwnTheme');
+
+        if(useOwnTheme.checked)
+        {
+            ownTheme.disabled = true;
+            offerTheme.disabled = false;
+
+        }
+        else 
+        {
+            ownTheme.disabled = false;
+            offerTheme.disabled = true;
+        }
+    }
+
 
 }
 

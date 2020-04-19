@@ -123,6 +123,7 @@ $string['not_selected'] = 'Not selected';
 $string['not_available'] = 'Not available';
 $string['interaction_with_student_work_will_be_available_after_theme_selection'] = 'Interaction with student work will be available after theme selection.';
 $string['view_theme_selection_header'] = 'Coursework theme selection';
+$string['own_theme'] = 'Own theme';
 
 // Errors strings
 $string['e:missing-coursework-student-record'] = 'Error: missing record of coursework student.';

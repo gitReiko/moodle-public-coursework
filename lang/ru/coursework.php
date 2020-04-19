@@ -16,7 +16,7 @@ $string['module'] = 'МОДУЛЬ:';
 // Coursework configuration
 $string['coursework_configuration'] = 'Настройка курсовой работы';
 $string['leaders_setting'] = 'Настройка руководителей';
-$string['theme'] = 'Тематика';
+$string['theme'] = 'Тема';
 $string['themes_management'] = 'Управление тематикой';
 $string['no_available_themes'] = 'Нет доступных тем';
 $string['use_own_theme'] = 'Использовать собственную тему';
@@ -128,6 +128,7 @@ $string['not_selected'] = 'Не выбран(а)';
 $string['not_available'] = 'Недоступен(на)';
 $string['interaction_with_student_work_will_be_available_after_theme_selection'] = 'Взаимодействие с работой студента будет доступно после выбора темы.';
 $string['view_theme_selection_header'] = 'Выбор темы курсовой работы';
+$string['own_theme'] = 'Собственная тема';
 
 
 
