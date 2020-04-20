@@ -129,6 +129,10 @@ $string['not_available'] = 'Недоступен(на)';
 $string['interaction_with_student_work_will_be_available_after_theme_selection'] = 'Взаимодействие с работой студента будет доступно после выбора темы.';
 $string['view_theme_selection_header'] = 'Выбор темы курсовой работы';
 $string['own_theme'] = 'Собственная тема';
+$string['task_template'] = 'Шаблон листа-задания';
+$string['use_task'] = 'Выполнять курсовую работу по листу-заданию';
+$string['automatic_task_obtaining'] = 'Автоматически выдавать задание на основе шаблона';
+$string['guidelines'] = 'Методические указания';
 
 
 

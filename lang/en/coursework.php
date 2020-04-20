@@ -124,6 +124,10 @@ $string['not_available'] = 'Not available';
 $string['interaction_with_student_work_will_be_available_after_theme_selection'] = 'Interaction with student work will be available after theme selection.';
 $string['view_theme_selection_header'] = 'Coursework theme selection';
 $string['own_theme'] = 'Own theme';
+$string['task_template'] = 'Task template';
+$string['use_task'] = 'Perform coursework on task';
+$string['automatic_task_obtaining'] = 'Automatically obtain task based on template';
+$string['guidelines'] = 'Guidelines';
 
 // Errors strings
 $string['e:missing-coursework-student-record'] = 'Error: missing record of coursework student.';

@@ -280,5 +280,24 @@ function xmldb_coursework_upgrade($oldversion)
         }
     }
 
+    if($oldversion < 2019083400)
+    {
+        // Update coursework table
+        $table = new xmldb_table('coursework');
+        // Add new field and key to table
+        $field = new xmldb_field('usetask', XMLDB_TYPE_INTEGER, '4', null, XMLDB_NOTNULL, null, '0');
+        if(!$dbman->field_exists($table, $field))
+        {
+            $dbman->add_field($table, $field);
+        }
+        // Add new field and key to table
+        $field = new xmldb_field('automatictaskobtaining', XMLDB_TYPE_INTEGER, '4', null, XMLDB_NOTNULL, null, '0');
+        if(!$dbman->field_exists($table, $field))
+        {
+            $dbman->add_field($table, $field);
+        }
+
+    }
+
     return true;
 }

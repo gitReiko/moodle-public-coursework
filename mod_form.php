@@ -26,7 +26,13 @@ class mod_coursework_mod_form extends moodleform_mod {
         $mform->addRule('name', null, 'required', null, 'client');
         $mform->addRule('name', get_string('maximumchars', '', 255), 'maxlength', 255, 'client');
 
-        $this->standard_intro_elements(get_string('intro', 'coursework'));
+        $this->standard_intro_elements(get_string('guidelines', 'coursework'));
+
+        // Section header title according to language file.
+        $mform->addElement('header', 'task_template', get_string('task_template', 'coursework'));
+        $mform->addElement('checkbox', 'usetask', get_string('use_task', 'coursework'));
+        $mform->addElement('checkbox', 'automatictaskobtaining', get_string('automatic_task_obtaining', 'coursework'));
+        
         $this->standard_coursemodule_elements();
         $this->add_action_buttons();
     }
