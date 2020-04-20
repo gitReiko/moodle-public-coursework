@@ -17,8 +17,11 @@ function coursework_update_instance($coursework)
     $coursework->id = $coursework->instance;
     $coursework->timemodified = time();
 
+    if(empty($coursework->usetask)) $coursework->usetask = 0;
+    if(empty($coursework->automatictaskobtaining)) $coursework->automatictaskobtaining = 0;
+
     if($DB->update_record('coursework', $coursework)) return true;
-    else return true;
+    else return false;
 }
 
 function coursework_delete_instance($id)
@@ -87,7 +90,7 @@ function coursework_supports($feature) {
         case FEATURE_GROUPINGS:
             return true;
         case FEATURE_MOD_INTRO:
-            return false;
+            return true;
         case FEATURE_COMPLETION_TRACKS_VIEWS:
             return false;
         case FEATURE_COMPLETION_HAS_RULES:
@@ -99,7 +102,7 @@ function coursework_supports($feature) {
         case FEATURE_BACKUP_MOODLE2:
             return false;
         case FEATURE_SHOW_DESCRIPTION:
-            return false;
+            return true;
         case FEATURE_ADVANCED_GRADING:
             return false;
         case FEATURE_PLAGIARISM:
