@@ -7,6 +7,10 @@ function coursework_add_instance($coursework)
 {
     global $DB;
     $coursework->timemodified = time();
+    
+    if(empty($coursework->usetask)) $coursework->usetask = 0;
+    if(empty($coursework->automatictaskobtaining)) $coursework->automatictaskobtaining = 0;
+
     return $DB->insert_record('coursework', $coursework);
 }
 
