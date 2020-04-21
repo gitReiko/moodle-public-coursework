@@ -15,6 +15,11 @@ class mod_coursework_mod_form extends moodleform_mod {
 
         // Name.
         $mform->addElement('text', 'name', get_string('name'), array('size'=>'64'));
+
+        // Intro editor
+        $this->standard_intro_elements(get_string('guidelines', 'coursework'));
+
+        // Because this code above standard_intro_elements broke them.
         if (!empty($CFG->formatstringstriptags)) 
         {
             $mform->setType('name', PARAM_TEXT);
@@ -26,7 +31,7 @@ class mod_coursework_mod_form extends moodleform_mod {
         $mform->addRule('name', null, 'required', null, 'client');
         $mform->addRule('name', get_string('maximumchars', '', 255), 'maxlength', 255, 'client');
 
-        $this->standard_intro_elements(get_string('guidelines', 'coursework'));
+        
 
         // Section header title according to language file.
         $mform->addElement('header', 'task_template', get_string('task_template', 'coursework'));
