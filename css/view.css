@@ -54,3 +54,32 @@ select.select { width: 200px !important; }
     display: inline-block;
     cursor: pointer;
 }
+
+table.students_works 
+{
+    border-collapse: collapse;
+}
+
+table.students_works thead tr td 
+{
+    font-weight: bold;
+}
+
+table.students_works tr td 
+{
+    border: 1px solid black;
+    padding: 1px 3px;
+}
+
+.red-background 
+{
+    background-color: #ff7373;;
+}
+
+.green-background 
+{
+    background-color: #b4eeb4;
+}
+
+
+

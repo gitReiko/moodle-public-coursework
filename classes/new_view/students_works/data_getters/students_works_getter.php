@@ -8,22 +8,22 @@ class StudentsWorksGetter
     private $course;
     private $cm;
 
-    private $availableStudents;
+    private $studentsWorks;
 
     function __construct(stdClass $course, stdClass $cm)
     {
         $this->course = $course;
         $this->cm = $cm;
 
-        $this->init_available_students();
+        $this->init_studentsWorks();
     }
 
-    public function get_available_students()
+    public function get_students_works()
     {
-        return $this->availableStudents;
+        return $this->studentsWorks;
     }
 
-    private function init_available_students()
+    private function init_studentsWorks()
     {
         $students = lib\get_coursework_students($this->cm);
 
@@ -33,9 +33,9 @@ class StudentsWorksGetter
             $students = $this->filter_none_teacher_students($students);
         }
 
-        $students = $this->add_additional_info_to_students_array($students);
+        $works = $this->add_additional_info_to_students_array($students);
 
-        $this->availableStudents = $students;
+        $this->studentsWorks = $works;
     }
 
     private function filter_none_teacher_students($students)
@@ -69,14 +69,14 @@ class StudentsWorksGetter
 
                 $newStudent = new stdClass;
                 $newStudent->studentId = $student->id;
-                $newStudent->studentFullName = $student->fullname;
+                $newStudent->studentFullName = $student->lastname.' '.$student->firstname;
                 $newStudent->studentShortName = lib\get_user_shortname(lib\get_user_from_id($student->id));
                 
                 if(!empty($cwStudent->teacher))
                 {
                     $newStudent->teacherId = $cwStudent->teacher;
                     $teacher = lib\get_user_from_id($cwStudent->teacher);
-                    $newStudent->teacherFullName = lib\get_user_fullname($teacher);
+                    $newStudent->teacherFullName = $teacher->lastname.' '.$teacher->firstname;
                 }
 
                 if(!empty($cwStudent->course))
@@ -93,7 +93,7 @@ class StudentsWorksGetter
             {
                 $newStudent = new stdClass;
                 $newStudent->studentId = $student->id;
-                $newStudent->studentFullName = $student->fullname;
+                $newStudent->studentFullName = $student->lastname.' '.$student->firstname;
                 $newStudent->studentShortName = lib\get_user_shortname(lib\get_user_from_id($student->id));
 
                 $newStudents[] = $newStudent;
