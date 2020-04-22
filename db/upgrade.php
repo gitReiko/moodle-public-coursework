@@ -299,5 +299,24 @@ function xmldb_coursework_upgrade($oldversion)
 
     }
 
+    if($oldversion < 2019083900)
+    {
+        $table = new xmldb_table('coursework_students');
+        $field = new xmldb_field('task', XMLDB_TYPE_INTEGER, '10', null, null, null, '0');
+        if(!$dbman->field_exists($table, $field))
+        {
+            $dbman->add_field($table, $field);
+        }
+        $field = new xmldb_field('receivingtaskdate', XMLDB_TYPE_INTEGER, '10', null, null, null, '0');
+        if(!$dbman->field_exists($table, $field))
+        {
+            $dbman->add_field($table, $field);
+        }
+        $key = new xmldb_key('theme', XMLDB_KEY_FOREIGN, array('theme'), 'coursework_themes', array('id'));
+        $dbman->add_key($table, $key);
+        $key = new xmldb_key('task', XMLDB_KEY_FOREIGN, array('task'), 'coursework_tasks', array('id'));
+        $dbman->add_key($table, $key);
+    }
+
     return true;
 }

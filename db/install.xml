@@ -46,9 +46,11 @@
         <FIELD NAME="course" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" />
         <FIELD NAME="theme" TYPE="int" LENGTH="10" NOTNULL="false" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" />
         <FIELD NAME="owntheme" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false" />
+        <FIELD NAME="task" TYPE="int" LENGTH="10" NOTNULL="false" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" />
         <FIELD NAME="grade" TYPE="int" LENGTH="4" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" />
         <FIELD NAME="comment" TYPE="text" LENGTH="small" NOTNULL="false" SEQUENCE="false" />
         <FIELD NAME="themeselectiondate" TYPE="int" LENGTH="10" NOTNULL="false" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" />
+        <FIELD NAME="receivingtaskdate" TYPE="int" LENGTH="10" NOTNULL="false" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" />
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id" COMMENT="Primary key for certificate_issues" />
@@ -56,6 +58,8 @@
         <KEY NAME="student" TYPE="foreign" FIELDS="student" REFTABLE="user" REFFIELDS="id" />
         <KEY NAME="teacher" TYPE="foreign" FIELDS="teacher" REFTABLE="user" REFFIELDS="id" />
         <KEY NAME="course" TYPE="foreign" FIELDS="course" REFTABLE="course" REFFIELDS="id" />
+        <KEY NAME="theme" TYPE="foreign" FIELDS="theme" REFTABLE="coursework_themes" REFFIELDS="id" />
+        <KEY NAME="task" TYPE="foreign" FIELDS="task" REFTABLE="coursework_tasks" REFFIELDS="id" />
       </KEYS>
     </TABLE>
 

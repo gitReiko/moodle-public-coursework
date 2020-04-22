@@ -39,7 +39,13 @@ class ThemeSelectDatabaseHandler
         $row->course = $this->get_course();
         $row->theme = $this->get_theme();
         $row->owntheme = $this->get_own_theme();
-        $row->themeselectiondate = $this->get_theme_selection_date();
+        $row->themeselectiondate = time();
+
+        if($this->is_task_obtained_automatically())
+        {
+            $row->task = $this->get_coursework_task_template();
+            $row->receivingtaskdate = time();
+        }
 
         return $row;
     }
@@ -83,11 +89,6 @@ class ThemeSelectDatabaseHandler
     {
         $theme = optional_param(OWN_THEME, null, PARAM_TEXT);
         return $theme;
-    }
-
-    private function get_theme_selection_date() : int 
-    {
-        return time();
     }
 
     private function handle_exceptions(stdClass $row) : void 
@@ -214,6 +215,22 @@ class ThemeSelectDatabaseHandler
         $notification = get_string('answer_not_require', 'coursework');
 
         return cw_get_html_message($this->cm, $this->course->id, $message, $notification);
+    }
+
+    private function is_task_obtained_automatically() : bool 
+    {
+        global $DB;
+        $where = array('id'=>$this->cm->instance, 'usetask'=>1, 'automatictaskobtaining'=>1);
+        return $DB->record_exists('coursework', $where);
+    }
+
+    private function get_coursework_task_template() : int 
+    {
+        global $DB;
+        $where = array('coursework' => $this->cm->instance);
+        $task = $DB->get_field('coursework_tasks_using', 'task', $where);
+        if(empty($task)) throw new Exception('Task template is absent.');
+        return $task;
     }
 
 }

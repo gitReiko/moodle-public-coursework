@@ -24,9 +24,9 @@ class ThemeSelectionStageMain
         {
             return $this->get_theme_selection_page();
         }
-        else 
+        else if($this->is_task_used_in_coursework_instance())
         {
-            return $this->get_not_available_page();
+            return 'task ';
         }
     }
 
@@ -47,6 +47,13 @@ class ThemeSelectionStageMain
     {
         $themeSelection = new ThemeSelectionPage($this->course, $this->cm, $this->studentId);
         return $themeSelection->get_page();
+    }
+
+    private function is_task_used_in_coursework_instance() : bool 
+    {
+        global $DB;
+        $where = array('id'=>$this->cm->instance, 'usetask'=>1);
+        return $DB->record_exists('coursework', $where);
     }
 
 
