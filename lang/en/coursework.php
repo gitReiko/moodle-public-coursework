@@ -129,6 +129,14 @@ $string['use_task'] = 'Perform coursework on task';
 $string['automatic_task_obtaining'] = 'Automatically obtain task based on template';
 $string['guidelines'] = 'Guidelines';
 
+// Students works list 
+$string['student_works_list_header'] = 'Students works list';
+$string['leader_short'] = 'Lea';
+$string['course_short'] = 'Cou';
+$string['theme_short'] = 'The';
+
+
+
 // Errors strings
 $string['e:missing-coursework-student-record'] = 'Error: missing record of coursework student.';
 $string['e:missing-user-record'] = 'Error: missing record of user.';

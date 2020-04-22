@@ -56,7 +56,7 @@ $capabilities = array(
     ),
 
     // Ability to select teacher
-    'mod/coursework:selectteacher' => array(
+    'mod/coursework:selecttheme' => array(
 
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,

@@ -134,6 +134,11 @@ $string['use_task'] = 'Выполнять курсовую работу по л�
 $string['automatic_task_obtaining'] = 'Автоматически выдавать задание на основе шаблона';
 $string['guidelines'] = 'Методические указания';
 
+// Students works list 
+$string['student_works_list_header'] = 'Список работ студентов';
+$string['leader_short'] = 'Рук';
+$string['course_short'] = 'Дис';
+$string['theme_short'] = 'Тем';
 
 
 // Errors strings

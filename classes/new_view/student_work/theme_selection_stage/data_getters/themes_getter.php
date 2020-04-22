@@ -70,7 +70,7 @@ class ThemesGetter
 
     private function filter_used_themes(array $allThemes) : array
     {
-        $students = $this->get_coursework_students_for_where();
+        $students = lib\get_coursework_students_for_in_query($this->cm);
 
         $themes = array();
         foreach($allThemes as $theme)
@@ -81,18 +81,6 @@ class ThemesGetter
             }
         }
         return $themes;
-    }
-
-    private function get_coursework_students_for_where()
-    {
-        $where = '';
-        $students = lib\get_coursework_students($this->cm);
-        foreach($students as $student)
-        {
-            $where.= $student->id.',';
-        }
-        $where = mb_substr($where, 0, -1);
-        return $where;
     }
 
     private function is_theme_not_used($themeId, $students) : bool 

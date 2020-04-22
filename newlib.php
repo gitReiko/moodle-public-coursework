@@ -110,7 +110,8 @@ namespace coursework_lib
     function is_user_teacher(\stdClass $cm, int $userId) : bool 
     {
         // Managers can also be teachers.
-        if(has_capability('mod/coursework:is_teacher', \context_module::instance($cm->id), $userId))
+        if(has_capability('mod/coursework:is_teacher', \context_module::instance($cm->id), $userId)
+            && !has_capability('mod/coursework:is_manager', \context_module::instance($cm->id), $userId))
         {
             return true;
         }
@@ -156,6 +157,18 @@ namespace coursework_lib
         usort($students, "compare_user_fullnames");
 
         return $students;
+    }
+
+    function get_coursework_students_for_in_query(\stdClass $cm) : string
+    {
+        $inQuery = '';
+        $students = get_coursework_students($cm);
+        foreach($students as $student)
+        {
+            $inQuery.= $student->id.',';
+        }
+        $inQuery = mb_substr($inQuery, 0, -1);
+        return $inQuery;
     }
 
     function get_coursework_students_with_groups_leaders_courses(\stdClass $cm, array $allowedActivityGroups)
@@ -259,6 +272,12 @@ namespace coursework_lib
         return $user;
     }
 
+    function get_user_from_id(int $id) : \stdClass 
+    {
+        global $DB;
+        return $DB->get_record('user', array('id'=>$id), 'id, firstname, lastname');
+    }
+
     function get_user_fullname(\stdClass $user) : string
     {
         $temp = explode(' ', $user->firstname);
@@ -271,6 +290,28 @@ namespace coursework_lib
 
         return $user->lastname.$str;
     }
+
+    function get_user_shortname(\stdClass $user) : string
+    {
+        $temp = explode(' ', $user->firstname);
+        
+        $str = '';
+        $str.= mb_substr($user->lastname, 0, 4).'.';
+
+        foreach($temp as $key2 => $name)
+        {
+            $str .= mb_substr($name, 0, 1).'.';
+        }
+
+        return $str;
+    }
+
+    function get_theme_name(int $id) : string 
+    {
+        global $DB;
+        return $DB->get_field('coursework_themes', 'name', array('id'=>$id));
+    }
+
 
     function get_users_with_names_from_ids_array(array $usersIds) : array
     {
@@ -303,7 +344,7 @@ namespace coursework_lib
         $message->subject = $headerMessage;
         $message->fullmessage = $headerMessage;
         $message->fullmessageformat = FORMAT_MARKDOWN;
-        $message->fullmessagehtml = $htmlMessage;
+        $message->fullmessagehtml = $fullMessageHtml;
         $message->smallmessage = $headerMessage;
         $message->notification = '1';
         $message->contexturl = $CFG->wwwroot.'/coursework/view.php?id='.$cm->id;

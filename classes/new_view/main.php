@@ -1,6 +1,6 @@
 <?php
 
-require_once 'works_list.php';
+require_once 'students_works/main.php';
 require_once 'student_work/main.php';
 require_once 'database_handlers/main.php';
 
@@ -54,8 +54,8 @@ class ViewMain
 
     private function get_students_works_list_gui() : string 
     {
-        $worksList = new WorksList($this->course, $this->cm);
-        return $worksList->get_gui();
+        $worksList = new StudentsWorksMain($this->course, $this->cm);
+        return $worksList->get_page();
     }
 
     private function get_student_work_gui() : string 

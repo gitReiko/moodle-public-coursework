@@ -95,7 +95,7 @@ class StudentCourseworkView extends CourseworkView
     private function get_used_themes() : array
     {
         global $DB;
-        $students = cw_get_coursework_students_in_condition($this->cm);
+        $students = lib\get_coursework_students_for_in_query($this->cm);
         $sql = "SELECT *
                 FROM {coursework_students}
                 WHERE coursework = ?

@@ -522,7 +522,7 @@ function cw_is_teacher_has_quota($cm, int $teacherid, int $courseID) : bool
 function cw_get_teacher_total_quota($cm, $teacherid)
 {
     global $DB;
-    $students = cw_get_coursework_students_in_condition($cm);
+    $students = lib\get_coursework_students_for_in_query($cm);
     $sql = "SELECT id
             FROM {coursework_students} 
             WHERE coursework = ?
@@ -540,7 +540,7 @@ function cw_get_teacher_total_quota($cm, $teacherid)
 function cw_get_teacher_course_total_quota($cm, $teacherid, $courseID)
 {
     global $DB;
-    $students = cw_get_coursework_students_in_condition($cm);
+    $students = lib\get_coursework_students_for_in_query($cm);
     $sql = "SELECT id
             FROM {coursework_students} 
             WHERE coursework = ?
@@ -553,20 +553,6 @@ function cw_get_teacher_course_total_quota($cm, $teacherid, $courseID)
     
     if(empty($result)) return 0;
     else return count($result);
-}
-
-function cw_get_coursework_students_in_condition($cm)
-{
-    $students = lib\get_coursework_students($cm);
-
-    $str = '';
-    foreach($students as $student)
-    {
-        $str.= $student->id . ',';
-    }
-    $str = substr($str, 0, -1);
-
-    return $str;
 }
 
 function cw_is_this_teacher_already_chosen_for_this_student(int $courseworkID, int $teacherid) : bool 

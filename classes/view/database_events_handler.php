@@ -326,7 +326,7 @@ class ViewDatabaseEventHandler
         if($this->studentRecord->theme)
         {
             global $DB;
-            $students = cw_get_coursework_students_in_condition($this->cm);
+            $students = lib\get_coursework_students_for_in_query($this->cm);
             $sql = "SELECT id 
                     FROM {coursework_students}
                     WHERE coursework = ?
