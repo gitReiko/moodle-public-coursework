@@ -360,6 +360,12 @@ namespace coursework_lib
         return $DB->get_record('user', array('id' => $id));
     }
 
+    function get_coursework($id)
+    {
+        global $DB;
+        return $DB->get_record('coursework', array('id'=> $id));
+    }
+
 }
 
 namespace

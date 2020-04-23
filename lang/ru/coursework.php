@@ -141,6 +141,10 @@ $string['course_short'] = 'Дис';
 $string['theme_short'] = 'Тем';
 $string['go_to_work'] = 'Перейти к работе';
 
+// Task assignment
+$string['task_issuance_header'] = 'Выдача задания студенту';
+$string['click_to_show_hide'] = 'нажмите, чтобы открыть/скрыть блок';
+
 
 // Errors strings
 $string['e:missing-coursework-student-record'] = 'Ошибка: отсутствует запись студента курсовой работы.';

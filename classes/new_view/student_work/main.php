@@ -1,7 +1,9 @@
 <?php
 
-require_once 'theme_selection\main.php';
-require_once 'task_assignment\main.php';
+require_once 'modules/module.php';
+require_once 'modules/guidelines.php';
+require_once 'theme_selection/main.php';
+require_once 'task_assignment/main.php';
 
 use coursework_lib as lib;
 

@@ -1,7 +1,6 @@
 <?php
 
-//require_once 'not_available_page.php';
-//require_once 'theme_selection_page.php';
+require_once 'task_issuance.php';
 
 use coursework_lib as lib;
 
@@ -23,12 +22,18 @@ class TaskAssignmentMain
         global $USER;
         if(lib\is_user_teacher($this->cm, $USER->id))
         {
-            return 'teacher';
+            return $this->get_task_issuance_page();
         }
         else 
         {
             return 'student page';
         }
+    }
+
+    private function get_task_issuance_page() : string 
+    {
+        $issuance = new TaskIssuance($this->course, $this->cm, $this->studentId);
+        return $issuance->get_page();
     }
 
 

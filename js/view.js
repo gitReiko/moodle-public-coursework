@@ -320,7 +320,20 @@ class SelectThemePage
         }
     }
 
+}
 
+function hide_or_show_block(id)
+{
+    block = document.getElementById(id);
+
+    if(block.style.display == 'none')
+    {
+        block.style.display = 'block';
+    }
+    else 
+    {
+        block.style.display = 'none';
+    }
 }
 
 
