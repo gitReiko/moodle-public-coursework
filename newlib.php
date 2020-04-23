@@ -366,6 +366,25 @@ namespace coursework_lib
         return $DB->get_record('coursework', array('id'=> $id));
     }
 
+    function get_using_task(\stdClass $cm)
+    {
+        global $DB;
+        $sql = 'SELECT ct.*, ctu.id AS usingtaskid
+                FROM {coursework_tasks} AS ct
+                INNER JOIN {coursework_tasks_using} AS ctu
+                ON ct.id = ctu.task
+                WHERE coursework = ?';
+        $conditions = array($cm->instance);
+        return $DB->get_record_sql($sql, $conditions);
+    }
+
+    function get_task_sections(int $taskId)
+    {
+        global $DB;
+        $conditions = array('task' => $taskId);
+        return $DB->get_records('coursework_tasks_sections', $conditions, 'listposition, name');
+    }
+
 }
 
 namespace

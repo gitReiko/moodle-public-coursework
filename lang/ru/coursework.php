@@ -145,6 +145,8 @@ $string['go_to_work'] = 'Перейти к работе';
 $string['task_issuance_header'] = 'Выдача задания студенту';
 $string['click_to_show_hide'] = 'нажмите, чтобы открыть/скрыть блок';
 $string['done_work'] = 'Проделанная работа';
+$string['it_is_only_template'] = 'ВНИМАНИЕ! Это шаблон задания, а не выданное задание.';
+$string['task_template_not_assigned'] = 'Для этой курсовой работы шаблон задания не назначен.';
 
 
 // Errors strings

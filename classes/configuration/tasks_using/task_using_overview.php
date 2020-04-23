@@ -1,5 +1,6 @@
 <?php
 
+use coursework_lib as lib;
 
 class TasksUsingOverview
 {
@@ -14,11 +15,11 @@ class TasksUsingOverview
         $this->course = $course;
         $this->cm = $cm;
 
-        $this->usingTask = $this->get_using_task();
+        $this->usingTask = lib\get_using_task($this->cm);
 
         if(!empty($this->usingTask))
         {
-            $this->taskSections = $this->get_task_sections();
+            $this->taskSections = lib\get_task_sections($this->usingTask->id);
         }
     }
 
@@ -46,25 +47,6 @@ class TasksUsingOverview
         }
 
         return $gui;
-    }
-
-    private function get_using_task()
-    {
-        global $DB;
-        $sql = 'SELECT ct.*, ctu.id AS usingtaskid
-                FROM {coursework_tasks} AS ct
-                INNER JOIN {coursework_tasks_using} AS ctu
-                ON ct.id = ctu.task
-                WHERE coursework = ?';
-        $conditions = array($this->cm->instance);
-        return $DB->get_record_sql($sql, $conditions);
-    }
-
-    private function get_task_sections()
-    {
-        global $DB;
-        $conditions = array('task' => $this->usingTask->id);
-        return $DB->get_records('coursework_tasks_sections', $conditions, 'listposition, name');
     }
 
     private function get_overview_header() : string 

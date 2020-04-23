@@ -42,7 +42,7 @@ class DoneWork extends ViewModule
 
     private function get_leader() : string 
     {
-        $leader = '<p style="margin: 3px;"><b>'.get_string('leader', 'coursework').':</b> ';
+        $leader = '<p><b>'.get_string('leader', 'coursework').':</b> ';
         $user = lib\get_user($this->work->teacher);
         $leader.= lib\get_user_fullname($user);
         $leader.= '</p>';
@@ -51,7 +51,7 @@ class DoneWork extends ViewModule
 
     private function get_course() : string 
     {
-        $course = '<p style="margin: 3px;"><b>'.get_string('course', 'coursework').':</b> ';
+        $course = '<p><b>'.get_string('course', 'coursework').':</b> ';
         $course.= lib\get_course_fullname($this->work->course);
         $course.= '</p>';
         return $course;
@@ -59,7 +59,7 @@ class DoneWork extends ViewModule
 
     private function get_theme() : string 
     {
-        $theme = '<p style="margin: 3px;"><b>'.get_string('theme', 'coursework').':</b> ';
+        $theme = '<p><b>'.get_string('theme', 'coursework').':</b> ';
         if(empty($this->work->theme))
         {
             $theme.= $this->work->owntheme;

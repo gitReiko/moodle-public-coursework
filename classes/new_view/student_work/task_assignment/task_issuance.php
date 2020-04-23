@@ -22,6 +22,7 @@ class TaskIssuance
         $page = $this->get_page_header();
         $page.= $this->get_guidelines();
         $page.= $this->get_done_work();
+        $page.= $this->get_task_template();
 
         return $page;
     }
@@ -46,6 +47,12 @@ class TaskIssuance
     {
         $doneWork = new DoneWork($this->course, $this->cm, $this->studentId, true);
         return $doneWork->get_module();
+    }
+
+    private function get_task_template() : string 
+    {
+        $taskTemplate = new TaskTemplate($this->course, $this->cm, $this->studentId, true);
+        return $taskTemplate->get_module();
     }
 
 

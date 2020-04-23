@@ -87,6 +87,11 @@ table.students_works tr td
     background-color: #f5f5f5;
 }
 
+.view_container h3, h4, p
+{
+    margin: 3px;
+}
+
 .view_container_header
 {
     font-size: large;
@@ -105,5 +110,17 @@ table.students_works tr td
     font-weight: normal;
 }
 
+.red 
+{
+    color: #8b0000 !important;
+}
 
+table.simple_table tr td
+{
+    padding: 3px 5px;
+}
 
+table.simple_table tr.header td
+{
+    font-weight: bold;
+}

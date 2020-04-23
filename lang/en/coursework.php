@@ -141,6 +141,8 @@ $string['go_to_work'] = 'Go to work';
 $string['task_issuance_header'] = 'Task issuance for student';
 $string['click_to_show_hide'] = 'click to show/hide block';
 $string['done_work'] = 'Done work';
+$string['it_is_only_template'] = 'ATTENTION! Its only template, not assigned task.';
+$string['task_template_not_assigned'] = 'For this coursework, task template is not assigned.';
 
 // Errors strings
 $string['e:missing-coursework-student-record'] = 'Error: missing record of coursework student.';
