@@ -6,14 +6,16 @@ abstract class ViewModule
 {
     protected $course;
     protected $cm;
+    protected $studentId;
 
     protected $moduleName;
     protected $displayBlock;
 
-    function __construct(stdClass $course, stdClass $cm, bool $displayBlock = false)
+    function __construct(stdClass $course, stdClass $cm, int $studentId, bool $displayBlock = false)
     {
         $this->course = $course;
         $this->cm = $cm;
+        $this->studentId = $studentId;
 
         $this->moduleName = $this->get_module_name();
         $this->displayBlock = $displayBlock;
@@ -32,7 +34,7 @@ abstract class ViewModule
 
     private function get_start_of_container() : string 
     {
-        return "<div class='{$this->moduleName}_container'>";
+        return "<div class='view_container'>";
     }
 
     private function get_container_header() : string 

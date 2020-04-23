@@ -138,8 +138,9 @@ $string['go_to_work'] = 'Go to work';
 
 
 // Task assignment
-$string['task_issuance_header'] = 'Выдача задания студенту';
+$string['task_issuance_header'] = 'Task issuance for student';
 $string['click_to_show_hide'] = 'click to show/hide block';
+$string['done_work'] = 'Done work';
 
 // Errors strings
 $string['e:missing-coursework-student-record'] = 'Error: missing record of coursework student.';

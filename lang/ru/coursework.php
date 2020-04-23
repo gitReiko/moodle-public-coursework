@@ -144,6 +144,7 @@ $string['go_to_work'] = 'Перейти к работе';
 // Task assignment
 $string['task_issuance_header'] = 'Выдача задания студенту';
 $string['click_to_show_hide'] = 'нажмите, чтобы открыть/скрыть блок';
+$string['done_work'] = 'Проделанная работа';
 
 
 // Errors strings

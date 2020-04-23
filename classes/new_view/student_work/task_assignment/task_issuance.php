@@ -21,19 +21,31 @@ class TaskIssuance
     {
         $page = $this->get_page_header();
         $page.= $this->get_guidelines();
+        $page.= $this->get_done_work();
 
         return $page;
     }
 
     private function get_page_header() : string 
     {
-        return '<h3>'.get_string('task_issuance_header', 'coursework').'</h3>';
+        $header = '<h3>';
+        $header.= get_string('task_issuance_header', 'coursework');
+        $user = lib\get_user($this->studentId);
+        $header.= '<b> '.$user->lastname.' '.$user->firstname.'</b>';
+        $header.= '</h3>';
+        return $header;
     }
 
     private function get_guidelines() : string 
     {
-        $guidelines = new Guidelines($this->course, $this->cm);
+        $guidelines = new Guidelines($this->course, $this->cm, $this->studentId);
         return $guidelines->get_module();
+    }
+
+    private function get_done_work() : string 
+    {
+        $doneWork = new DoneWork($this->course, $this->cm, $this->studentId, true);
+        return $doneWork->get_module();
     }
 
 
