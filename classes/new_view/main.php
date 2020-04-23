@@ -3,6 +3,7 @@
 require_once 'students_works/main.php';
 require_once 'student_work/main.php';
 require_once 'database_handlers/main.php';
+require_once 'view_lib.php';
 
 use coursework_lib as lib;
 

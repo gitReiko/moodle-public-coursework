@@ -385,6 +385,13 @@ namespace coursework_lib
         return $DB->get_records('coursework_tasks_sections', $conditions, 'listposition, name');
     }
 
+    function get_student_work(\stdClass $cm, int $studentId) : \stdClass 
+    {
+        global $DB;
+        $where = array('coursework'=>$cm->instance, 'student' => $studentId);
+        return $DB->get_record('coursework_students', $where);
+    }
+
 }
 
 namespace

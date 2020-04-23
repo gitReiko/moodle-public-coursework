@@ -39,7 +39,7 @@ class ThemeSelectionMain
 
     private function get_not_available_page() : string 
     {
-        $notAvailable = new ThemeSelectionNotAvailablePage;
+        $notAvailable = new ThemeSelectionNotAvailablePage($this->course, $this->cm);
         return $notAvailable->get_page();
     }
 

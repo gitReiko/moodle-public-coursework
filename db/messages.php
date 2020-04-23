@@ -10,6 +10,10 @@ $messageproviders = array(
         'capability' => 'mod/coursework:selecttheme'
     ),
 
+    'taskassignment' => array(
+        'capability' => 'mod/coursework:taskassignment'
+    ),
+
     // Notify that the leader grade their student
     'studentgraded' => array(
         'capability' => 'mod/coursework:gradestudent'

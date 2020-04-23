@@ -143,6 +143,11 @@ $string['click_to_show_hide'] = 'click to show/hide block';
 $string['done_work'] = 'Done work';
 $string['it_is_only_template'] = 'ATTENTION! Its only template, not assigned task.';
 $string['task_template_not_assigned'] = 'For this coursework, task template is not assigned.';
+$string['use_task_template'] = 'Use template as task';
+$string['correct_template'] = 'Correct template';
+$string['create_new_task'] = 'Create new task';
+$string['back_to_works_list'] = 'Back to works list';
+
 
 // Errors strings
 $string['e:missing-coursework-student-record'] = 'Error: missing record of coursework student.';
@@ -199,6 +204,8 @@ $string['answer_not_require'] = '<p>*This message was sent automatically and doe
 $string['grade_isnt_final'] = '<p>*Preliminary grade is not final.</p>';
 $string['coursework_link1'] = 'Course work ';
 $string['coursework_link2'] = 'available on site.';
+
+$string['task_assignment_header'] = 'Teacher gave You task of coursework';
 
 $string['leader_changed_for_student'] = 'Changed coursework leader';
 

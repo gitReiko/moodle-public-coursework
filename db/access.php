@@ -65,6 +65,17 @@ $capabilities = array(
         ),
     ),
 
+    'mod/coursework:taskassignment' => array(
+        'riskbitmask' => RISK_XSS,
+
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_MODULE,
+        'archetypes' => array(
+            'teacher' => CAP_ALLOW,
+            'editingteacher' => CAP_ALLOW
+        ),
+    ),
+
     // Ability to grade student
     'mod/coursework:gradestudent' => array(
         'riskbitmask' => RISK_XSS,
