@@ -48,6 +48,7 @@ class StudentsWorksMain
         $header.= $this->get_leader_header();
         $header.= $this->get_course_header();
         $header.= $this->get_theme_header();
+        $header.= '<td></td>';
         $header.= '</tr></thead>';
         return $header;
     }
@@ -82,6 +83,7 @@ class StudentsWorksMain
             $body.= $this->get_teacher_body_cell($work);
             $body.= $this->get_course_body_cell($work);
             $body.= $this->get_theme_body_cell($work);
+            $body.= $this->get_go_to_page_cell($work);
             $body.= '</tr>';
         }
         return $body;
@@ -151,6 +153,19 @@ class StudentsWorksMain
         if(empty($work->themeName)) $td.= 'red-background';
         else $td.= 'green-background';
         $td.= "' title='{$title}'>";
+        $td.= '</td>';
+        return $td;
+    }
+
+    private function get_go_to_page_cell(stdClass $work) : string 
+    {
+        $link = '/mod/coursework/view.php?id='.$this->cm->id;
+        $link.= '&'.ViewMain::GUI_EVENT.'='.ViewMain::USER_WORK;
+        $link.= '&'.STUDENT.ID.'='.$work->studentId;
+        $td = '<td>';
+        $td.= "<a href='$link' >";
+        $td.= '<button>'.get_string('go_to_work', 'coursework').'</button>';
+        $td.= '</a>';
         $td.= '</td>';
         return $td;
     }

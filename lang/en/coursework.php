@@ -134,6 +134,7 @@ $string['student_works_list_header'] = 'Students works list';
 $string['leader_short'] = 'Lea';
 $string['course_short'] = 'Cou';
 $string['theme_short'] = 'The';
+$string['go_to_work'] = 'Go to work';
 
 
 

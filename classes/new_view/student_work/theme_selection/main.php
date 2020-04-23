@@ -5,7 +5,7 @@ require_once 'theme_selection_page.php';
 
 use coursework_lib as lib;
 
-class ThemeSelectionStageMain 
+class ThemeSelectionMain 
 {
     private $course;
     private $cm;
@@ -18,15 +18,15 @@ class ThemeSelectionStageMain
         $this->studentId = $studentId;
     }
 
-    public function get_gui() : string 
+    public function get_page() : string 
     {
         if($this->is_observer_student())
         {
             return $this->get_theme_selection_page();
         }
-        else if($this->is_task_used_in_coursework_instance())
+        else
         {
-            return 'task ';
+            return $this->get_not_available_page();
         }
     }
 
@@ -48,17 +48,6 @@ class ThemeSelectionStageMain
         $themeSelection = new ThemeSelectionPage($this->course, $this->cm, $this->studentId);
         return $themeSelection->get_page();
     }
-
-    private function is_task_used_in_coursework_instance() : bool 
-    {
-        global $DB;
-        $where = array('id'=>$this->cm->instance, 'usetask'=>1);
-        return $DB->record_exists('coursework', $where);
-    }
-
-
-
-
 
 
 }

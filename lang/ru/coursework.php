@@ -139,6 +139,7 @@ $string['student_works_list_header'] = 'Список работ студенто
 $string['leader_short'] = 'Рук';
 $string['course_short'] = 'Дис';
 $string['theme_short'] = 'Тем';
+$string['go_to_work'] = 'Перейти к работе';
 
 
 // Errors strings

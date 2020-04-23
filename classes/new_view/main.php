@@ -9,6 +9,8 @@ use coursework_lib as lib;
 class ViewMain 
 {
     const DATABASE_EVENT = 'database_event';
+    const GUI_EVENT = 'gui_event';
+    const USER_WORK = 'user_work';
 
     private $course;
     private $cm;
@@ -30,11 +32,22 @@ class ViewMain
 
         if(lib\is_user_student($this->cm, $USER->id))
         {
-            return $this->get_student_work_gui();
+            global $USER;
+            return $this->get_student_work_page($USER->id);
         }
         else 
         {
-            return $this->get_students_works_list_gui();
+            $event = $this->get_gui_event();
+
+            if($event == self::USER_WORK)
+            {
+                $studentId = $this->get_student_id();
+                return $this->get_student_work_page($studentId);
+            }
+            else 
+            {
+                return $this->get_students_works_list_page();
+            }
         }
     }
 
@@ -52,17 +65,26 @@ class ViewMain
         $database->handle();
     }
 
-    private function get_students_works_list_gui() : string 
+    private function get_students_works_list_page() : string 
     {
         $worksList = new StudentsWorksMain($this->course, $this->cm);
         return $worksList->get_page();
     }
 
-    private function get_student_work_gui() : string 
+    private function get_student_work_page(int $userId) : string 
     {
-        global $USER;
-        $worksList = new StudentWorkMain($this->course, $this->cm, $USER->id);
-        return $worksList->get_gui();
+        $studentWork = new StudentWorkMain($this->course, $this->cm, $userId);
+        return $studentWork->get_page();
+    }
+
+    private function get_gui_event()
+    {
+        return optional_param(self::GUI_EVENT, null, PARAM_TEXT);
+    }
+
+    private function get_student_id() : int 
+    {
+        return optional_param(STUDENT.ID, null, PARAM_INT);
     }
 
 
