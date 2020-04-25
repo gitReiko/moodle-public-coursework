@@ -336,10 +336,142 @@ function hide_or_show_block(id)
     }
 }
 
+class CustomTaskPage 
+{
+    static add_section()
+    {
+        let trId = document.getElementsByClassName('taskSections').length;
+
+        let tr = document.createElement('tr');
+        tr.id = 'section'+trId;
+        tr.className = 'taskSections';
+        let nameTd = this.create_name_td();
+        tr.appendChild(nameTd);
+        let dateTd = this.create_completion_date_td();
+        tr.appendChild(dateTd);
+        let btnsTd = this.create_action_buttons_td();
+        tr.appendChild(btnsTd);
+
+
+        let tbody = document.getElementById('sections_container');
+        tbody.appendChild(tr);
+    }
+
+    static create_name_td()
+    {
+        let td = document.createElement('td');
+
+        let input = document.createElement('input');
+        input.type="text";
+        input.name = 'name';
+        input.minlength = 5;
+        input.maxlength = 254;
+        input.required = true;
+        input.size = 80;
+        input.autocomplete = false;
+
+        td.appendChild(input);
+        return td;
+    }
+
+    static create_completion_date_td()
+    {
+        let td = document.createElement('td');
+
+        let input = document.createElement('input');
+        input.type="date";
+        input.name = 'completion_date';
+        input.autocomplete = false;
+
+        td.appendChild(input);
+        return td;
+    }
+
+    static create_action_buttons_td()
+    {
+        let td = document.createElement('td');
+
+        let upButton = document.createElement('button');
+        upButton.innerHTML = '↑';
+        upButton.onclick = function()
+        {
+            CustomTaskPage.up_section(this);
+        }
+        td.appendChild(upButton);
+
+        let downButton = document.createElement('button');
+        downButton.innerHTML = '↓';
+        downButton.onclick = function()
+        {
+            CustomTaskPage.down_section(this);
+        }
+        td.appendChild(downButton);
+
+        let deleteButton = document.createElement('button');
+        deleteButton.innerHTML = 'Удалить';
+        deleteButton.onclick = function()
+        {
+            CustomTaskPage.delete_section(this);
+        }
+
+        td.appendChild(deleteButton);
+
+
+        return td;
+    }
+
+    static delete_section(event)
+    {
+        let id = event.parentNode.parentNode.id;
+        document.getElementById(id).remove();
+    }
+
+    static up_section(event)
+    {
+        let id = event.parentNode.parentNode.id;
+
+        if(id != 'section0') 
+        {
+            let tbody = document.getElementById('sections_container');
+            let tr = document.getElementById('section'+(parseInt(id.slice(-1))-1));
+            let liftedTr = document.getElementById(id);
+            tbody.insertBefore(liftedTr, tr);
+
+            this.update_sections_ids();
+        }
+    }
+
+    static down_section(event)
+    {
+        let id = event.parentNode.parentNode.id;
+        let lastSectionId = document.getElementById('sections_container').lastChild.id;
+
+        if(id != lastSectionId) 
+        {
+            let tbody = document.getElementById('sections_container');
+            let liftedTr  = document.getElementById('section'+(parseInt(id.slice(-1))+1));
+            let tr = document.getElementById(id);
+            tbody.insertBefore(liftedTr, tr);
+
+            this.update_sections_ids();
+        }
+    }
+
+    static update_sections_ids()
+    {
+        let sections = document.getElementById('sections_container').childNodes;
+
+        for(let i = 0; i < sections.length; i++)
+        {
+            sections[i].id = 'section'+i;
+        }
+    }
+
+    
 
 
 
-
+}
 
 
 

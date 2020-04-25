@@ -83,9 +83,15 @@ class TaskIssuance
     private function get_correct_template_button() : string 
     {
         $btn = '<td>';
+        $btn.= '<form>';
+        $btn.= '<input type="hidden" name="'.ID.'" value="'.$this->cm->id.'"/>';
+        $btn.= '<input type="hidden" name="'.ViewMain::GUI_EVENT.'" value="'.ViewMain::USER_WORK.'">';
+        $btn.= '<input type="hidden" name="'.TaskAssignmentMain::ASSIGN_PAGE.'" value="'.TaskAssignmentMain::TEMPLATE_CORRECT.'"/>';
+        $btn.= '<input type="hidden" name="'.STUDENT.ID.'" value="'.$this->studentId.'">';  
         $btn.= '<button>';
         $btn.= get_string('correct_template', 'coursework');
         $btn.= '</button>';
+        $btn.= '</form>';
         $btn.= '</td>';
         return $btn;
     }
@@ -93,9 +99,15 @@ class TaskIssuance
     private function get_create_task_button() : string 
     {
         $btn = '<td>';
+        $btn.= '<form>';
+        $btn.= '<input type="hidden" name="'.ID.'" value="'.$this->cm->id.'"/>';
+        $btn.= '<input type="hidden" name="'.ViewMain::GUI_EVENT.'" value="'.ViewMain::USER_WORK.'">';
+        $btn.= '<input type="hidden" name="'.TaskAssignmentMain::ASSIGN_PAGE.'" value="'.TaskAssignmentMain::NEW_TASK.'"/>';
+        $btn.= '<input type="hidden" name="'.STUDENT.ID.'" value="'.$this->studentId.'">';
         $btn.= '<button>';
         $btn.= get_string('create_new_task', 'coursework');
         $btn.= '</button>';
+        $btn.= '</form>';
         $btn.= '</td>';
         return $btn;
     }

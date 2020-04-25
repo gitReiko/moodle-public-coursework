@@ -147,6 +147,8 @@ $string['use_task_template'] = 'Use template as task';
 $string['correct_template'] = 'Correct template';
 $string['create_new_task'] = 'Create new task';
 $string['back_to_works_list'] = 'Back to works list';
+$string['creating_new_task'] = 'Creating a new task';
+$string['give_task'] = 'Give task';
 
 
 // Errors strings
