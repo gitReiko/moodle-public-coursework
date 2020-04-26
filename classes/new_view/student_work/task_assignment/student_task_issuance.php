@@ -32,9 +32,7 @@ class StudentTaskIssuance extends TaskIssuance
 
     protected function get_footer() : string 
     {
-        $footer = '<a href="/course/view.php?id='.$this->course->id.'">';
-        $footer.= '<button>'.get_string('back_to_course', 'coursework').'</button>';
-        $footer.= '</a>';
+        $footer = lib\get_back_to_course_button($this->course->id);
         return $footer;
     }
 

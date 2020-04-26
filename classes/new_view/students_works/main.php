@@ -24,6 +24,7 @@ class StudentsWorksMain
     {
         $page = $this->get_page_header();
         $page.= $this->get_students_list();
+        $page.= lib\get_back_to_course_button($this->course->id);
         return $page;
     }
 

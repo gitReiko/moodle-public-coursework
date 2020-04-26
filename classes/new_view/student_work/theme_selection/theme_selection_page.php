@@ -35,7 +35,7 @@ class ThemeSelectionPage
         $page.= $this->get_theme_field();
         $page.= $this->get_use_own_theme_field();
         $page.= $this->get_own_theme_field();
-        $page.= $this->get_select_button();
+        $page.= $this->get_action_buttons();
         $page.= $this->get_neccessary_form_inputs();
         $page.= $this->get_end_of_html_form();
         $page.= $this->get_js_data();
@@ -200,6 +200,15 @@ class ThemeSelectionPage
         $input.= ' maxlength=254 minlength="5" size="140"';
         $input.= ' disabled autocomplete="off" required></p>';
         return $input;
+    }
+
+    private function get_action_buttons() : string 
+    {
+        $btns = '<table><tr>';
+        $btns.= '<td>'.$this->get_select_button().'</td>';
+        $btns.= '<td>'.lib\get_back_to_course_button($this->course->id).'</td>';
+        $btns.= '</tr></table>';
+        return $btns;
     }
 
     private function get_select_button() : string 

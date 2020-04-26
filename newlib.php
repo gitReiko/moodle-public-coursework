@@ -392,6 +392,14 @@ namespace coursework_lib
         return $DB->get_record('coursework_students', $where);
     }
 
+    function get_back_to_course_button(int $courseId)
+    {
+        $btn = '<a href="/course/view.php?id='.$courseId.'">';
+        $btn.= '<button form="sdvsre453">'.get_string('back_to_course', 'coursework').'</button>';
+        $btn.= '</a>';
+        return $btn;
+    }
+
 }
 
 namespace
