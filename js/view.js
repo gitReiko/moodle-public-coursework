@@ -363,12 +363,13 @@ class CustomTaskPage
 
         let input = document.createElement('input');
         input.type="text";
-        input.name = 'name';
+        input.name = 'name[]';
         input.minlength = 5;
         input.maxlength = 254;
         input.required = true;
         input.size = 80;
         input.autocomplete = false;
+        input.setAttribute('form', 'custom_form');
 
         td.appendChild(input);
         return td;
@@ -380,8 +381,10 @@ class CustomTaskPage
 
         let input = document.createElement('input');
         input.type="date";
-        input.name = 'completion_date';
+        input.name = 'completion_date[]';
         input.autocomplete = false;
+        input.setAttribute('form', 'custom_form');
+        input.className = 'completion_date';
 
         td.appendChild(input);
         return td;
@@ -464,6 +467,48 @@ class CustomTaskPage
         for(let i = 0; i < sections.length; i++)
         {
             sections[i].id = 'section'+i;
+        }
+    }
+
+    static validate_form()
+    {
+        this.prepare_form();
+
+        let sections = document.getElementById('sections_container').childNodes.length;
+
+        if(sections) 
+        {
+            return true;
+        }
+        else
+        {
+            alert('Нельзя добавить задание без разделов.')
+            return false;
+        }
+    }
+
+    static prepare_form()
+    {
+        // delete old
+        var obj=document.querySelectorAll('.sync_dates')
+	    for(let i = 0; i < obj.length; i++) {
+	        obj[i].remove();
+	    }
+
+        // insert new
+        let form = document.getElementById('custom_form');
+        let dates = document.getElementsByClassName('completion_date');
+        for(let date of dates)
+        { 
+            let input = document.createElement('input');
+            input.type="hidden";
+            input.name = 'sync_dates[]';
+            input.className = 'sync_dates';
+
+            if(date.value) input.value = 1;
+            else input.value = 0;
+
+            form.appendChild(input);
         }
     }
 

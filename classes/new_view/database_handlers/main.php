@@ -2,11 +2,13 @@
 
 require_once 'select_theme.php';
 require_once 'use_task_template.php';
+require_once 'custom_task_assignment.php';
 
 class ViewDatabaseHandler 
 {
     const SELECT_THEME = 'select_theme';
     const USE_TASK_TEMPLATE = 'use_task_template';
+    const CUSTOM_TASK_ASSIGNMENT = 'custom_task_assignment';
         
     private $course;
     private $cm;
@@ -29,6 +31,9 @@ class ViewDatabaseHandler
             case self::USE_TASK_TEMPLATE : 
                 $this->handle_use_task_template_database_event();
                 break;
+            case self::CUSTOM_TASK_ASSIGNMENT : 
+                $this->handle_custom_task_assignment_database_event();
+                break;
         }
     }
 
@@ -41,6 +46,12 @@ class ViewDatabaseHandler
     private function handle_use_task_template_database_event() : void 
     {
         $database = new UseTaskTemplateDatabaseHandler($this->course, $this->cm);
+        $database->handle();
+    }
+
+    private function handle_custom_task_assignment_database_event() : void 
+    {
+        $database = new CustomTaskTemplateDatabaseHandler($this->course, $this->cm);
         $database->handle();
     }
 

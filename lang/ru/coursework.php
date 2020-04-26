@@ -12,6 +12,7 @@ $string['change'] = 'Сменить';
 $string['description'] = 'Описание';
 $string['create'] = 'Создать';
 $string['module'] = 'МОДУЛЬ:';
+$string['task'] = 'Задание';
 
 // Coursework configuration
 $string['coursework_configuration'] = 'Настройка курсовой работы';

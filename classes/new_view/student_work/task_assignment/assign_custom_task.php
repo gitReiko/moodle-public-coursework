@@ -8,6 +8,7 @@ abstract class AssignCustomTask
     protected $course;
     protected $cm;
     protected $studentId;
+    protected $formName = 'custom_form';
 
     function __construct(stdClass $course, stdClass $cm, int $studentId)
     {
@@ -23,6 +24,7 @@ abstract class AssignCustomTask
         $page.= $this->get_task_sections_list();
         $page.= $this->get_add_section_button();
         $page.= $this->get_button_block();
+        $page.= $this->get_custom_assignment_form();
         return $page;
     }
 
@@ -37,7 +39,7 @@ abstract class AssignCustomTask
 
     private function get_description_textarea() : string 
     {
-        return '<textarea name="'.DESCRIPTION.'" cols="80" rows="5"></textarea>';
+        return '<textarea name="'.DESCRIPTION.'" cols="80" rows="5" form="'.$this->formName.'"></textarea>';
     }
 
     private function get_task_sections_list() : string 
@@ -80,7 +82,11 @@ abstract class AssignCustomTask
 
     private function get_give_task_button() : string 
     {
-        return '<button>'.get_string('give_task', 'coursework').'</button>';
+        $btn = '<button onclick="return CustomTaskPage.validate_form()" ';
+        $btn.= 'form="'.$this->formName.'">';
+        $btn.= get_string('give_task', 'coursework');
+        $btn.= '</button>';
+        return $btn;
     }
 
     private function get_back_button() : string 
@@ -92,6 +98,16 @@ abstract class AssignCustomTask
         $btn.= '<button>'.get_string('back', 'coursework').'</button>';
         $btn.= '</form>';
         return $btn;
+    }
+
+    private function get_custom_assignment_form() : string 
+    {
+        $form = '<form id="'.$this->formName.'" >';
+        $form.= '<input type="hidden" name="'.ID.'" value="'.$this->cm->id.'"/>';
+        $form.= '<input type="hidden" name="'.STUDENT.ID.'" value="'.$this->studentId.'">';
+        $form.= '<input type="hidden" name="'.DB_EVENT.'" value="'.ViewDatabaseHandler::CUSTOM_TASK_ASSIGNMENT.'">';
+        $form.= '</form>';   
+        return $form;
     }
 
 
