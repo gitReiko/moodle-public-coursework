@@ -13,6 +13,8 @@ $string['description'] = 'Описание';
 $string['create'] = 'Создать';
 $string['module'] = 'МОДУЛЬ:';
 $string['task'] = 'Задание';
+$string['back_to_course'] = 'Назад к курсу';
+$string['for_student'] = 'для студента';
 
 // Coursework configuration
 $string['coursework_configuration'] = 'Настройка курсовой работы';
@@ -134,6 +136,7 @@ $string['task_template'] = 'Шаблон листа-задания';
 $string['use_task'] = 'Выполнять курсовую работу по листу-заданию';
 $string['automatic_task_obtaining'] = 'Автоматически выдавать задание на основе шаблона';
 $string['guidelines'] = 'Методические указания';
+$string['waiting_for_task_from'] = 'Ожидание получения задания от';
 
 // Students works list 
 $string['student_works_list_header'] = 'Список работ студентов';

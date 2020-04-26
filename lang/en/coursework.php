@@ -12,6 +12,8 @@ $string['description'] = 'Description';
 $string['create'] = 'Create';
 $string['module'] = 'MODULE:';
 $string['task'] = 'Task';
+$string['back_to_course'] = 'Back to course';
+$string['for_student'] = 'for student';
 
 // Coursework configuration
 $string['coursework_configuration'] = 'Coursework configuration';
@@ -129,6 +131,7 @@ $string['task_template'] = 'Task template';
 $string['use_task'] = 'Perform coursework on task';
 $string['automatic_task_obtaining'] = 'Automatically obtain task based on template';
 $string['guidelines'] = 'Guidelines';
+$string['waiting_for_task_from'] = 'Waiting for a task from';
 
 // Students works list 
 $string['student_works_list_header'] = 'Students works list';

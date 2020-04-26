@@ -1,6 +1,9 @@
 <?php
 
 require_once 'task_issuance.php';
+require_once 'manager_task_issuance.php';
+require_once 'teacher_task_issuance.php';
+require_once 'student_task_issuance.php';
 require_once 'assign_custom_task.php';
 require_once 'assign_new_task.php';
 require_once 'correct_task.php';
@@ -41,18 +44,38 @@ class TaskAssignmentMain
             }
             else 
             {
-                return $this->get_task_issuance_page();
+                return $this->get_teacher_task_issuance_page();
             }
         }
         else 
         {
-            return 'student page';
+            if(lib\is_user_manager($this->cm, $USER->id))
+            {
+                return $this->get_manager_task_issuance_page();
+            }
+            else 
+            {
+                return $this->get_student_task_issuance_page();
+            }
         }
     }
 
-    private function get_task_issuance_page() : string 
+    private function get_teacher_task_issuance_page() : string 
     {
-        $issuance = new TaskIssuance($this->course, $this->cm, $this->studentId);
+        $issuance = new TeacherTaskIssuance($this->course, $this->cm, $this->studentId);
+        return $issuance->get_page();
+    }
+
+    private function get_student_task_issuance_page() : string 
+    {
+        global $USER;
+        $issuance = new StudentTaskIssuance($this->course, $this->cm, $USER->id);
+        return $issuance->get_page();
+    }
+
+    private function get_manager_task_issuance_page() : string 
+    {
+        $issuance = new ManagerTaskIssuance($this->course, $this->cm, $this->studentId);
         return $issuance->get_page();
     }
 

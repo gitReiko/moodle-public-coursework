@@ -3,17 +3,23 @@
 use coursework_lib as lib;
 use view_lib as view;
 
-class TaskIssuance 
+abstract class TaskIssuance 
 {
-    private $course;
-    private $cm;
-    private $studentId;
+    protected $course;
+    protected $cm;
+    protected $studentId;
+
+    protected $openGuidlines;
+    protected $openDoneWork;
+    protected $openTaskTemplate;
 
     function __construct(stdClass $course, stdClass $cm, int $studentId)
     {
         $this->course = $course;
         $this->cm = $cm;
         $this->studentId = $studentId;
+
+        $this->init_open_blocks();
     }
 
     public function get_page() : string 
@@ -22,95 +28,34 @@ class TaskIssuance
         $page.= $this->get_guidelines();
         $page.= $this->get_done_work();
         $page.= $this->get_task_template();
-        $page.= $this->get_action_buttons();
+        $page.= $this->get_footer();
+                
         return $page;
     }
 
-    private function get_page_header() : string 
-    {
-        $header = '<h3>';
-        $header.= get_string('task_issuance_header', 'coursework');
-        $user = lib\get_user($this->studentId);
-        $header.= '<b> '.$user->lastname.' '.$user->firstname.'</b>';
-        $header.= '</h3>';
-        return $header;
-    }
+    abstract protected function init_open_blocks() : void;
+
+    abstract protected function get_page_header() : string;
 
     private function get_guidelines() : string 
     {
-        $guidelines = new Guidelines($this->course, $this->cm, $this->studentId);
+        $guidelines = new Guidelines($this->course, $this->cm, $this->studentId, $this->openGuidlines);
         return $guidelines->get_module();
     }
 
     private function get_done_work() : string 
     {
-        $doneWork = new DoneWork($this->course, $this->cm, $this->studentId, true);
+        $doneWork = new DoneWork($this->course, $this->cm, $this->studentId, $this->openDoneWork);
         return $doneWork->get_module();
     }
 
     private function get_task_template() : string 
     {
-        $taskTemplate = new TaskTemplate($this->course, $this->cm, $this->studentId, true);
+        $taskTemplate = new TaskTemplate($this->course, $this->cm, $this->studentId, $this->openTaskTemplate);
         return $taskTemplate->get_module();
     }
 
-    private function get_action_buttons() : string 
-    {
-        $btns = '<table><tr>';
-        $btns.= $this->get_use_template_button();
-        $btns.= $this->get_correct_template_button();
-        $btns.= $this->get_create_task_button();
-        $btns.= view\get_back_to_works_list_button($this->cm);
-        $btns.= '</tr></table>';
-        return $btns;
-    }
-
-    private function get_use_template_button() : string 
-    {
-        $btn = '<td>';
-        $btn.= '<form>';
-        $btn.= '<input type="hidden" name="'.ID.'" value="'.$this->cm->id.'"/>';
-        $btn.= '<input type="hidden" name="'.DB_EVENT.'" value="'.ViewDatabaseHandler::USE_TASK_TEMPLATE.'">';
-        $btn.= '<input type="hidden" name="'.STUDENT.ID.'" value="'.$this->studentId.'">';
-        $btn.= '<button>';
-        $btn.= get_string('use_task_template', 'coursework');
-        $btn.= '</button>';
-        $btn.= '</form>';
-        $btn.= '</td>';
-        return $btn;
-    }
-
-    private function get_correct_template_button() : string 
-    {
-        $btn = '<td>';
-        $btn.= '<form>';
-        $btn.= '<input type="hidden" name="'.ID.'" value="'.$this->cm->id.'"/>';
-        $btn.= '<input type="hidden" name="'.ViewMain::GUI_EVENT.'" value="'.ViewMain::USER_WORK.'">';
-        $btn.= '<input type="hidden" name="'.TaskAssignmentMain::ASSIGN_PAGE.'" value="'.TaskAssignmentMain::TEMPLATE_CORRECT.'"/>';
-        $btn.= '<input type="hidden" name="'.STUDENT.ID.'" value="'.$this->studentId.'">';  
-        $btn.= '<button>';
-        $btn.= get_string('correct_template', 'coursework');
-        $btn.= '</button>';
-        $btn.= '</form>';
-        $btn.= '</td>';
-        return $btn;
-    }
-
-    private function get_create_task_button() : string 
-    {
-        $btn = '<td>';
-        $btn.= '<form>';
-        $btn.= '<input type="hidden" name="'.ID.'" value="'.$this->cm->id.'"/>';
-        $btn.= '<input type="hidden" name="'.ViewMain::GUI_EVENT.'" value="'.ViewMain::USER_WORK.'">';
-        $btn.= '<input type="hidden" name="'.TaskAssignmentMain::ASSIGN_PAGE.'" value="'.TaskAssignmentMain::NEW_TASK.'"/>';
-        $btn.= '<input type="hidden" name="'.STUDENT.ID.'" value="'.$this->studentId.'">';
-        $btn.= '<button>';
-        $btn.= get_string('create_new_task', 'coursework');
-        $btn.= '</button>';
-        $btn.= '</form>';
-        $btn.= '</td>';
-        return $btn;
-    }
+    abstract protected function get_footer() : string;
 
 
 
