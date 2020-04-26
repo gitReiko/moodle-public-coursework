@@ -39,8 +39,14 @@ abstract class AssignCustomTask
 
     private function get_description_textarea() : string 
     {
-        return '<textarea name="'.DESCRIPTION.'" cols="80" rows="5" form="'.$this->formName.'"></textarea>';
+        $area = '<textarea name="'.DESCRIPTION.'" cols="80" rows="5" ';
+        $area.= ' form="'.$this->formName.'">';
+        $area.= $this->get_description_value();
+        $area.= '</textarea>';
+        return $area;
     }
+
+    abstract protected function get_description_value() : string;
 
     private function get_task_sections_list() : string 
     {
@@ -63,8 +69,13 @@ abstract class AssignCustomTask
 
     private function get_task_sections_list_body() : string 
     {
-        return '<tbody id="sections_container"></tbody>';
+        $tbody = '<tbody id="sections_container">';
+        $tbody.= $this->get_tbody_sections();
+        $tbody.= '</tbody>';
+        return $tbody;
     }
+
+    abstract protected function get_tbody_sections() : string;
 
     private function get_add_section_button() : string 
     {

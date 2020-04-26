@@ -154,6 +154,7 @@ $string['create_new_task'] = 'Создать новое задание';
 $string['back_to_works_list'] = 'Вернуться к списку работ';
 $string['creating_new_task'] = 'Создание нового задания';
 $string['give_task'] = 'Выдать задание';
+$string['correct_task'] = 'Корректирование задания';
 
 
 // Errors strings

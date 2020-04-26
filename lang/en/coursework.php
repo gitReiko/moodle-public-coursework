@@ -150,6 +150,7 @@ $string['create_new_task'] = 'Create new task';
 $string['back_to_works_list'] = 'Back to works list';
 $string['creating_new_task'] = 'Creating a new task';
 $string['give_task'] = 'Give task';
+$string['correct_task'] = 'Correcting task';
 
 
 // Errors strings

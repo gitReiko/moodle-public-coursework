@@ -368,7 +368,7 @@ class CustomTaskPage
         input.maxlength = 254;
         input.required = true;
         input.size = 80;
-        input.autocomplete = false;
+        input.autocomplete = 'off';
         input.setAttribute('form', 'custom_form');
 
         td.appendChild(input);
@@ -382,7 +382,7 @@ class CustomTaskPage
         let input = document.createElement('input');
         input.type="date";
         input.name = 'completion_date[]';
-        input.autocomplete = false;
+        input.autocomplete = 'off';
         input.setAttribute('form', 'custom_form');
         input.className = 'completion_date';
 
@@ -427,6 +427,8 @@ class CustomTaskPage
     {
         let id = event.parentNode.parentNode.id;
         document.getElementById(id).remove();
+
+        this.update_sections_ids();
     }
 
     static up_section(event)

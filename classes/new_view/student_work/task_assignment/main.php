@@ -3,6 +3,7 @@
 require_once 'task_issuance.php';
 require_once 'assign_custom_task.php';
 require_once 'assign_new_task.php';
+require_once 'correct_task.php';
 
 use coursework_lib as lib;
 
@@ -32,7 +33,7 @@ class TaskAssignmentMain
 
             if($page == self::TEMPLATE_CORRECT)
             {
-                return 'template_correct';
+                return $this->get_correct_task_page();
             }
             else if($page == self::NEW_TASK)
             {
@@ -59,6 +60,12 @@ class TaskAssignmentMain
     {
         $newTask = new AssignNewTask($this->course, $this->cm, $this->studentId);
         return $newTask->get_page();
+    }
+
+    private function get_correct_task_page() : string 
+    {
+        $correctTask = new CorrectTask($this->course, $this->cm, $this->studentId);
+        return $correctTask->get_page();
     }
 
 
