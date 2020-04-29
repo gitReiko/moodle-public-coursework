@@ -77,7 +77,7 @@ class StudentWorkMain
                 FROM {coursework_students} 
                 WHERE coursework = ? 
                 AND student = ? 
-                AND task IS NOT NULL';
+                AND (task IS NULL OR task = 0)';
         $params = array($this->cm->instance, $this->studentId);
         return $DB->record_exists_sql($sql, $params);
     }
