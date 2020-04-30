@@ -158,6 +158,9 @@ $string['back_to_works_list'] = 'Вернуться к списку работ';
 $string['creating_new_task'] = 'Создание нового задания';
 $string['give_task'] = 'Выдать задание';
 $string['correct_task'] = 'Корректирование задания';
+$string['task_performance'] = 'Выполнение задания';
+$string['task_not_assigned'] = 'Задание не назначено';
+$string['state'] = 'Статус';
 
 
 // Errors strings

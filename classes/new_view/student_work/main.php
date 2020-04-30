@@ -4,10 +4,13 @@ require_once 'modules/module.php';
 require_once 'modules/guidelines.php';
 require_once 'modules/donework.php';
 require_once 'modules/task_template.php';
+require_once 'modules/task_completion.php';
 require_once 'theme_selection/main.php';
 require_once 'task_assignment/main.php';
+require_once 'work_completion/main.php';
 
 use coursework_lib as lib;
+use view_lib as view;
 
 class StudentWorkMain 
 {
@@ -33,12 +36,15 @@ class StudentWorkMain
         {
             return $this->get_theme_selection_page();
         }
-        else if($this->is_coursework_use_task()
+        else if(view\is_coursework_use_task($this->cm)
                     && $this->is_task_not_assign_to_student())
         {
             return $this->get_task_assignment_page();
         }
-        // Other stages
+        else 
+        {
+            return $this->get_work_completion_page();
+        }
     }
 
     private function get_theme_selection_page() : string 
@@ -62,14 +68,7 @@ class StudentWorkMain
             return true;
         }
     }
-
-    private function is_coursework_use_task() : bool 
-    {
-        global $DB;
-        $where = array('id'=>$this->cm->instance, 'usetask'=>1);
-        return $DB->record_exists('coursework', $where);
-    }
-
+    
     private function is_task_not_assign_to_student() : bool 
     {
         global $DB;
@@ -86,6 +85,12 @@ class StudentWorkMain
     {
         $taskAssign = new TaskAssignmentMain($this->course, $this->cm, $this->studentId);
         return $taskAssign->get_page();
+    }
+
+    private function get_work_completion_page() : string 
+    {
+        $workCompletion = new WorkCompletionMain($this->course, $this->cm, $this->studentId);
+        return $workCompletion->get_page();
     }
 
 
