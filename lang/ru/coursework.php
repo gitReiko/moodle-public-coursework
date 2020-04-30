@@ -161,6 +161,7 @@ $string['correct_task'] = 'Корректирование задания';
 $string['task_performance'] = 'Выполнение задания';
 $string['task_not_assigned'] = 'Задание не назначено';
 $string['state'] = 'Статус';
+$string['chat'] = 'Чат';
 
 
 // Errors strings

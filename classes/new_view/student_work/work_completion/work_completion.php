@@ -26,6 +26,8 @@ abstract class WorkCompletion
         {
             $page.= $this->get_task_completion();
         }
+
+        $page.= $this->get_chat();
         
 
         return $page;
@@ -53,8 +55,14 @@ abstract class WorkCompletion
 
     private function get_task_completion() : string 
     {
-        $doneWork = new TaskCompletion($this->course, $this->cm, $this->studentId, false);
-        return $doneWork->get_module();
+        $taskCompletion = new TaskCompletion($this->course, $this->cm, $this->studentId, false);
+        return $taskCompletion->get_module();
+    }
+
+    private function get_chat() : string 
+    {
+        $chat = new Chat($this->course, $this->cm, $this->studentId, true);
+        return $chat->get_module();
     }
 
 

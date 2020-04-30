@@ -145,16 +145,16 @@
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" />
         <FIELD NAME="coursework" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" />
-        <FIELD NAME="student" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" />
-        <FIELD NAME="teacher" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" />
+        <FIELD NAME="userfrom" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" />
+        <FIELD NAME="userto" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" />
         <FIELD NAME="message" TYPE="text" LENGTH="small" NOTNULL="false" SEQUENCE="false" />
         <FIELD NAME="sendtime" TYPE="int" LENGTH="10" NOTNULL="false" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" />
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id" COMMENT="Primary key for certificate_issues" />
         <KEY NAME="coursework" TYPE="foreign" FIELDS="coursework" REFTABLE="coursework" REFFIELDS="id" />
-        <KEY NAME="student" TYPE="foreign" FIELDS="student" REFTABLE="user" REFFIELDS="id" />
-        <KEY NAME="teacher" TYPE="foreign" FIELDS="teacher" REFTABLE="user" REFFIELDS="id" />
+        <KEY NAME="userfrom" TYPE="foreign" FIELDS="userfrom" REFTABLE="user" REFFIELDS="id" />
+        <KEY NAME="userto" TYPE="foreign" FIELDS="userto" REFTABLE="user" REFFIELDS="id" />
       </KEYS>
     </TABLE>
 

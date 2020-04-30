@@ -1,6 +1,7 @@
 <?php
 
 require_once 'modules/module.php';
+require_once 'modules/chat.php';
 require_once 'modules/guidelines.php';
 require_once 'modules/donework.php';
 require_once 'modules/task_template.php';
@@ -68,7 +69,7 @@ class StudentWorkMain
             return true;
         }
     }
-    
+
     private function is_task_not_assign_to_student() : bool 
     {
         global $DB;
