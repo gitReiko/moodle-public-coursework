@@ -28,7 +28,6 @@ abstract class WorkCompletion
         }
 
         $page.= $this->get_chat();
-        
 
         return $page;
     }
