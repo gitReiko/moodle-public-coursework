@@ -514,13 +514,17 @@ class CustomTaskPage
         }
     }
 
-    
-
-
-
 }
 
-
+// Scroll into the end of chat
+require(['jquery'], function($)
+{
+    $(document).ready(function() 
+    {
+        var $container = $('.chat');
+        $container[0].scrollTop = $container[0].scrollHeight;
+    });    
+});
 
 
 

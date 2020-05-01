@@ -158,6 +158,7 @@ $string['task_performance'] = 'Task perfomance';
 $string['task_not_assigned'] = 'Task not assigned';
 $string['state'] = 'State';
 $string['chat'] = 'Chat';
+$string['send'] = 'Send';
 
 
 // Errors strings

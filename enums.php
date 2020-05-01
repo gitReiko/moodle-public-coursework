@@ -55,6 +55,9 @@ const COLLECTION = 'collection';
 const TEMPLATE = 'template';
 const TASK = 'task';
 const SECTION = 'section';
+const MESSAGE = 'message';
+const USERFROM = 'userfrom';
+const USERTO = 'userto';
 
 
 // Forms
