@@ -133,62 +133,61 @@ function coursework_supports($feature) {
  */
 function coursework_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options=array()) 
 {
-
-    /*
-    if ($context->contextlevel != CONTEXT_SYSTEM) {
-        send_file_not_found();
-    }
-    */
-
-    $fs = get_file_storage();
-    $file = $fs->get_file($context->id, 'mod_coursework', $filearea, $args[0], '/', $args[1]);
-
-    send_stored_file($file);
-
-
-    /*
-    // Check the contextlevel is as expected - if your plugin is a block, this becomes CONTEXT_BLOCK, etc.
-    if ($context->contextlevel != CONTEXT_MODULE) {
+    // Check the contextlevel is as expected
+    if ($context->contextlevel != CONTEXT_MODULE) 
+    {
         return false; 
     }
- 
+
     // Make sure the filearea is one of those used by the plugin.
-    if ($filearea !== 'students' && $filearea !== 'teachers') {
+    if ($filearea !== 'student' && $filearea !== 'teacher') 
+    {
         return false;
     }
- 
+
     // Make sure the user is logged in and has access to the module (plugins that are not course modules should leave out the 'cm' part).
     require_login($course, true, $cm);
- 
-    // Check the relevant capabilities - these may vary depending on the filearea being accessed.
-    if (!has_capability('mod/coursework:view', $context)) {
-        return false;
+
+    // Check the relevant capabilities
+    if($filearea === 'student')
+    {
+        if (!has_capability('mod/coursework:is_student', $context)) 
+        {
+            return false;
+        }
     }
- 
-    // Leave this line out if you set the itemid to null in make_pluginfile_url (set $itemid to 0 instead).
-    $itemid = array_shift($args); // The first item in the $args array.
- 
-    // Use the itemid to retrieve any relevant data records and perform any security checks to see if the
-    // user really does have access to the file in question.
- 
+    else if($filearea === 'teacher')
+    {
+        if (!has_capability('mod/coursework:is_teacher', $context)) 
+        {
+            return false;
+        }
+    }
+
+    // The first item in the $args array.
+    $itemid = array_shift($args); 
+
     // Extract the filename / filepath from the $args array.
     $filename = array_pop($args); // The last item in the $args array.
-    if (!$args) {
+    if(!$args) 
+    {
         $filepath = '/'; // $args is empty => the path is '/'
-    } else {
+    } 
+    else 
+    {
         $filepath = '/'.implode('/', $args).'/'; // $args contains elements of the filepath
     }
- 
+
     // Retrieve the file from the Files API.
     $fs = get_file_storage();
     $file = $fs->get_file($context->id, 'mod_coursework', $filearea, $itemid, $filepath, $filename);
-    if (!$file) {
+
+    if(!$file) 
+    {
         return false; // The file does not exist.
     }
- 
-    // We can now send the file back to the browser - in this case with a cache lifetime of 1 day and no filtering. 
-    send_stored_file($file, 86400, 0, $forcedownload, $options);
-    */
+
+    send_stored_file($file);
 }
 
 // General coursework functions
