@@ -163,6 +163,10 @@ $string['task_not_assigned'] = 'Задание не назначено';
 $string['state'] = 'Статус';
 $string['chat'] = 'Чат';
 $string['send'] = 'Отправить';
+$string['filemanager'] = 'Менеджер файлов';
+$string['student_files'] = 'Файлы студента';
+$string['teacher_files'] = 'Файлы преподавателя';
+$string['save'] = 'Сохранить';
 
 
 // Errors strings
@@ -226,3 +230,5 @@ $string['coursework_link2'] = 'доступна на сайте.';
 $string['task_assignment_header'] = 'Преподаватель выдал Вам задание курсовой работы';
 
 $string['leader_changed_for_student'] = 'Изменён руководитель курсовой работы.';
+$string['student_upload_file_header'] = 'Студент загрузил файл(ы) в курсовую работу';
+

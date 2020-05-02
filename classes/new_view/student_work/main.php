@@ -6,6 +6,7 @@ require_once 'modules/guidelines.php';
 require_once 'modules/donework.php';
 require_once 'modules/task_template.php';
 require_once 'modules/task_completion.php';
+require_once 'modules/filemanager.php';
 require_once 'theme_selection/main.php';
 require_once 'task_assignment/main.php';
 require_once 'work_completion/main.php';

@@ -159,6 +159,10 @@ $string['task_not_assigned'] = 'Task not assigned';
 $string['state'] = 'State';
 $string['chat'] = 'Chat';
 $string['send'] = 'Send';
+$string['filemanager'] = 'File manager';
+$string['student_files'] = 'Student\'s files';
+$string['teacher_files'] = 'Teacher\'s files';
+$string['save'] = 'Save';
 
 
 // Errors strings
@@ -220,6 +224,7 @@ $string['coursework_link2'] = 'available on site.';
 $string['task_assignment_header'] = 'Teacher gave You task of coursework';
 
 $string['leader_changed_for_student'] = 'Changed coursework leader';
+$string['student_upload_file_header'] = 'Student upload file(s) to coursework';
 
 
 

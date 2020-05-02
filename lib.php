@@ -131,14 +131,29 @@ function coursework_supports($feature) {
  * @param array $options additional options affecting the file serving
  * @return bool false if the file not found, just send the file otherwise and do not return anything
  */
-function coursework_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options=array()) {
+function coursework_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options=array()) 
+{
+
+    /*
+    if ($context->contextlevel != CONTEXT_SYSTEM) {
+        send_file_not_found();
+    }
+    */
+
+    $fs = get_file_storage();
+    $file = $fs->get_file($context->id, 'mod_coursework', $filearea, $args[0], '/', $args[1]);
+
+    send_stored_file($file);
+
+
+    /*
     // Check the contextlevel is as expected - if your plugin is a block, this becomes CONTEXT_BLOCK, etc.
     if ($context->contextlevel != CONTEXT_MODULE) {
         return false; 
     }
  
     // Make sure the filearea is one of those used by the plugin.
-    if ($filearea !== 'expectedfilearea' && $filearea !== 'anotherexpectedfilearea') {
+    if ($filearea !== 'students' && $filearea !== 'teachers') {
         return false;
     }
  
@@ -173,6 +188,7 @@ function coursework_pluginfile($course, $cm, $context, $filearea, $args, $forced
  
     // We can now send the file back to the browser - in this case with a cache lifetime of 1 day and no filtering. 
     send_stored_file($file, 86400, 0, $forcedownload, $options);
+    */
 }
 
 // General coursework functions

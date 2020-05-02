@@ -28,6 +28,7 @@ abstract class WorkCompletion
         }
 
         $page.= $this->get_chat();
+        $page.= $this->get_file_manager();
 
         return $page;
     }
@@ -62,6 +63,12 @@ abstract class WorkCompletion
     {
         $chat = new Chat($this->course, $this->cm, $this->studentId, true);
         return $chat->get_module();
+    }
+
+    private function get_file_manager() : string 
+    {
+        $fileManager = new FileManager($this->course, $this->cm, $this->studentId, true);
+        return $fileManager->get_module();
     }
 
 

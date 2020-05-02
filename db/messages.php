@@ -28,6 +28,10 @@ $messageproviders = array(
     'leader_changed' => array(
         'capability' => 'mod/coursework:is_student'
     ),
+
+    'student_upload_file' => array(
+        'capability' => 'mod/coursework:is_student'
+    ),
 );
 
 
