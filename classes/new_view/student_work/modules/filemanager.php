@@ -14,7 +14,7 @@ class StudentFileManager extends moodleform
 
         $fileoptions = $this->_customdata['fileoptions'];
 
-        $mform->addElement('filemanager', 'students_filemanager',
+        $mform->addElement('filemanager', 'student_filemanager',
                 get_string('student_files', 'coursework'), null, $fileoptions);
         
         $cm = get_coursemodule_from_id('coursework', $PAGE->cm->id);
@@ -38,7 +38,7 @@ class TeacherFileManager extends moodleform
 
         $fileoptions = $this->_customdata['fileoptions'];
 
-        $mform->addElement('filemanager', 'teachers_filemanager',
+        $mform->addElement('filemanager', 'teacher_filemanager',
                 get_string('teacher_files', 'coursework'), null, $fileoptions);
         
         $cm = get_coursemodule_from_id('coursework', $PAGE->cm->id);
@@ -115,8 +115,8 @@ class FileManager extends ViewModule
         
         $data = new stdClass();
         
-        $data = file_prepare_standard_filemanager($data, 'students',
-                $fileoptions, context_module::instance($this->cm->id), 'mod_coursework', 'students', $this->work->student); // 0 is the item id.
+        $data = file_prepare_standard_filemanager($data, 'student',
+                $fileoptions, context_module::instance($this->cm->id), 'mod_coursework', 'student', $this->work->student); // 0 is the item id.
         
         $mform = new StudentFileManager(
             null,
@@ -129,8 +129,8 @@ class FileManager extends ViewModule
         if ($formdata = $mform->get_data()) 
         {
             // Save the file.
-            $data = file_postupdate_standard_filemanager($data, 'students',
-            $fileoptions, context_module::instance($this->cm->id), 'mod_coursework', 'students', $this->work->student);
+            $data = file_postupdate_standard_filemanager($data, 'student',
+            $fileoptions, context_module::instance($this->cm->id), 'mod_coursework', 'student', $this->work->student);
             $this->send_notification_to_teacher();
         } 
         else 
@@ -148,7 +148,7 @@ class FileManager extends ViewModule
     {
         $list = '<h4>'.get_string('student_files', 'coursework').'</h4>';
 
-        $files = $this->get_files_list('students', $this->work->student);
+        $files = $this->get_files_list('student', $this->work->student);
         if(empty($files))
         {
             $list.= '<p>'.get_string('absent', 'coursework').'</p>';
@@ -185,8 +185,8 @@ class FileManager extends ViewModule
         
         $data = new stdClass();
         
-        $data = file_prepare_standard_filemanager($data, 'teachers',
-                $fileoptions, context_module::instance($this->cm->id), 'mod_coursework', 'teachers', $this->work->teacher);
+        $data = file_prepare_standard_filemanager($data, 'teacher',
+                $fileoptions, context_module::instance($this->cm->id), 'mod_coursework', 'teacher', $this->work->teacher);
         
         $mform = new TeacherFileManager(
             null,
@@ -200,8 +200,8 @@ class FileManager extends ViewModule
         if($formdata = $mform->get_data()) 
         {
             // Save the file.
-            $data = file_postupdate_standard_filemanager($data, 'teachers',
-            $fileoptions, context_module::instance($this->cm->id), 'mod_coursework', 'teachers', $this->work->teacher);
+            $data = file_postupdate_standard_filemanager($data, 'teacher',
+            $fileoptions, context_module::instance($this->cm->id), 'mod_coursework', 'teacher', $this->work->teacher);
             $this->send_notification_to_student();
         } 
         else 
@@ -219,7 +219,7 @@ class FileManager extends ViewModule
     {
         $list = '<h4>'.get_string('teacher_files', 'coursework').'</h4>';
 
-        $files = $this->get_files_list('teachers', $this->work->teacher);
+        $files = $this->get_files_list('teacher', $this->work->teacher);
         if(empty($files))
         {
             $list.= '<p>'.get_string('absent', 'coursework').'</p>';
