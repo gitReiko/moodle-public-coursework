@@ -225,7 +225,7 @@ $string['task_assignment_header'] = 'Teacher gave You task of coursework';
 
 $string['leader_changed_for_student'] = 'Changed coursework leader';
 $string['student_upload_file_header'] = 'Student upload file(s) to coursework';
-
+$string['teacher_upload_file_header'] = 'Teacher upload file(s) to coursework';
 
 
 

@@ -32,6 +32,10 @@ $messageproviders = array(
     'student_upload_file' => array(
         'capability' => 'mod/coursework:is_student'
     ),
+
+    'teacher_upload_file' => array(
+        'capability' => 'mod/coursework:is_teacher'
+    ),
 );
 
 

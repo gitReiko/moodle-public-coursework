@@ -166,6 +166,7 @@ class FileManager extends ViewModule
                 // Save the file.
                 $data = file_postupdate_standard_filemanager($data, 'teachers',
                 $fileoptions, context_module::instance($this->cm->id), 'mod_coursework', 'teachers', $this->work->teacher);
+                $this->send_notification_to_student();
             }
         } 
         else 
@@ -196,6 +197,28 @@ class FileManager extends ViewModule
     private function get_student_html_message() : string
     {
         $message = get_string('student_upload_file_header','coursework');
+        $notification = get_string('answer_not_require', 'coursework');
+
+        return cw_get_html_message($this->cm, $this->course->id, $message, $notification);
+    }
+
+    private function send_notification_to_student() : void 
+    {
+        $cm = $this->cm;
+        $course = $this->course;
+        $messageName = 'teacher_upload_file';
+        $userFrom = lib\get_user($this->work->teacher); 
+        $userTo = lib\get_user($this->work->student); 
+        $headerMessage = get_string('teacher_upload_file_header','coursework'); // Закончил здесь
+        $fullMessageHtml = $this->get_teacher_html_message();
+
+        lib\send_notification($cm, $course, $messageName, $userFrom, $userTo, $headerMessage, $fullMessageHtml);
+
+    }
+
+    private function get_teacher_html_message() : string
+    {
+        $message = get_string('teacher_upload_file_header','coursework');
         $notification = get_string('answer_not_require', 'coursework');
 
         return cw_get_html_message($this->cm, $this->course->id, $message, $notification);
