@@ -211,4 +211,7 @@ form.send_message button
     float: right;
 }
 
-
+div#filemanager_body div.col-md-3 
+{
+    display: none;
+}

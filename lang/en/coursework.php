@@ -163,6 +163,7 @@ $string['filemanager'] = 'File manager';
 $string['student_files'] = 'Student\'s files';
 $string['teacher_files'] = 'Teacher\'s files';
 $string['save'] = 'Save';
+$string['absent'] = 'Absent';
 
 
 // Errors strings

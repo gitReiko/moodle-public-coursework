@@ -93,6 +93,19 @@ class FileManager extends ViewModule
 
     private function get_student_files() : string 
     {
+        global $USER;
+        if(lib\is_user_student($this->cm, $USER->id))
+        {
+            return $this->get_students_files_manager();
+        }
+        else 
+        {
+            return $this->get_student_files_list();
+        }
+    }
+
+    private function get_students_files_manager() : string 
+    {
         $fileoptions = array(
             'maxbytes' => 0,
             'maxfiles' => '3',
@@ -115,14 +128,10 @@ class FileManager extends ViewModule
         
         if ($formdata = $mform->get_data()) 
         {
-            global $USER;
-            if(lib\is_user_student($this->cm, $USER->id))
-            {
-                // Save the file.
-                $data = file_postupdate_standard_filemanager($data, 'students',
-                $fileoptions, context_module::instance($this->cm->id), 'mod_coursework', 'students', $this->work->student);
-                $this->send_notification_to_teacher();
-            }
+            // Save the file.
+            $data = file_postupdate_standard_filemanager($data, 'students',
+            $fileoptions, context_module::instance($this->cm->id), 'mod_coursework', 'students', $this->work->student);
+            $this->send_notification_to_teacher();
         } 
         else 
         {
@@ -130,12 +139,42 @@ class FileManager extends ViewModule
             $mform->set_data($data);
         }
 
-        $files = $mform->render();
+        $manager = '<h4>'.get_string('student_files', 'coursework').'</h4>';
+        $manager.= $mform->render();
+        return $manager;
+    }
 
-        return $files;
+    private function get_student_files_list() : string 
+    {
+        $list = '<h4>'.get_string('student_files', 'coursework').'</h4>';
+
+        $files = $this->get_files_list('students', $this->work->student);
+        if(empty($files))
+        {
+            $list.= '<p>'.get_string('absent', 'coursework').'</p>';
+        }
+        else
+        {
+            $list.= $files;
+        }
+
+        return $list;
     }
 
     private function get_teachers_files() : string 
+    {
+        global $USER;
+        if(lib\is_user_teacher($this->cm, $USER->id))
+        {
+            return $this->get_teacher_files_manager();
+        }
+        else 
+        {
+            return $this->get_teacher_files_list();
+        }
+    }
+
+    private function get_teacher_files_manager() : string 
     {
         $fileoptions = array(
             'maxbytes' => 0,
@@ -158,16 +197,12 @@ class FileManager extends ViewModule
             )
         );
         
-        if ($formdata = $mform->get_data()) 
+        if($formdata = $mform->get_data()) 
         {
-            global $USER;
-            if(lib\is_user_teacher($this->cm, $USER->id))
-            {
-                // Save the file.
-                $data = file_postupdate_standard_filemanager($data, 'teachers',
-                $fileoptions, context_module::instance($this->cm->id), 'mod_coursework', 'teachers', $this->work->teacher);
-                $this->send_notification_to_student();
-            }
+            // Save the file.
+            $data = file_postupdate_standard_filemanager($data, 'teachers',
+            $fileoptions, context_module::instance($this->cm->id), 'mod_coursework', 'teachers', $this->work->teacher);
+            $this->send_notification_to_student();
         } 
         else 
         {
@@ -175,9 +210,51 @@ class FileManager extends ViewModule
             $mform->set_data($data);
         }
 
-        $files = $mform->render();
+        $manager = '<h4>'.get_string('teacher_files', 'coursework').'</h4>';
+        $manager.= $mform->render();
+        return $manager;
+    }
 
-        return $files;
+    private function get_teacher_files_list() : string 
+    {
+        $list = '<h4>'.get_string('teacher_files', 'coursework').'</h4>';
+
+        $files = $this->get_files_list('teachers', $this->work->teacher);
+        if(empty($files))
+        {
+            $list.= '<p>'.get_string('absent', 'coursework').'</p>';
+        }
+        else
+        {
+            $list.= $files;
+        }
+
+        return $list;
+    }
+
+    private function get_files_list($area, $itemid)
+    {
+        $list = '';
+ 
+        $fs = get_file_storage();
+        $context = context_module::instance($this->cm->id);
+        $files = $fs->get_area_files($context->id, 'mod_coursework', $area, $itemid);
+        foreach($files as $file) 
+        {
+            $fileName = $file->get_filename();
+            $fileUrl = moodle_url::make_pluginfile_url($file->get_contextid(), 'mod_coursework', 
+                                                        $area, $file->get_itemid(), 
+                                                        $file->get_filepath(), $file->get_filename());
+
+            if($fileName != '.')
+            {
+                $list.= "<p><a href='$fileUrl' target='_blank' >";
+                $list.= $file->get_filename();
+                $list.= '</a></p>';
+            }
+        }
+        
+        return $list;
     }
 
     private function send_notification_to_teacher() : void 
@@ -209,7 +286,7 @@ class FileManager extends ViewModule
         $messageName = 'teacher_upload_file';
         $userFrom = lib\get_user($this->work->teacher); 
         $userTo = lib\get_user($this->work->student); 
-        $headerMessage = get_string('teacher_upload_file_header','coursework'); // Закончил здесь
+        $headerMessage = get_string('teacher_upload_file_header','coursework');
         $fullMessageHtml = $this->get_teacher_html_message();
 
         lib\send_notification($cm, $course, $messageName, $userFrom, $userTo, $headerMessage, $fullMessageHtml);

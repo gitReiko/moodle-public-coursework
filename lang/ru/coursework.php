@@ -167,6 +167,7 @@ $string['filemanager'] = 'Менеджер файлов';
 $string['student_files'] = 'Файлы студента';
 $string['teacher_files'] = 'Файлы преподавателя';
 $string['save'] = 'Сохранить';
+$string['absent'] = 'Отсутствуют';
 
 
 // Errors strings
