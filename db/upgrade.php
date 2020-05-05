@@ -341,5 +341,28 @@ function xmldb_coursework_upgrade($oldversion)
         }
     }
 
+    if($oldversion < 2019084300)
+    {
+        // Create coursework_sections_status table
+        $table = new xmldb_table('coursework_sections_status');
+        // Adding fields to table coursework_sections_status.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, XMLDB_SEQUENCE, null);
+        $table->add_field('coursework', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('student', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('section', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('status', XMLDB_TYPE_CHAR, '30', null, XMLDB_NOTNULL, null, null);
+        $table->add_field('timemodified', XMLDB_TYPE_INTEGER, '10', null, null, null, '0');
+        // Adding keys to table coursework_sections_status.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
+        $table->add_key('coursework', XMLDB_KEY_FOREIGN, array('coursework'), 'coursework', array('id'));
+        $table->add_key('student', XMLDB_KEY_FOREIGN, array('student'), 'user', array('id'));
+        $table->add_key('section', XMLDB_KEY_FOREIGN, array('section'), 'coursework_tasks_sections', array('id'));
+        // Conditionally launch create table for coursework_sections_status.
+        if(!$dbman->table_exists($table))
+        {
+            $dbman->create_table($table);
+        }
+    }
+
     return true;
 }
