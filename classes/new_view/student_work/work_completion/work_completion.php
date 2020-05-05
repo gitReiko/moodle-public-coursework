@@ -29,6 +29,7 @@ abstract class WorkCompletion
 
         $page.= $this->get_chat();
         $page.= $this->get_file_manager();
+        $page.= $this->get_additional_modules();
 
         return $page;
     }
@@ -70,6 +71,8 @@ abstract class WorkCompletion
         $fileManager = new FileManager($this->course, $this->cm, $this->studentId, true);
         return $fileManager->get_module();
     }
+
+    abstract protected function get_additional_modules() : string;
 
 
 

@@ -15,7 +15,10 @@ class ManagerWorkComplition extends WorkCompletion
 
     }
 
-
+    protected function get_additional_modules() : string
+    {
+        return '';
+    }
 
 
 

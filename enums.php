@@ -59,6 +59,11 @@ const MESSAGE = 'message';
 const USERFROM = 'userfrom';
 const USERTO = 'userto';
 
+// Sections statuses
+const READY = 'ready';
+const NEED_TO_FIX = 'need_to_fix';
+const NOT_READY = 'not_ready';
+const SENT_TO_CHECK = 'sent_to_check';
 
 // Forms
 const STUDENT_FORM = 'student_form';

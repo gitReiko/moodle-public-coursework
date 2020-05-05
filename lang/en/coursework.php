@@ -164,6 +164,8 @@ $string['student_files'] = 'Student\'s files';
 $string['teacher_files'] = 'Teacher\'s files';
 $string['save'] = 'Save';
 $string['absent'] = 'Absent';
+$string['send_for_check'] = 'Send for check';
+$string['send_for_check_section'] = 'Send for check section';
 
 
 // Errors strings

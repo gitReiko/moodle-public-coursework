@@ -168,6 +168,8 @@ $string['student_files'] = 'Файлы студента';
 $string['teacher_files'] = 'Файлы преподавателя';
 $string['save'] = 'Сохранить';
 $string['absent'] = 'Отсутствуют';
+$string['send_for_check'] = 'Отправить на проверку';
+$string['send_for_check_section'] = 'Отправить на проверку раздел';
 
 
 // Errors strings

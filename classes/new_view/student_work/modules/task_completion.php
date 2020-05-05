@@ -12,7 +12,7 @@ class TaskCompletion extends ViewModule
     {
         parent::__construct($course, $cm, $studentId, $displayBlock);
 
-        $this->task = $this->get_user_task();
+        $this->task = lib\get_user_task($this->cm, $this->studentId);
         $this->taskSections = lib\get_task_sections($this->task->id);
     }
 
@@ -39,20 +39,6 @@ class TaskCompletion extends ViewModule
         }
 
         return $body;
-    }
-
-    private function get_user_task() : stdClass 
-    {
-        global $DB;
-        $taskId = $this->get_user_task_id();
-        return $DB->get_record('coursework_tasks', array('id'=>$taskId));
-    }
-
-    private function get_user_task_id() : int 
-    {
-        global $DB;
-        $where = array('coursework'=>$this->cm->instance, 'student'=>$this->studentId);
-        return $DB->get_field('coursework_students', 'task', $where);
     }
 
     private function get_task_description() : string 

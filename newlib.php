@@ -385,6 +385,44 @@ namespace coursework_lib
         return $DB->get_records('coursework_tasks_sections', $conditions, 'listposition, name');
     }
 
+    function get_user_task($cm, $userId) : \stdClass 
+    {
+        global $DB;
+        $taskId = get_user_task_id($cm, $userId);
+        return $DB->get_record('coursework_tasks', array('id'=>$taskId));
+    }
+
+    function get_user_task_id($cm, $userId) : int 
+    {
+        global $DB;
+        $where = array('coursework'=>$cm->instance, 'student'=>$userId);
+        return $DB->get_field('coursework_students', 'task', $where);
+    }
+
+    function get_sections_to_check($cm, $userId)
+    {
+        $taskId = get_user_task_id($cm, $userId);
+
+        global $DB;
+        $sql = 'SELECT * 
+                FROM {coursework_tasks_sections} 
+                WHERE task = ?
+                AND completiondate IS NOT NULL 
+                AND completiondate != 0
+                ORDER BY listposition';
+        $params = array($taskId);
+        return $DB->get_records_sql($sql, $params);
+    }
+
+    function is_section_status_exist($cm, $studentId, $sectionId) : bool 
+    {
+        global $DB;
+        $where = array('coursework'=>$cm->instance, 
+                        'student' => $studentId,
+                        'section' => $sectionId);
+        return $DB->record_exists('coursework_sections_status', $where);
+    }
+
     function get_student_work(\stdClass $cm, int $studentId) : \stdClass 
     {
         global $DB;
