@@ -177,6 +177,7 @@ $string['ready'] = 'Готов';
 $string['need_to_fix'] = 'Необходимо исправить';
 $string['not_ready'] = 'Не готов';
 $string['sent_to_check'] = 'Отправлено на проверку';
+$string['back_to_works_list'] = 'Вернуться к списку работ';
 
 
 // Errors strings

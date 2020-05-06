@@ -173,7 +173,7 @@ $string['ready'] = 'Ready';
 $string['need_to_fix'] = 'Need to fix';
 $string['not_ready'] = 'Not ready';
 $string['sent_to_check'] = 'Sent to check';
-
+$string['back_to_works_list'] = 'Back to works list';
 
 
 // Errors strings
