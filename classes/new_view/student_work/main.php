@@ -8,6 +8,7 @@ require_once 'modules/task_template.php';
 require_once 'modules/task_completion.php';
 require_once 'modules/filemanager.php';
 require_once 'modules/send_for_check.php';
+require_once 'modules/work_check.php';
 require_once 'theme_selection/main.php';
 require_once 'task_assignment/main.php';
 require_once 'work_completion/main.php';

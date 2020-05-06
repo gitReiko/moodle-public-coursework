@@ -447,6 +447,14 @@ namespace coursework_lib
         return $btn;
     }
 
+    function get_back_to_works_list_button(\stdClass $cm) : string 
+    {
+        $btn = '<a href="/mod/coursework/view.php?id='.$cm->id.'">';
+        $btn.= '<button form="sdvsre453">'.get_string('back_to_works_list', 'coursework').'</button>';
+        $btn.= '</a>';
+        return $btn;
+    }
+
     function get_student_work_status(\stdClass $cm, int $studentId) : string 
     {
         global $DB;

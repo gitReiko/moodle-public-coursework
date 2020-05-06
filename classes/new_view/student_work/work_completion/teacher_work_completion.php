@@ -17,10 +17,16 @@ class TeacherWorkComplition extends WorkCompletion
 
     protected function get_additional_modules() : string
     {
-        return '';
+        $str = $this->get_work_check_module();
+        $str.= '<p>'.lib\get_back_to_works_list_button($this->cm).'</p>';
+        return $str;
     }
 
-
+    private function get_work_check_module() : string 
+    {
+        $workCheck = new WorkCheck($this->course, $this->cm, $this->studentId, true);
+        return $workCheck->get_module();
+    }
 
 
 

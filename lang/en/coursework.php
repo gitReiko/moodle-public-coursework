@@ -174,6 +174,7 @@ $string['need_to_fix'] = 'Need to fix';
 $string['not_ready'] = 'Not ready';
 $string['sent_to_check'] = 'Sent to check';
 $string['back_to_works_list'] = 'Back to works list';
+$string['work_check'] = 'Work check';
 
 
 // Errors strings
