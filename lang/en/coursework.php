@@ -166,6 +166,7 @@ $string['save'] = 'Save';
 $string['absent'] = 'Absent';
 $string['send_for_check'] = 'Send for check';
 $string['send_for_check_section'] = 'Send for check section';
+$string['send_for_check_work'] = 'Send for check all work';
 
 
 // Errors strings

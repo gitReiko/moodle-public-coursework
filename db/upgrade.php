@@ -364,5 +364,20 @@ function xmldb_coursework_upgrade($oldversion)
         }
     }
 
+    if($oldversion < 2019084500)
+    {
+        $table = new xmldb_table('coursework_students');
+        $field = new xmldb_field('status', XMLDB_TYPE_CHAR, '30', null, XMLDB_NOTNULL, null, 'not_ready');
+        if(!$dbman->field_exists($table, $field))
+        {
+            $dbman->add_field($table, $field);
+        }
+        $field = new xmldb_field('workstatuschangedate', XMLDB_TYPE_INTEGER, '10', null, null, null, '0');
+        if(!$dbman->field_exists($table, $field))
+        {
+            $dbman->add_field($table, $field);
+        }
+    }
+
     return true;
 }

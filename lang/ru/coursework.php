@@ -170,6 +170,7 @@ $string['save'] = 'Сохранить';
 $string['absent'] = 'Отсутствуют';
 $string['send_for_check'] = 'Отправить на проверку';
 $string['send_for_check_section'] = 'Отправить на проверку раздел';
+$string['send_for_check_work'] = 'Отправить на проверку всю работу';
 
 
 // Errors strings

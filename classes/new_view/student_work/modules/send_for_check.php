@@ -27,7 +27,7 @@ class SendForCheck extends ViewModule
     {
         $body = '';
         $body.= $this->get_send_to_check_sections_buttons();
-
+        $body.= $this->get_send_to_check_work_buttons();
         return $body;
     }
 
@@ -84,6 +84,18 @@ class SendForCheck extends ViewModule
         return $btns;
     }
 
+    private function get_send_to_check_work_buttons() : string 
+    {
+        $btn = '<p>';
+        $btn.= '<form>';
+        $btn.= '<input type="hidden" name="'.ID.'" value="'.$this->cm->id.'"/>';
+        $btn.= '<input type="hidden" name="'.STUDENT.'" value="'.$this->studentId.'"/>';
+        $btn.= '<input type="hidden" name="'.DB_EVENT.'" value="'.ViewDatabaseHandler::SEND_WORK_FOR_CHECK.'">';
+        $btn.= '<button>'.get_string('send_for_check_work', 'coursework').'</button>';
+        $btn.= '</form>';
+        $btn.= '</p>';
+        return $btn;
+    }
 
 
 
