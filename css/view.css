@@ -81,6 +81,21 @@ table.students_works tr td
     background-color: #b4eeb4;
 }
 
+.yellow-background 
+{
+    background-color: #fff68f;
+}
+
+.blue-background 
+{
+    background-color: #b0e0e6;
+}
+
+.grey-background 
+{
+    background-color: #cccccc;
+}
+
 .view_container
 {
     margin-top: 3px;

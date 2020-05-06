@@ -94,7 +94,8 @@ class FileManager extends ViewModule
     private function get_student_files() : string 
     {
         global $USER;
-        if(lib\is_user_student($this->cm, $USER->id))
+        if(lib\is_user_student($this->cm, $USER->id)
+            && lib\is_student_work_not_ready_or_need_to_fix($this->cm, $this->studentId))
         {
             return $this->get_students_files_manager();
         }

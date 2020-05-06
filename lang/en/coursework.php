@@ -167,6 +167,13 @@ $string['absent'] = 'Absent';
 $string['send_for_check'] = 'Send for check';
 $string['send_for_check_section'] = 'Send for check section';
 $string['send_for_check_work'] = 'Send for check all work';
+$string['status_change_date'] = 'Status change date';
+$string['need_to_complete_before'] = 'Need to complete before';
+$string['ready'] = 'Ready';
+$string['need_to_fix'] = 'Need to fix';
+$string['not_ready'] = 'Not ready';
+$string['sent_to_check'] = 'Sent to check';
+
 
 
 // Errors strings

@@ -423,6 +423,15 @@ namespace coursework_lib
         return $DB->record_exists('coursework_sections_status', $where);
     }
 
+    function get_student_section_status($cm, $studentId, $sectionId) : \stdClass  
+    {
+        global $DB;
+        $where = array('coursework'=>$cm->instance, 
+                        'student' => $studentId,
+                        'section' => $sectionId);
+        return $DB->get_record('coursework_sections_status', $where);
+    }
+
     function get_student_work(\stdClass $cm, int $studentId) : \stdClass 
     {
         global $DB;
@@ -436,6 +445,22 @@ namespace coursework_lib
         $btn.= '<button form="sdvsre453">'.get_string('back_to_course', 'coursework').'</button>';
         $btn.= '</a>';
         return $btn;
+    }
+
+    function get_student_work_status(\stdClass $cm, int $studentId) : string 
+    {
+        global $DB;
+        $where = array('coursework'=>$cm->instance, 'student' => $studentId);
+        return $DB->get_field('coursework_students', 'status', $where);
+    }
+
+    function is_student_work_not_ready_or_need_to_fix(\stdClass $cm, int $studentId) : bool 
+    {
+        $status = get_student_work_status($cm, $studentId);
+
+        if($status === NOT_READY) return true;
+        else if($status === NEED_TO_FIX) return true;
+        else return false;
     }
 
 }

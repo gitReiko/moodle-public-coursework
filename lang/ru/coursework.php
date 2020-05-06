@@ -171,6 +171,12 @@ $string['absent'] = 'Отсутствуют';
 $string['send_for_check'] = 'Отправить на проверку';
 $string['send_for_check_section'] = 'Отправить на проверку раздел';
 $string['send_for_check_work'] = 'Отправить на проверку всю работу';
+$string['status_change_date'] = 'Дата изменения статуса';
+$string['need_to_complete_before'] = 'Нужно завершить до';
+$string['ready'] = 'Готов';
+$string['need_to_fix'] = 'Необходимо исправить';
+$string['not_ready'] = 'Не готов';
+$string['sent_to_check'] = 'Отправлено на проверку';
 
 
 // Errors strings
