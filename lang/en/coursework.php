@@ -175,6 +175,8 @@ $string['not_ready'] = 'Not ready';
 $string['sent_to_check'] = 'Sent to check';
 $string['back_to_works_list'] = 'Back to works list';
 $string['work_check'] = 'Work check';
+$string['accept_sections'] = 'Accept sections';
+$string['send_for_rework'] = 'Send for rework';
 
 
 // Errors strings

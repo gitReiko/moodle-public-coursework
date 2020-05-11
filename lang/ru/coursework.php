@@ -179,6 +179,8 @@ $string['not_ready'] = 'Не готов';
 $string['sent_to_check'] = 'Отправлено на проверку';
 $string['back_to_works_list'] = 'Вернуться к списку работ';
 $string['work_check'] = 'Проверка работы';
+$string['accept_sections'] = 'Зачесть раздел';
+$string['send_for_rework'] = 'Отправить на доработку';
 
 
 // Errors strings

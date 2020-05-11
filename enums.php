@@ -58,6 +58,7 @@ const SECTION = 'section';
 const MESSAGE = 'message';
 const USERFROM = 'userfrom';
 const USERTO = 'userto';
+const STATUS = 'status';
 
 // Sections statuses
 const READY = 'ready';

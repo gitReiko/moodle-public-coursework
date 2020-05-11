@@ -11,8 +11,6 @@ class WorkCheck extends ViewModule
         parent::__construct($course, $cm, $studentId, $displayBlock);
 
         $this->taskSections = $this->get_need_to_check_task_sections();
-
-        print_r($this->taskSections);
     }
 
     protected function get_module_name() : string
@@ -48,7 +46,7 @@ class WorkCheck extends ViewModule
 
     private function get_need_to_check_buttons() : string 
     {
-        $btns = '';
+        $btns = '<hr>';
         foreach($this->taskSections as $section)
         {
             $btns.= $this->get_section_check_block($section);
@@ -58,20 +56,38 @@ class WorkCheck extends ViewModule
 
     private function get_section_check_block(stdClass $section) : string 
     {
-        $block = '';
-        $block.= "<p title='{$section->description}'><b>".$section->name.'</b></p>';
-        $block.= '<button>';
-
-
-
-
+        $block = "<p title='{$section->description}'><b>".$section->name.'</b> ';
+        $block.= $this->get_accept_form_with_button($section);
+        $block.= $this->get_rework_form_with_button($section);
+        $block.= '</p><hr>';
         return $block;
     }
 
+    private function get_accept_form_with_button(stdClass $section) : string 
+    {
+        $btn = '<form method="post">';
+        $btn.= '<input type="hidden" name="'.ID.'" value="'.$this->cm->id.'"/>';
+        $btn.= '<input type="hidden" name="'.DB_EVENT.'" value="'.ViewDatabaseHandler::SECTIONS_CHECK.'">';
+        $btn.= '<input type="hidden" name="'.SECTION.'" value="'.$section->id.'">';
+        $btn.= '<input type="hidden" name="'.STUDENT.'" value="'.$this->studentId.'">';
+        $btn.= '<input type="hidden" name="'.STATUS.'" value="'.READY.'">';
+        $btn.= '<button>'.get_string('accept_sections', 'coursework').'</button>';
+        $btn.= '</form>';
+        return $btn;
+    }
 
-
-
-
+    private function get_rework_form_with_button(stdClass $section) : string 
+    {
+        $btn = '<form method="post">';
+        $btn.= '<input type="hidden" name="'.ID.'" value="'.$this->cm->id.'"/>';
+        $btn.= '<input type="hidden" name="'.DB_EVENT.'" value="'.ViewDatabaseHandler::SECTIONS_CHECK.'">';
+        $btn.= '<input type="hidden" name="'.SECTION.'" value="'.$section->id.'">';
+        $btn.= '<input type="hidden" name="'.STUDENT.'" value="'.$this->studentId.'">';
+        $btn.= '<input type="hidden" name="'.STATUS.'" value="'.NEED_TO_FIX.'">';
+        $btn.= '<button>'.get_string('send_for_rework', 'coursework').'</button>';
+        $btn.= '</form>';
+        return $btn;
+    }
 
 
 

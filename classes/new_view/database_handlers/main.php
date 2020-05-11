@@ -6,6 +6,7 @@ require_once 'custom_task_assignment.php';
 require_once 'chat_message.php';
 require_once 'send_section_for_check.php';
 require_once 'send_work_for_check.php';
+require_once 'sections_check.php';
 
 class ViewDatabaseHandler 
 {
@@ -15,6 +16,7 @@ class ViewDatabaseHandler
     const CHAT_MESSAGE = 'chat_message';
     const SEND_SECTION_FOR_CHECK = 'send_section_for_check';
     const SEND_WORK_FOR_CHECK = 'send_work_for_check';
+    const SECTIONS_CHECK = 'sections_check';
         
     private $course;
     private $cm;
@@ -48,6 +50,9 @@ class ViewDatabaseHandler
                 break;
             case self::SEND_WORK_FOR_CHECK : 
                 $this->handle_send_work_to_check_database_event();
+                break;
+            case self::SECTIONS_CHECK : 
+                $this->handle_sections_check_database_event();
                 break;
         }
     }
@@ -85,6 +90,12 @@ class ViewDatabaseHandler
     private function handle_send_work_to_check_database_event() : void 
     {
         $database = new SendWorkForCheckDatabaseHandler($this->course, $this->cm);
+        $database->handle();
+    }
+
+    private function handle_sections_check_database_event() : void 
+    {
+        $database = new SectionsCheckDatabaseHandler($this->course, $this->cm);
         $database->handle();
     }
 
