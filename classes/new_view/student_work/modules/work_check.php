@@ -27,8 +27,8 @@ class WorkCheck extends ViewModule
 
     protected function get_module_body() : string
     {
-        $coursework = lib\get_coursework($this->cm->instance);
-        return format_module_intro('coursework', $coursework, $this->cm->id);
+        $body = $this->get_need_to_check_buttons();
+        return $body;
     }
 
     private function get_need_to_check_task_sections()
@@ -48,8 +48,33 @@ class WorkCheck extends ViewModule
 
     private function get_need_to_check_buttons() : string 
     {
-        
+        $btns = '';
+        foreach($this->taskSections as $section)
+        {
+            $btns.= $this->get_section_check_block($section);
+        }
+        return $btns;
     }
+
+    private function get_section_check_block(stdClass $section) : string 
+    {
+        $block = '';
+        $block.= "<p title='{$section->description}'><b>".$section->name.'</b></p>';
+        $block.= '<button>';
+
+
+
+
+        return $block;
+    }
+
+
+
+
+
+
+
+
 
 }
 
