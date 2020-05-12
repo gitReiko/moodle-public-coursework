@@ -177,6 +177,9 @@ $string['back_to_works_list'] = 'Back to works list';
 $string['work_check'] = 'Work check';
 $string['accept_sections'] = 'Accept sections';
 $string['send_for_rework'] = 'Send for rework';
+$string['grade_all_work'] = 'Grade of all work';
+$string['grade_work'] = 'Grade work';
+$string['nothing_to_check'] = 'Nothing to check';
 
 
 // Errors strings

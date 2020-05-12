@@ -46,11 +46,25 @@ class WorkCheck extends ViewModule
 
     private function get_need_to_check_buttons() : string 
     {
-        $btns = '<hr>';
-        foreach($this->taskSections as $section)
+        if($this->is_something_need_to_check())
         {
-            $btns.= $this->get_section_check_block($section);
+            $btns = '<hr>';
+            foreach($this->taskSections as $section)
+            {
+                $btns.= $this->get_section_check_block($section);
+            }
+    
+            if($this->is_student_work_sent_for_check())
+            {
+                $btns.= $this->get_grade_work_block();
+            }
         }
+        else 
+        {
+            $btns = '<p style="color: #696969;">'.get_string('nothing_to_check', 'coursework').'</p>';
+        }
+
+        
         return $btns;
     }
 
@@ -89,6 +103,49 @@ class WorkCheck extends ViewModule
         return $btn;
     }
 
+    private function is_student_work_sent_for_check() : bool 
+    {
+        global $DB;
+        $conditions = array('coursework'=>$this->cm->instance, 'student'=>$this->studentId, 'status'=>SENT_TO_CHECK);
+        return $DB->record_exists('coursework_students', $conditions);
+    }
+
+    private function get_grade_work_block() : string 
+    {
+        $btn = '<p><b>'.get_string('grade_all_work', 'coursework').'</b></p>';
+        $btn.= '<p>'.$this->get_rework_work_button().'</p>';
+        $btn.= '<p>'.$this->get_grade_work_button().'</p>';
+        $btn.= '<hr>';
+        return $btn;
+    }
+
+    private function get_rework_work_button() : string 
+    {
+        $btn = '<button>'.get_string('send_for_rework', 'coursework').'</button>';
+
+        return $btn;
+    }
+
+    private function get_grade_work_button() : string 
+    {
+        $btn = '<input type="number" min="0" max="60000" autocomplete="off" required>';
+        $btn.= '<button>'.get_string('grade_work', 'coursework').'</button>';
+
+        return $btn;
+    }
+
+    private function is_something_need_to_check() : bool 
+    {
+        if((count($this->taskSections) > 0) 
+            || $this->is_student_work_sent_for_check())
+        {
+            return true;
+        }
+        else 
+        {
+            return false;
+        }
+    }
 
 
 

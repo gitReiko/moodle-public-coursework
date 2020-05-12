@@ -181,6 +181,9 @@ $string['back_to_works_list'] = 'Вернуться к списку работ';
 $string['work_check'] = 'Проверка работы';
 $string['accept_sections'] = 'Зачесть раздел';
 $string['send_for_rework'] = 'Отправить на доработку';
+$string['grade_all_work'] = 'Оценка всей работы';
+$string['grade_work'] = 'Оценить работу';
+$string['nothing_to_check'] = 'Нечего проверять';
 
 
 // Errors strings
