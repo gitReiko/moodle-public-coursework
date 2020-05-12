@@ -173,10 +173,10 @@ $string['send_for_check_section'] = 'Отправить на проверку р
 $string['send_for_check_work'] = 'Отправить на проверку всю работу';
 $string['status_change_date'] = 'Дата изменения статуса';
 $string['need_to_complete_before'] = 'Нужно завершить до';
-$string['ready'] = 'Готов';
-$string['need_to_fix'] = 'Необходимо исправить';
-$string['not_ready'] = 'Не готов';
-$string['sent_to_check'] = 'Отправлено на проверку';
+$string['ready'] = 'выполнено';
+$string['need_to_fix'] = 'необходимо исправить';
+$string['not_ready'] = 'не выполнено';
+$string['sent_to_check'] = 'отправлено на проверку';
 $string['back_to_works_list'] = 'Вернуться к списку работ';
 $string['work_check'] = 'Проверка работы';
 $string['accept_sections'] = 'Зачесть раздел';
@@ -184,6 +184,8 @@ $string['send_for_rework'] = 'Отправить на доработку';
 $string['grade_all_work'] = 'Оценка всей работы';
 $string['grade_work'] = 'Оценить работу';
 $string['nothing_to_check'] = 'Нечего проверять';
+$string['received'] = 'получено';
+$string['not_received'] = 'не получено';
 
 
 // Errors strings

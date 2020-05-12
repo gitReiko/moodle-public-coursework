@@ -169,10 +169,10 @@ $string['send_for_check_section'] = 'Send for check section';
 $string['send_for_check_work'] = 'Send for check all work';
 $string['status_change_date'] = 'Status change date';
 $string['need_to_complete_before'] = 'Need to complete before';
-$string['ready'] = 'Ready';
-$string['need_to_fix'] = 'Need to fix';
-$string['not_ready'] = 'Not ready';
-$string['sent_to_check'] = 'Sent to check';
+$string['ready'] = 'completed';
+$string['need_to_fix'] = 'need to fix';
+$string['not_ready'] = 'not completed';
+$string['sent_to_check'] = 'sent to check';
 $string['back_to_works_list'] = 'Back to works list';
 $string['work_check'] = 'Work check';
 $string['accept_sections'] = 'Accept sections';
@@ -180,6 +180,8 @@ $string['send_for_rework'] = 'Send for rework';
 $string['grade_all_work'] = 'Grade of all work';
 $string['grade_work'] = 'Grade work';
 $string['nothing_to_check'] = 'Nothing to check';
+$string['received'] = 'received';
+$string['not_received'] = 'not received';
 
 
 // Errors strings
