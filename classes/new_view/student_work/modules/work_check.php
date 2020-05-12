@@ -81,7 +81,7 @@ class WorkCheck extends ViewModule
     {
         $btn = '<form method="post">';
         $btn.= '<input type="hidden" name="'.ID.'" value="'.$this->cm->id.'"/>';
-        $btn.= '<input type="hidden" name="'.DB_EVENT.'" value="'.ViewDatabaseHandler::SECTIONS_CHECK.'">';
+        $btn.= '<input type="hidden" name="'.DB_EVENT.'" value="'.ViewDatabaseHandler::SECTION_CHECK.'">';
         $btn.= '<input type="hidden" name="'.SECTION.'" value="'.$section->id.'">';
         $btn.= '<input type="hidden" name="'.STUDENT.'" value="'.$this->studentId.'">';
         $btn.= '<input type="hidden" name="'.STATUS.'" value="'.READY.'">';
@@ -94,7 +94,7 @@ class WorkCheck extends ViewModule
     {
         $btn = '<form method="post">';
         $btn.= '<input type="hidden" name="'.ID.'" value="'.$this->cm->id.'"/>';
-        $btn.= '<input type="hidden" name="'.DB_EVENT.'" value="'.ViewDatabaseHandler::SECTIONS_CHECK.'">';
+        $btn.= '<input type="hidden" name="'.DB_EVENT.'" value="'.ViewDatabaseHandler::SECTION_CHECK.'">';
         $btn.= '<input type="hidden" name="'.SECTION.'" value="'.$section->id.'">';
         $btn.= '<input type="hidden" name="'.STUDENT.'" value="'.$this->studentId.'">';
         $btn.= '<input type="hidden" name="'.STATUS.'" value="'.NEED_TO_FIX.'">';
@@ -121,16 +121,27 @@ class WorkCheck extends ViewModule
 
     private function get_rework_work_button() : string 
     {
-        $btn = '<button>'.get_string('send_for_rework', 'coursework').'</button>';
-
+        $btn = '<form method="post">';
+        $btn.= '<input type="hidden" name="'.ID.'" value="'.$this->cm->id.'"/>';
+        $btn.= '<input type="hidden" name="'.DB_EVENT.'" value="'.ViewDatabaseHandler::WORK_CHECK.'">';
+        $btn.= '<input type="hidden" name="'.STUDENT.'" value="'.$this->studentId.'">';
+        $btn.= '<input type="hidden" name="'.STATUS.'" value="'.NEED_TO_FIX.'">';
+        $btn.= '<button>'.get_string('send_for_rework', 'coursework').'</button>';
+        $btn.= '</form>';
         return $btn;
     }
 
     private function get_grade_work_button() : string 
     {
-        $btn = '<input type="number" min="0" max="60000" autocomplete="off" required>';
+        $btn = '<form method="post">';
+        $btn.= '<input type="hidden" name="'.ID.'" value="'.$this->cm->id.'"/>';
+        $btn.= '<input type="hidden" name="'.DB_EVENT.'" value="'.ViewDatabaseHandler::WORK_CHECK.'">';
+        $btn.= '<input type="hidden" name="'.STUDENT.'" value="'.$this->studentId.'">';
+        $btn.= '<input type="hidden" name="'.STATUS.'" value="'.READY.'">';
+        $btn.= '<input type="number" name="'.GRADE.'" 
+                    min="0" max="60000" autocomplete="off" required>';
         $btn.= '<button>'.get_string('grade_work', 'coursework').'</button>';
-
+        $btn.= '</form>';
         return $btn;
     }
 
