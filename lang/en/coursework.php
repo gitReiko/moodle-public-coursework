@@ -144,7 +144,7 @@ $string['go_to_work'] = 'Go to work';
 // Task assignment
 $string['task_issuance_header'] = 'Task issuance for student';
 $string['click_to_show_hide'] = 'click to show/hide block';
-$string['done_work'] = 'Done work';
+$string['work_info'] = 'Work info';
 $string['it_is_only_template'] = 'ATTENTION! Its only template, not assigned task.';
 $string['task_template_not_assigned'] = 'For this coursework, task template is not assigned.';
 $string['use_task_template'] = 'Use template as task';

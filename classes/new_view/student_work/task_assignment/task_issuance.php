@@ -45,7 +45,7 @@ abstract class TaskIssuance
 
     private function get_done_work() : string 
     {
-        $doneWork = new DoneWork($this->course, $this->cm, $this->studentId, $this->openDoneWork);
+        $doneWork = new WorkInfo($this->course, $this->cm, $this->studentId, $this->openDoneWork);
         return $doneWork->get_module();
     }
 

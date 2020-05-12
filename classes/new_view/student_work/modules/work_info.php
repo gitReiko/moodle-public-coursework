@@ -2,7 +2,7 @@
 
 use coursework_lib as lib;
 
-class DoneWork extends ViewModule 
+class WorkInfo extends ViewModule 
 {
 
     private $work;
@@ -16,12 +16,12 @@ class DoneWork extends ViewModule
 
     protected function get_module_name() : string
     {
-        return 'donework';
+        return 'work_info';
     }
 
     protected function get_module_header() : string
     {
-        return get_string('done_work', 'coursework');
+        return get_string('work_info', 'coursework');
     }
 
     protected function get_module_body() : string

@@ -3,7 +3,7 @@
 require_once 'modules/module.php';
 require_once 'modules/chat.php';
 require_once 'modules/guidelines.php';
-require_once 'modules/donework.php';
+require_once 'modules/work_info.php';
 require_once 'modules/task_template.php';
 require_once 'modules/task_completion.php';
 require_once 'modules/filemanager.php';

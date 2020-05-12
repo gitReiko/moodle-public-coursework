@@ -50,7 +50,7 @@ abstract class WorkCompletion
 
     private function get_done_work() : string 
     {
-        $doneWork = new DoneWork($this->course, $this->cm, $this->studentId, false);
+        $doneWork = new WorkInfo($this->course, $this->cm, $this->studentId, false);
         return $doneWork->get_module();
     }
 
