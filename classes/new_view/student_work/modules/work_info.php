@@ -38,6 +38,7 @@ class WorkInfo extends ViewModule
         $table.= $this->get_theme_row();
         $table.= $this->get_task_row();
         $table.= $this->get_status_row();
+        $table.= $this->get_grade_row();
         $table.= '<table>';
         return $table;
     }
@@ -230,7 +231,26 @@ class WorkInfo extends ViewModule
         return $status;
     }
 
+    private function get_grade_row() : string 
+    {
+        $grade = $this->get_grade_row_start().'<td>';
+        $grade.= '<b>'.get_string('grade', 'coursework').':</b> ';
+        $grade.= $this->work->grade;
+        $grade.= '</td><td></td></tr>';
+        return $grade;
+    }
     
+    private function get_grade_row_start() : string 
+    {
+        if(empty($this->work->grade))
+        {
+            return '<tr class="red-background">';
+        }
+        else
+        {
+            return '<tr class="green-background">';
+        }
+    }
 
 }
 
