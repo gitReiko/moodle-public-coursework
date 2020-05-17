@@ -1,12 +1,7 @@
 <?php
 
 require_once '../../config.php';
-require_once 'classes/view/coursework_view.php';
-require_once 'classes/view/student_view.php';
-require_once 'classes/view/teacher_view.php';
-require_once 'classes/view/manager_view.php';
-require_once 'classes/view/database_events_handler.php';
-require_once 'classes/new_view/main.php';
+require_once 'classes/view/main.php';
 require_once 'enums.php';
 require_once 'lib.php';
 require_once 'newlib.php';
@@ -39,24 +34,6 @@ echo $OUTPUT->header();
 
 $view = new ViewMain($course, $cm);
 echo $view->get_gui();
-
-/*
-if(has_capability('mod/coursework:removeselection', $PAGE->cm->context))
-{
-    $coursework = new ManagerCourseworkView($course, $cm);
-    $coursework->display();
-}
-else if(has_capability('mod/coursework:gradestudent', $PAGE->cm->context))
-{
-    $coursework = new TeacherCourseworkView($course, $cm);
-    $coursework->display();
-}
-else if(has_capability('mod/coursework:selectteacher', $PAGE->cm->context))
-{
-    $coursework = new StudentCourseworkView($course, $cm);
-    $coursework->display();
-}
-*/
 
 echo $OUTPUT->footer();
 
