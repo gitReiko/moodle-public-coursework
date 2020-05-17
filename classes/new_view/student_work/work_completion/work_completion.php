@@ -20,7 +20,7 @@ abstract class WorkCompletion
     {
         $page = $this->get_page_header();
         $page.= $this->get_guidelines();
-        $page.= $this->get_done_work();
+        $page.= $this->get_work_info();
 
         if(view\is_coursework_use_task($this->cm))
         {
@@ -48,10 +48,10 @@ abstract class WorkCompletion
         return $guidelines->get_module();
     }
 
-    private function get_done_work() : string 
+    private function get_work_info() : string 
     {
-        $doneWork = new WorkInfo($this->course, $this->cm, $this->studentId, false);
-        return $doneWork->get_module();
+        $workInfo = new WorkInfo($this->course, $this->cm, $this->studentId, false);
+        return $workInfo->get_module();
     }
 
     private function get_task_completion() : string 

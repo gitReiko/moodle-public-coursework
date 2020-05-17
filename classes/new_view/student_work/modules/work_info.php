@@ -39,7 +39,7 @@ class WorkInfo extends ViewModule
         $table.= $this->get_task_row();
         $table.= $this->get_status_row();
         $table.= $this->get_grade_row();
-        $table.= '<table>';
+        $table.= '</table>';
         return $table;
     }
 
