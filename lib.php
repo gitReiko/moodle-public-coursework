@@ -100,9 +100,9 @@ function coursework_supports($feature) {
         case FEATURE_COMPLETION_HAS_RULES:
             return false;
         case FEATURE_GRADE_HAS_GRADE:
-            return false;
+            return true;
         case FEATURE_GRADE_OUTCOMES:
-            return false;
+            return true;
         case FEATURE_BACKUP_MOODLE2:
             return false;
         case FEATURE_SHOW_DESCRIPTION:
@@ -172,6 +172,36 @@ function coursework_pluginfile($course, $cm, $context, $filearea, $args, $forced
     }
 
     send_stored_file($file);
+}
+
+function coursework_grade_item_update($coursework, $grades=NULL) {
+    global $CFG;
+    if (!function_exists('grade_update')) { //workaround for buggy PHP versions
+        require_once($CFG->libdir.'/gradelib.php');
+    }
+ 
+    return grade_update('mod/coursework', $coursework->course, 'mod', 'coursework', $coursework->id, 0, $grades);
+}
+
+function coursework_update_grades($coursework, $userid=0, $nullifnone=true) {
+    global $CFG, $DB;
+    require_once($CFG->libdir.'/gradelib.php');
+ 
+    if (!$coursework->assessed) {
+        coursework_grade_item_update($coursework);
+ 
+    } else if ($grades = coursework_get_user_grades($coursework, $userid)) {
+        coursework_grade_item_update($coursework, $grades);
+ 
+    } else if ($userid and $nullifnone) {
+        $grade = new stdClass();
+        $grade->userid   = $userid;
+        $grade->rawgrade = NULL;
+        coursework_grade_item_update($coursework, $grade);
+ 
+    } else {
+        coursework_grade_item_update($coursework);
+    }
 }
 
 // General coursework functions

@@ -60,9 +60,21 @@ class WorkCheckDatabaseHandler
 
     private function update_work_status()
     {
+        if($this->work->status == READY)
+        {
+            $grade = new stdClass;
+            $grade->userid   = $this->work->student;
+            $grade->rawgrade = $this->work->grade;
+            $coursework = lib\get_coursework($this->cm->instance);
+            coursework_grade_item_update($coursework, $grade);
+        }
+
+
         global $DB;
         return $DB->update_record('coursework_students', $this->work);
     }
 
+    
 
+    
 }
