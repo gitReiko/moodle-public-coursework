@@ -148,22 +148,6 @@ function coursework_pluginfile($course, $cm, $context, $filearea, $args, $forced
     // Make sure the user is logged in and has access to the module (plugins that are not course modules should leave out the 'cm' part).
     require_login($course, true, $cm);
 
-    // Check the relevant capabilities
-    if($filearea === 'student')
-    {
-        if (!has_capability('mod/coursework:is_student', $context)) 
-        {
-            return false;
-        }
-    }
-    else if($filearea === 'teacher')
-    {
-        if (!has_capability('mod/coursework:is_teacher', $context)) 
-        {
-            return false;
-        }
-    }
-
     // The first item in the $args array.
     $itemid = array_shift($args); 
 
