@@ -14,6 +14,16 @@ $string['module'] = 'MODULE:';
 $string['task'] = 'Task';
 $string['back_to_course'] = 'Back to course';
 $string['for_student'] = 'for student';
+$string['task_short'] = 'Tas';
+$string['not_assigned'] = 'Not assigned';
+$string['assigned'] = 'Assigned';
+$string['sections'] = 'Task section';
+$string['sections_short'] = 'Sections';
+$string['section'] = 'Section';
+$string['modify_date'] = 'Date of modify';
+$string['work'] = 'Work';
+$string['work_short'] = 'Wor';
+$string['grade_short'] = 'Gra';
 
 // Coursework configuration
 $string['coursework_configuration'] = 'Coursework configuration';

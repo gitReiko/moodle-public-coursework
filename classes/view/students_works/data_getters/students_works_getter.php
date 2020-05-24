@@ -86,6 +86,10 @@ class StudentsWorksGetter
                 }
                 
                 $newStudent->themeName = $this->get_theme_name($cwStudent);
+                $newStudent->task = $cwStudent->task;
+                $newStudent->sections = $this->get_task_sections($student->id);
+                $newStudent->work = $cwStudent->status;
+                $newStudent->grade = $cwStudent->grade;
                 
                 $newStudents[] = $newStudent;
             }
@@ -131,6 +135,47 @@ class StudentsWorksGetter
         }
     }
 
+    private function get_task_sections(int $studentId)
+    {
+        $sections = lib\get_sections_to_check($this->cm, $studentId);
+
+        $newSections = array();
+        foreach($sections as $section)
+        {
+            $newSection = new stdClass;
+            $newSection->name = $section->name;
+            $newSection->status = $this->get_section_status($studentId, $section->id);
+            $newSection->timeModified = $this->get_section_timemodified($studentId, $section->id);
+
+            $newSections[] = $newSection;
+        }
+
+        return $newSections;
+    }
+
+    private function get_section_status(int $studentId, int $sectionId) : string 
+    {
+        global $DB;
+        $conditions = array('coursework' => $this->cm->instance,
+                            'student' => $studentId,
+                            'section' => $sectionId);
+        $status = $DB->get_field('coursework_sections_status', 'status', $conditions);
+
+        if(empty($status)) return NOT_READY;
+        else return $status;
+    }
+
+    private function get_section_timemodified(int $studentId, int $sectionId) : string 
+    {
+        global $DB;
+        $conditions = array('coursework' => $this->cm->instance,
+                            'student' => $studentId,
+                            'section' => $sectionId);
+        $timeModified = $DB->get_field('coursework_sections_status', 'timemodified', $conditions);
+
+        if(empty($timeModified)) return 0;
+        else return $timeModified;
+    }
 
 
 

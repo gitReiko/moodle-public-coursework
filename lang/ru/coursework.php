@@ -15,6 +15,16 @@ $string['module'] = 'МОДУЛЬ:';
 $string['task'] = 'Задание';
 $string['back_to_course'] = 'Назад к курсу';
 $string['for_student'] = 'для студента';
+$string['task_short'] = 'Зад';
+$string['not_assigned'] = 'Не выдано';
+$string['assigned'] = 'Выдано';
+$string['sections'] = 'Разделы задания';
+$string['sections_short'] = 'Разделы';
+$string['section'] = 'Раздел';
+$string['modify_date'] = 'Дата изменения';
+$string['work'] = 'Работа';
+$string['work_short'] = 'Раб';
+$string['grade_short'] = 'Оце';
 
 // Coursework configuration
 $string['coursework_configuration'] = 'Настройка курсовой работы';
