@@ -29,6 +29,7 @@ class ChatMessageDatabaseHandler
         $message->userto = $this->get_user_to();
         $message->message = $this->get_message_text();
         $message->sendtime = time();
+        $message->readed = 0;
         return $message;
     }
 

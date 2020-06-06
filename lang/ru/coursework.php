@@ -25,6 +25,9 @@ $string['modify_date'] = 'Дата изменения';
 $string['work'] = 'Работа';
 $string['work_short'] = 'Раб';
 $string['grade_short'] = 'Оце';
+$string['notifications'] = 'Уведомления';
+$string['notifications_short'] = 'Увед.';
+$string['unreaded_messages'] = 'не прочитанные сообщения';
 
 // Coursework configuration
 $string['coursework_configuration'] = 'Настройка курсовой работы';

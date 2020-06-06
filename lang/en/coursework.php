@@ -24,6 +24,9 @@ $string['modify_date'] = 'Date of modify';
 $string['work'] = 'Work';
 $string['work_short'] = 'Wor';
 $string['grade_short'] = 'Gra';
+$string['notifications'] = 'Notifications';
+$string['notifications_short'] = 'Notif.';
+$string['unreaded_messages'] = 'unreaded messages';
 
 // Coursework configuration
 $string['coursework_configuration'] = 'Coursework configuration';

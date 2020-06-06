@@ -379,5 +379,16 @@ function xmldb_coursework_upgrade($oldversion)
         }
     }
 
+    
+    if($oldversion < 2019084700)
+    {
+        $table = new xmldb_table('coursework_chat');
+        $field = new xmldb_field('readed', XMLDB_TYPE_INTEGER, '4', null, null, null, '1');
+        if(!$dbman->field_exists($table, $field))
+        {
+            $dbman->add_field($table, $field);
+        }
+    }
+
     return true;
 }

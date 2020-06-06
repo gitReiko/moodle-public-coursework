@@ -87,6 +87,7 @@ class StudentsWorksMain
 
         $header.= $this->get_work_header();
         $header.= $this->get_grade_header();
+        $header.= $this->get_notifications();
         $header.= '<td></td>';
         $header.= '</tr></thead>';
         return $header;
@@ -132,6 +133,11 @@ class StudentsWorksMain
         return '<td title="'.get_string('grade', 'coursework').'">'.get_string('grade_short', 'coursework').'</td>';
     }
 
+    private function get_notifications() : string 
+    {
+        return '<td title="'.get_string('notifications', 'coursework').'">'.get_string('notifications_short', 'coursework').'</td>';
+    }
+
     private function get_students_list_body() : string 
     {
         $body = '';
@@ -155,6 +161,7 @@ class StudentsWorksMain
             
             $body.= $this->get_work_body_cell($work);
             $body.= $this->get_work_grade_cell($work);
+            $body.= $this->get_work_notification($work);
             $body.= $this->get_go_to_page_cell($work);
             $body.= '</tr>';
         }
@@ -347,6 +354,20 @@ class StudentsWorksMain
         {
             return '<td class="green-background">'.$work->grade.'</td>';
         }
+    }
+
+    private function get_work_notification(stdClass $work) : string 
+    {
+        $td = '<td>';
+        if(!empty($work->teacherId))
+        {
+            if(view\is_teacher_has_unread_messages($this->cm->instance, $work->teacherId, $work->studentId))
+            {
+                $td.= get_string('unreaded_messages', 'coursework');
+            }
+        }
+        $td.= '</td>';
+        return $td;
     }
 
     private function get_go_to_page_cell(stdClass $work) : string 

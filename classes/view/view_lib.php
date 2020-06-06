@@ -34,6 +34,16 @@ function is_user_have_task($cm, $studentId) : int
     return $DB->record_exists_sql($sql, $params);
 }
 
+function is_teacher_has_unread_messages(int $coursework, int $teacher, int $student) : bool 
+{
+    global $DB;
+    $conditions = array('coursework' => $coursework, 'userto' => $teacher, 
+                        'userfrom' => $student,'readed' => 0);
+    return $DB->record_exists('coursework_chat', $conditions);
+}
+
+
+
 
 
 
