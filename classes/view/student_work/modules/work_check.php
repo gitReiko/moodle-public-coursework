@@ -1,6 +1,7 @@
 <?php
 
 use coursework_lib as lib;
+use view_lib as view;
 
 class WorkCheck extends ViewModule 
 {
@@ -10,7 +11,7 @@ class WorkCheck extends ViewModule
     {
         parent::__construct($course, $cm, $studentId, $displayBlock);
 
-        $this->taskSections = $this->get_need_to_check_task_sections();
+        $this->taskSections = view\get_need_to_check_task_sections($this->cm, $this->studentId);
     }
 
     protected function get_module_name() : string
@@ -27,21 +28,6 @@ class WorkCheck extends ViewModule
     {
         $body = $this->get_need_to_check_buttons();
         return $body;
-    }
-
-    private function get_need_to_check_task_sections()
-    {
-        global $DB;
-        $sql = 'SELECT cts.*, css.timemodified AS tasksubmissiondate 
-                FROM {coursework_tasks_sections} AS cts 
-                INNER JOIN {coursework_sections_status} AS css
-                ON cts.id = css.section 
-                WHERE css.coursework = ?
-                AND css.student = ? 
-                AND css.status = ? 
-                ORDER BY listposition';
-        $params = array($this->cm->instance, $this->studentId, SENT_TO_CHECK);
-        return $DB->get_records_sql($sql, $params);
     }
 
     private function get_need_to_check_buttons() : string 

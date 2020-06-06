@@ -28,6 +28,8 @@ $string['grade_short'] = 'Оце';
 $string['notifications'] = 'Уведомления';
 $string['notifications_short'] = 'Увед.';
 $string['unreaded_messages'] = 'не прочитанные сообщения';
+$string['unchecked_work'] = 'не проверена работа';
+$string['unchecked_section'] = 'не проверен раздел';
 
 // Coursework configuration
 $string['coursework_configuration'] = 'Настройка курсовой работы';

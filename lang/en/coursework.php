@@ -27,6 +27,8 @@ $string['grade_short'] = 'Gra';
 $string['notifications'] = 'Notifications';
 $string['notifications_short'] = 'Notif.';
 $string['unreaded_messages'] = 'unreaded messages';
+$string['unchecked_work'] = 'unchecked work';
+$string['unchecked_section'] = 'unchecked section';
 
 // Coursework configuration
 $string['coursework_configuration'] = 'Coursework configuration';

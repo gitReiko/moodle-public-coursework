@@ -358,16 +358,43 @@ class StudentsWorksMain
 
     private function get_work_notification(stdClass $work) : string 
     {
-        $td = '<td>';
+        $notifications = '';
+
         if(!empty($work->teacherId))
         {
             if(view\is_teacher_has_unread_messages($this->cm->instance, $work->teacherId, $work->studentId))
             {
-                $td.= get_string('unreaded_messages', 'coursework');
+                $notifications.= '<p>'.get_string('unreaded_messages', 'coursework').'</p>';
+            }
+            if(view\is_teacher_need_to_check_sections($this->cm, $work->studentId))
+            {
+                $notifications.= '<p>'.get_string('unchecked_section', 'coursework').'</p>';
+            }
+            if($this->is_student_work_not_checked($work))
+            {
+                $notifications.= '<p>'.get_string('unchecked_work', 'coursework').'</p>';
             }
         }
+
+        if($notifications !== '') $td = '<td class="red-background">';
+        else $td = '<td class="green-background">';
+
+        $td.= $notifications;
         $td.= '</td>';
+
         return $td;
+    }
+
+    private function is_student_work_not_checked(stdClass $work) : bool 
+    {
+        if($work->status == SENT_TO_CHECK)
+        {
+            return true;
+        }
+        else 
+        {
+            return false;
+        }
     }
 
     private function get_go_to_page_cell(stdClass $work) : string 

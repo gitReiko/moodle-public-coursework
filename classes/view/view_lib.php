@@ -42,9 +42,31 @@ function is_teacher_has_unread_messages(int $coursework, int $teacher, int $stud
     return $DB->record_exists('coursework_chat', $conditions);
 }
 
+function is_teacher_need_to_check_sections(\stdClass $cm, int $student) : bool 
+{
+    if(count(get_need_to_check_task_sections($cm, $student)))
+    {
+        return true;
+    }
+    else 
+    {
+        return false;
+    }
+}
 
-
-
-
+function get_need_to_check_task_sections(\stdClass $cm, int $studentId)
+{
+    global $DB;
+    $sql = 'SELECT cts.*, css.timemodified AS tasksubmissiondate 
+            FROM {coursework_tasks_sections} AS cts 
+            INNER JOIN {coursework_sections_status} AS css
+            ON cts.id = css.section 
+            WHERE css.coursework = ?
+            AND css.student = ? 
+            AND css.status = ? 
+            ORDER BY listposition';
+    $params = array($cm->instance, $studentId, SENT_TO_CHECK);
+    return $DB->get_records_sql($sql, $params);
+}
 
 

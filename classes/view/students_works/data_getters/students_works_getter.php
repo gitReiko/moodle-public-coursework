@@ -90,6 +90,7 @@ class StudentsWorksGetter
                 $newStudent->sections = $this->get_task_sections($student->id);
                 $newStudent->work = $cwStudent->status;
                 $newStudent->grade = $cwStudent->grade;
+                $newStudent->status = $cwStudent->status;
                 
                 $newStudents[] = $newStudent;
             }
