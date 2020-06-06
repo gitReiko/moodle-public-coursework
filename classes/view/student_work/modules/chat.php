@@ -15,6 +15,8 @@ class Chat extends ViewModule
 
         $this->work = lib\get_student_work($this->cm, $this->studentId);
         $this->messages = $this->get_messages();
+
+        $this->mark_messages_as_readed();
     }
 
     protected function get_module_name() : string
@@ -44,6 +46,20 @@ class Chat extends ViewModule
 
         $body.= $this->get_end_of_chat_body();
         return $body;
+    }
+
+    private function mark_messages_as_readed()
+    {
+        global $USER;
+        foreach($this->messages as $message)
+        {
+            if($message->readed == '0'
+                && $message->userto == $USER->id)
+            {
+                $db = new MarkMessageAsReadedDatabaseHandler($this->course, $this->cm, $message->id);
+                $db->handle();
+            }
+        }
     }
 
     private function get_messages()

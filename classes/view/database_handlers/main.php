@@ -8,6 +8,7 @@ require_once 'send_section_for_check.php';
 require_once 'send_work_for_check.php';
 require_once 'section_check.php';
 require_once 'work_check.php';
+require_once 'mark_messages_as_readed.php';
 
 class ViewDatabaseHandler 
 {
