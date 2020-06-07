@@ -11,6 +11,8 @@ class RemoveDistribution
 
     private $students;
 
+    private $autofocus = true;
+
     // Constructor functions
     function __construct($course, $cm)
     {
@@ -144,7 +146,15 @@ class RemoveDistribution
 
     private function get_remove_distribution_checkbox(stdClass $student) : string 
     {
-        return "<input class='removeCheckbox' type='checkbox' name='".STUDENT.ROW.ID."[]' value='{$student->id}' >";
+        $str = "<input class='removeCheckbox' type='checkbox'";
+        $str.= " name='".STUDENT.ROW.ID."[]' value='{$student->id}' ";
+        if($this->autofocus)
+        {
+            $str.= ' autofocus ';
+        }
+        $str.= '>';
+
+        return $str;
     }
 
     private function get_student_name(stdClass $student) : string 

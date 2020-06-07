@@ -13,7 +13,7 @@ function get_mass_choice_selector(array $groups) : string
 function get_mass_choice_options(array $groups) : string 
 {
     $jsfunct = 'onclick="select_students_checkboxes(this)"';
-    $select = '<select autocomplete="off">';
+    $select = '<select autocomplete="off" autofocus>';
     $select.= "<option value='all' $jsfunct>".get_string('all_participants', 'coursework').'</option>';
     foreach($groups as $group)
     {

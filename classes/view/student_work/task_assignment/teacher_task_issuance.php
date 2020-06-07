@@ -41,7 +41,7 @@ class TeacherTaskIssuance extends TaskIssuance
         $btn.= '<input type="hidden" name="'.ID.'" value="'.$this->cm->id.'"/>';
         $btn.= '<input type="hidden" name="'.DB_EVENT.'" value="'.ViewDatabaseHandler::USE_TASK_TEMPLATE.'">';
         $btn.= '<input type="hidden" name="'.STUDENT.ID.'" value="'.$this->studentId.'">';
-        $btn.= '<button>';
+        $btn.= '<button autofocus>';
         $btn.= get_string('use_task_template', 'coursework');
         $btn.= '</button>';
         $btn.= '</form>';

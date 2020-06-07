@@ -85,7 +85,7 @@ class DistributeStudents
     {
         $leaders = $this->get_unique_leaders();
 
-        $select = '<select id="leaderselect" name="'.TEACHER.'" onchange="change_leader_courses()" autocomplete="off">';
+        $select = '<select id="leaderselect" name="'.TEACHER.'" onchange="change_leader_courses()" autocomplete="off" autofocus>';
         foreach($leaders as $leader)
         {
             if(empty($this->selectedLeaderId))

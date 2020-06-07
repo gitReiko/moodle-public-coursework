@@ -40,7 +40,7 @@ abstract class AssignCustomTask
     private function get_description_textarea() : string 
     {
         $area = '<textarea name="'.DESCRIPTION.'" cols="80" rows="5" ';
-        $area.= ' form="'.$this->formName.'">';
+        $area.= ' form="'.$this->formName.'" autofocus>';
         $area.= $this->get_description_value();
         $area.= '</textarea>';
         return $area;

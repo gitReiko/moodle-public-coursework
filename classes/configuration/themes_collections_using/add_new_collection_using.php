@@ -64,7 +64,7 @@ class AddNewCollectionUsing
 
     private function get_collections_select() : string 
     {
-        $select = '<select name="'.COLLECTION.'" form="'.$this->formName.'" autocomplete="off">';
+        $select = '<select name="'.COLLECTION.'" form="'.$this->formName.'" autocomplete="off" autofocus>';
         foreach($this->collections as $collection)
         {
             $select.= '<option ';

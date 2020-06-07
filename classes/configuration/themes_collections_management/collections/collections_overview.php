@@ -112,7 +112,7 @@ class CollectionsOverview
     private function get_add_leader_button() : string 
     {
         $button = '<form>';
-        $button.= '<input type="submit" value="'.get_string('add_collection', 'coursework').'">';
+        $button.= '<input type="submit" value="'.get_string('add_collection', 'coursework').'" autofocus>';
         $button.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
         $button.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.THEMES_COLLECTIONS_MANAGEMENT.'">';
         $button.= '<input type="hidden" name="'.LeadersSetting::GUI_TYPE.'" value="'.CollectionsManagement::ADD_COLLECTION.'">';

@@ -110,7 +110,7 @@ class ThemesManagement
     {
         $str = '<li>';
         $str.= '<form>';
-        $str.= '<input type="text" minlength="5" maxlength="255" required name="'.NAME.'" size="80" autocomplete="off">';
+        $str.= '<input type="text" minlength="5" maxlength="255" required name="'.NAME.'" autofocus size="80" autocomplete="off">';
         $str.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
         $str.= '<input type="hidden" name="'.DB_EVENT.'" value="'.CollectionsManagement::ADD_THEME.'">';
         $str.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.THEMES_COLLECTIONS_MANAGEMENT.'">';

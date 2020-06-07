@@ -95,10 +95,10 @@ class UsingCollectionsOverview
     private function get_use_new_theme_collection_button() : string 
     {
         $btn = '<form>';
-        $btn.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.THEME_COLLECTIONS_USING.'"/>';
+        $btn.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.THEME_COLLECTIONS_USING.'" >';
         $btn.= '<input type="hidden" name="'.ID.'" value="'.$this->cm->id.'"/>';
-        $btn.= '<input type="hidden" name="'.ConfigurationManager::GUI_TYPE.'" value="'.ThemesCollectionsUsing::ADD_THEME_USING.'"/>';
-        $btn.= '<input type="submit" value="'.get_string('use_new_theme_collection', 'coursework').'">';
+        $btn.= '<input type="hidden" name="'.ConfigurationManager::GUI_TYPE.'" value="'.ThemesCollectionsUsing::ADD_THEME_USING.'" >';
+        $btn.= '<input type="submit" value="'.get_string('use_new_theme_collection', 'coursework').'" autofocus>';
         $btn.= '</form>';
         return $btn;
     }

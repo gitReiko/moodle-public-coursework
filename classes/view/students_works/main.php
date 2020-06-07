@@ -13,6 +13,8 @@ class StudentsWorksMain
     private $works;
     private $maxTaskSectionsCount;
 
+    private $autofocus = true;
+
     function __construct(stdClass $course, stdClass $cm)
     {
         $this->course = $course;
@@ -399,15 +401,20 @@ class StudentsWorksMain
 
     private function get_go_to_page_cell(stdClass $work) : string 
     {
-        $link = '/mod/coursework/view.php?id='.$this->cm->id;
-        $link.= '&'.ViewMain::GUI_EVENT.'='.ViewMain::USER_WORK;
-        $link.= '&'.STUDENT.ID.'='.$work->studentId;
-        $td = '<td>';
-        $td.= "<a href='$link' >";
-        $td.= '<button>'.get_string('go_to_work', 'coursework').'</button>';
-        $td.= '</a>';
-        $td.= '</td>';
-        return $td;
+        $btn = '<td><form>';
+        $btn.= '<input type="hidden" name="'.ID.'" value="'.$this->cm->id.'" >';
+        $btn.= '<input type="hidden" name="'.ViewMain::GUI_EVENT.'" value="'.ViewMain::USER_WORK.'" >';
+        $btn.= '<input type="hidden" name="'.STUDENT.ID.'" value="'.$work->studentId.'" >';
+        $btn.= '<button ';
+        if($this->autofocus)
+        {
+            $btn.= ' autofocus ';
+            $this->autofocus = false;
+        }
+        $btn.= '>'.get_string('go_to_work', 'coursework').'</button>';
+        $btn.= '</form></td>';
+
+        return $btn;
     }
 
 

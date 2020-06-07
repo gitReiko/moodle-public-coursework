@@ -57,7 +57,7 @@ abstract class TaskUsingAction
 
     private function get_task_template_select() : string 
     {
-        $select = '<select name="'.TASK.'" autocomplete="off">';
+        $select = '<select name="'.TASK.'" autocomplete="off" autofocus>';
         foreach($this->tasks as $task)
         {
             $select.= "<option value='{$task->id}'";

@@ -74,7 +74,7 @@ class LeaderChangeAction
     {
         $leaders = lib\get_all_course_teachers($this->cm);
 
-        $select = '<p><select name="'.TEACHER.'" autocomplete="off" form="'.self::FORM_NAME.'">';
+        $select = '<p><select name="'.TEACHER.'" autocomplete="off" form="'.self::FORM_NAME.'" autofocus>';
         foreach($leaders as $leader)
         {
             $select.= "<option value='{$leader->id}'>{$leader->fullname}</option>";

@@ -24,7 +24,7 @@ class LeadersEditGUI extends LeadersActionGUI
 
     protected function get_leader_select() : string 
     {
-        return $this->get_select($this->courseTeachers, TEACHER, $this->leader);
+        return $this->get_select($this->courseTeachers, TEACHER, $this->leader, true);
     }
 
     protected function get_course_select() : string 

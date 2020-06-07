@@ -66,15 +66,17 @@ abstract class LeadersActionGUI
         return $this->get_label($text);
     }
 
-    protected function get_select(array $items, string $selectName, int $selectedItem = null) : string 
+    protected function get_select(array $items, string $selectName, int $selectedItem = null, bool $autofocus = false) : string 
     {
-        if($selectedItem) return $this->get_select_with_selected_item($items, $selectName, $selectedItem);
-        else return $this->get_select_without_selected_item($items, $selectName, $selectedItem);
+        if($selectedItem) return $this->get_select_with_selected_item($items, $selectName, $selectedItem, $autofocus);
+        else return $this->get_select_without_selected_item($items, $selectName, $selectedItem, $autofocus);
     }
 
-    private function get_select_with_selected_item(array $items, string $selectName, int $selectedItem = null) : string 
+    private function get_select_with_selected_item(array $items, string $selectName, int $selectedItem = null, bool $autofocus) : string 
     {
-        $select = '<p><select name="'.$selectName.'" autocomplete="off">';
+        $select = '<p><select name="'.$selectName.'" autocomplete="off" ';
+        if($autofocus) $select.= ' autofocus ';
+        $select.= '>';
         foreach($items as $item)
         {
             $select.= '<option value="'.$item->id.'" ';
@@ -87,9 +89,11 @@ abstract class LeadersActionGUI
         return $select;       
     }
 
-    private function get_select_without_selected_item(array $items, string $selectName, int $selectedItem = null) : string 
+    private function get_select_without_selected_item(array $items, string $selectName, int $selectedItem = null, bool $autofocus) : string 
     {
-        $select = '<p><select name="'.$selectName.'" autocomplete="off">';
+        $select = '<p><select name="'.$selectName.'" autocomplete="off" ';
+        if($autofocus) $select.= ' autofocus ';
+        $select.= '>';
         foreach($items as $item)
         {
             $select.= '<option value="'.$item->id.'">';
