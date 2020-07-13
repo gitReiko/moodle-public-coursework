@@ -208,22 +208,19 @@ div.chat div.teacherMessage p.date
     color: grey;
 }
 
-form.send_message 
+p.send_message 
+{
+    text-align: right;
+    margin-bottom: 4px;
+}
+
+p.send_message input#message 
 {
     width: 100%;
 }
-
-form.send_message input 
+p.send_message button 
 {
-    float: left;
-    margin-bottom: 5px;
-    width: 100%;
-}
-
-form.send_message button 
-{
-    margin-bottom: 5px;
-    float: right;
+    margin-top: 2px;
 }
 
 div#filemanager_body div.col-md-3 

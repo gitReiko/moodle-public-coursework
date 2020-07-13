@@ -31,8 +31,7 @@ class Chat extends ViewModule
 
     protected function get_module_body() : string
     {
-        $body = $this->get_start_of_chat_body();
-        $body.= $this->get_chat_history();
+        $body = $this->get_chat_history();
 
         global $USER;
         if(lib\is_user_student($this->cm, $USER->id))
@@ -44,7 +43,6 @@ class Chat extends ViewModule
             $body.= $this->get_send_message_to_student_button();
         }
 
-        $body.= $this->get_end_of_chat_body();
         return $body;
     }
 
@@ -77,14 +75,9 @@ class Chat extends ViewModule
         return $DB->get_records_sql($sql, $params);
     }
 
-    private function get_start_of_chat_body() : string 
-    {
-        return '<div class="chat">';
-    }
-
     private function get_chat_history() : string 
     {
-        $chat = '';
+        $chat = '<div class="chat">';
         foreach($this->messages as $message)
         {
             if($message->userfrom == $this->work->student)
@@ -103,6 +96,8 @@ class Chat extends ViewModule
 
             $chat.= '</div>';
         }
+        $chat.= '<a name="last_message"></a>';
+        $chat.= '</div>';
 
         return $chat;
     }
@@ -123,14 +118,15 @@ class Chat extends ViewModule
 
     private function get_send_message_button()
     {
-        $btn = '<p>';
-        $btn.= '<form class="send_message" id="'.$this->formId.'" method="post">';
-        $btn.= '<input type="hidden" name="'.ID.'" value="'.$this->cm->id.'"/>';
-        $btn.= '<input type="text" name="'.MESSAGE.'" required minlength="1" />';
+        $btn = '<form id="'.$this->formId.'" method="post">';
+        $btn.= '<p class="send_message">';
+        $btn.= '<input type="hidden" name="'.ID.'" value="'.$this->cm->id.'">';
+        $btn.= '<input id="message" type="text" name="'.MESSAGE.'" required minlength="1" >';
         $btn.= '<input type="hidden" name="'.DB_EVENT.'" value="'.ViewDatabaseHandler::CHAT_MESSAGE.'">';
-        $btn.= '<button>'.get_string('send', 'coursework').'</button>';
+        $btn.= ' <button>'.get_string('send', 'coursework').'</button>';
+        $btn .= '</p>';
         $btn.= '</form>';
-        $btn.= '</p>';
+        
         return $btn;
     }
 
@@ -148,12 +144,6 @@ class Chat extends ViewModule
         return $btn;
     }
 
-    private function get_end_of_chat_body() : string 
-    {
-        $body = '<a name="last_message"></a>';
-        $body.= '</div>';
-        return $body;
-    }
 
 }
 

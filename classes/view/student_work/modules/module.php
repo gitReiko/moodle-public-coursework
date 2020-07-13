@@ -39,7 +39,7 @@ abstract class ViewModule
 
     private function get_container_header() : string 
     {
-        $header = "<div id='{$this->moduleName}_header' class='view_container_header'";
+        $header = "<div id='{$this->moduleName}_header' class='view_container_header' ";
         $header.= "onclick='hide_or_show_block(`{$this->moduleName}_body`)'>";
         $header.= $this->get_module_header().$this->get_click_title();
         $header.= '</div>';
@@ -60,7 +60,7 @@ abstract class ViewModule
     {
         $body = "<div id='{$this->moduleName}_body' class='view_container_body'";
         if(!$this->displayBlock) $body.= ' style="display: none;" ';
-        $body.= "'>";
+        $body.= ">";
         $body.= $this->get_module_body();
         $body.= '</div>';
 
