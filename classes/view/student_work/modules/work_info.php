@@ -36,7 +36,12 @@ class WorkInfo extends ViewModule
         $table.= $this->get_leader_row();
         $table.= $this->get_course_row();
         $table.= $this->get_theme_row();
-        $table.= $this->get_task_row();
+
+        if(view\is_coursework_use_task($this->cm))
+        {
+            $table.= $this->get_task_row();
+        }
+
         $table.= $this->get_status_row();
         $table.= $this->get_grade_row();
         $table.= '</table>';
