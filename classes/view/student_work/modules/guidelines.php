@@ -18,7 +18,16 @@ class Guidelines extends ViewModule
     protected function get_module_body() : string
     {
         $coursework = lib\get_coursework($this->cm->instance);
-        return format_module_intro('coursework', $coursework, $this->cm->id);
+        $guidelines = format_module_intro('coursework', $coursework, $this->cm->id);
+
+        if(empty($guidelines))
+        {
+            return get_string('absent', 'coursework');
+        }
+        else 
+        {
+            return $guidelines;
+        }
     }
 
 }
