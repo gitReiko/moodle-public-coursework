@@ -93,16 +93,21 @@ class FileManager extends ViewModule
 
     private function get_student_files() : string 
     {
+
+        $str = '<div class="student_files_3253">';
         global $USER;
         if(lib\is_user_student($this->cm, $USER->id)
             && lib\is_student_work_not_ready_or_need_to_fix($this->cm, $this->studentId))
         {
-            return $this->get_students_files_manager();
+            $str.= $this->get_students_files_manager();
         }
         else 
         {
-            return $this->get_student_files_list();
+            $str.= $this->get_student_files_list();
         }
+
+        $str.= '</div>';
+        return $str;
     }
 
     private function get_students_files_manager() : string 
@@ -164,15 +169,21 @@ class FileManager extends ViewModule
 
     private function get_teachers_files() : string 
     {
+        $str = '<div class="teacher_files_3953">';
+
         global $USER;
         if(lib\is_user_teacher($this->cm, $USER->id))
         {
-            return $this->get_teacher_files_manager();
+            $str.= $this->get_teacher_files_manager();
         }
         else 
         {
-            return $this->get_teacher_files_list();
+            $str.= $this->get_teacher_files_list();
         }
+
+        $str.= '</div>';
+
+        return $str;
     }
 
     private function get_teacher_files_manager() : string 

@@ -227,3 +227,18 @@ div#filemanager_body div.col-md-3
 {
     display: none;
 }
+
+div.student_files_3253 
+{
+    margin-top: 2px;
+    border: 1px dashed grey;
+}
+
+div.teacher_files_3953
+{
+    border-left: 1px dashed grey;
+    border-right: 1px dashed grey;
+    border-bottom: 1px dashed grey;
+}
+
+
