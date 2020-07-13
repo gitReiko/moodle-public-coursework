@@ -25,9 +25,10 @@ class SendForCheck extends ViewModule
 
     protected function get_module_body() : string
     {
-        $body = '';
+        $body = '<div class="send_to_check">';
         $body.= $this->get_send_to_check_sections_buttons();
         $body.= $this->get_send_to_check_work_buttons();
+        $body.= '</div>';
         return $body;
     }
 

@@ -241,4 +241,11 @@ div.teacher_files_3953
     border-bottom: 1px dashed grey;
 }
 
+div.send_to_check
+{
+    margin-top: 2px;
+    border: 1px dashed grey;
+    padding-left: 2px;
+}
+
 
