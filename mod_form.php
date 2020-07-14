@@ -35,6 +35,7 @@ class mod_coursework_mod_form extends moodleform_mod {
 
         // Section header title according to language file.
         $mform->addElement('header', 'task_template', get_string('task_template', 'coursework'));
+        $mform->setExpanded('task_template', false);
         $mform->addElement('checkbox', 'usetask', get_string('use_task', 'coursework'));
         $mform->addElement('checkbox', 'automatictaskobtaining', get_string('automatic_task_obtaining', 'coursework'));
         
