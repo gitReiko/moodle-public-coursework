@@ -81,7 +81,7 @@ class TasksOverview
 
     private function get_edit_button(stdClass $task) : string 
     {
-        $button = '<form>';
+        $button = '<form method="post">';
         $button.= '<input type="submit" value="'.get_string('edit', 'coursework').'">';
         $button.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
         $button.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.TASKS_TEMPLATES_MANAGEMENT.'">';
@@ -93,7 +93,7 @@ class TasksOverview
 
     private function get_sections_management_button(stdClass $task) : string 
     {
-        $button = '<form>';
+        $button = '<form method="post">';
         $button.= '<input type="submit" value="'.get_string('task_sections_management', 'coursework').'">';
         $button.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
         $button.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.TASKS_TEMPLATES_MANAGEMENT.'">';
@@ -105,7 +105,7 @@ class TasksOverview
 
     private function get_add_task_template_button() : string 
     {
-        $button = '<form>';
+        $button = '<form method="post">';
         $button.= '<input type="submit" value="'.get_string('add_task_template', 'coursework').'" autofocus>';
         $button.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
         $button.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.TASKS_TEMPLATES_MANAGEMENT.'">';

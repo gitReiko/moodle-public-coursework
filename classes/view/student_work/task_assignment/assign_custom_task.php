@@ -102,7 +102,7 @@ abstract class AssignCustomTask
 
     private function get_back_button() : string 
     {
-        $btn = '<form>';
+        $btn = '<form method="post">';
         $btn.= '<input type="hidden" name="'.ID.'" value="'.$this->cm->id.'"/>';
         $btn.= '<input type="hidden" name="'.ViewMain::GUI_EVENT.'" value="'.ViewMain::USER_WORK.'">';
         $btn.= '<input type="hidden" name="'.STUDENT.ID.'" value="'.$this->studentId.'">';
@@ -113,7 +113,7 @@ abstract class AssignCustomTask
 
     private function get_custom_assignment_form() : string 
     {
-        $form = '<form id="'.$this->formName.'" >';
+        $form = '<form id="'.$this->formName.'" method="post">';
         $form.= '<input type="hidden" name="'.ID.'" value="'.$this->cm->id.'"/>';
         $form.= '<input type="hidden" name="'.STUDENT.ID.'" value="'.$this->studentId.'">';
         $form.= '<input type="hidden" name="'.DB_EVENT.'" value="'.ViewDatabaseHandler::CUSTOM_TASK_ASSIGNMENT.'">';

@@ -39,7 +39,7 @@ abstract class SectionAction
         return $gui;
     }
     
-    private function get_html_form_start() : string { return '<form id="'.self::ACTION_FORM.'">'; }
+    private function get_html_form_start() : string { return '<form id="'.self::ACTION_FORM.'" method="post">'; }
 
     abstract protected function get_action_header() : string;
 
@@ -146,7 +146,7 @@ abstract class SectionAction
 
     private function get_back_to_overview_form() : string 
     {
-        $button = "<form id='{$this->backToOverviewFormName}'>";
+        $button = "<form id='{$this->backToOverviewFormName}' method='post'>";
         $button.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
         $button.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.TASKS_TEMPLATES_MANAGEMENT.'">';
         $button.= '<input type="hidden" name="'.LeadersSetting::GUI_TYPE.'" value="'.TasksManagement::SECTIONS_MANAGEMENT.'">';

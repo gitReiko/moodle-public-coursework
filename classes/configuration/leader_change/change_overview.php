@@ -56,7 +56,7 @@ class LeaderChangeOverview
 
     private function get_html_form() : string 
     {
-        $form = '<form id="'.self::CHANGE_LEADER_FORM.'">';
+        $form = '<form id="'.self::CHANGE_LEADER_FORM.'" method="post">';
         $form.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.LEADER_CHANGE.'"/>';
         $form.= '<input type="hidden" name="'.ID.'" value="'.$this->cm->id.'"/>';
         $form.= '<input type="hidden" name="'.ConfigurationManager::GUI_TYPE.'" value="'.LeaderChange::LEADER_CHANGE.'"/>';

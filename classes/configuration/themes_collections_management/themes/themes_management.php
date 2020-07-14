@@ -79,7 +79,7 @@ class ThemesManagement
 
     private function get_edit_theme_button(stdClass $theme) : string
     {
-        $str = '<form style="display:inline;">';
+        $str = '<form style="display:inline;" method="post">';
         $str.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
         $str.= '<input type="hidden" name="'.DB_EVENT.'" value="'.CollectionsManagement::EDIT_THEME.'">';
         $str.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.THEMES_COLLECTIONS_MANAGEMENT.'">';
@@ -94,7 +94,7 @@ class ThemesManagement
 
     private function get_delete_theme_button(stdClass $theme) : string
     {
-        $str = '<form style="display:inline;">';
+        $str = '<form style="display:inline;" method="post">';
         $str.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
         $str.= '<input type="hidden" name="'.DB_EVENT.'" value="'.CollectionsManagement::DELETE_THEME.'">';
         $str.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.THEMES_COLLECTIONS_MANAGEMENT.'">';
@@ -109,7 +109,7 @@ class ThemesManagement
     private function get_add_new_theme_button() : string
     {
         $str = '<li>';
-        $str.= '<form>';
+        $str.= '<form method="post">';
         $str.= '<input type="text" minlength="5" maxlength="255" required name="'.NAME.'" autofocus size="80" autocomplete="off">';
         $str.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
         $str.= '<input type="hidden" name="'.DB_EVENT.'" value="'.CollectionsManagement::ADD_THEME.'">';
@@ -124,7 +124,7 @@ class ThemesManagement
 
     private function get_back_to_overview_button() : string 
     {
-        $button = "<p><form>";
+        $button = '<p><form method="post">';
         $button.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
         $button.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.THEMES_COLLECTIONS_MANAGEMENT.'">';
         $button.= '<input type="hidden" name="'.ConfigurationManager::GUI_TYPE.'" value="'.CollectionsManagement::OVERVIEW.'">';

@@ -72,7 +72,7 @@ class SendForCheck extends ViewModule
         foreach($this->sections as $section)
         {
             $btns.= '<p>';
-            $btns.= '<form>';
+            $btns.= '<form method="post">';
             $btns.= '<input type="hidden" name="'.ID.'" value="'.$this->cm->id.'"/>';
             $btns.= '<input type="hidden" name="'.SECTION.'" value="'.$section->id.'"/>';
             $btns.= '<input type="hidden" name="'.STUDENT.'" value="'.$this->studentId.'"/>';
@@ -88,7 +88,7 @@ class SendForCheck extends ViewModule
     private function get_send_to_check_work_buttons() : string 
     {
         $btn = '<p>';
-        $btn.= '<form>';
+        $btn.= '<form method="post">';
         $btn.= '<input type="hidden" name="'.ID.'" value="'.$this->cm->id.'"/>';
         $btn.= '<input type="hidden" name="'.STUDENT.'" value="'.$this->studentId.'"/>';
         $btn.= '<input type="hidden" name="'.DB_EVENT.'" value="'.ViewDatabaseHandler::SEND_WORK_FOR_CHECK.'">';

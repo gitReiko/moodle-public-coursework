@@ -405,7 +405,7 @@ class StudentsWorksMain
 
     private function get_go_to_page_cell(stdClass $work) : string 
     {
-        $btn = '<td><form>';
+        $btn = '<td><form method="post">';
         $btn.= '<input type="hidden" name="'.ID.'" value="'.$this->cm->id.'" >';
         $btn.= '<input type="hidden" name="'.ViewMain::GUI_EVENT.'" value="'.ViewMain::USER_WORK.'" >';
         $btn.= '<input type="hidden" name="'.STUDENT.ID.'" value="'.$work->studentId.'" >';

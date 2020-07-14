@@ -87,7 +87,7 @@ class CollectionsOverview
 
     private function get_edit_button(stdClass $collection) : string 
     {
-        $button = '<form>';
+        $button = '<form method="post">';
         $button.= '<input type="submit" value="'.get_string('edit', 'coursework').'">';
         $button.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
         $button.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.THEMES_COLLECTIONS_MANAGEMENT.'">';
@@ -99,7 +99,7 @@ class CollectionsOverview
 
     private function get_themes_management_button(stdClass $collection) : string 
     {
-        $button = '<form>';
+        $button = '<form method="post">';
         $button.= '<input type="submit" value="'.get_string('coursework_themes_management', 'coursework').'">';
         $button.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
         $button.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.THEMES_COLLECTIONS_MANAGEMENT.'">';
@@ -111,7 +111,7 @@ class CollectionsOverview
 
     private function get_add_leader_button() : string 
     {
-        $button = '<form>';
+        $button = '<form method="post">';
         $button.= '<input type="submit" value="'.get_string('add_collection', 'coursework').'" autofocus>';
         $button.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
         $button.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.THEMES_COLLECTIONS_MANAGEMENT.'">';

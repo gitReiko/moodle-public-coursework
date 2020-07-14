@@ -133,7 +133,7 @@ abstract class CollectionsAction
 
     private function get_back_to_overview_form() : string 
     {
-        $button = "<form id='{$this->backToOverviewFormName}'>";
+        $button = "<form id='{$this->backToOverviewFormName}' method='post' >";
         $button.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
         $button.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.THEMES_COLLECTIONS_MANAGEMENT.'">';
         $button.= '<input type="hidden" name="'.LeadersSetting::GUI_TYPE.'" value="'.CollectionsManagement::OVERVIEW.'">';

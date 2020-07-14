@@ -41,7 +41,7 @@ abstract class TaskUsingAction
         return $DB->get_records('coursework_tasks', array('template' => 1), 'name');
     }
     
-    private function get_html_form_start() : string { return '<form id="'.self::ACTION_FORM.'">'; }
+    private function get_html_form_start() : string { return '<form id="'.self::ACTION_FORM.'" method="post">'; }
 
     private function get_action_header() : string
     {
@@ -109,7 +109,7 @@ abstract class TaskUsingAction
 
     private function get_back_to_overview_form() : string 
     {
-        $button = "<form id='{$this->backToOverviewFormName}'>";
+        $button = "<form id='{$this->backToOverviewFormName}' method='post'>";
         $button.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
         $button.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.TASKS_USING.'">';
         $button.= '<input type="hidden" name="'.LeadersSetting::GUI_TYPE.'" value="'.TasksUsingMain::OVERVIEW.'">';

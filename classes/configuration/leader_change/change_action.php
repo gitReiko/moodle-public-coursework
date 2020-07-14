@@ -100,7 +100,7 @@ class LeaderChangeAction
 
     private function get_back_button() : string 
     {
-        $btn = '<form>';
+        $btn = '<form method="post">';
         $btn.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.LEADER_CHANGE.'"/>';
         $btn.= '<input type="hidden" name="'.ID.'" value="'.$this->cm->id.'"/>';
         $btn.= '<input type="hidden" name="'.ConfigurationManager::GUI_TYPE.'" value="'.LeaderChange::OVERVIEW.'"/>';
@@ -111,7 +111,7 @@ class LeaderChangeAction
 
     private function get_html_form() : string 
     {
-        $form = '<form id="'.self::FORM_NAME.'">';
+        $form = '<form id="'.self::FORM_NAME.'" method="post">';
         $form.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.LEADER_CHANGE.'"/>';
         $form.= '<input type="hidden" name="'.ID.'" value="'.$this->cm->id.'"/>';
         $form.= '<input type="hidden" name="'.ConfigurationManager::GUI_TYPE.'" value="'.LeaderChange::OVERVIEW.'"/>';

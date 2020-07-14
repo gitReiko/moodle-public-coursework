@@ -48,7 +48,7 @@ abstract class LeadersActionGUI
         return $courses;
     }
 
-    private function get_html_form_start() : string { return '<form id="'.self::ACTION_FORM.'">'; }
+    private function get_html_form_start() : string { return '<form id="'.self::ACTION_FORM.'" method="post">'; }
 
     abstract protected function get_action_header() : string;
 
@@ -145,7 +145,7 @@ abstract class LeadersActionGUI
 
     private function get_back_to_overview_button() : string 
     {
-        $button = '<p><form>';
+        $button = '<p><form method="post">';
         $button.= '<input type="submit" value="'.get_string('back', 'coursework').'">';
         $button.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
         $button.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.LEADERS_SETTING.'">';

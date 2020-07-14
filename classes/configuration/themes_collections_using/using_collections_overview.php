@@ -81,7 +81,7 @@ class UsingCollectionsOverview
 
     private function get_delete_button(stdClass $collection) : string
     {
-        $str = '<form style="display:inline;">';
+        $str = '<form style="display:inline;" method="post">';
         $str.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
         $str.= '<input type="hidden" name="'.DB_EVENT.'" value="'.ThemesCollectionsUsing::DELETE_THEME_USING.'">';
         $str.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.THEME_COLLECTIONS_USING.'">';
@@ -94,7 +94,7 @@ class UsingCollectionsOverview
 
     private function get_use_new_theme_collection_button() : string 
     {
-        $btn = '<form>';
+        $btn = '<form method="post">';
         $btn.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.THEME_COLLECTIONS_USING.'" >';
         $btn.= '<input type="hidden" name="'.ID.'" value="'.$this->cm->id.'"/>';
         $btn.= '<input type="hidden" name="'.ConfigurationManager::GUI_TYPE.'" value="'.ThemesCollectionsUsing::ADD_THEME_USING.'" >';

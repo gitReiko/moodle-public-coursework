@@ -113,7 +113,7 @@ class TasksUsingOverview
 
     private function get_add_task_using_button() : string 
     {
-        $button = '<form>';
+        $button = '<form method="post">';
         $button.= '<input type="submit" value="'.get_string('select_used_task_template', 'coursework').'" autofocus>';
         $button.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
         $button.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.TASKS_USING.'">';
@@ -124,7 +124,7 @@ class TasksUsingOverview
 
     private function get_edit_task_using_button() : string 
     {
-        $button = '<form>';
+        $button = '<form method="post">';
         $button.= '<input type="submit" value="'.get_string('select_used_task_template', 'coursework').'" autofocus>';
         $button.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
         $button.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.TASKS_USING.'">';

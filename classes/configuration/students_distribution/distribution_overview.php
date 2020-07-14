@@ -35,7 +35,7 @@ class StudentsDistributionOverview
 
     private function get_html_form() : string 
     {
-        $form = '<form id="'.self::DISTRIBUTE_FORM.'">';
+        $form = '<form id="'.self::DISTRIBUTE_FORM.'" method="post">';
         $form.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.STUDENTS_DISTRIBUTION.'"/>';
         $form.= '<input type="hidden" name="'.ID.'" value="'.$this->cm->id.'"/>';
         $form.= '<input type="hidden" name="'.ConfigurationManager::GUI_TYPE.'" value="'.StudentsDistribution::DISTRIBUTION.'"/>';

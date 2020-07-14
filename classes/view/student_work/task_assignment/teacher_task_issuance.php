@@ -37,7 +37,7 @@ class TeacherTaskIssuance extends TaskIssuance
     private function get_use_template_button() : string 
     {
         $btn = '<td>';
-        $btn.= '<form>';
+        $btn.= '<form method="post">';
         $btn.= '<input type="hidden" name="'.ID.'" value="'.$this->cm->id.'"/>';
         $btn.= '<input type="hidden" name="'.DB_EVENT.'" value="'.ViewDatabaseHandler::USE_TASK_TEMPLATE.'">';
         $btn.= '<input type="hidden" name="'.STUDENT.ID.'" value="'.$this->studentId.'">';
@@ -52,7 +52,7 @@ class TeacherTaskIssuance extends TaskIssuance
     private function get_correct_template_button() : string 
     {
         $btn = '<td>';
-        $btn.= '<form>';
+        $btn.= '<form method="post">';
         $btn.= '<input type="hidden" name="'.ID.'" value="'.$this->cm->id.'"/>';
         $btn.= '<input type="hidden" name="'.ViewMain::GUI_EVENT.'" value="'.ViewMain::USER_WORK.'">';
         $btn.= '<input type="hidden" name="'.TaskAssignmentMain::ASSIGN_PAGE.'" value="'.TaskAssignmentMain::TEMPLATE_CORRECT.'"/>';
@@ -68,7 +68,7 @@ class TeacherTaskIssuance extends TaskIssuance
     private function get_create_task_button() : string 
     {
         $btn = '<td>';
-        $btn.= '<form>';
+        $btn.= '<form method="post">';
         $btn.= '<input type="hidden" name="'.ID.'" value="'.$this->cm->id.'"/>';
         $btn.= '<input type="hidden" name="'.ViewMain::GUI_EVENT.'" value="'.ViewMain::USER_WORK.'">';
         $btn.= '<input type="hidden" name="'.TaskAssignmentMain::ASSIGN_PAGE.'" value="'.TaskAssignmentMain::NEW_TASK.'"/>';

@@ -97,7 +97,7 @@ class RemoveDistribution
 
     private function get_html_form_begin() : string 
     {
-        return '<form onsubmit="return validate_students_removing()">';
+        return '<form onsubmit="return validate_students_removing()" method="post">';
     }
 
     private function get_remove_distribution_header() : string 

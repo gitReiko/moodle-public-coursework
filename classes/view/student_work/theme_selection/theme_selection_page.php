@@ -63,7 +63,7 @@ class ThemeSelectionPage
 
     private function get_start_of_html_form() : string 
     {
-        return '<form name="selectForm" >';
+        return '<form name="selectForm" method="post">';
     }
 
     private function get_theme_selection_header() : string 

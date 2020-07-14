@@ -95,7 +95,7 @@ class TasksSectionsOverview
 
     private function get_edit_button(stdClass $section) : string 
     {
-        $button = '<form>';
+        $button = '<form method="post">';
         $button.= '<input type="submit" value="'.get_string('edit', 'coursework').'">';
         $button.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
         $button.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.TASKS_TEMPLATES_MANAGEMENT.'">';
@@ -117,7 +117,7 @@ class TasksSectionsOverview
 
     private function get_add_task_section_button() : string 
     {
-        $button = '<form>';
+        $button = '<form method="post">';
         $button.= '<input type="submit" value="'.get_string('add_task_section', 'coursework').'" autofocus>';
         $button.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
         $button.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.TASKS_TEMPLATES_MANAGEMENT.'">';
@@ -129,7 +129,7 @@ class TasksSectionsOverview
 
     private function get_back_to_overview_button() : string 
     {
-        $button = "<form>";
+        $button = '<form method="post">';
         $button.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
         $button.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.TASKS_TEMPLATES_MANAGEMENT.'">';
         $button.= '<input type="hidden" name="'.LeadersSetting::GUI_TYPE.'" value="'.TasksManagement::OVERVIEW.'">';

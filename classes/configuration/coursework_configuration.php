@@ -103,7 +103,7 @@ class CourseworkConfiguration
         $str = '';
         foreach(CONFIG_MODULES as $module)
         {
-            $str.= '<form id="'.$module.'">';
+            $str.= '<form id="'.$module.'" method="post">';
             $str.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.$module.'"/>';
             $str.= '<input type="hidden" name="id" value="'.$this->cm->id.'"/>';
             $str.= '</form>'; 

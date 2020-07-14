@@ -43,7 +43,7 @@ class DistributeStudents
 
     private function get_html_form_start() : string 
     {
-        return '<form>';
+        return '<form method="post">';
     }
 
     private function get_students_distribution_header() : string
@@ -179,7 +179,7 @@ class DistributeStudents
 
     private function get_back_button() : string 
     {
-        $btn = '<form>';
+        $btn = '<form method="post">';
         $btn.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.STUDENTS_DISTRIBUTION.'"/>';
         $btn.= '<input type="hidden" name="'.ID.'" value="'.$this->cm->id.'"/>';
         $btn.= '<input type="hidden" name="'.ConfigurationManager::GUI_TYPE.'" value="'.StudentsDistribution::OVERVIEW.'"/>';

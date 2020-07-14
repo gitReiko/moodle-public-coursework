@@ -83,7 +83,7 @@ class LeadersOverviewGUI
 
     private function get_edit_button(stdClass $leader) : string 
     {
-        $button = '<form>';
+        $button = '<form method="post">';
         $button.= '<input type="submit" value="'.get_string('edit', 'coursework').'">';
         $button.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
         $button.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.LEADERS_SETTING.'">';
@@ -98,7 +98,7 @@ class LeadersOverviewGUI
 
     private function get_delete_button(int $id) : string 
     {
-        $button = '<form>';
+        $button = '<form method="post">';
         $button.= '<input type="submit" value="'.get_string('delete', 'coursework').'">';
         $button.= '<input type="hidden" name="'.ID.'" value="'.$this->cm->id.'" >';
         $button.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.LEADERS_SETTING.'">';
@@ -111,7 +111,7 @@ class LeadersOverviewGUI
 
     private function get_add_leader_button() : string 
     {
-        $button = '<form>';
+        $button = '<form method="post">';
         $button.= '<input type="submit" value="'.get_string('add_teacher', 'coursework').'" autofocus>';
         $button.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
         $button.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.LEADERS_SETTING.'">';

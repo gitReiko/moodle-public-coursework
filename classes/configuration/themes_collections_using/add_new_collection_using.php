@@ -96,7 +96,7 @@ class AddNewCollectionUsing
 
     private function get_back_to_overview_button() : string 
     {
-        $button = "<form>";
+        $button = '<form method="post">';
         $button.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
         $button.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.THEME_COLLECTIONS_USING.'">';
         $button.= '<input type="hidden" name="'.ConfigurationManager::GUI_TYPE.'" value="'.ThemesCollectionsUsing::OVERVIEW.'">';
@@ -107,7 +107,7 @@ class AddNewCollectionUsing
 
     private function get_add_form() : string 
     {
-        $btn = '<form id="'.$this->formName.'">';
+        $btn = '<form id="'.$this->formName.'" method="post">';
         $btn.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.THEME_COLLECTIONS_USING.'"/>';
         $btn.= '<input type="hidden" name="'.ID.'" value="'.$this->cm->id.'"/>';
         $btn.= '<input type="hidden" name="'.ConfigurationManager::GUI_TYPE.'" value="'.ThemesCollectionsUsing::OVERVIEW.'"/>';
