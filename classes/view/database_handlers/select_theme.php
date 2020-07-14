@@ -1,6 +1,7 @@
 <?php
 
 use coursework_lib as lib;
+use view_lib as view;
 
 class ThemeSelectDatabaseHandler 
 {
@@ -27,6 +28,16 @@ class ThemeSelectDatabaseHandler
         else 
         {
             $this->add_student_row($student);
+        }
+
+        $work = $this->get_student_coursework($student);
+        if(view\is_teacher_must_give_task($work))
+        {
+            $this->send_notification_to_teacher_give_task($student);
+        }
+        else 
+        {
+            $this->send_notification_to_teacher_theme_selected($student);
         }
     }
 
@@ -169,11 +180,7 @@ class ThemeSelectDatabaseHandler
     private function add_student_row(stdClass $row) : void 
     {
         global $DB;
-        if($DB->insert_record('coursework_students', $row)) 
-        {
-            $this->send_notification_to_teacher($row);
-        }
-        else
+        if(!$DB->insert_record('coursework_students', $row)) 
         {
             throw new Exception(get_string('e:ins:student-not-selected', 'coursework'));
         }
@@ -182,17 +189,13 @@ class ThemeSelectDatabaseHandler
     private function update_student_row(stdClass $row) : void 
     {
         global $DB;
-        if($DB->update_record('coursework_students', $row)) 
-        {
-            $this->send_notification_to_teacher($row);
-        }
-        else 
+        if(!$DB->update_record('coursework_students', $row)) 
         {
             throw new Exception(get_string('e:upd:student-not-selected', 'coursework'));
         }
     }
 
-    private function send_notification_to_teacher(stdClass $row) : void 
+    private function send_notification_to_teacher_theme_selected(stdClass $row) : void 
     {
         global $USER;
 
@@ -202,19 +205,50 @@ class ThemeSelectDatabaseHandler
         $userFrom = $USER;
         $userTo = lib\get_user($row->teacher); 
         $headerMessage = get_string('theme_selection_header','coursework');
-        $fullMessageHtml = $this->get_student_html_message();
+        $fullMessageHtml = $this->get_select_theme_html_message();
 
         lib\send_notification($cm, $course, $messageName, $userFrom, $userTo, $headerMessage, $fullMessageHtml);
-
     }
 
-    private function get_student_html_message() : string
+    private function send_notification_to_teacher_give_task(stdClass $work) : void 
     {
-        $params = cw_prepare_data_for_message();
-        $message = get_string('teacher_message','coursework', $params);
+        global $USER;
+
+        $cm = $this->cm;
+        $course = $this->course;
+        $messageName = 'givetask';
+        $userFrom = $USER;
+        $userTo = lib\get_user($work->teacher); 
+        $headerMessage = get_string('give_task_header','coursework');
+        $giveTask = true;
+        $fullMessageHtml = $this->get_select_theme_html_message($giveTask);
+
+        lib\send_notification($cm, $course, $messageName, $userFrom, $userTo, $headerMessage, $fullMessageHtml);
+    }
+
+    private function get_select_theme_html_message($giveTask = false) : string
+    {
+        $params = $this->get_data_for_teacher_message();
+        $message = '<p>'.get_string('student_select_theme','coursework', $params).'</p>';
+
+        if($giveTask)
+        {
+            $message.= '<p>'.get_string('give_them_a_task','coursework', $params).'</p>';
+        }
+
         $notification = get_string('answer_not_require', 'coursework');
 
         return cw_get_html_message($this->cm, $this->course->id, $message, $notification);
+    }
+
+    private function get_data_for_teacher_message() : stdClass 
+    {
+        global $USER;
+        $data = new stdClass;
+        $data->student = cw_get_user_name($USER->id);
+        $data->date = date('d-m-Y');
+        $data->time = date('G:i');
+        return $data;
     }
 
     private function is_task_obtained_automatically() : bool 
@@ -232,5 +266,14 @@ class ThemeSelectDatabaseHandler
         if(empty($task)) throw new Exception('Task template is absent.');
         return $task;
     }
+
+    private function get_student_coursework($row) : stdClass
+    {
+        global $DB;
+        $where = array('coursework' => $row->coursework, 'student' => $row->student);
+        return $DB->get_record('coursework_students', $where);
+    }
+
+
 
 }

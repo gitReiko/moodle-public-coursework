@@ -364,6 +364,10 @@ class StudentsWorksMain
 
         if(!empty($work->teacherId))
         {
+            if(view\is_teacher_must_give_task($work))
+            {
+                $notifications.= '<p>'.get_string('teacher_must_give_task', 'coursework').'</p>';
+            }
             if(view\is_teacher_has_unread_messages($this->cm->instance, $work->teacherId, $work->studentId))
             {
                 $notifications.= '<p>'.get_string('unreaded_messages', 'coursework').'</p>';

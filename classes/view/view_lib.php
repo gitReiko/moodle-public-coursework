@@ -22,6 +22,19 @@ function is_coursework_use_task($cm) : bool
     return $DB->record_exists('coursework', $where);
 }
 
+function is_teacher_must_give_task(\stdClass $work) : bool 
+{
+    if(!empty($work->themeselectiondate)
+            && empty($work->task))
+    {
+        return true;
+    }
+    else 
+    {
+        return false;
+    }
+}
+
 function is_user_have_task($cm, $studentId) : int 
 {
     global $DB;

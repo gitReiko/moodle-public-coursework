@@ -10,6 +10,11 @@ $messageproviders = array(
         'capability' => 'mod/coursework:selecttheme'
     ),
 
+    // Notify that the student select their theme
+    'givetask' => array(
+        'capability' => 'mod/coursework:givetask'
+    ),
+
     'taskassignment' => array(
         'capability' => 'mod/coursework:taskassignment'
     ),

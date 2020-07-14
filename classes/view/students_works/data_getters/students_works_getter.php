@@ -91,6 +91,7 @@ class StudentsWorksGetter
                 $newStudent->work = $cwStudent->status;
                 $newStudent->grade = $cwStudent->grade;
                 $newStudent->status = $cwStudent->status;
+                $newStudent->themeselectiondate = $cwStudent->themeselectiondate;
                 
                 $newStudents[] = $newStudent;
             }
