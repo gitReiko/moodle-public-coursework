@@ -263,7 +263,7 @@ $string['leader_changed_for_student'] = 'Changed coursework leader';
 $string['student_upload_file_header'] = 'Student upload file(s) to coursework';
 $string['teacher_upload_file_header'] = 'Teacher upload file(s) to coursework';
 
-$string['teacher_must_give_task'] = 'Necessary give task';
+$string['teacher_must_give_task'] = 'necessary give task';
 
 $string['give_task_header'] = 'Student has chosen you as leader of the course work, need to give him a task';
 $string['student_select_theme'] = '{$a->date} at {$a->time} student {$a->student} chose coursework theme.';
