@@ -103,16 +103,15 @@ class SendSectionForCheckDatabaseHandler
         $messageName = 'sendsectionforcheck';
         $userFrom = $USER;
         $userTo = lib\get_user($work->teacher); 
-        $headerMessage = get_string('section_send_for_cheack_header','coursework');
-        $giveTask = true;
-        $fullMessageHtml = $this->get_select_theme_html_message($giveTask);
+        $headerMessage = get_string('section_check','coursework');
+        $fullMessageHtml = $this->get_select_theme_html_message();
 
         lib\send_notification($cm, $course, $messageName, $userFrom, $userTo, $headerMessage, $fullMessageHtml);
     }
 
-    private function get_select_theme_html_message($giveTask = false) : string
+    private function get_select_theme_html_message() : string
     {
-        $message = '<p>'.get_string('section_send_for_cheack_header','coursework', $params).'</p>';
+        $message = '<p>'.get_string('section_check','coursework', $params).'</p>';
         $notification = get_string('answer_not_require', 'coursework');
 
         return cw_get_html_message($this->cm, $this->course->id, $message, $notification);
