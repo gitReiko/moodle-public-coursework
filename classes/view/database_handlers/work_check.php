@@ -20,8 +20,9 @@ class WorkCheckDatabaseHandler
     public function handle()
     {
         $this->update_work_status();
-    }
 
+        $this->send_notification($this->work);
+    }
 
     private function get_work() : stdClass 
     {
@@ -160,7 +161,28 @@ class WorkCheckDatabaseHandler
         $DB->update_record('coursework_sections_status', $section);
     }
 
+    private function send_notification(stdClass $work) : void 
+    {
+        global $USER;
 
+        $cm = $this->cm;
+        $course = $this->course;
+        $messageName = 'workcheck';
+        $userFrom = lib\get_user($work->teacher);
+        $userTo = lib\get_user($work->student); 
+        $headerMessage = get_string('work_check_message','coursework');
+        $fullMessageHtml = $this->get_select_theme_html_message($giveTask);
+
+        lib\send_notification($cm, $course, $messageName, $userFrom, $userTo, $headerMessage, $fullMessageHtml);
+    }
+
+    private function get_select_theme_html_message() : string
+    {
+        $message = '<p>'.get_string('work_check_message','coursework', $params).'</p>';
+        $notification = get_string('answer_not_require', 'coursework');
+
+        return cw_get_html_message($this->cm, $this->course->id, $message, $notification);
+    }
 
 
 

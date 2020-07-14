@@ -271,9 +271,9 @@ $string['give_them_a_task'] = 'Give the student a task, so that he can continue 
 
 $string['section_send_for_cheack_header'] = 'Coursework task section send for check';
 
-$string['work_send_for_cheack_header'] = 'Coursework send for check';
+$string['work_send_for_check_header'] = 'Coursework send for check';
 $string['section_check'] = 'Coursework task section checked';
-
+$string['work_check_message'] = 'Coursework checked';
 
 
 

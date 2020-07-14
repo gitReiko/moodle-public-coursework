@@ -65,7 +65,7 @@ class SendWorkForCheckDatabaseHandler
         $messageName = 'sendworkforcheck';
         $userFrom = $USER;
         $userTo = lib\get_user($work->teacher); 
-        $headerMessage = get_string('work_send_for_cheack_header','coursework');
+        $headerMessage = get_string('work_send_for_check_header','coursework');
         $fullMessageHtml = $this->get_select_theme_html_message($giveTask);
 
         lib\send_notification($cm, $course, $messageName, $userFrom, $userTo, $headerMessage, $fullMessageHtml);
@@ -73,7 +73,7 @@ class SendWorkForCheckDatabaseHandler
 
     private function get_select_theme_html_message() : string
     {
-        $message = '<p>'.get_string('work_send_for_cheack_header','coursework', $params).'</p>';
+        $message = '<p>'.get_string('work_send_for_check_header','coursework', $params).'</p>';
         $notification = get_string('answer_not_require', 'coursework');
 
         return cw_get_html_message($this->cm, $this->course->id, $message, $notification);

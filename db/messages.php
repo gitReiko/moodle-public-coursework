@@ -26,6 +26,10 @@ $messageproviders = array(
         'capability' => 'mod/coursework:gradestudent'
     ),
 
+    'workcheck' => array(
+        'capability' => 'mod/coursework:gradestudent'
+    ),
+
     'taskassignment' => array(
         'capability' => 'mod/coursework:taskassignment'
     ),
