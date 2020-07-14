@@ -269,5 +269,8 @@ $string['give_task_header'] = 'Student has chosen you as leader of the course wo
 $string['student_select_theme'] = '{$a->date} at {$a->time} student {$a->student} chose coursework theme.';
 $string['give_them_a_task'] = 'Give the student a task, so that he can continue a work.';
 
+$string['section_send_for_cheack_header'] = 'Coursework task section send for check';
+
+
 
 

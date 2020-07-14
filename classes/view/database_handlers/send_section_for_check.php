@@ -14,7 +14,6 @@ class SendSectionForCheckDatabaseHandler
         $this->course = $course;
         $this->cm = $cm;
         $this->sectionStatus = $this->get_section_status();
-
     }
 
     public function handle()
@@ -29,6 +28,9 @@ class SendSectionForCheckDatabaseHandler
         {
             $this->add_section_status();
         }
+
+        $work = $this->get_student_coursework();
+        $this->send_notification($work);
     }
 
 
@@ -83,6 +85,37 @@ class SendSectionForCheckDatabaseHandler
         global $DB;
         $this->sectionStatus->id = $this->get_section_status_id();
         return $DB->update_record('coursework_sections_status', $this->sectionStatus);
+    }
+
+    private function get_student_coursework() : stdClass
+    {
+        global $DB, $USER;
+        $where = array('coursework' => $this->cm->instance, 'student' => $USER->id);
+        return $DB->get_record('coursework_students', $where);
+    }
+
+    private function send_notification(stdClass $work) : void 
+    {
+        global $USER;
+
+        $cm = $this->cm;
+        $course = $this->course;
+        $messageName = 'sendsectionforcheck';
+        $userFrom = $USER;
+        $userTo = lib\get_user($work->teacher); 
+        $headerMessage = get_string('section_send_for_cheack_header','coursework');
+        $giveTask = true;
+        $fullMessageHtml = $this->get_select_theme_html_message($giveTask);
+
+        lib\send_notification($cm, $course, $messageName, $userFrom, $userTo, $headerMessage, $fullMessageHtml);
+    }
+
+    private function get_select_theme_html_message($giveTask = false) : string
+    {
+        $message = '<p>'.get_string('section_send_for_cheack_header','coursework', $params).'</p>';
+        $notification = get_string('answer_not_require', 'coursework');
+
+        return cw_get_html_message($this->cm, $this->course->id, $message, $notification);
     }
 
 

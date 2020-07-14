@@ -74,6 +74,15 @@ $capabilities = array(
         ),
     ),
 
+    'mod/coursework:sendsectionforcheck' => array(
+
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_MODULE,
+        'archetypes' => array(
+            'student' => CAP_ALLOW
+        ),
+    ),
+
     'mod/coursework:taskassignment' => array(
         'riskbitmask' => RISK_XSS,
 
