@@ -274,7 +274,7 @@ $string['section_send_for_cheack_header'] = 'Coursework task section send for ch
 $string['work_send_for_check_header'] = 'Coursework send for check';
 $string['section_check'] = 'Coursework task section checked';
 $string['work_check_message'] = 'Coursework checked';
-
+$string['chat_message'] = 'Sent a message in a coursework chat';
 
 
 

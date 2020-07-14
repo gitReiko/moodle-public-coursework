@@ -14,6 +14,8 @@ class ChatMessageDatabaseHandler
         $this->course = $course;
         $this->cm = $cm;
         $this->message = $this->get_message();
+
+        $this->send_notification();
     }
 
     public function handle()
@@ -65,5 +67,31 @@ class ChatMessageDatabaseHandler
         global $DB;
         return $DB->insert_record('coursework_chat', $this->message);
     }
+
+    private function send_notification() : void 
+    {
+        global $USER;
+
+        $cm = $this->cm;
+        $course = $this->course;
+        $messageName = 'chatmessage';
+        $userFrom = lib\get_user($this->message->userfrom);
+        $userTo = lib\get_user($this->message->userto);
+        $headerMessage = get_string('chat_message','coursework');
+        $fullMessageHtml = $this->get_select_theme_html_message($giveTask);
+
+        lib\send_notification($cm, $course, $messageName, $userFrom, $userTo, $headerMessage, $fullMessageHtml);
+    }
+
+    private function get_select_theme_html_message() : string
+    {
+        $message = '<p>'.get_string('chat_message','coursework', $params).'</p>';
+        $notification = get_string('answer_not_require', 'coursework');
+
+        return cw_get_html_message($this->cm, $this->course->id, $message, $notification);
+    }
+
+
+
 
 }

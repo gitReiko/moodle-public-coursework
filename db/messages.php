@@ -30,6 +30,10 @@ $messageproviders = array(
         'capability' => 'mod/coursework:gradestudent'
     ),
 
+    'chatmessage' => array(
+        'capability' => 'mod/coursework:gradestudent'
+    ),
+
     'taskassignment' => array(
         'capability' => 'mod/coursework:taskassignment'
     ),
