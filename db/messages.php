@@ -18,6 +18,10 @@ $messageproviders = array(
         'capability' => 'mod/coursework:sendsectionforcheck'
     ),
 
+    'sendworkforcheck' => array(
+        'capability' => 'mod/coursework:sendsectionforcheck'
+    ),
+
     'taskassignment' => array(
         'capability' => 'mod/coursework:taskassignment'
     ),

@@ -20,6 +20,9 @@ class SendWorkForCheckDatabaseHandler
     public function handle()
     {
         $this->update_work_status();
+
+        $work = $this->get_student_coursework();
+        $this->send_notification($work);
     }
 
 
@@ -44,6 +47,37 @@ class SendWorkForCheckDatabaseHandler
     {
         global $DB;
         return $DB->update_record('coursework_students', $this->work);
+    }
+
+    private function get_student_coursework() : stdClass
+    {
+        global $DB, $USER;
+        $where = array('coursework' => $this->cm->instance, 'student' => $USER->id);
+        return $DB->get_record('coursework_students', $where);
+    }
+
+    private function send_notification(stdClass $work) : void 
+    {
+        global $USER;
+
+        $cm = $this->cm;
+        $course = $this->course;
+        $messageName = 'sendworkforcheck';
+        $userFrom = $USER;
+        $userTo = lib\get_user($work->teacher); 
+        $headerMessage = get_string('work_send_for_cheack_header','coursework');
+        $giveTask = true;
+        $fullMessageHtml = $this->get_select_theme_html_message($giveTask);
+
+        lib\send_notification($cm, $course, $messageName, $userFrom, $userTo, $headerMessage, $fullMessageHtml);
+    }
+
+    private function get_select_theme_html_message($giveTask = false) : string
+    {
+        $message = '<p>'.get_string('work_send_for_cheack_header','coursework', $params).'</p>';
+        $notification = get_string('answer_not_require', 'coursework');
+
+        return cw_get_html_message($this->cm, $this->course->id, $message, $notification);
     }
 
 
