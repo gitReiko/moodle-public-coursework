@@ -37,7 +37,7 @@ abstract class CollectionsAction
         return $gui;
     }
     
-    private function get_html_form_start() : string { return '<form id="'.self::ACTION_FORM.'">'; }
+    private function get_html_form_start() : string { return '<form id="'.self::ACTION_FORM.'" method="post">'; }
 
     abstract protected function get_action_header() : string;
 
@@ -51,7 +51,7 @@ abstract class CollectionsAction
     private function get_name_input() : string 
     {
         $input = '<input type="text" name="'.NAME.'" ';
-        $input.= ' value="'.$this->get_name_input_value().'" ';
+        $input.= ' value="'.$this->get_name_input_value().'" autocomplete="off" ';
         $input.= ' minlength="1" maxlength="254" size="80" required autofocus>';
         return $input;
     }
@@ -91,7 +91,7 @@ abstract class CollectionsAction
 
     private function get_description_textarea() : string 
     {
-        $area = '<textarea name="'.DESCRIPTION.'" cols="80" rows="5">';
+        $area = '<textarea name="'.DESCRIPTION.'" cols="80" rows="5" autocomplete="off">';
         $area.= $this->get_description_text();
         $area.= '</textarea>';
         return $area;
