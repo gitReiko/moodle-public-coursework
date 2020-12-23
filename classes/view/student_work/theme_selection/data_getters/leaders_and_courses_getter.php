@@ -38,8 +38,8 @@ class LeadersAndCoursesGetter
         else
         {
             $available = $this->get_all_coursework_leaders();
+            $available = $this->filter_leaders_with_used_quota($available);
         }
-        $available = $this->filter_leaders_with_used_quota($available);
 
         $this->availableLeaders = $this->get_available_leaders_from_bunchs($available);
         $this->availableCourses = $this->get_available_courses_from_bunchs($available);
