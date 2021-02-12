@@ -35,7 +35,8 @@ class AddNewCollectionUsing
                     FROM {coursework_used_collections} AS cuc
                     INNER JOIN {coursework_theme_collections} AS ctc
                     ON cuc.collection = ctc.id
-                    WHERE cuc.coursework = ?)';
+                    WHERE cuc.coursework = ?)
+                ORDER BY name';
         $conditions = array($this->cm->instance);
         global $DB;
         return $DB->get_records_sql($sql, $conditions);
