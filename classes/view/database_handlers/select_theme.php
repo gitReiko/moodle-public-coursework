@@ -112,7 +112,7 @@ class ThemeSelectDatabaseHandler
         {
             throw new Exception(get_string('e:theme-already-used', 'coursework'));
         }
-        if($this->is_quota_over($row))
+        if(lib\is_teacher_quota_gone($this->cm, $row->teacher, $row->course))
         {
             throw new Exception(get_string('e:teacher-quota-over', 'coursework'));
         }
@@ -144,18 +144,6 @@ class ThemeSelectDatabaseHandler
             $params = array($this->cm->instance, $row->theme);
 
             return $DB->record_exists_sql($sql, $params);
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    private function is_quota_over(stdClass $row) : bool 
-    {
-        if(!cw_is_teacher_has_quota($this->cm, $row->teacher, $row->course))
-        {
-            return true;
         }
         else
         {

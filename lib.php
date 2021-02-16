@@ -79,6 +79,13 @@ function coursework_extend_settings_navigation($settings, $navref)
         $linkname = get_string('configurate_coursework', 'coursework');
         $node = $navref->add($linkname, $link, navigation_node::TYPE_SETTING);
     }
+
+    if (has_capability('mod/coursework:enrollmembers', $PAGE->cm->context))
+    {
+        $link = new moodle_url('/mod/coursework/quota_overview.php', array('id' => $cm->id));
+        $linkname = get_string('quota_overview', 'coursework');
+        $node = $navref->add($linkname, $link, navigation_node::TYPE_SETTING);
+    }
 }
 
 /**
@@ -518,83 +525,5 @@ function cw_prepare_data_for_message() : stdClass
     $data->time = date('G:i');
     return $data;
 }
-
-function cw_is_teacher_has_quota($cm, int $teacherid, int $courseID) : bool 
-{
-    global $DB;
-
-    $teacherRecords = $DB->get_records('coursework_teachers', array('coursework'=>$cm->instance, 'teacher'=>$teacherid));
-    
-    $totalQuota = 0;
-    $courseQuota = 0;
-    foreach($teacherRecords as $teacher)
-    {
-        $totalQuota += $teacher->quota;
-        if((int)$teacher->course === $courseID) $courseQuota += $teacher->quota;
-    }
-
-    $usedTotalQuota = cw_get_teacher_total_quota($cm, $teacherid);
-    $usedCourseQuota = cw_get_teacher_course_total_quota($cm, $teacherid, $courseID);
-
-    if(($totalQuota - $usedTotalQuota) > 0)
-    {
-        if(($courseQuota - $usedCourseQuota) > 0) return true;
-    }
-    else if(cw_is_this_teacher_already_chosen_for_this_student($cm->instance, $teacherid))
-    {
-        return true;
-    }
-
-    return false;
-}
-
-function cw_get_teacher_total_quota($cm, $teacherid)
-{
-    global $DB;
-    $students = lib\get_coursework_students_for_in_query($cm);
-    $sql = "SELECT id
-            FROM {coursework_students} 
-            WHERE coursework = ?
-            AND teacher = ?
-            AND student IN ($students)";
-
-    $params = array($cm->instance, $teacherid);
-
-    $result = $DB->get_records_sql($sql, $params);
-    
-    if(empty($result)) return 0;
-    else return count($result);
-}
-
-function cw_get_teacher_course_total_quota($cm, $teacherid, $courseID)
-{
-    global $DB;
-    $students = lib\get_coursework_students_for_in_query($cm);
-    $sql = "SELECT id
-            FROM {coursework_students} 
-            WHERE coursework = ?
-            AND teacher = ?
-            AND course = ?
-            AND student IN ($students)";
-    $params = array($cm->instance, $teacherid, $courseID);
-    
-    $result = $DB->get_records_sql($sql, $params);
-    
-    if(empty($result)) return 0;
-    else return count($result);
-}
-
-function cw_is_this_teacher_already_chosen_for_this_student(int $courseworkID, int $teacherid) : bool 
-{
-    global $DB, $USER;
-    $conditions = array('coursework'=>$courseworkID, 'student'=>$USER->id ,'teacher'=>$teacherid);
-    if($DB->record_exists('coursework_students', $conditions)) return true;
-    else return false;
-}
-
-
-
-
-
 
 

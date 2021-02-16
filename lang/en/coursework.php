@@ -276,5 +276,5 @@ $string['section_check'] = 'Coursework task section checked';
 $string['work_check_message'] = 'Coursework checked';
 $string['chat_message'] = 'Sent a message in a coursework chat';
 
-
-
+// overview quota
+$string['quota_overview'] = 'Quota overview';

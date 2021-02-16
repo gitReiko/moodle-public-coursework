@@ -58,25 +58,13 @@ class LeadersAndCoursesGetter
 
         foreach($allLeaders as $leader)
         {
-            $allowableQuota = $leader->quota;
-            $usedQuota = $this->get_leader_used_quota($leader);
-
-            if($allowableQuota > $usedQuota)
+            if(!lib\is_teacher_quota_gone($this->cm, $leader->teacher, $leader->course))
             {
                 $leaders[] = $leader;
             }
         }
 
         return $leaders;
-    }
-
-    private function get_leader_used_quota(stdClass $leader) 
-    {
-        global $DB;
-        $where = array('coursework' => $this->cm->instance, 
-                       'teacher' => $leader->teacher, 
-                       'course' => $leader->course);
-        return $DB->count_records('coursework_students', $where);
     }
 
     private function is_leader_selected() : bool 
