@@ -1,0 +1,29 @@
+
+table.quota-overview
+{
+    border-collapse: collapse;
+    width: 100%;
+    margin: auto;
+}
+
+table.quota-overview tr td 
+{
+    border: 1px solid grey;
+    padding: 3px;
+    text-align: left;
+    vertical-align: top;
+}
+
+table.quota-overview thead tr td 
+{
+    text-align: center;
+    vertical-align: middle;
+}
+
+table.quota-overview tr td.tac
+{
+    text-align: center;
+}
+
+
+

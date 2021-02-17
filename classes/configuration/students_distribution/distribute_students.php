@@ -20,7 +20,7 @@ class DistributeStudents
         $this->cm = $cm;
         
         $this->students = cw\get_distribute_students();
-        $this->leaders = cw\get_coursework_teachers($this->cm->instance);
+        $this->leaders = cw\get_teachers($this->cm->instance);
     }
 
     public function get_gui() : string 

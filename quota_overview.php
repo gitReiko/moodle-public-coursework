@@ -23,7 +23,7 @@ $PAGE->set_cm($cm);
 $PAGE->set_title(get_string('quota_overview', 'coursework'));
 $PAGE->set_heading(get_string('quota_overview', 'coursework'));
 
-//$PAGE->requires->css('/mod/coursework/css/view.css');
+$PAGE->requires->css('/mod/coursework/css/overview_quota.css');
 
 require_login();
   

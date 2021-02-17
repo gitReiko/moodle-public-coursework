@@ -14,7 +14,7 @@ function get_user_course_groups(int $courseid, int $userid)
     return $DB->get_records_sql($sql, $conditions);
 }
 
-function get_coursework_teachers(int $courseworkId)
+function get_teachers(int $courseworkId)
 {
     global $DB;
     $sql = 'SELECT ct.id as recordid, ct.teacher as teacherid, u.firstname, u.lastname, 
@@ -513,7 +513,5 @@ function get_leader_total_quota(\stdClass $cm, int $teacherId, int $courseId) : 
     );
     return $DB->get_field('coursework_teachers', 'quota', $conditions);
 }
-
-
 
 

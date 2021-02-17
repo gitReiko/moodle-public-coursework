@@ -278,3 +278,11 @@ $string['chat_message'] = 'Sent a message in a coursework chat';
 
 // overview quota
 $string['quota_overview'] = 'Quota overview';
+$string['teacher'] = 'Teacher';
+$string['planned'] = 'Planned';
+$string['used'] = 'Used';
+$string['available'] = 'Available';
+$string['students_count'] = 'Students count';
+$string['load'] = 'Load';
+$string['divergence'] = 'Divergence';
+
