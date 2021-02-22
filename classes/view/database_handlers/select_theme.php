@@ -112,7 +112,8 @@ class ThemeSelectDatabaseHandler
         {
             throw new Exception(get_string('e:theme-already-used', 'coursework'));
         }
-        if(lib\is_teacher_quota_gone($this->cm, $row->teacher, $row->course))
+        if(lib\is_teacher_quota_gone($this->cm, $row->teacher, $row->course)
+            && $this->is_it_not_theme_select_update($row))
         {
             throw new Exception(get_string('e:teacher-quota-over', 'coursework'));
         }
@@ -149,6 +150,19 @@ class ThemeSelectDatabaseHandler
         {
             return false;
         }
+    }
+
+    private function is_it_not_theme_select_update(stdClass $row) : bool 
+    {
+        global $DB;
+        $where = array
+        (
+            'coursework' => $row->coursework, 
+            'student' => $row->student,
+            'teacher' => $row->teacher,
+            'course' => $row->course,
+        );
+        return !$DB->record_exists('coursework_students', $where);
     }
 
     private function is_student_row_exist(stdClass $row) : bool 
