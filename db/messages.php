@@ -60,6 +60,10 @@ $messageproviders = array(
     'teacher_upload_file' => array(
         'capability' => 'mod/coursework:is_teacher'
     ),
+
+    'back_to_work_state' => array(
+        'capability' => 'mod/coursework:is_student'
+    ),
 );
 
 

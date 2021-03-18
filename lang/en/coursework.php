@@ -286,3 +286,8 @@ $string['students_count'] = 'Students count';
 $string['load'] = 'Load';
 $string['divergence'] = 'Divergence';
 
+// back to work state
+$string['back_to_work_state'] = 'Back to work state';
+$string['impossible_return_to_work_state'] = 'Impossible return to work state, because student work doesn\'t exist.';
+$string['coursework_returned_to_work_state'] = 'Your coursework has been returned to working status.';
+$string['student_coursework_back_to_work_state'] = 'Student coursework back to work state.';

@@ -294,5 +294,9 @@ $string['students_count'] = 'Количество студентов';
 $string['load'] = 'Нагрузка';
 $string['divergence'] = 'Расхождение';
 
-
+// back to work state
+$string['back_to_work_state'] = 'Вернуть к рабочему статусу';
+$string['impossible_return_to_work_state'] = 'Невозможно вернуть к рабочему статусу, потому что работы студента не существует.';
+$string['coursework_returned_to_work_state'] = 'Ваша курсовая работа была возвращена к рабочему статусу.';
+$string['student_coursework_back_to_work_state'] = 'Курсовая работа студента возвращена к рабочему статусу.';
 

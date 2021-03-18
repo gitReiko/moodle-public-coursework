@@ -148,6 +148,17 @@ $capabilities = array(
         ),
     ),
 
+    'mod/coursework:back_to_work_state' => array(
+
+        'captype' => 'read',
+        'contextlevel' => CONTEXT_MODULE,
+        'archetypes' => array(
+            'teacher' => CAP_ALLOW,
+            'editingteacher' => CAP_ALLOW,
+            'manager' => CAP_ALLOW
+        )
+    ),
+
 );
 
 

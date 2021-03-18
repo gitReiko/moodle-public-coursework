@@ -86,6 +86,13 @@ function coursework_extend_settings_navigation($settings, $navref)
         $linkname = get_string('quota_overview', 'coursework');
         $node = $navref->add($linkname, $link, navigation_node::TYPE_SETTING);
     }
+
+    if (has_capability('mod/coursework:back_to_work_state', $PAGE->cm->context))
+    {
+        $link = new moodle_url('/mod/coursework/back_to_work_state.php', array('id' => $cm->id));
+        $linkname = get_string('back_to_work_state', 'coursework');
+        $node = $navref->add($linkname, $link, navigation_node::TYPE_SETTING);
+    }
 }
 
 /**
