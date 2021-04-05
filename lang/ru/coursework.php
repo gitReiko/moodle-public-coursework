@@ -300,3 +300,19 @@ $string['impossible_return_to_work_state'] = 'Невозможно вернут�
 $string['coursework_returned_to_work_state'] = 'Ваша курсовая работа была возвращена к рабочему статусу.';
 $string['student_coursework_back_to_work_state'] = 'Курсовая работа студента возвращена к рабочему статусу.';
 
+// Access API
+$string['coursework:addinstance'] = 'Добавить курсовую работу';
+$string['coursework:back_to_work_state'] = 'Вернуть курсовую работу к черновику';
+$string['coursework:enrollmembers'] = 'Зачисление пользователей в курсовую работу';
+$string['coursework:givetask'] = 'Выдача заданий студентам';
+$string['coursework:gradestudent'] = 'Оценка работ студентов'; 
+$string['coursework:is_manager'] = 'Пользователь - это управляющий';
+$string['coursework:is_teacher'] = 'Пользователь - это учитель';
+$string['coursework:is_student'] = 'Пользователь - это студент';
+$string['coursework:removeselection'] = 'Удаление работы студента';
+$string['coursework:selecttheme'] = 'Выбор темы курсовой работы';
+$string['coursework:sendsectionforcheck'] = 'Отправление раздела на проверку';
+$string['coursework:taskassignment'] = 'Выдать задание студенту';
+$string['coursework:view'] = 'Просмотр курсовой работы';
+$string['coursework:viewfulltable'] = 'Просмотр списка курсовых работ';
+

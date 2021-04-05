@@ -291,3 +291,19 @@ $string['back_to_work_state'] = 'Back to work state';
 $string['impossible_return_to_work_state'] = 'Impossible return to work state, because student work doesn\'t exist.';
 $string['coursework_returned_to_work_state'] = 'Your coursework has been returned to working status.';
 $string['student_coursework_back_to_work_state'] = 'Student coursework back to work state.';
+
+// Access API
+$string['coursework:addinstance'] = 'Add project';
+$string['coursework:back_to_work_state'] = 'Back project to draft';
+$string['coursework:enrollmembers'] = 'Enroll users to project';
+$string['coursework:givetask'] = 'Issue students tasks';
+$string['coursework:gradestudent'] = 'Grade student projects'; 
+$string['coursework:is_manager'] = 'User is manager';
+$string['coursework:is_teacher'] = 'User is teacher';
+$string['coursework:is_student'] = 'User is student';
+$string['coursework:removeselection'] = 'Delete student project';
+$string['coursework:selecttheme'] = 'Select project theme';
+$string['coursework:sendsectionforcheck'] = 'Send task section for check';
+$string['coursework:taskassignment'] = 'Assign task to student';
+$string['coursework:view'] = 'View project';
+$string['coursework:viewfulltable'] = 'View list of projects';
