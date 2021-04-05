@@ -308,3 +308,7 @@ $string['coursework:sendsectionforcheck'] = 'Send task section for check';
 $string['coursework:taskassignment'] = 'Assign task to student';
 $string['coursework:view'] = 'View project';
 $string['coursework:viewfulltable'] = 'View list of projects';
+
+// List of students works
+$string['view_participants'] = 'View participants';
+

@@ -56,7 +56,7 @@ class GroupsSelector
     private function get_selector_start() : string 
     {
         $selector = \html_writer::start_tag('p');
-        $selector.= get_string('group', 'coursework').' ';
+        $selector.= $this->get_selector_label();
 
         $attr = array(
             'name' => self::GROUP,
@@ -65,6 +65,11 @@ class GroupsSelector
         $selector.= \html_writer::start_tag('select', $attr);
 
         return $selector;
+    }
+
+    private function get_selector_label() : string 
+    {
+        return get_string('group', 'coursework').' &nbsp;';
     }
 
     private function get_all_groups_option() : string 
@@ -92,8 +97,18 @@ class GroupsSelector
     private function get_selector_end() : string 
     {
         $selector = \html_writer::end_tag('select');
+        $selector.= ' '.$this->get_link_to_course_participants();
         $selector.= \html_writer::end_tag('p'); 
         return $selector;
+    }
+
+    private function get_link_to_course_participants() : string 
+    {
+        $url = '/user/index.php?id='.$this->d->get_course()->id;
+        $attr = array('href' => $url, 'target' => '_blank');
+        $text = ' &nbsp;'.get_string('view_participants', 'coursework');
+        $text.= ' <i class="fa fa-external-link"></i>';
+        return \html_writer::tag('a', $text, $attr);
     }
 
 

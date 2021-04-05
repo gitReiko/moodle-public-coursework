@@ -317,3 +317,6 @@ $string['coursework:taskassignment'] = 'Выдать задание студен
 $string['coursework:view'] = 'Просмотр курсовой работы';
 $string['coursework:viewfulltable'] = 'Просмотр списка курсовых работ';
 
+// List of students works
+$string['view_participants'] = 'Просмотреть участников';
+
