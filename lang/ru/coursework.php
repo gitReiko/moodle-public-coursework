@@ -132,6 +132,7 @@ $string['task_sections_not_created'] = 'Разделы задания не со�
 // View strings
 $string['fullname'] = 'ФИО';
 $string['group'] = 'Группа';
+$string['all_groups'] = 'Все группы';
 $string['leader'] = 'Руководитель';
 $string['course'] = 'Дисциплина';
 $string['quota'] = 'Квота';

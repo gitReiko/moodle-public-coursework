@@ -127,6 +127,7 @@ $string['task_sections_not_created'] = 'Task sections not created.';
 // View strings
 $string['fullname'] = 'Fullname';
 $string['group'] = 'Group';
+$string['all_groups'] = 'All groups';
 $string['leader'] = 'Leader';
 $string['course'] = 'Course';
 $string['quota'] = 'Quota';

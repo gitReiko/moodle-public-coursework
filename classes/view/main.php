@@ -1,10 +1,12 @@
 <?php
 
+require_once 'students_works_list/page.php';
 require_once 'students_works/main.php';
 require_once 'student_work/main.php';
 require_once 'database_handlers/main.php';
 require_once 'view_lib.php';
 
+use View\StudentsWorksList as swl;
 use coursework_lib as lib;
 
 class ViewMain 
@@ -68,7 +70,7 @@ class ViewMain
 
     private function get_students_works_list_page() : string 
     {
-        $worksList = new StudentsWorksMain($this->course, $this->cm);
+        $worksList = new swl\Page($this->course, $this->cm);
         return $worksList->get_page();
     }
 
