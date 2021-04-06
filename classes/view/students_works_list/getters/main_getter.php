@@ -3,6 +3,7 @@
 namespace View\StudentsWorksList;
 
 require_once 'groups_getter.php';
+require_once 'students_getter.php';
 
 use View\StudentsWorksList\GroupsSelector as grp;
 use CourseWork\LocalLib as lib;
@@ -17,7 +18,6 @@ class MainGetter
     private $availableGroups;
     private $groups;
 
-
     private $students;
 
     function __construct(\stdClass $course, \stdClass $cm) 
@@ -26,10 +26,7 @@ class MainGetter
         $this->cm = $cm;
 
         $this->init_group_params();
-
         $this->init_students();
-        
-
     }
 
     public function get_course() : \stdClass
@@ -79,18 +76,15 @@ class MainGetter
 
     private function init_students() 
     {
-        if($this->groupMode === lib::NO_GROUPS)
-        {
-            $this->students = lib::get_all_students($this->cm);
-        }
-        else if($this->selectedGroupId === grp::ALL_GROUPS)
-        {
-            $this->students = lib::get_students_from_available_groups($this->cm, $this->availableGroups);
-        }
-        else 
-        {
-            $this->students = lib::get_students_from_group($this->cm, $this->selectedGroupId);
-        }
+        $st = new StudentsGetter(
+            $this->course, 
+            $this->cm,
+            $this->groupMode,
+            $this->selectedGroupId,
+            $this->availableGroups
+        );
+
+        $this->students = $st->get_students();
     }
 
 
