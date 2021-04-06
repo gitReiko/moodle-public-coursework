@@ -29,7 +29,7 @@ class LocalLib
     {
         $context = \context_module::instance($cm->id); 
         $groupId = self::NO_GROUPS;
-        $userfields = 'u.*';
+        $userfields = 'u.id,u.firstname,u.lastname,u.email,u.phone1,u.phone2';
         $orderby = 'u.lastname';
 
         return get_enrolled_users(
@@ -41,10 +41,32 @@ class LocalLib
         );
     }
 
+    public static function get_students_from_available_groups(\stdClass $cm, $groups)
+    {
+        $availableGroups = array();
+
+        foreach($groups as $group)
+        {
+            $availableGroups = array_merge(
+                $availableGroups,
+                self::get_students_from_group($cm, $group->id)
+            );
+        }
+
+        usort($availableGroups, function($a, $b)
+        {
+            return strcmp(
+                $a->lastname.$a->firstname, 
+                $b->lastname.$b->firstname);
+        });
+
+        return $availableGroups;
+    }
+
     public static function get_students_from_group(\stdClass $cm, int $groupId)
     {
         $context = \context_module::instance($cm->id); 
-        $userfields = 'u.*';
+        $userfields = 'u.id,u.firstname,u.lastname,u.email,u.phone1,u.phone2';
         $orderby = 'u.lastname';
 
         return get_enrolled_users(

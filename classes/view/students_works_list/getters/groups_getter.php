@@ -12,6 +12,7 @@ class GroupsGetter
 
     private $groupMode;
     private $selectedGroupId;
+    private $availableGroups;
     private $groups;
 
     function __construct(\stdClass $course, \stdClass $cm) 
@@ -19,6 +20,7 @@ class GroupsGetter
         $this->course = $course;
         $this->cm = $cm;
         $this->init_group_mode();
+        $this->init_available_groups();
         $this->init_groups();
         $this->init_selected_group_id();
     }
@@ -26,6 +28,11 @@ class GroupsGetter
     public function get_group_mode() 
     {
         return $this->groupMode;
+    }
+
+    public function get_available_groups()
+    {
+        return $this->availableGroups;
     }
 
     public function get_groups() 
@@ -43,13 +50,18 @@ class GroupsGetter
         $this->groupMode = lib::get_coursework_group_mode($this->cm);
     }
 
-    private function init_groups() 
+    private function init_available_groups()
     {
-        $groups = $this->get_all_groups_group();
-        $this->groups = array_merge(array($groups), lib::get_coursework_groups($this->cm));
+        $this->availableGroups = lib::get_coursework_groups($this->cm);
     }
 
-    private function get_all_groups_group() : \stdClass 
+    private function init_groups() 
+    {
+        $groups = array($this->get_all_groups_item());
+        $this->groups = array_merge($groups, $this->availableGroups);
+    }
+
+    private function get_all_groups_item() : \stdClass 
     {
         $group = new \stdClass;
         $group->id = grp::ALL_GROUPS;
@@ -60,23 +72,57 @@ class GroupsGetter
 
     private function init_selected_group_id()
     {
-        $selectedGroupId = optional_param(grp::GROUP, null, PARAM_INT);
-
-        if(empty($selectedGroupId))
+        if($this->is_request_group_id_exists())
         {
-            if(empty(reset($this->groups)->id))
-            {
-                $this->selectedGroupId = grp::ALL_GROUPS;
-            }
-            else 
-            {
-                $this->selectedGroupId = reset($this->groups)->id;
-            }
+            $id = $this->get_selected_group_id_from_request();
         }
         else 
         {
-            $this->selectedGroupId = $selectedGroupId;
+            if($this->is_groups_exists())
+            {
+                $id = $this->get_first_group_from_groups_array();
+            }
+            else 
+            {
+                $id = grp::ALL_GROUPS;
+            }
         }
+
+        $this->selectedGroupId = $id;
+    }
+
+    private function get_selected_group_id_from_request()
+    {
+        return optional_param(grp::GROUP, null, PARAM_INT);
+    }
+
+    private function is_request_group_id_exists() : bool 
+    {
+        if(optional_param(grp::GROUP, null, PARAM_INT))
+        {
+            return true;
+        }
+        else 
+        {
+            return false;
+        }
+    }
+
+    private function is_groups_exists() : bool 
+    {
+        if(empty(reset($this->groups)->id))
+        {
+            return false;
+        }
+        else 
+        {
+            return true;
+        }
+    }
+
+    private function get_first_group_from_groups_array()
+    {
+        return reset($this->groups)->id;
     }
 
 

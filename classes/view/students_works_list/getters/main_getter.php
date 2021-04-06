@@ -14,6 +14,7 @@ class MainGetter
 
     private $groupMode;
     private $selectedGroupId;
+    private $availableGroups;
     private $groups;
 
 
@@ -73,14 +74,18 @@ class MainGetter
         $this->groupMode = $grp->get_group_mode();
         $this->groups = $grp->get_groups();
         $this->selectedGroupId = $grp->get_selected_group_id();
+        $this->availableGroups = $grp->get_available_groups();
     }
 
     private function init_students() 
     {
-        if($this->groupMode === lib::NO_GROUPS
-            || $this->selectedGroupId === grp::ALL_GROUPS)
+        if($this->groupMode === lib::NO_GROUPS)
         {
             $this->students = lib::get_all_students($this->cm);
+        }
+        else if($this->selectedGroupId === grp::ALL_GROUPS)
+        {
+            $this->students = lib::get_students_from_available_groups($this->cm, $this->availableGroups);
         }
         else 
         {
