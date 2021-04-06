@@ -27,7 +27,7 @@ class TeachersGetter
 
     private function init_leaders()
     {
-        $teachers = tg::get_teachers($this->cm->instance);
+        $teachers = tg::get_only_configured_course_work_teachers($this->cm->instance);
         /*
         $teachers = tg::add_not_configurated_teachers_from_students_array(
             $this->cm->instance, $teachers, $this->students

@@ -2,12 +2,13 @@
 
 namespace Coursework\Lib\Getters;
 
+use Coursework\Lib\Getters\StudentsGetter as sg;
 use Coursework\Lib\Enums as enum;
 
 class TeachersGetter
 {
 
-    public static function get_teachers(int $courseworkId)
+    public static function get_only_configured_course_work_teachers(int $courseworkId)
     {
         global $DB;
         $sql = 'SELECT ct.id as courseworkteacherid, ct.teacher as teacherid, 
@@ -20,6 +21,16 @@ class TeachersGetter
 
         return $DB->get_records_sql($sql, $conditions);
     }
+
+    public static function get_all_course_work_teachers(int $courseworkId, $students)
+    {
+        $teachers = self::get_only_configured_course_work_teachers($courseworkId);
+
+        $studentsWorks = sg::get_students_works(courseworkId);
+
+    }
+
+    //private static function 
 
     /*
     public static function add_not_configurated_teachers_from_students_array(
