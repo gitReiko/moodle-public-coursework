@@ -22,54 +22,34 @@ class TeachersGetter
         return $DB->get_records_sql($sql, $conditions);
     }
 
-    public static function get_all_course_work_teachers(int $courseworkId, $students)
+    public static function get_all_course_work_teachers(int $courseworkId)
     {
         $teachers = self::get_only_configured_course_work_teachers($courseworkId);
 
-        $studentsWorks = sg::get_students_works(courseworkId);
-
-    }
-
-    //private static function 
-
-    /*
-    public static function add_not_configurated_teachers_from_students_array(
-        int $courseworkId, array $teachers, array $students
-    ) : array
-    {
-        foreach($students as $student)
+        if(empty($teachers))
         {
-            if(self::is_student_assigned_to_teacher($courseworkId, $student->id))
+            $teachers = array();
+        }
+
+        $studentsWorks = sg::get_students_works($courseworkId);
+        foreach($studentsWorks as $work)
+        {
+            if(self::is_teacher_not_exist_in_array($work->teacher, $teachers))
             {
-                if(self::is_teacher_missing_in_teachers_array($teachers, $student))
-                {
-                    $teachers = self::add_teacher_to_teachers_array(
-                        $teachers, $student->teacherid, $student->courseid
-                    );
-                }
+                $teachers = self::add_teacher_to_array($courseworkId, $work->teacher, $teachers);
             }
         }
+
+        $teachers = self::sort_teachers_array($teachers);
 
         return $teachers;
     }
 
-    private static function is_student_assigned_to_teacher(int $courseworkId, int $studentId) : bool 
-    {
-        global $DB;
-        $conditions = array 
-        (
-            'coursework' => $courseworkId,
-            'student' => $studentId,
-        );
-        return $DB->record_exists('coursework_students', $conditions);
-    }
-
-    private static function is_teacher_missing_in_teachers_array(array $teachers, \stdClass $student) : bool 
+    private static function is_teacher_not_exist_in_array(int $teacherId, $teachers) : bool
     {
         foreach($teachers as $teacher)
         {
-            if(($teacher->teacherid == $student->teacherid)
-                && ($teacher->courseid == $student->courseid))
+            if($teacher->teacherid == $teacherId)
             {
                 return false;
             }
@@ -78,48 +58,43 @@ class TeachersGetter
         return true;
     }
 
-    private static function add_teacher_to_teachers_array(array $teachers, int $studentTeacher, int $courseId) : array
+    private static function add_teacher_to_array(int $courseworkId, int $userId, $teachers)
     {
-        $teacher = self::get_teacher($studentTeacher, $courseId);
-        $teachers = array_merge($teachers, array($teacher));
-
-        usort($teachers, function($a, $b)
-        {
-            return strcmp(
-                $a->lastname.$a->firstname, 
-                $b->lastname.$b->firstname
-            );
-        });
-
-        return $teachers;
+        $teacher = self::get_teacher_from_id($courseworkId, $userId);
+        return array_merge($teachers, array($teacher));
     }
 
-    private static function get_teacher(int $teacherId, int $courseId) : \stdClass
+    public static function get_teacher_from_id(int $courseworkId, int $userId) 
     {
-        $teacher = self::get_user($teacherId);
-        $teacher->teacherid = $teacherId;
-        $teacher->courseid = $courseId;
-        $teacher->coursename = self::get_course_fullname($courseId);
+        global $DB;
+        $sql = 'SELECT u.id as teacherid, u.firstname, u.lastname, u.email,  u.phone1, 
+                    u.phone2, cs.course as courseid, c.fullname as coursename
+                FROM {coursework_students} as cs, {user} as u, {course} as c
+                WHERE cs.teacher = u.id AND cs.course = c.id 
+                AND coursework = ? AND u.id = ? ';     
+        $conditions = array($courseworkId, $userId);
+
+        $teacher = $DB->get_record_sql($sql, $conditions);
         $teacher->quota = 0;
 
         return $teacher;
     }
 
-    public static function get_user(int $id) : \stdClass
+    private static function sort_teachers_array($teachers)
     {
-        global $DB;
-        $where = array('id'=>$id);
-        $select = 'id,firstname,lastname,email,phone1,phone2';
-        return $DB->get_record('user', $where, $select);
+        if(count($teachers) > 1)
+        {
+            usort($teachers, function($a, $b)
+            {
+                return strcmp(
+                    $a->lastname.$a->firstname, 
+                    $b->lastname.$b->firstname);
+            });
+        }
+
+        return $teachers;
     }
 
-    public static function get_course_fullname(int $courseid) : string 
-    {
-        global $DB;
-        $where = array('id'=>$courseid);
-        return $DB->get_field('course', 'fullname', $where);
-    }
-    */
 
 
 }

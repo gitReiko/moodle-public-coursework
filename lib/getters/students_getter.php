@@ -60,11 +60,11 @@ class StudentsGetter
         );
     }
 
-    function get_students_works(int $courseworkId) : \stdClass 
+    public static function get_students_works(int $courseworkId) 
     {
         global $DB;
         $where = array('coursework' => $courseworkId);
-        return $DB->get_record('coursework_students', $where);
+        return $DB->get_records('coursework_students', $where);
     }
 
 }
