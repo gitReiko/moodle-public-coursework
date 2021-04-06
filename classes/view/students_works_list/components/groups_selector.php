@@ -33,7 +33,7 @@ class GroupsSelector
     {
         $groupMode = $this->d->get_group_mode();
 
-        if($groupMode === lib::NO_GROUPS)
+        if($groupMode == lib::NO_GROUPS)
         {
             return false;
         }
