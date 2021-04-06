@@ -2,8 +2,6 @@
 
 namespace View\StudentsWorksList;
 
-use CourseWork\LocalLib as lib;
-
 require_once 'components/groups_selector.php';
 require_once 'getters/main_getter.php';
 
@@ -19,7 +17,7 @@ class Page
         $this->d = new MainGetter($course, $cm);
 
 
-        print_r($this->d->get_students());
+        print_r($this->d->get_leaders());
     }
 
     public function get_page() : string 

@@ -5,7 +5,11 @@ require_once 'classes/view/main.php';
 require_once 'enums.php';
 require_once 'lib.php';
 require_once 'newlib.php';
-require_once 'locallib.php';
+
+require_once 'lib/getters/students_getter.php';
+require_once 'lib/getters/teachers_getter.php';
+require_once 'lib/getters/common_getter.php';
+require_once 'lib/enums.php';
  
 $id = required_param('id', PARAM_INT);    // Course Module ID
  

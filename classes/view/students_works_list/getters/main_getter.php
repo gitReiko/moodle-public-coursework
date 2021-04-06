@@ -4,9 +4,10 @@ namespace View\StudentsWorksList;
 
 require_once 'groups_getter.php';
 require_once 'students_getter.php';
+require_once 'teachers_getter.php';
 
 use View\StudentsWorksList\GroupsSelector as grp;
-use CourseWork\LocalLib as lib;
+use Coursework\Lib\Getters\CommonGetter as cg;
 
 class MainGetter 
 {
@@ -19,6 +20,7 @@ class MainGetter
     private $groups;
 
     private $students;
+    private $leaders;
 
     function __construct(\stdClass $course, \stdClass $cm) 
     {
@@ -27,6 +29,7 @@ class MainGetter
 
         $this->init_group_params();
         $this->init_students();
+        $this->init_leaders();
     }
 
     public function get_course() : \stdClass
@@ -41,7 +44,7 @@ class MainGetter
 
     public function get_course_work_name() : string 
     {
-        return lib::get_coursework_name($this->cm->instance);
+        return cg::get_coursework_name($this->cm->instance);
     }
 
     public function get_group_mode() 
@@ -62,6 +65,11 @@ class MainGetter
     public function get_students() 
     {
         return $this->students;
+    }
+
+    public function get_leaders()
+    {
+        return $this->leaders;
     }
 
     private function init_group_params() 
@@ -85,6 +93,17 @@ class MainGetter
         );
 
         $this->students = $st->get_students();
+    }
+
+    private function init_leaders() 
+    {
+        $lead = new TeachersGetter(
+            $this->course, 
+            $this->cm,
+            $this->students
+        );
+
+        $this->leaders = $lead->get_leaders();
     }
 
 

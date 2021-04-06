@@ -2,8 +2,9 @@
 
 namespace View\StudentsWorksList;
 
+use Coursework\Lib\Getters\StudentsGetter as sg;
 use View\StudentsWorksList\GroupsSelector as grp;
-use CourseWork\LocalLib as lib;
+use Coursework\Lib\Enums as enum;
 
 class StudentsGetter 
 {
@@ -39,17 +40,17 @@ class StudentsGetter
 
     private function init_students() 
     {
-        if($this->groupMode === lib::NO_GROUPS)
+        if($this->groupMode === enum::NO_GROUPS)
         {
-            $this->students = lib::get_all_students($this->cm);
+            $this->students = sg::get_all_students($this->cm);
         }
         else if($this->selectedGroupId === grp::ALL_GROUPS)
         {
-            $this->students = lib::get_students_from_available_groups($this->cm, $this->availableGroups);
+            $this->students = sg::get_students_from_available_groups($this->cm, $this->availableGroups);
         }
         else 
         {
-            $this->students = lib::get_students_from_group($this->cm, $this->selectedGroupId);
+            $this->students = sg::get_students_from_group($this->cm, $this->selectedGroupId);
         }
     }
 

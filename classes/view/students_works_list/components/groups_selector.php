@@ -2,7 +2,7 @@
 
 namespace View\StudentsWorksList;
 
-use CourseWork\LocalLib as lib;
+use Coursework\Lib\Enums as enum;
 use View\StudentsWorksList\Page as p;
 
 class GroupsSelector 
@@ -33,7 +33,7 @@ class GroupsSelector
     {
         $groupMode = $this->d->get_group_mode();
 
-        if($groupMode == lib::NO_GROUPS)
+        if($groupMode == enum::NO_GROUPS)
         {
             return false;
         }

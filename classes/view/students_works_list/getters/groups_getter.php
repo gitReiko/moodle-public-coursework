@@ -3,7 +3,7 @@
 namespace View\StudentsWorksList;
 
 use View\StudentsWorksList\GroupsSelector as grp;
-use CourseWork\LocalLib as lib;
+use Coursework\Lib\Getters\CommonGetter as cg;
 
 class GroupsGetter 
 {
@@ -47,12 +47,12 @@ class GroupsGetter
 
     private function init_group_mode() 
     {
-        $this->groupMode = lib::get_coursework_group_mode($this->cm);
+        $this->groupMode = cg::get_coursework_group_mode($this->cm);
     }
 
     private function init_available_groups()
     {
-        $this->availableGroups = lib::get_coursework_groups($this->cm);
+        $this->availableGroups = cg::get_coursework_groups($this->cm);
     }
 
     private function init_groups() 
