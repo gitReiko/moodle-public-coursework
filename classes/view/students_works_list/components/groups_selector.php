@@ -12,7 +12,7 @@ class GroupsSelector
 
     private $d;
 
-    function __construct(Getter $d) 
+    function __construct(MainGetter $d) 
     {
         $this->d = $d;
     }
@@ -46,7 +46,6 @@ class GroupsSelector
     private function get_selector() : string 
     {
         $selector = $this->get_selector_start();
-        $selector.= $this->get_all_groups_option();
         $selector.= $this->get_groups_options();
         $selector.= $this->get_selector_end();
 
@@ -60,6 +59,7 @@ class GroupsSelector
 
         $attr = array(
             'name' => self::GROUP,
+            'onchange' => 'submit_form(`'.Page::FORM_ID.'`)',
             'autocomplete' => 'off'
         );
         $selector.= \html_writer::start_tag('select', $attr);
@@ -72,13 +72,6 @@ class GroupsSelector
         return get_string('group', 'coursework').' &nbsp;';
     }
 
-    private function get_all_groups_option() : string 
-    {
-        $attr = array('value' => self::ALL_GROUPS);
-        $text = get_string('all_groups', 'coursework');
-        return \html_writer::tag('option', $text, $attr);
-    }
-
     private function get_groups_options() : string 
     {
         $selector = '';
@@ -86,6 +79,12 @@ class GroupsSelector
         foreach($this->d->get_groups() as $group)
         {
             $attr = array('value' => $group->id);
+
+            if($this->d->get_selected_group_id() == $group->id)
+            {
+                $attr = array_merge($attr, array('selected' => 'selected'));
+            }
+
             $selector.= \html_writer::start_tag('option', $attr);
             $selector.= $group->name;
             $selector.= \html_writer::end_tag('option');

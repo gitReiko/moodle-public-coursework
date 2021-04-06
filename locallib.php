@@ -25,9 +25,35 @@ class LocalLib
         return groups_get_activity_allowed_groups($cm);
     }
 
-    public static function get_students_from_grade_item()
+    public static function get_all_students(\stdClass $cm)
     {
-        // function get_enrolled_users(context $context, $withcapability = '', $groupid = 0, $userfields = 'u.*', $orderby = '', $limitfrom = 0, $limitnum = 0)
+        $context = \context_module::instance($cm->id); 
+        $groupId = self::NO_GROUPS;
+        $userfields = 'u.*';
+        $orderby = 'u.lastname';
+
+        return get_enrolled_users(
+            $context, 
+            'mod/coursework:is_student',
+            $groupId, 
+            $userfields, 
+            $orderby
+        );
+    }
+
+    public static function get_students_from_group(\stdClass $cm, int $groupId)
+    {
+        $context = \context_module::instance($cm->id); 
+        $userfields = 'u.*';
+        $orderby = 'u.lastname';
+
+        return get_enrolled_users(
+            $context, 
+            'mod/coursework:is_student',
+            $groupId, 
+            $userfields, 
+            $orderby
+        );
     }
 
     public static function get_teachers(int $courseworkId)
