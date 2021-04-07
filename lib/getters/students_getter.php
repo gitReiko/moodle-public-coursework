@@ -2,6 +2,7 @@
 
 namespace Coursework\Lib\Getters;
 
+use Coursework\Lib\Getters\CommonGetter as cg;
 use Coursework\Lib\Enums as enum;
 
 class StudentsGetter
@@ -66,6 +67,81 @@ class StudentsGetter
         $where = array('coursework' => $courseworkId);
         return $DB->get_records('coursework_students', $where);
     }
+
+    public static function add_works_to_students(int $courseworkId, $students)
+    {
+        foreach($students as $student)
+        {
+            $work = self::get_students_work($courseworkId, $student->id);
+
+            if($work)
+            {
+                $student = self::add_works_params_to_student($student, $work);
+            }
+            else 
+            {
+                $student = self::add_empty_student_work_params($student);
+            }
+
+        }
+
+        return $students;
+    }
+
+    public static function get_students_work(int $courseworkId, int $studentId) 
+    {
+        global $DB;
+        $where = array(
+            'coursework' => $courseworkId,
+            'student' => $studentId
+        );
+        return $DB->get_record('coursework_students', $where);
+    }
+
+    public static function get_student_theme(\stdClass $work)
+    {
+        if(!empty($work->theme))
+        {
+            return cg::get_coursework_theme_name($work->theme);
+        }
+        else if(!empty($work->owntheme))
+        {
+            return $work->owntheme;
+        }
+        else 
+        {
+            return '';
+        }
+    }
+
+    private static function add_empty_student_work_params(\stdClass $student)
+    {
+        $student->theme = '';
+        $student->grade = '';
+        $student->task = '';
+        $student->workStatus = '';
+        $student->themeselectiondate = '';
+        $student->receivingtaskdate = '';
+        $student->workstatuschangedate = '';
+
+        return $student;
+    }
+
+    private static function add_works_params_to_student(\stdClass $student, \stdClass $work)
+    {
+        $student->theme = self::get_student_theme($work);
+        $student->grade = $work->grade;
+        $student->task = $work->task;
+        $student->workStatus = $work->status;
+        $student->themeselectiondate = $work->themeselectiondate;
+        $student->receivingtaskdate = $work->receivingtaskdate;
+        $student->workstatuschangedate = $work->workstatuschangedate;
+
+        return $student;
+    }
+
+
+
 
 }
 

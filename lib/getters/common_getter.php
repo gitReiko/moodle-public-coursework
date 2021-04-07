@@ -23,5 +23,12 @@ class CommonGetter
         return groups_get_activity_allowed_groups($cm);
     }
 
+    public static function get_coursework_theme_name(int $themeId)
+    {
+        global $DB;
+        $where = array('id'=> $courseworkId);
+        return $DB->get_field('coursework_themes', 'name', $where);
+    }
+
 
 }

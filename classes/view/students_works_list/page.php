@@ -19,7 +19,7 @@ class Page
         $this->d = new MainGetter($course, $cm);
 
 
-        //print_r($this->d->get_courses());
+        print_r($this->d->get_students());
     }
 
     public function get_page() : string 

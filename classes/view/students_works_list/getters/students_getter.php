@@ -40,18 +40,24 @@ class StudentsGetter
 
     private function init_students() 
     {
+        $students = array();
+
         if($this->groupMode === enum::NO_GROUPS)
         {
-            $this->students = sg::get_all_students($this->cm);
+            $students = sg::get_all_students($this->cm);
         }
         else if($this->selectedGroupId === grp::ALL_GROUPS)
         {
-            $this->students = sg::get_students_from_available_groups($this->cm, $this->availableGroups);
+            $students = sg::get_students_from_available_groups($this->cm, $this->availableGroups);
         }
         else 
         {
-            $this->students = sg::get_students_from_group($this->cm, $this->selectedGroupId);
+            $students = sg::get_students_from_group($this->cm, $this->selectedGroupId);
         }
+
+        $students = sg::add_works_to_students($this->cm->instance, $students);
+
+        $this->students = $students;
     }
 
 
