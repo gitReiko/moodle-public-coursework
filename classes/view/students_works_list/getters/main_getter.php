@@ -142,9 +142,13 @@ class MainGetter
         {
             $this->selectedCourseId = reset($this->courses)->id;
         }
-        else 
+        else if(tg::is_this_course_is_teacher_course($this->cm->instance, $this->selectedTeacherId, $course))
         {
             $this->selectedCourseId = $course;
+        }
+        else 
+        {
+            $this->selectedCourseId = reset($this->courses)->id;
         }
     }
 

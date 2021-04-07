@@ -45,6 +45,54 @@ class TeachersGetter
         return $teachers;
     }
 
+    public static function get_teacher_from_id(int $courseworkId, int $userId) 
+    {
+        global $DB;
+        $sql = 'SELECT u.id as teacherid, u.firstname, u.lastname, u.email,  u.phone1, 
+                    u.phone2, cs.course as courseid, c.fullname as coursename
+                FROM {coursework_students} as cs, {user} as u, {course} as c
+                WHERE cs.teacher = u.id AND cs.course = c.id 
+                AND coursework = ? AND u.id = ? ';     
+        $conditions = array($courseworkId, $userId);
+
+        $teacher = $DB->get_record_sql($sql, $conditions);
+        $teacher->quota = 0;
+
+        return $teacher;
+    }
+
+    public static function get_teacher_courses(int $courseworkId, int $teacherId)
+    {
+        $courses = self::get_configured_teacher_courses($courseworkId, $teacherId);
+
+        if(empty($courses))
+        {
+            $courses = array();
+        }
+
+        $courses = self::get_teacher_courses_from_students_works($courseworkId, $teacherId, $courses);
+
+        $courses = self::sort_courses_array($courses);
+
+        return $courses;
+    }
+
+    public static function is_this_course_is_teacher_course(int $courseworkId, int $teacherId, int $courseId) : bool 
+    {
+        if(self::is_this_course_is_configured_teacher_course($courseworkId, $teacherId, $courseId))
+        {
+            return true;
+        }
+        else if(self::is_this_course_exist_in_teacher_students_works($courseworkId, $teacherId, $courseId))
+        {
+            return true;
+        }
+        else 
+        {
+            return false;
+        }
+    }
+
     private static function is_teacher_not_exist_in_array(int $teacherId, $teachers) : bool
     {
         foreach($teachers as $teacher)
@@ -64,22 +112,6 @@ class TeachersGetter
         return array_merge($teachers, array($teacher));
     }
 
-    public static function get_teacher_from_id(int $courseworkId, int $userId) 
-    {
-        global $DB;
-        $sql = 'SELECT u.id as teacherid, u.firstname, u.lastname, u.email,  u.phone1, 
-                    u.phone2, cs.course as courseid, c.fullname as coursename
-                FROM {coursework_students} as cs, {user} as u, {course} as c
-                WHERE cs.teacher = u.id AND cs.course = c.id 
-                AND coursework = ? AND u.id = ? ';     
-        $conditions = array($courseworkId, $userId);
-
-        $teacher = $DB->get_record_sql($sql, $conditions);
-        $teacher->quota = 0;
-
-        return $teacher;
-    }
-
     private static function sort_teachers_array($teachers)
     {
         if(count($teachers) > 1)
@@ -93,22 +125,6 @@ class TeachersGetter
         }
 
         return $teachers;
-    }
-
-    public static function get_teacher_courses(int $courseworkId, int $teacherId)
-    {
-        $courses = self::get_configured_teacher_courses($courseworkId, $teacherId);
-
-        if(empty($courses))
-        {
-            $courses = array();
-        }
-
-        $courses = self::get_teacher_courses_from_students_works($courseworkId, $teacherId, $courses);
-
-        $courses = self::sort_courses_array($courses);
-
-        return $courses;
     }
 
     private static function get_configured_teacher_courses(int $courseworkId, int $teacherId)
@@ -184,6 +200,32 @@ class TeachersGetter
         }
 
         return $courses;
+    }
+
+    private static function is_this_course_is_configured_teacher_course(int $courseworkId, int $teacherId, int $courseId) : bool 
+    {
+        global $DB;
+        $where = array(
+            'coursework' => $courseworkId,
+            'teacher' => $teacherId,
+            'course' => $courseId
+        );
+        return $DB->record_exists('coursework_teachers', $where);
+    }
+
+    private static function is_this_course_exist_in_teacher_students_works(int $courseworkId, int $teacherId, int $courseId) : bool 
+    {
+        $studentsWorks = sg::get_students_works($courseworkId);
+
+        foreach($studentsWorks as $work)
+        {
+            if(($work->teacher == $teacherId) && ($work->course == $courseId))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
 
