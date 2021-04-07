@@ -4,6 +4,7 @@ namespace Coursework\View\StudentsWorksList;
 
 require_once 'components/groups_selector.php';
 require_once 'components/teachers_selector.php';
+require_once 'components/courses_selector.php';
 require_once 'getters/main_getter.php';
 
 class Page 
@@ -18,7 +19,7 @@ class Page
         $this->d = new MainGetter($course, $cm);
 
 
-        //print_r($this->d->get_teachers());
+        //print_r($this->d->get_courses());
     }
 
     public function get_page() : string 
@@ -27,6 +28,7 @@ class Page
         $page.= $this->get_page_header();
         $page.= $this->get_group_selector();
         $page.= $this->get_teachers_selector();
+        $page.= $this->get_courses_selector();
 
         $page.= $this->get_form_end();
 
@@ -57,6 +59,11 @@ class Page
         return $selector->get_teachers_selector();
     }
 
+    private function get_courses_selector() : string 
+    {        
+        $selector = new CoursesSelector($this->d);
+        return $selector->get_courses_selector();
+    }
 
 
 

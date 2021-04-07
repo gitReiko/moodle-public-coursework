@@ -7,6 +7,7 @@ require_once 'students_getter.php';
 
 use Coursework\View\StudentsWorksList\GroupsSelector as grp;
 use Coursework\View\StudentsWorksList\TeachersSelector as ts;
+use Coursework\View\StudentsWorksList\CoursesSelector as cs;
 use Coursework\Lib\Getters\TeachersGetter as tg;
 use Coursework\Lib\Getters\CommonGetter as cg;
 
@@ -23,6 +24,9 @@ class MainGetter
     private $teachers;
     private $selectedTeacherId;
 
+    private $courses;
+    private $selectedCourseId;
+
     private $students;
 
     function __construct(\stdClass $course, \stdClass $cm) 
@@ -34,6 +38,8 @@ class MainGetter
         $this->init_teachers();
         $this->init_selected_teacher();
         $this->init_students();
+        $this->init_courses();
+        $this->init_selected_course_id();
     }
 
     public function get_course() : \stdClass
@@ -76,6 +82,16 @@ class MainGetter
         return $this->selectedTeacherId;
     }
 
+    public function get_courses() 
+    {
+        return $this->courses;
+    }
+
+    public function get_selected_course_id()
+    {
+        return $this->selectedCourseId;
+    }
+
     public function get_students() 
     {
         return $this->students;
@@ -107,6 +123,28 @@ class MainGetter
         else 
         {
             $this->selectedTeacherId = $teacher;
+        }
+    }
+
+    private function init_courses()
+    {
+        $this->courses = tg::get_teacher_courses(
+            $this->cm->instance, 
+            $this->selectedTeacherId
+        );
+    }
+
+    private function init_selected_course_id()
+    {
+        $course = optional_param(cs::COURSE, null, PARAM_INT);
+
+        if(empty($course))
+        {
+            $this->selectedCourseId = reset($this->courses)->id;
+        }
+        else 
+        {
+            $this->selectedCourseId = $course;
         }
     }
 

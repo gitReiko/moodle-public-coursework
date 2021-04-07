@@ -95,6 +95,81 @@ class TeachersGetter
         return $teachers;
     }
 
+    public static function get_teacher_courses(int $courseworkId, int $teacherId)
+    {
+        $courses = self::get_configured_teacher_courses($courseworkId, $teacherId);
+
+        if(empty($courses))
+        {
+            $courses = array();
+        }
+
+        $courses = self::get_teacher_courses_from_students_works($courseworkId, $teacherId, $courses);
+
+        $courses = self::sort_courses_array($courses);
+
+        return $courses;
+    }
+
+    private static function get_configured_teacher_courses(int $courseworkId, int $teacherId)
+    {
+        global $DB;
+        $sql = 'SELECT c.id, c.fullname, c.shortname 
+                FROM {coursework_teachers} AS ct 
+                INNER JOIN {course} AS c
+                ON ct.course = c.id 
+                WHERE ct.coursework = ? AND ct.teacher = ? ';
+        $params = array($courseworkId, $teacherId);
+        return $DB->get_records_sql($sql, $params);
+    }
+
+    private static function get_teacher_courses_from_students_works(int $courseworkId, int $teacherId, $courses)
+    {
+        $studentsWorks = sg::get_students_works($courseworkId);
+
+        foreach($studentsWorks as $work)
+        {
+            if(self::is_course_not_exist_in_courses_array($work->course, $courses))
+            {
+                $courses[] = self::get_course($work->course);
+            }
+        }
+
+        return $courses;
+    }
+
+    private static function is_course_not_exist_in_courses_array(int $courseId, array $courses)
+    {
+        foreach($courses as $course)
+        {
+            if($course->id == $courseId)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private static function get_course(int $courseId)
+    {
+        global $DB;
+        $where = array('id' => $courseId);
+        return $DB->get_record('course', $where, 'id,fullname,shortname');
+    }
+
+    private static function sort_courses_array($courses)
+    {
+        if(count($courses) > 1)
+        {
+            usort($courses, function($a, $b)
+            {
+                return strcmp($a->fullname, $b->fullname);
+            });
+        }
+
+        return $courses;
+    }
 
 
 }

@@ -311,4 +311,5 @@ $string['coursework:viewfulltable'] = 'View list of projects';
 
 // List of students works
 $string['view_participants'] = 'View participants';
+$string['go_to_course'] = 'Go to course';
 
