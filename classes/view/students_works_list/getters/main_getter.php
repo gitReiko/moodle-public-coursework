@@ -4,9 +4,9 @@ namespace View\StudentsWorksList;
 
 require_once 'groups_getter.php';
 require_once 'students_getter.php';
-require_once 'teachers_getter.php';
 
 use View\StudentsWorksList\GroupsSelector as grp;
+use Coursework\Lib\Getters\TeachersGetter as tg;
 use Coursework\Lib\Getters\CommonGetter as cg;
 
 class MainGetter 
@@ -28,8 +28,8 @@ class MainGetter
         $this->cm = $cm;
 
         $this->init_group_params();
-        $this->init_students();
         $this->init_leaders();
+        $this->init_students();
     }
 
     public function get_course() : \stdClass
@@ -62,14 +62,14 @@ class MainGetter
         return $this->selectedGroupId;
     }
 
-    public function get_students() 
-    {
-        return $this->students;
-    }
-
     public function get_leaders()
     {
         return $this->leaders;
+    }
+
+    public function get_students() 
+    {
+        return $this->students;
     }
 
     private function init_group_params() 
@@ -80,6 +80,11 @@ class MainGetter
         $this->groups = $grp->get_groups();
         $this->selectedGroupId = $grp->get_selected_group_id();
         $this->availableGroups = $grp->get_available_groups();
+    }
+
+    private function init_leaders() 
+    {
+        $this->leaders = tg::get_all_course_work_teachers($this->cm->instance);
     }
 
     private function init_students() 
@@ -95,16 +100,6 @@ class MainGetter
         $this->students = $st->get_students();
     }
 
-    private function init_leaders() 
-    {
-        $lead = new TeachersGetter(
-            $this->course, 
-            $this->cm,
-            $this->students
-        );
-
-        $this->leaders = $lead->get_leaders();
-    }
 
 
 
