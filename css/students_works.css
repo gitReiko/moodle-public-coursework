@@ -1,0 +1,14 @@
+
+table.studentsWorksList
+{
+    cursor: default;
+    margin-top: 15px;
+    border-collapse: collapse;
+}
+
+
+table.studentsWorksList tr td
+{
+    padding: 5px;
+    border: 1px solid grey;
+}

@@ -118,7 +118,7 @@ class MainGetter
 
         if(empty($teacher))
         {
-            $this->selectedTeacherId = reset($this->teachers)->teacherid;
+            $this->selectedTeacherId = reset($this->teachers)->id;
         }
         else 
         {

@@ -31,6 +31,7 @@ $PAGE->set_title(get_string('pluginname', 'coursework'));
 $PAGE->set_heading(get_string('pluginname', 'coursework'));
 
 $PAGE->requires->css('/mod/coursework/css/view.css');
+$PAGE->requires->css('/mod/coursework/css/students_works.css');
 $PAGE->requires->js('/mod/coursework/js/view.js');
 
 require_login();

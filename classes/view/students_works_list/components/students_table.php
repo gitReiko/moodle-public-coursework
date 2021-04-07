@@ -20,7 +20,7 @@ class StudentsTable
         $attr = array('class' => 'studentsWorksList');
         $tbl = \html_writer::start_tag('table', $attr);
         $tbl.= $this->get_table_header();
-
+        $tbl.= $this->get_table_body();
         $tbl.= \html_writer::end_tag('table');
 
         return $tbl;
@@ -59,6 +59,29 @@ class StudentsTable
         $head.= \html_writer::end_tag('thead');
 
         return $head;
+    }
+
+    private function get_table_body() : string 
+    {
+        $body = \html_writer::start_tag('tbody');
+
+        foreach($this->d->get_students() as $student)
+        {
+            $body.= \html_writer::start_tag('tr');
+
+            $text = '';
+            $body.= \html_writer::tag('td', $text);
+
+            $text = '';
+            $body.= \html_writer::tag('td', $text);
+
+
+            $body.= \html_writer::end_tag('tr');
+        }
+
+        $body.= \html_writer::end_tag('tbody');
+
+        return $body;
     }
 
 
