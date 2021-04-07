@@ -29,7 +29,7 @@ class TeachersGetter
             $teachers = array();
         }
 
-        $studentsWorks = sg::get_students_works($courseworkId);
+        $studentsWorks = sg::get_all_coursework_students_works($courseworkId);
         foreach($studentsWorks as $work)
         {
             if(self::is_teacher_not_exist_in_teachers_array($work->teacher, $teachers))
@@ -155,7 +155,7 @@ class TeachersGetter
 
     private static function get_teacher_courses_from_students_works(int $courseworkId, int $teacherId, $courses)
     {
-        $studentsWorks = sg::get_students_works($courseworkId);
+        $studentsWorks = sg::get_all_coursework_students_works($courseworkId);
 
         foreach($studentsWorks as $work)
         {
@@ -229,7 +229,7 @@ class TeachersGetter
 
     private static function is_this_course_exist_in_teacher_students_works(int $courseworkId, int $teacherId, int $courseId) : bool 
     {
-        $studentsWorks = sg::get_students_works($courseworkId);
+        $studentsWorks = sg::get_all_coursework_students_works($courseworkId);
 
         foreach($studentsWorks as $work)
         {

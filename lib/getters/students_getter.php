@@ -61,7 +61,7 @@ class StudentsGetter
         );
     }
 
-    public static function get_students_works(int $courseworkId) 
+    public static function get_all_coursework_students_works(int $courseworkId) 
     {
         global $DB;
         $where = array('coursework' => $courseworkId);
