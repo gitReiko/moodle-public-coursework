@@ -320,4 +320,6 @@ $string['coursework:viewfulltable'] = 'Просмотр списка курсо�
 // List of students works
 $string['view_participants'] = 'Просмотреть участников';
 $string['go_to_course'] = 'Перейти к курсу';
-
+$string['more_details'] = 'Подробнее';
+$string['go_to_student_work'] = 'Перейти к работе студента';
+$string['grade_short'] = 'Оценка';

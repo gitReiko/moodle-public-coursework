@@ -312,4 +312,7 @@ $string['coursework:viewfulltable'] = 'View list of projects';
 // List of students works
 $string['view_participants'] = 'View participants';
 $string['go_to_course'] = 'Go to course';
+$string['more_details'] = 'More details';
+$string['go_to_student_work'] = 'Go to student work';
+$string['grade_short'] = 'Grade';
 

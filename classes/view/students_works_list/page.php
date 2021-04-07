@@ -5,21 +5,18 @@ namespace Coursework\View\StudentsWorksList;
 require_once 'components/groups_selector.php';
 require_once 'components/teachers_selector.php';
 require_once 'components/courses_selector.php';
+require_once 'components/students_table.php';
 require_once 'getters/main_getter.php';
 
 class Page 
 {
     const FORM_ID = 'swl_dashboard_form';
-    const SELECTED_GROUP = 'selected_group';
-
+    
     private $d;
 
     function __construct(\stdClass $course, \stdClass $cm) 
     {
         $this->d = new MainGetter($course, $cm);
-
-
-        print_r($this->d->get_students());
     }
 
     public function get_page() : string 
@@ -29,7 +26,7 @@ class Page
         $page.= $this->get_group_selector();
         $page.= $this->get_teachers_selector();
         $page.= $this->get_courses_selector();
-
+        $page.= $this->get_students_table();
         $page.= $this->get_form_end();
 
         return $page;
@@ -65,8 +62,11 @@ class Page
         return $selector->get_courses_selector();
     }
 
-
-
+    private function get_students_table() : string 
+    {
+        $tbl = new StudentsTable($this->d);
+        return $tbl->get_students_table();
+    }
 
     private function get_form_end() : string 
     {
