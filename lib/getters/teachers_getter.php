@@ -8,23 +8,21 @@ use Coursework\Lib\Enums as enum;
 class TeachersGetter
 {
 
-    public static function get_only_configured_course_work_teachers(int $courseworkId)
+    public static function get_configured_teachers(int $courseworkId)
     {
         global $DB;
-        $sql = 'SELECT ct.id as courseworkteacherid, ct.teacher as teacherid, 
-                    u.firstname, u.lastname, u.email, u.phone1, u.phone2, 
-                    ct.course as courseid, c.fullname as coursename, ct.quota
-                FROM {coursework_teachers} as ct, {user} as u, {course} as c
-                WHERE ct.teacher = u.id AND ct.course = c.id AND coursework = ?
+        $sql = 'SELECT DISTINCT u.id, u.firstname, u.lastname, u.email, u.phone1, u.phone2
+                FROM {coursework_teachers} as ct, {user} as u
+                WHERE ct.teacher = u.id AND coursework = ?
                 ORDER BY u.lastname, u.firstname ';
         $conditions = array($courseworkId);
 
         return $DB->get_records_sql($sql, $conditions);
     }
 
-    public static function get_all_course_work_teachers(int $courseworkId)
+    public static function get_coursework_teachers(int $courseworkId)
     {
-        $teachers = self::get_only_configured_course_work_teachers($courseworkId);
+        $teachers = self::get_configured_teachers($courseworkId);
 
         if(empty($teachers))
         {
@@ -34,31 +32,24 @@ class TeachersGetter
         $studentsWorks = sg::get_students_works($courseworkId);
         foreach($studentsWorks as $work)
         {
-            if(self::is_teacher_not_exist_in_array($work->teacher, $teachers))
+            if(self::is_teacher_not_exist_in_teachers_array($work->teacher, $teachers))
             {
-                $teachers = self::add_teacher_to_array($courseworkId, $work->teacher, $teachers);
+                $teachers[] = self::get_teacher($work->teacher);
             }
         }
 
         $teachers = self::sort_teachers_array($teachers);
+        $teachers = self::get_unique_items($teachers);
 
         return $teachers;
     }
 
-    public static function get_teacher_from_id(int $courseworkId, int $userId) 
+    public static function get_teacher(int $userId) 
     {
         global $DB;
-        $sql = 'SELECT u.id as teacherid, u.firstname, u.lastname, u.email,  u.phone1, 
-                    u.phone2, cs.course as courseid, c.fullname as coursename
-                FROM {coursework_students} as cs, {user} as u, {course} as c
-                WHERE cs.teacher = u.id AND cs.course = c.id 
-                AND coursework = ? AND u.id = ? ';     
-        $conditions = array($courseworkId, $userId);
-
-        $teacher = $DB->get_record_sql($sql, $conditions);
-        $teacher->quota = 0;
-
-        return $teacher;
+        $where = array('id' => $userId);
+        $select = 'id,firstname,lastname,email,phone1,phone2';
+        return $DB->get_record('user', $where, $select);
     }
 
     public static function get_teacher_courses(int $courseworkId, int $teacherId)
@@ -73,6 +64,7 @@ class TeachersGetter
         $courses = self::get_teacher_courses_from_students_works($courseworkId, $teacherId, $courses);
 
         $courses = self::sort_courses_array($courses);
+        $courses = self::get_unique_items($courses);
 
         return $courses;
     }
@@ -93,23 +85,17 @@ class TeachersGetter
         }
     }
 
-    private static function is_teacher_not_exist_in_array(int $teacherId, $teachers) : bool
+    private static function is_teacher_not_exist_in_teachers_array(int $teacherId, $teachers) : bool
     {
         foreach($teachers as $teacher)
         {
-            if($teacher->teacherid == $teacherId)
+            if($teacher->id == $teacherId)
             {
                 return false;
             }
         }
 
         return true;
-    }
-
-    private static function add_teacher_to_array(int $courseworkId, int $userId, $teachers)
-    {
-        $teacher = self::get_teacher_from_id($courseworkId, $userId);
-        return array_merge($teachers, array($teacher));
     }
 
     private static function sort_teachers_array($teachers)
@@ -125,6 +111,34 @@ class TeachersGetter
         }
 
         return $teachers;
+    }
+
+    private static function get_unique_items($items)
+    {
+        $uniqueItems = array();
+
+        foreach($items as $item)
+        {
+            if(self::is_item_not_exist($uniqueItems, $item))
+            {
+                $uniqueItems[] = $item;
+            }
+        }
+
+        return $uniqueItems;
+    }
+
+    private static function is_item_not_exist(array $uniqueItems, \stdClass $item) : bool 
+    {
+        foreach($uniqueItems as $uniqueItem)
+        {
+            if($uniqueItem->id == $item->id)
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private static function get_configured_teacher_courses(int $courseworkId, int $teacherId)

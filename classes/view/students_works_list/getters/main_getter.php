@@ -109,7 +109,7 @@ class MainGetter
 
     private function init_teachers() 
     {
-        $this->teachers = tg::get_all_course_work_teachers($this->cm->instance);
+        $this->teachers = tg::get_coursework_teachers($this->cm->instance);
     }
 
     private function init_selected_teacher()

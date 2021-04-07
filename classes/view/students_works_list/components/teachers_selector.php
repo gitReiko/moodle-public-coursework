@@ -52,9 +52,9 @@ class TeachersSelector
 
         foreach($this->d->get_teachers() as $teacher)
         {
-            $attr = array('value' => $teacher->teacherid);
+            $attr = array('value' => $teacher->id);
 
-            if($this->d->get_selected_teacher_id() == $teacher->teacherid)
+            if($this->d->get_selected_teacher_id() == $teacher->id)
             {
                 $attr = array_merge($attr, array('selected' => 'selected'));
                 $this->selectedTeacher = $teacher;
