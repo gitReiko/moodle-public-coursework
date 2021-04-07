@@ -1,11 +1,12 @@
 <?php
 
-namespace View\StudentsWorksList;
+namespace Coursework\View\StudentsWorksList;
 
 require_once 'groups_getter.php';
 require_once 'students_getter.php';
 
-use View\StudentsWorksList\GroupsSelector as grp;
+use Coursework\View\StudentsWorksList\GroupsSelector as grp;
+use Coursework\View\StudentsWorksList\TeachersSelector as ts;
 use Coursework\Lib\Getters\TeachersGetter as tg;
 use Coursework\Lib\Getters\CommonGetter as cg;
 
@@ -19,8 +20,10 @@ class MainGetter
     private $availableGroups;
     private $groups;
 
+    private $teachers;
+    private $selectedTeacherId;
+
     private $students;
-    private $leaders;
 
     function __construct(\stdClass $course, \stdClass $cm) 
     {
@@ -28,7 +31,8 @@ class MainGetter
         $this->cm = $cm;
 
         $this->init_group_params();
-        $this->init_leaders();
+        $this->init_teachers();
+        $this->init_selected_teacher();
         $this->init_students();
     }
 
@@ -62,9 +66,14 @@ class MainGetter
         return $this->selectedGroupId;
     }
 
-    public function get_leaders()
+    public function get_teachers()
     {
-        return $this->leaders;
+        return $this->teachers;
+    }
+
+    public function get_selected_teacher_id()
+    {
+        return $this->selectedTeacherId;
     }
 
     public function get_students() 
@@ -82,9 +91,23 @@ class MainGetter
         $this->availableGroups = $grp->get_available_groups();
     }
 
-    private function init_leaders() 
+    private function init_teachers() 
     {
-        $this->leaders = tg::get_all_course_work_teachers($this->cm->instance);
+        $this->teachers = tg::get_all_course_work_teachers($this->cm->instance);
+    }
+
+    private function init_selected_teacher()
+    {
+        $teacher = optional_param(ts::TEACHER, null, PARAM_INT);
+
+        if(empty($teacher))
+        {
+            $this->selectedTeacherId = reset($this->teachers)->teacherid;
+        }
+        else 
+        {
+            $this->selectedTeacherId = $teacher;
+        }
     }
 
     private function init_students() 

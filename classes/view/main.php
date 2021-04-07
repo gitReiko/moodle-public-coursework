@@ -6,7 +6,7 @@ require_once 'student_work/main.php';
 require_once 'database_handlers/main.php';
 require_once 'view_lib.php';
 
-use View\StudentsWorksList as swl;
+use Coursework\View\StudentsWorksList as swl;
 use coursework_lib as lib;
 
 class ViewMain 

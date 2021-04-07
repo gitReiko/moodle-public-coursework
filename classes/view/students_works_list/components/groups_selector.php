@@ -1,9 +1,9 @@
 <?php
 
-namespace View\StudentsWorksList;
+namespace Coursework\View\StudentsWorksList;
 
 use Coursework\Lib\Enums as enum;
-use View\StudentsWorksList\Page as p;
+use Coursework\View\StudentsWorksList\Page as p;
 
 class GroupsSelector 
 {

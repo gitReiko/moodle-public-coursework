@@ -1,9 +1,9 @@
 <?php
 
-namespace View\StudentsWorksList;
+namespace Coursework\View\StudentsWorksList;
 
 use Coursework\Lib\Getters\StudentsGetter as sg;
-use View\StudentsWorksList\GroupsSelector as grp;
+use Coursework\View\StudentsWorksList\GroupsSelector as grp;
 use Coursework\Lib\Enums as enum;
 
 class StudentsGetter 

@@ -1,8 +1,8 @@
 <?php
 
-namespace View\StudentsWorksList;
+namespace Coursework\View\StudentsWorksList;
 
-use View\StudentsWorksList\GroupsSelector as grp;
+use Coursework\View\StudentsWorksList\GroupsSelector as grp;
 use Coursework\Lib\Getters\CommonGetter as cg;
 
 class GroupsGetter 
