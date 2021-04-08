@@ -2,8 +2,9 @@
 
 namespace Coursework\View\StudentsWorksList;
 
-use Coursework\Lib\Enums as enum;
 use Coursework\View\StudentsWorksList\Page as p;
+use Coursework\Lib\Enums as enum;
+use ViewMain as m;
 
 class StudentsTable 
 {
@@ -75,20 +76,14 @@ class StudentsTable
             $text = '';
             $body.= \html_writer::tag('td', $text);
 
-            $text = '';
-            $body.= \html_writer::tag('td', $text);
-
-            $text = $student->lastname.''.$student->firstname;
-            $body.= \html_writer::tag('td', $text);
+            $body.= $this->get_work_cell($student);
+            $body.= $this->get_student_cell($student);
 
             $text = '';
             $body.= \html_writer::tag('td', $text);
 
-            $text = $student->theme;
-            $body.= \html_writer::tag('td', $text);
-
-            $text = '';
-            $body.= \html_writer::tag('td', $text);
+            $body.= $this->get_theme_cell($student);
+            $body.= $this->get_grade_cell($student);
 
             $body.= \html_writer::end_tag('tr');
         }
@@ -96,6 +91,56 @@ class StudentsTable
         $body.= \html_writer::end_tag('tbody');
 
         return $body;
+    }
+
+    private function get_work_cell(\stdClass $student) : string 
+    {
+        $attr = array(
+            'href' => $this->get_go_to_work_url($student),
+            'target' => '_blank',
+            'title' => get_string('go_to_student_work', 'coursework')
+        );
+        $text = get_string('work', 'coursework');
+        $a = \html_writer::tag('a', $text, $attr);
+        return \html_writer::tag('td', $a);
+    }
+
+    private function get_go_to_work_url(\stdClass $student)
+    {
+        $url = '/mod/coursework/view.php';
+        $url.= '?'.m::ID.'='.$this->d->get_cm()->id;
+        $url.= '&'.m::GUI_EVENT.'='.m::USER_WORK;
+        $url.= '&'.m::STUDENT_ID.'='.$student->id;
+
+        return $url;
+    }
+
+    private function get_student_cell(\stdClass $student) : string 
+    {
+        $text = $student->lastname.''.$student->firstname;
+        return \html_writer::tag('td', $text);
+    }
+
+    private function get_theme_cell(\stdClass $student) : string 
+    {
+        $text = $student->theme;
+        return \html_writer::tag('td', $text);
+    }
+
+    private function get_grade_cell(\stdClass $student) : string 
+    {
+        $attr = array('class' => 'center');
+
+        if(empty($student->grade))
+        {
+            $text = '';
+        }
+        else 
+        {
+            $text = $student->grade;
+        }
+
+        return \html_writer::tag('td', $text, $attr);
     }
 
 

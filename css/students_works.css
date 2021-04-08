@@ -21,3 +21,12 @@ table.studentsWorksList tr td
     padding: 5px;
     border: 1px solid grey;
 }
+
+
+table.studentsWorksList tr td.center 
+{
+    text-align: center;
+}
+
+
+

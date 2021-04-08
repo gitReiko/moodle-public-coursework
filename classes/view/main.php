@@ -15,6 +15,9 @@ class ViewMain
     const GUI_EVENT = 'gui_event';
     const USER_WORK = 'user_work';
 
+    const ID = 'id';
+    const STUDENT_ID = 'studentid';
+
     private $course;
     private $cm;
 
