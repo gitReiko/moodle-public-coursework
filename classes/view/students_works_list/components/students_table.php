@@ -94,7 +94,6 @@ class StudentsTable
     {
         $attr = array(
             'href' => $this->get_go_to_work_url($student),
-            'target' => '_blank',
             'title' => get_string('go_to_student_work', 'coursework')
         );
         $text = get_string('work', 'coursework');
@@ -114,7 +113,7 @@ class StudentsTable
 
     private function get_student_cell(\stdClass $student) : string 
     {
-        $text = $student->lastname.''.$student->firstname;
+        $text = $student->lastname.' '.$student->firstname;
         return \html_writer::tag('td', $text);
     }
 
