@@ -78,10 +78,7 @@ class StudentsTable
 
             $body.= $this->get_work_cell($student);
             $body.= $this->get_student_cell($student);
-
-            $text = '';
-            $body.= \html_writer::tag('td', $text);
-
+            $body.= $this->get_state_cell($student);
             $body.= $this->get_theme_cell($student);
             $body.= $this->get_grade_cell($student);
 
@@ -121,6 +118,27 @@ class StudentsTable
         return \html_writer::tag('td', $text);
     }
 
+    private function get_state_cell(\stdClass $student) : string 
+    {
+        switch($student->status)
+        {
+            case enum::NOT_READY:
+                $text = get_string('work_not_ready', 'coursework');
+                break;
+            case enum::READY:
+                $text = get_string('work_ready', 'coursework');
+                break;
+            case enum::NEED_TO_FIX:
+                $text = get_string('work_need_to_fix', 'coursework');
+                break;
+            case enum::SENT_TO_CHECK:
+                $text = get_string('work_sent_to_check', 'coursework');
+                break;
+        }
+
+        return \html_writer::tag('td', $text);
+    }
+
     private function get_theme_cell(\stdClass $student) : string 
     {
         $text = $student->theme;
@@ -142,6 +160,9 @@ class StudentsTable
 
         return \html_writer::tag('td', $text, $attr);
     }
+
+
+
 
 
 

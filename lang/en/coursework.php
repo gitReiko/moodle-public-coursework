@@ -315,4 +315,9 @@ $string['go_to_course'] = 'Go to course';
 $string['more_details'] = 'More details';
 $string['go_to_student_work'] = 'Go to student work';
 $string['grade_short'] = 'Grade';
+$string['work_not_ready'] = 'not ready';
+$string['work_ready'] = 'ready';
+$string['work_need_to_fix'] = 'need to fix';
+$string['work_sent_to_check'] = 'sent to check';
+
 

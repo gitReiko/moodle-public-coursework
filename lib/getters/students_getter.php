@@ -121,7 +121,7 @@ class StudentsGetter
         $student->theme = '';
         $student->grade = '';
         $student->task = '';
-        $student->workStatus = '';
+        $student->status = '';
         $student->themeselectiondate = '';
         $student->receivingtaskdate = '';
         $student->workstatuschangedate = '';
@@ -136,7 +136,7 @@ class StudentsGetter
         $student->theme = self::get_student_theme($work);
         $student->grade = $work->grade;
         $student->task = $work->task;
-        $student->workStatus = $work->status;
+        $student->status = $work->status;
         $student->themeselectiondate = $work->themeselectiondate;
         $student->receivingtaskdate = $work->receivingtaskdate;
         $student->workstatuschangedate = $work->workstatuschangedate;
