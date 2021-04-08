@@ -75,6 +75,20 @@ class StudentsTable
             $text = '';
             $body.= \html_writer::tag('td', $text);
 
+            $text = '';
+            $body.= \html_writer::tag('td', $text);
+
+            $text = $student->lastname.''.$student->firstname;
+            $body.= \html_writer::tag('td', $text);
+
+            $text = '';
+            $body.= \html_writer::tag('td', $text);
+
+            $text = $student->theme;
+            $body.= \html_writer::tag('td', $text);
+
+            $text = '';
+            $body.= \html_writer::tag('td', $text);
 
             $body.= \html_writer::end_tag('tr');
         }

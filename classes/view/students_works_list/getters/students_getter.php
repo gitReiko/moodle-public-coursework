@@ -22,7 +22,9 @@ class StudentsGetter
         \stdClass $cm,
         int $groupMode,
         int $selectedGroupId,
-        $availableGroups
+        $availableGroups,
+        $selectedTeacherId,
+        $selectedCourseId
     ) 
     {
         $this->course = $course;
@@ -30,6 +32,8 @@ class StudentsGetter
         $this->groupMode = $groupMode;
         $this->selectedGroupId = $selectedGroupId;
         $this->availableGroups = $availableGroups;
+        $this->selectedTeacherId = $selectedTeacherId;
+        $this->selectedCourseId = $selectedCourseId;
         $this->init_students();
     }
 
@@ -56,8 +60,41 @@ class StudentsGetter
         }
 
         $students = sg::add_works_to_students($this->cm->instance, $students);
+        $students = $this->filter_out_non_teacher_students($students);
 
         $this->students = $students;
+    }
+
+    private function filter_out_non_teacher_students($students)
+    {
+        $filteredStudents = array();
+
+        foreach($students as $student) 
+        {
+            if($this->is_students_belong_to_teacher($student))
+            {
+                $filteredStudents[] = $student;
+            }
+        }
+
+        return $filteredStudents;
+    }
+
+    private function is_students_belong_to_teacher($student) : bool 
+    {
+        if
+        (
+            ($student->teacher == $this->selectedTeacherId)
+            && 
+            ($student->course == $this->selectedCourseId)
+        )
+        {
+            return true;
+        }
+        else 
+        {
+            return false;
+        }
     }
 
 

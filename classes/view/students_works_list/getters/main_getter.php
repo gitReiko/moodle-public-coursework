@@ -37,9 +37,9 @@ class MainGetter
         $this->init_group_params();
         $this->init_teachers();
         $this->init_selected_teacher();
-        $this->init_students();
         $this->init_courses();
         $this->init_selected_course_id();
+        $this->init_students();
     }
 
     public function get_course() : \stdClass
@@ -159,13 +159,13 @@ class MainGetter
             $this->cm,
             $this->groupMode,
             $this->selectedGroupId,
-            $this->availableGroups
+            $this->availableGroups,
+            $this->selectedTeacherId,
+            $this->selectedCourseId
         );
 
         $this->students = $st->get_students();
     }
-
-
 
 
 }

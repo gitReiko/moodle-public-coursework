@@ -116,6 +116,8 @@ class StudentsGetter
 
     private static function add_empty_student_work_params(\stdClass $student)
     {
+        $student->teacher = '';
+        $student->course = '';
         $student->theme = '';
         $student->grade = '';
         $student->task = '';
@@ -129,6 +131,8 @@ class StudentsGetter
 
     private static function add_works_params_to_student(\stdClass $student, \stdClass $work)
     {
+        $student->teacher = $work->teacher;
+        $student->course = $work->course;
         $student->theme = self::get_student_theme($work);
         $student->grade = $work->grade;
         $student->task = $work->task;

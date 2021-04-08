@@ -6,6 +6,15 @@ table.studentsWorksList
     border-collapse: collapse;
 }
 
+table.studentsWorksList thead tr td
+{
+    text-align: center;
+}
+
+table.studentsWorksList tbody tr:hover 
+{
+    background: #eee;
+}
 
 table.studentsWorksList tr td
 {
