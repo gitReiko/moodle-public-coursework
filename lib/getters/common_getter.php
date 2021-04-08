@@ -26,7 +26,7 @@ class CommonGetter
     public static function get_coursework_theme_name(int $themeId)
     {
         global $DB;
-        $where = array('id'=> $courseworkId);
+        $where = array('id'=> $themeId);
         return $DB->get_field('coursework_themes', 'name', $where);
     }
 
