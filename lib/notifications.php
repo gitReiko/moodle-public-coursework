@@ -2,6 +2,10 @@
 
 namespace Coursework\Lib;
 
+require_once 'getters/common_getter.php';
+
+use Coursework\Lib\Getters\CommonGetter as cg;
+
 // Students notification for teacher
 class Notifications 
 {
@@ -12,13 +16,13 @@ class Notifications
 
     private $coursework;
     private $student;
-    private $teacher;
+    private $teacherId;
 
-    function __construct(\stdClass $coursework, \stdClass $student, \stdClass $teacher)
+    function __construct(int $courseworkId, \stdClass $student, int $teacherId)
     {
-        $this->coursework = $coursework;
+        $this->coursework = cg::get_coursework($courseworkId);
         $this->student = $student;
-        $this->teacher = $teacher;
+        $this->teacherId = $teacherId;
 
         $this->isTeacherMustGiveTask = $this->is_teacher_must_give_task();
         $this->isTeacherHasUnreadedMessages = $this->is_teacher_has_unreaded_messages();
@@ -28,19 +32,19 @@ class Notifications
 
     public function is_notifications_exist() : bool 
     {
-        if($isTeacherMustGiveTask)
+        if($this->isTeacherMustGiveTask)
         {
             return true;
         }
-        else if($isTeacherHasUnreadedMessages)
+        else if($this->isTeacherHasUnreadedMessages)
         {
             return true;
         }
-        else if($isTeacherNeedToCheckSection)
+        else if($this->isTeacherNeedToCheckSection)
         {
             return true;
         }
-        else if($isStudentWorkNotChecked)
+        else if($this->isStudentWorkNotChecked)
         {
             return true;
         }
@@ -108,14 +112,14 @@ class Notifications
         global $DB;
         $conditions = array(
             'coursework' => $this->coursework->id, 
-            'userto' => $this->teacher->id, 
+            'userto' => $this->teacherId, 
             'userfrom' => $this->student->id,
             'readed' => 0
         );
         return $DB->record_exists('coursework_chat', $conditions);
     }
 
-    private function is_teacher_need_to_check_section(\stdClass $cm, int $student) : bool 
+    private function is_teacher_need_to_check_section() : bool 
     {
         if($this->get_count_of_unchecked_sections())
         {
@@ -130,7 +134,7 @@ class Notifications
     private function get_count_of_unchecked_sections()
     {
         global $DB;
-        $sql = 'SELECT cts.*, css.timemodified AS tasksubmissiondate 
+        $sql = 'SELECT COUNT(cts.id)  
                 FROM {coursework_tasks_sections} AS cts 
                 INNER JOIN {coursework_sections_status} AS css
                 ON cts.id = css.section 

@@ -34,5 +34,7 @@ table.studentsWorksList tr td.center
     text-align: center;
 }
 
-
-
+table.studentsWorksList tr td.red 
+{
+    color: #ff0000;
+}

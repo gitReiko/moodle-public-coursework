@@ -3,6 +3,7 @@
 namespace Coursework\View\StudentsWorksList;
 
 use Coursework\View\StudentsWorksList\Page as p;
+use Coursework\Lib\Notifications;
 use Coursework\Lib\Enums as enum;
 use ViewMain as m;
 
@@ -68,10 +69,11 @@ class StudentsTable
 
         foreach($this->d->get_students() as $student)
         {
+            $ntfs = $this->get_notifications($student);
+
             $body.= \html_writer::start_tag('tr');
 
-            $text = '';
-            $body.= \html_writer::tag('td', $text);
+            $body.= $this->get_notification_cell($ntfs);
 
             $text = '';
             $body.= \html_writer::tag('td', $text);
@@ -88,6 +90,32 @@ class StudentsTable
         $body.= \html_writer::end_tag('tbody');
 
         return $body;
+    }
+
+
+    private function get_notifications(\stdClass $student) : Notifications
+    {
+        return new Notifications(
+            $this->d->get_cm()->instance,
+            $student,
+            $this->d->get_selected_teacher_id()
+        );
+    }
+
+    private function get_notification_cell(Notifications $ntfs) : string
+    {
+
+        if($ntfs->is_notifications_exist())
+        {
+            $attr = array('class' => 'red');
+            $text = '<i class="fa fa-exclamation-triangle"></i>';
+            return \html_writer::tag('td', $text, $attr);
+        }
+        else 
+        {
+            $text = '';
+            return \html_writer::tag('td', $text);
+        }
     }
 
     private function get_work_cell(\stdClass $student) : string 
