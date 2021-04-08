@@ -7,6 +7,12 @@ use Coursework\Lib\Enums as enum;
 class CommonGetter
 {
 
+    public static function get_coursework(int $courseworkId) : \stdClass 
+    {
+        global $DB;
+        return $DB->get_record('coursework', array('id'=> $courseworkId));
+    }
+
     public static function get_coursework_name(int $courseworkId) : string
     {
         global $DB;
