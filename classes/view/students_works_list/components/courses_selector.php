@@ -27,7 +27,8 @@ class CoursesSelector
 
     private function get_selector_start() : string 
     {
-        $selector = \html_writer::start_tag('p');
+        $attr = array('class' => 'selector');
+        $selector = \html_writer::start_tag('p', $attr);
         $selector.= $this->get_selector_label();
 
         $attr = array(

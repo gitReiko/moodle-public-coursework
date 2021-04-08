@@ -1,4 +1,10 @@
 
+p.selector
+{
+    cursor: default;
+    padding-top: 7px;
+}
+
 table.studentsWorksList
 {
     cursor: default;
