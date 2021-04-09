@@ -319,5 +319,5 @@ $string['work_not_ready'] = 'not ready';
 $string['work_ready'] = 'ready';
 $string['work_need_to_fix'] = 'need to fix';
 $string['work_sent_to_check'] = 'sent to check';
-
+$string['no_notifications'] = 'no notifications';
 

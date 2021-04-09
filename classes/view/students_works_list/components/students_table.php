@@ -3,12 +3,14 @@
 namespace Coursework\View\StudentsWorksList;
 
 use Coursework\View\StudentsWorksList\Page as p;
+use Coursework\Lib\Getters\CommonGetter as cg;
 use Coursework\Lib\Notifications;
 use Coursework\Lib\Enums as enum;
 use ViewMain as m;
 
 class StudentsTable 
 {
+    const STUDENT_MORE = 'student_more_';
 
     private $d;
 
@@ -72,6 +74,7 @@ class StudentsTable
             $ntfs = $this->get_notifications($student);
 
             $body.= $this->get_main_row($student, $ntfs);
+            $body.= $this->get_notification_row($student, $ntfs);
         }
 
         $body.= \html_writer::end_tag('tbody');
@@ -121,9 +124,10 @@ class StudentsTable
 
     private function get_more_button(\stdClass $student) : string 
     {
+        $attr = array('onclick' => self::STUDENT_MORE.$student->id);
         $moreBtn = '<i class="fa fa-arrow-down"></i>';
         $lessBtn = '<i class="fa fa-arrow-up"></i>';
-        return \html_writer::tag('td', $moreBtn);
+        return \html_writer::tag('td', $moreBtn, $attr);
     }
 
     private function get_work_cell(\stdClass $student) : string 
@@ -149,7 +153,8 @@ class StudentsTable
 
     private function get_student_cell(\stdClass $student) : string 
     {
-        $text = $student->lastname.' '.$student->firstname;
+        $text = cg::get_user_photo($student->id).' ';
+        $text.= $student->lastname.' '.$student->firstname;
         return \html_writer::tag('td', $text);
     }
 
@@ -196,7 +201,53 @@ class StudentsTable
         return \html_writer::tag('td', $text, $attr);
     }
 
+    private function get_notification_row(\stdClass $student, Notifications $ntfs) : string 
+    {
+        $attr = array('class' => self::STUDENT_MORE.$student->id);
+        $row = \html_writer::start_tag('tr', $attr);
+        $row.= $this->get_empty_cell($student);
+        $row.= $this->get_empty_cell($student);
+        $row.= $this->get_notifications_list_cell($student, $ntfs);
+        $row.= \html_writer::end_tag('tr');
 
+        return $row;
+    }
+
+    private function get_empty_cell(\stdClass $student) : string 
+    {
+        $attr = array('class' => 'no-borders');
+        $text = '';
+        return \html_writer::tag('td', $text, $attr);
+    }
+
+    private function get_notifications_list_cell(\stdClass $student, Notifications $ntfs) : string 
+    {
+        $text = '';
+        $notifications = $ntfs->get_notifications();
+
+        if(count($notifications))
+        {
+            $attr = array(
+                'class' => 'red-bg',
+                'colspan' => '5'
+            );
+
+            foreach ($notifications as $notification) 
+            {
+                $text.= \html_writer::tag('p', $notification);
+            }
+        }
+        else 
+        {
+            $attr = array(
+                'class' => self::STUDENT_MORE.$student->id,
+                'colspan' => '5'
+            );
+            $text = get_string('no_notifications', 'coursework');
+        }
+        
+        return \html_writer::tag('td', $text, $attr);
+    }
 
 
 

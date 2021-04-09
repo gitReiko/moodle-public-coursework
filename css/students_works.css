@@ -38,3 +38,19 @@ table.studentsWorksList tr td.red
 {
     color: #ff0000;
 }
+
+table.studentsWorksList tr td.red-bg 
+{
+    background: #ffcccc;
+}
+
+table.studentsWorksList tr td.no-borders
+{
+    border: none;
+}
+
+table.studentsWorksList tr:hover td.no-borders
+{
+    background: white;
+}
+

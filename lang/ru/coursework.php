@@ -327,5 +327,5 @@ $string['work_not_ready'] = 'не готова';
 $string['work_ready'] = 'готова';
 $string['work_need_to_fix'] = 'необходимо исправить';
 $string['work_sent_to_check'] = 'отправлена на проверку';
-
+$string['no_notifications'] = 'нет уведомлений';
 

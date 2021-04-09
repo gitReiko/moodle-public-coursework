@@ -36,5 +36,15 @@ class CommonGetter
         return $DB->get_field('coursework_themes', 'name', $where);
     }
 
+    public static function get_user_photo($userID) : string
+    {
+        global $DB, $OUTPUT;
+
+        $user = $DB->get_record('user', array('id' => $userID));
+        $photo = $OUTPUT->user_picture($user);
+
+        return $photo;
+    }
+
 
 }

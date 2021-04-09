@@ -58,27 +58,27 @@ class Notifications
     {
         $nfs = array();
 
-        if($isTeacherMustGiveTask)
+        if($this->isTeacherMustGiveTask)
         {
             $nfs[] = get_string('teacher_must_give_task', 'coursework');
         }
 
-        if($isTeacherHasUnreadedMessages)
+        if($this->isTeacherHasUnreadedMessages)
         {
             $nfs[] = get_string('unreaded_messages', 'coursework');
         }
 
-        if($isTeacherNeedToCheckSection)
+        if($this->isTeacherNeedToCheckSection)
         {
             $nfs[] = get_string('unchecked_section', 'coursework');
         }
 
-        if($isStudentWorkNotChecked)
+        if($this->isStudentWorkNotChecked)
         {
             $nfs[] = get_string('unchecked_work', 'coursework');
         }
 
-        return $notifications;
+        return $nfs;
     }
 
     private function is_teacher_must_give_task() : bool 
