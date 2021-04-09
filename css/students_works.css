@@ -34,11 +34,6 @@ table.studentsWorksList tr td.center
     text-align: center;
 }
 
-table.studentsWorksList tr td.red 
-{
-    color: #ff0000;
-}
-
 table.studentsWorksList tr td.red-bg 
 {
     background: #ffcccc;
@@ -54,3 +49,16 @@ table.studentsWorksList tr:hover td.no-borders
     background: white;
 }
 
+table.studentsWorksList tr td.notibtn 
+{
+    text-align: center;
+    color: #b20000;
+    cursor: pointer;
+}
+
+table.studentsWorksList tr td.morebtn
+{
+    text-align: center;
+    cursor: pointer;
+    min-width: 40px;
+}

@@ -531,4 +531,16 @@ function submit_form(id)
     document.getElementById(id).submit();
 }
 
+function open_close_table_row(tdId, ptrId)
+{
+    require(['jquery'], function($)
+    {
+        $('.'+tdId).toggleClass('hidden');
+
+        $('#'+ptrId).toggleClass('fa-arrow-down');
+        $('#'+ptrId).toggleClass('fa-arrow-up');
+    });
+}
+
+
 

@@ -10,7 +10,8 @@ use ViewMain as m;
 
 class StudentsTable 
 {
-    const STUDENT_MORE = 'student_more_';
+    const MORE = 'more_';
+    const MORE_POINTER = 'more_pointer_';
 
     private $d;
 
@@ -85,7 +86,7 @@ class StudentsTable
     private function get_main_row(\stdClass $student, Notifications $ntfs) : string 
     {
         $row = \html_writer::start_tag('tr');
-        $row.= $this->get_notification_cell($ntfs);
+        $row.= $this->get_notification_cell($student, $ntfs);
         $row.= $this->get_more_button($student);
         $row.= $this->get_work_cell($student);
         $row.= $this->get_student_cell($student);
@@ -106,28 +107,42 @@ class StudentsTable
         );
     }
 
-    private function get_notification_cell(Notifications $ntfs) : string
+    private function get_notification_cell(\stdClass $student, Notifications $ntfs) : string
     {
+        $moreId = self::MORE.$student->id;
+        $morePtrId = self::MORE_POINTER.$student->id;
+
+        $attr = array(
+            'class' => 'notibtn',
+            'onclick' => 'open_close_table_row(`'.$moreId.'`,`'.$morePtrId.'`)',
+            'title' => get_string('show_notifications', 'coursework')
+        );
 
         if($ntfs->is_notifications_exist())
         {
-            $attr = array('class' => 'red');
             $text = '<i class="fa fa-exclamation-triangle"></i>';
-            return \html_writer::tag('td', $text, $attr);
         }
         else 
         {
             $text = '';
-            return \html_writer::tag('td', $text);
         }
+
+        return \html_writer::tag('td', $text, $attr);
     }
 
     private function get_more_button(\stdClass $student) : string 
     {
-        $attr = array('onclick' => self::STUDENT_MORE.$student->id);
-        $moreBtn = '<i class="fa fa-arrow-down"></i>';
-        $lessBtn = '<i class="fa fa-arrow-up"></i>';
-        return \html_writer::tag('td', $moreBtn, $attr);
+        $moreId = self::MORE.$student->id;
+        $morePtrId = self::MORE_POINTER.$student->id;
+
+        $fun = 'open_close_table_row(`'.$moreId.'`,`'.$morePtrId.'`)';
+        $attr = array(
+            'class' => 'morebtn', 
+            'onclick' => $fun,
+            'title' => get_string('show_more_info', 'coursework')
+        );
+        $text = '<i class="fa fa-arrow-down" id="'.$morePtrId.'"></i>';
+        return \html_writer::tag('td', $text, $attr);
     }
 
     private function get_work_cell(\stdClass $student) : string 
@@ -203,7 +218,7 @@ class StudentsTable
 
     private function get_notification_row(\stdClass $student, Notifications $ntfs) : string 
     {
-        $attr = array('class' => self::STUDENT_MORE.$student->id);
+        $attr = array('class' => self::MORE.$student->id.' hidden');
         $row = \html_writer::start_tag('tr', $attr);
         $row.= $this->get_empty_cell($student);
         $row.= $this->get_empty_cell($student);
@@ -240,7 +255,6 @@ class StudentsTable
         else 
         {
             $attr = array(
-                'class' => self::STUDENT_MORE.$student->id,
                 'colspan' => '5'
             );
             $text = get_string('no_notifications', 'coursework');
@@ -248,7 +262,6 @@ class StudentsTable
         
         return \html_writer::tag('td', $text, $attr);
     }
-
 
 
 

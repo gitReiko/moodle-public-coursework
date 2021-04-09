@@ -328,4 +328,5 @@ $string['work_ready'] = 'готова';
 $string['work_need_to_fix'] = 'необходимо исправить';
 $string['work_sent_to_check'] = 'отправлена на проверку';
 $string['no_notifications'] = 'нет уведомлений';
-
+$string['show_more_info'] = 'Нажмите, чтобы показать больше информации о работе';
+$string['show_notifications'] = 'Нажмите, чтобы показать уведомления';
