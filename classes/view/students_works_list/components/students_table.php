@@ -71,20 +71,7 @@ class StudentsTable
         {
             $ntfs = $this->get_notifications($student);
 
-            $body.= \html_writer::start_tag('tr');
-
-            $body.= $this->get_notification_cell($ntfs);
-
-            $text = '';
-            $body.= \html_writer::tag('td', $text);
-
-            $body.= $this->get_work_cell($student);
-            $body.= $this->get_student_cell($student);
-            $body.= $this->get_state_cell($student);
-            $body.= $this->get_theme_cell($student);
-            $body.= $this->get_grade_cell($student);
-
-            $body.= \html_writer::end_tag('tr');
+            $body.= $this->get_main_row($student, $ntfs);
         }
 
         $body.= \html_writer::end_tag('tbody');
@@ -92,6 +79,20 @@ class StudentsTable
         return $body;
     }
 
+    private function get_main_row(\stdClass $student, Notifications $ntfs) : string 
+    {
+        $row = \html_writer::start_tag('tr');
+        $row.= $this->get_notification_cell($ntfs);
+        $row.= $this->get_more_button($student);
+        $row.= $this->get_work_cell($student);
+        $row.= $this->get_student_cell($student);
+        $row.= $this->get_state_cell($student);
+        $row.= $this->get_theme_cell($student);
+        $row.= $this->get_grade_cell($student);
+        $row.= \html_writer::end_tag('tr');
+
+        return $row;
+    }
 
     private function get_notifications(\stdClass $student) : Notifications
     {
@@ -116,6 +117,13 @@ class StudentsTable
             $text = '';
             return \html_writer::tag('td', $text);
         }
+    }
+
+    private function get_more_button(\stdClass $student) : string 
+    {
+        $moreBtn = '<i class="fa fa-arrow-down"></i>';
+        $lessBtn = '<i class="fa fa-arrow-up"></i>';
+        return \html_writer::tag('td', $moreBtn);
     }
 
     private function get_work_cell(\stdClass $student) : string 
