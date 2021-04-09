@@ -6,7 +6,10 @@ require_once 'components/groups_selector.php';
 require_once 'components/teachers_selector.php';
 require_once 'components/courses_selector.php';
 require_once 'components/students_table.php';
+require_once 'components/students_table/main.php';
 require_once 'getters/main_getter.php';
+
+use Coursework\View\StudentsWorksList\StudentsTable as st;
 
 class Page 
 {
@@ -65,7 +68,12 @@ class Page
     private function get_students_table() : string 
     {
         $tbl = new StudentsTable($this->d);
-        return $tbl->get_students_table();
+        $old = $tbl->get_students_table();
+
+        $main = New st\Main($this->d);
+        $new = $main->get_students_table();
+
+        return $old.'<hr>'.$new;
     }
 
     private function get_form_end() : string 
