@@ -169,7 +169,14 @@ class StudentsTable
     private function get_student_cell(\stdClass $student) : string 
     {
         $text = cg::get_user_photo($student->id).' ';
-        $text.= $student->lastname.' '.$student->firstname;
+
+        global $COURSE;
+        $url = '/user/view.php?id='.$student->id;
+        $url.= '&course='.$COURSE->id;
+        $attr = array('href' => $url);
+        $name = $student->lastname.' '.$student->firstname;
+        $text.= \html_writer::tag('a', $name, $attr);
+
         return \html_writer::tag('td', $text);
     }
 
