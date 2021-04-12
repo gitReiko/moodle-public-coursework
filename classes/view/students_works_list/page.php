@@ -37,7 +37,7 @@ class Page
         }
         else 
         {
-            $page.= $this->get_message_teachers_not_configured();
+            $page = $this->get_message_teachers_not_configured();
         }
 
         return $page;
@@ -45,9 +45,9 @@ class Page
 
     private function is_teachers_exists() : bool 
     {
-        if(is_array($this->teachers))
+        if(is_array($this->d->get_teachers()))
         {
-            if(count($this->teachers) > 0)
+            if(count($this->d->get_teachers()) > 0)
             {
                 return true;
             }
