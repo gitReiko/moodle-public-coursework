@@ -69,3 +69,8 @@ p.no_students_message
     color: darkred;
     font-size: large;
 }
+
+p.large_text
+{
+    font-size: large;
+}

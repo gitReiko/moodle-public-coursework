@@ -24,16 +24,67 @@ class Page
 
     public function get_page() : string 
     {
-        $page = $this->get_form_start();
-        $page.= $this->get_page_header();
-        $page.= $this->get_group_selector();
-        $page.= $this->get_teachers_selector();
-        $page.= $this->get_courses_selector();
-        $page.= $this->get_not_chosen_teacher();
-        $page.= $this->get_students_table();
-        $page.= $this->get_form_end();
+        if($this->is_teachers_exists())
+        {
+            $page = $this->get_form_start();
+            $page.= $this->get_page_header();
+            $page.= $this->get_group_selector();
+            $page.= $this->get_teachers_selector();
+            $page.= $this->get_courses_selector();
+            $page.= $this->get_not_chosen_teacher();
+            $page.= $this->get_students_table();
+            $page.= $this->get_form_end();
+        }
+        else 
+        {
+            $page.= $this->get_message_teachers_not_configured();
+        }
 
         return $page;
+    }
+
+    private function is_teachers_exists() : bool 
+    {
+        if(is_array($this->teachers))
+        {
+            if(count($this->teachers) > 0)
+            {
+                return true;
+            }
+            else 
+            {
+                return false;
+            }
+        }
+        else 
+        {
+            return false;
+        }
+    }
+
+    private function get_message_teachers_not_configured() : string 
+    {
+        $attr = array('class' => 'no_students_message');
+        $text = get_string('teachers_not_configured', 'coursework');
+        $msg = \html_writer::tag('p', $text, $attr);
+
+        $url = $this->get_leader_setting_url();
+        $attr = array('href' => $url);
+        $text = get_string('go_to_configuration_page', 'coursework');
+        $a = \html_writer::tag('a', $text, $attr);
+        $attr = array('class' => 'large_text');
+        $msg.= \html_writer::tag('p', $a, $attr);
+
+        return $msg;
+    }
+
+    private function get_leader_setting_url() : string 
+    {
+        $url = '/mod/coursework/configuration.php';
+        $url.= '?id='.$this->d->get_cm()->id;
+        $url.= '&'.CONFIG_MODULE.'='.LEADERS_SETTING;
+
+        return $url;
     }
 
     private function get_form_start() : string  

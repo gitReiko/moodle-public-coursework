@@ -325,3 +325,5 @@ $string['show_notifications'] = 'Click to show notifications';
 $string['students_wihout_teacher_count'] = 'Count of students without teacher:';
 $string['click_to_open_close_list'] = '(click to open/close list)';
 $string['students_didnt_choose_teacher'] = 'No student chose this link of teacher with course.';
+$string['teachers_not_configured'] = 'Course work teachers not configured.';
+$string['go_to_configuration_page'] = 'Go to configuration page.';

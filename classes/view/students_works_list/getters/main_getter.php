@@ -37,10 +37,14 @@ class MainGetter
 
         $this->init_group_params();
         $this->init_teachers();
-        $this->init_selected_teacher();
-        $this->init_courses();
-        $this->init_selected_course_id();
-        $this->init_students();
+
+        if($this->is_teachers_exists())
+        {
+            $this->init_selected_teacher();
+            $this->init_courses();
+            $this->init_selected_course_id();
+            $this->init_students();
+        }
     }
 
     public function get_course() : \stdClass
@@ -116,6 +120,25 @@ class MainGetter
     private function init_teachers() 
     {
         $this->teachers = tg::get_coursework_teachers($this->cm->instance);
+    }
+
+    private function is_teachers_exists() : bool 
+    {
+        if(is_array($this->teachers))
+        {
+            if(count($this->teachers) > 0)
+            {
+                return true;
+            }
+            else 
+            {
+                return false;
+            }
+        }
+        else 
+        {
+            return false;
+        }
     }
 
     private function init_selected_teacher()
