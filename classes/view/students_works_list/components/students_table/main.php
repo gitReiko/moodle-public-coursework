@@ -29,6 +29,14 @@ class Main
         return self::MORE_POINTER.$studentId;
     }
 
+    public static function get_indent_from_blank_cells() : string 
+    {
+        $attr = array('class' => 'no-borders');
+        $indent = \html_writer::tag('td', '', $attr);
+        $indent.= \html_writer::tag('td', '', $attr);
+        return $indent;
+    }
+
     public function get_students_table() : string 
     {
         $attr = array('class' => 'studentsWorksList');

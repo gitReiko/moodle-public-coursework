@@ -23,46 +23,56 @@ class NotificationRow
     {
         $attr = array('class' => $this->moreClass.' hidden');
         $row = \html_writer::start_tag('tr', $attr);
-        $row.= $this->get_empty_cell();
-        $row.= $this->get_empty_cell();
-        $row.= $this->get_notifications_list_cell();
+        $row.= Main::get_indent_from_blank_cells();
+        $row.= $this->get_notifications_cell();
         $row.= \html_writer::end_tag('tr');
 
         return $row;
     }
 
-    private function get_empty_cell() : string 
+    private function get_notifications_cell() : string 
     {
-        $attr = array('class' => 'no-borders');
-        $text = '';
-        return \html_writer::tag('td', $text, $attr);
-    }
-
-    private function get_notifications_list_cell() : string 
-    {
-        $text = '';
         $notifications = $this->ntfs->get_notifications();
 
-        if(count($notifications))
+        if($this->is_notifications_exist($notifications))
         {
-            $attr = array(
-                'class' => 'red-bg',
-                'colspan' => '5'
-            );
-
-            foreach ($notifications as $notification) 
-            {
-                $text.= \html_writer::tag('p', $notification);
-            }
+            return $this->get_list_of_notifications_cell($notifications);
         }
         else 
         {
-            $attr = array(
-                'colspan' => '5'
-            );
-            $text = get_string('no_notifications', 'coursework');
+            return $this->get_no_notifications_cell();
         }
-        
+    }
+
+    private function is_notifications_exist($notifications) : bool 
+    {
+        if(count($notifications))
+        {
+            return true;
+        }
+        else 
+        {
+            return false;
+        }
+    }
+
+    private function get_list_of_notifications_cell(array $notifications) : string 
+    {
+        $attr = array('class' => 'red-bg', 'colspan' => '5');
+
+        $text = '';
+        foreach ($notifications as $notification) 
+        {
+            $text.= \html_writer::tag('p', $notification);
+        }
+
+        return \html_writer::tag('td', $text, $attr);
+    }
+
+    private function get_no_notifications_cell() : string 
+    {
+        $attr = array('colspan' => '5');
+        $text = get_string('no_notifications', 'coursework');
         return \html_writer::tag('td', $text, $attr);
     }
 
