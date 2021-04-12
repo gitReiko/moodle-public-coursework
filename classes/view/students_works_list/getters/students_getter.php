@@ -15,7 +15,8 @@ class StudentsGetter
     private $selectedGroupId;
     private $availableGroups;
 
-    private $students;
+    private $teacherStudents;
+    private $studentsWithoutTeacher;
 
     function __construct(
         \stdClass $course, 
@@ -37,9 +38,14 @@ class StudentsGetter
         $this->init_students();
     }
 
-    public function get_students() 
+    public function get_teacher_students() 
     {
-        return $this->students;
+        return $this->teacherStudents;
+    }
+
+    public function get_students_without_teacher() 
+    {
+        return $this->studentsWithoutTeacher;
     }
 
     private function init_students() 
@@ -60,24 +66,22 @@ class StudentsGetter
         }
 
         $students = sg::add_works_to_students($this->cm->instance, $students);
-        $students = $this->filter_out_non_teacher_students($students);
 
-        $this->students = $students;
+        $this->teacherStudents = $this->get_teacher_students_from_array($students);
+        $this->studentsWithoutTeacher = $this->get_students_without_teacher_from_array($students);
     }
 
-    private function filter_out_non_teacher_students($students)
+    private function get_teacher_students_from_array($students)
     {
-        $filteredStudents = array();
-
+        $teacherStudents = array();
         foreach($students as $student) 
         {
             if($this->is_students_belong_to_teacher($student))
             {
-                $filteredStudents[] = $student;
+                $teacherStudents[] = $student;
             }
         }
-
-        return $filteredStudents;
+        return $teacherStudents;
     }
 
     private function is_students_belong_to_teacher($student) : bool 
@@ -96,6 +100,33 @@ class StudentsGetter
             return false;
         }
     }
+
+    private function get_students_without_teacher_from_array($students) 
+    {
+        $withoutTeacher = array();
+        foreach($students as $student) 
+        {
+            if($this->is_student_without_teacher($student))
+            {
+                $withoutTeacher[] = $student;
+            }
+        }
+        return $withoutTeacher;
+    }
+
+    private function is_student_without_teacher($student) : bool 
+    {
+        if(empty($student->teacher))
+        {
+            return true;
+        }
+        else 
+        {
+            return false;
+        }
+    }
+
+
 
 
 

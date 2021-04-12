@@ -22,7 +22,7 @@ class Tbody
     {
         $body = \html_writer::start_tag('tbody');
 
-        foreach($this->d->get_students() as $student)
+        foreach($this->d->get_teacher_students() as $student)
         {
             $ntfs = $this->get_notifications($student);
 

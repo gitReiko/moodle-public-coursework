@@ -27,7 +27,8 @@ class MainGetter
     private $courses;
     private $selectedCourseId;
 
-    private $students;
+    private $teacherStudents;
+    private $studentsWithoutTeacher;
 
     function __construct(\stdClass $course, \stdClass $cm) 
     {
@@ -92,9 +93,14 @@ class MainGetter
         return $this->selectedCourseId;
     }
 
-    public function get_students() 
+    public function get_teacher_students() 
     {
-        return $this->students;
+        return $this->teacherStudents;
+    }
+
+    public function get_students_without_teacher() 
+    {
+        return $this->studentsWithoutTeacher;
     }
 
     private function init_group_params() 
@@ -164,7 +170,8 @@ class MainGetter
             $this->selectedCourseId
         );
 
-        $this->students = $st->get_students();
+        $this->teacherStudents = $st->get_teacher_students();
+        $this->studentsWithoutTeacher = $st->get_students_without_teacher();
     }
 
 

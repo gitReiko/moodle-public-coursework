@@ -5,6 +5,7 @@ namespace Coursework\View\StudentsWorksList;
 require_once 'components/groups_selector.php';
 require_once 'components/teachers_selector.php';
 require_once 'components/courses_selector.php';
+require_once 'components/not_chosen_teacher.php';
 require_once 'components/students_table/main.php';
 require_once 'getters/main_getter.php';
 
@@ -28,6 +29,7 @@ class Page
         $page.= $this->get_group_selector();
         $page.= $this->get_teachers_selector();
         $page.= $this->get_courses_selector();
+        $page.= $this->get_not_chosen_teacher();
         $page.= $this->get_students_table();
         $page.= $this->get_form_end();
 
@@ -62,6 +64,12 @@ class Page
     {        
         $selector = new CoursesSelector($this->d);
         return $selector->get_courses_selector();
+    }
+
+    private function get_not_chosen_teacher() : string 
+    {
+        $noTeacher = New NotChosenTeacher($this->d);
+        return $noTeacher->get();
     }
 
     private function get_students_table() : string 

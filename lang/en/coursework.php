@@ -322,3 +322,4 @@ $string['work_sent_to_check'] = 'sent to check';
 $string['no_notifications'] = 'no notifications';
 $string['show_more_info'] = 'Click to show more information about work';
 $string['show_notifications'] = 'Click to show notifications';
+$string['students_wihout_teacher_count'] = 'Count of students without teacher:';
