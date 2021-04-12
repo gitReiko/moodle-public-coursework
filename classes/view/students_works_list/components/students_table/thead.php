@@ -13,12 +13,12 @@ class Thead
         $head.= \html_writer::start_tag('tr');
 
         $head.= $this->get_notifications_cell();
-        $body.= $this->get_more_details_cell();
-        $body.= $this->get_go_to_work_cell();
-        $body.= $this->get_student_cell();
-        $body.= $this->get_state_cell();
-        $body.= $this->get_theme_cell();
-        $body.= $this->get_grade_cell();
+        $head.= $this->get_more_details_cell();
+        $head.= $this->get_go_to_work_cell();
+        $head.= $this->get_student_cell();
+        $head.= $this->get_state_cell();
+        $head.= $this->get_theme_cell();
+        $head.= $this->get_grade_cell();
 
         $head.= \html_writer::end_tag('tr');
         $head.= \html_writer::end_tag('thead');
