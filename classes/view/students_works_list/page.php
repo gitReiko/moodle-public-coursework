@@ -5,7 +5,7 @@ namespace Coursework\View\StudentsWorksList;
 require_once 'components/groups_selector.php';
 require_once 'components/teachers_selector.php';
 require_once 'components/courses_selector.php';
-require_once 'components/not_chosen_teacher.php';
+require_once 'components/students_without_teacher.php';
 require_once 'components/students_table/main.php';
 require_once 'getters/main_getter.php';
 
@@ -68,7 +68,7 @@ class Page
 
     private function get_not_chosen_teacher() : string 
     {
-        $noTeacher = New NotChosenTeacher($this->d);
+        $noTeacher = New StudentsWithoutTeacher($this->d);
         return $noTeacher->get();
     }
 

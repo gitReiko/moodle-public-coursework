@@ -331,3 +331,5 @@ $string['no_notifications'] = 'нет уведомлений';
 $string['show_more_info'] = 'Нажмите, чтобы показать больше информации о работе';
 $string['show_notifications'] = 'Нажмите, чтобы показать уведомления';
 $string['students_wihout_teacher_count'] = 'Кол-во студентов, не выбравших руководителя:';
+$string['click_to_open_close_list'] = '(нажмите, чтобы открыть/закрыть список)';
+

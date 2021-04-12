@@ -542,5 +542,11 @@ function open_close_table_row(tdId, ptrId)
     });
 }
 
-
+function open_close_div(id)
+{
+    require(['jquery'], function($)
+    {
+        $('#'+id).toggleClass('hidden');
+    });
+}
 
