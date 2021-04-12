@@ -6,6 +6,7 @@ require_once 'enums.php';
 require_once 'lib.php';
 require_once 'newlib.php';
 
+require_once 'lib/getters/student_task_getter.php';
 require_once 'lib/getters/students_getter.php';
 require_once 'lib/getters/teachers_getter.php';
 require_once 'lib/getters/common_getter.php';

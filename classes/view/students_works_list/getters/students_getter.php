@@ -2,14 +2,17 @@
 
 namespace Coursework\View\StudentsWorksList;
 
+use Coursework\Lib\Getters\CommonGetter as cg;
 use Coursework\Lib\Getters\StudentsGetter as sg;
 use Coursework\View\StudentsWorksList\GroupsSelector as grp;
+use Coursework\Lib\Getters\StudentTaskGetter;
 use Coursework\Lib\Enums as enum;
 
 class StudentsGetter 
 {
     private $course;
     private $cm;
+    private $coursework;
 
     private $groupMode;
     private $selectedGroupId;
@@ -30,6 +33,7 @@ class StudentsGetter
     {
         $this->course = $course;
         $this->cm = $cm;
+        $this->coursework = cg::get_coursework($cm->instance);
         $this->groupMode = $groupMode;
         $this->selectedGroupId = $selectedGroupId;
         $this->availableGroups = $availableGroups;
@@ -67,8 +71,16 @@ class StudentsGetter
 
         $students = sg::add_works_to_students($this->cm->instance, $students);
 
-        $this->teacherStudents = $this->get_teacher_students_from_array($students);
         $this->studentsWithoutTeacher = $this->get_students_without_teacher_from_array($students);
+
+        $teacherStudents = $this->get_teacher_students_from_array($students);
+
+        if($this->coursework->usetask == 1)
+        {
+            $teacherStudents = $this->add_students_task_sections($teacherStudents);
+        }
+
+        $this->teacherStudents = $teacherStudents;
     }
 
     private function get_teacher_students_from_array($students)
@@ -126,6 +138,20 @@ class StudentsGetter
         }
     }
 
+    private function add_students_task_sections($students)
+    {
+        foreach ($students as $student) 
+        {
+            $getter = new StudentTaskGetter(
+                $this->cm->instance,
+                $student->id
+            );
+
+            $student->sections = $getter->get_sections();
+        }
+
+        return $students;
+    }
 
 
 

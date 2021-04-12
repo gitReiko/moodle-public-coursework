@@ -4,6 +4,7 @@ namespace Coursework\View\StudentsWorksList\StudentsTable;
 
 require_once 'main_row.php';
 require_once 'notification_row.php';
+require_once 'sections_rows.php';
 
 use Coursework\View\StudentsWorksList as swl;
 use Coursework\Lib\Notifications;
@@ -28,6 +29,7 @@ class Tbody
 
             $body.= $this->get_main_row($student, $ntfs);
             $body.= $this->get_notification_row($student, $ntfs);
+            $body.= $this->get_sections_rows($student);
         }
 
         $body.= \html_writer::end_tag('tbody');
@@ -58,6 +60,12 @@ class Tbody
     {
         $notificationsRow = new NotificationRow($student, $ntfs);
         return $notificationsRow->get();
+    }
+
+    private function get_sections_rows($student) : string 
+    {
+        $sectionsRows = new SectionsRows($student);
+        return $sectionsRows->get();
     }
 
 
