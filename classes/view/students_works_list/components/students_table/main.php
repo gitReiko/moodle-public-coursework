@@ -39,6 +39,39 @@ class Main
 
     public function get_students_table() : string 
     {
+        if($this->is_teacher_students_exist())
+        {
+            return $this->get_table();
+        }
+        else 
+        {
+            return $this->no_students_message();
+        }
+    }
+
+    private function is_teacher_students_exist() : bool 
+    {
+        $students = $this->d->get_teacher_students();
+
+        if(is_array($students))
+        {
+            if(count($students))
+            {
+                return true;
+            }
+            else 
+            {
+                return false;
+            }
+        }
+        else 
+        {
+            return false;
+        }
+    }
+
+    private function get_table() : string 
+    {
         $attr = array('class' => 'studentsWorksList');
         $tbl = \html_writer::start_tag('table', $attr);
         $tbl.= $this->get_table_head();
@@ -58,6 +91,13 @@ class Main
     {
         $tbody = new Tbody($this->d);
         return $tbody->get();
+    }
+
+    private function no_students_message() : string 
+    {
+        $attr = array('class' => 'no_students_message');
+        $text = get_string('students_didnt_choose_teacher', 'coursework');
+        return \html_writer::tag('p', $text, $attr);
     }
 
 

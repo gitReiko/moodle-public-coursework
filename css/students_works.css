@@ -62,3 +62,10 @@ table.studentsWorksList tr td.morebtn
     cursor: pointer;
     min-width: 40px;
 }
+
+p.no_students_message
+{
+    margin-top: 20px;
+    color: darkred;
+    font-size: large;
+}
