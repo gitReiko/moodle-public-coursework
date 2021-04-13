@@ -128,7 +128,7 @@ class TeachersGetter
         return $uniqueItems;
     }
 
-    private static function is_item_not_exist(array $uniqueItems, \stdClass $item) : bool 
+    private static function is_item_not_exist(array $uniqueItems, $item) : bool 
     {
         foreach($uniqueItems as $uniqueItem)
         {

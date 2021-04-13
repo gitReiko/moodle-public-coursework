@@ -26,24 +26,26 @@ class StudentsGetter
 
     public static function get_students_from_available_groups(\stdClass $cm, $groups)
     {
-        $availableGroups = array();
+        $students = array();
 
         foreach($groups as $group)
         {
-            $availableGroups = array_merge(
-                $availableGroups,
+            $students = array_merge(
+                $students,
                 self::get_students_from_group($cm, $group->id)
             );
         }
 
-        usort($availableGroups, function($a, $b)
+        $students = self::get_unique_students($students);
+
+        usort($students, function($a, $b)
         {
             return strcmp(
                 $a->lastname.$a->firstname, 
                 $b->lastname.$b->firstname);
         });
 
-        return $availableGroups;
+        return $students;
     }
 
     public static function get_students_from_group(\stdClass $cm, int $groupId)
@@ -112,6 +114,34 @@ class StudentsGetter
         {
             return '';
         }
+    }
+
+    private static function get_unique_students($students)
+    {
+        $unique = array();
+
+        foreach($students as $student)
+        {
+            if(self::is_student_not_exist_in_array($unique, $student))
+            {
+                $unique[] = $student;
+            }
+        }
+
+        return $unique;
+    }
+
+    private static function is_student_not_exist_in_array($unique, $student) : bool 
+    {
+        foreach($unique as $uStudent)
+        {
+            if($uStudent->id == $student->id)
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private static function add_empty_student_work_params(\stdClass $student)
