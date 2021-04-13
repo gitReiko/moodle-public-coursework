@@ -159,16 +159,31 @@ class TeachersGetter
 
         foreach($studentsWorks as $work)
         {
-            if(self::is_course_belong_to_teacher($work, $teacherId))
+            if(self::is_course_exists($work))
             {
-                if(self::is_course_not_exist_in_courses_array($work->course, $courses))
+                if(self::is_course_belong_to_teacher($work, $teacherId))
                 {
-                    $courses[] = self::get_course($work->course);
+                    if(self::is_course_not_exist_in_courses_array($work->course, $courses))
+                    {
+                        $courses[] = self::get_course($work->course);
+                    }
                 }
             }
         }
 
         return $courses;
+    }
+
+    private static function is_course_exists(\stdClass $work) : bool 
+    {
+        if(empty($work->course))
+        {
+            return false;
+        }
+        else 
+        {
+            return true;
+        }
     }
 
     private static function is_course_belong_to_teacher(\stdClass $work, int $teacherId) : bool 
