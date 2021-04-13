@@ -147,12 +147,45 @@ class MainGetter
 
         if(empty($teacher))
         {
-            $this->selectedTeacherId = reset($this->teachers)->id;
+            if($this->is_user_teacher())
+            {
+                $this->selectedTeacherId = $this->get_user_id();
+            }
+            else 
+            {
+                $this->selectedTeacherId = $this->get_first_teacher_id();
+            }
         }
         else 
         {
             $this->selectedTeacherId = $teacher;
         }
+    }
+
+    private function is_user_teacher() : bool 
+    {
+        global $USER;
+
+        foreach($this->teachers as $teacher)
+        {
+            if($teacher->id == $USER->id)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private function get_user_id() : int 
+    {
+        global $USER;
+        return $USER->id;
+    }
+
+    private function get_first_teacher_id() : int 
+    {
+        return reset($this->teachers)->id;
     }
 
     private function init_courses()
