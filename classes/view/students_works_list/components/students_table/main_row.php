@@ -112,22 +112,7 @@ class MainRow
 
     private function get_state_cell() : string 
     {
-        switch($this->student->status)
-        {
-            case enum::NOT_READY:
-                $text = get_string('work_not_ready', 'coursework');
-                break;
-            case enum::READY:
-                $text = get_string('work_ready', 'coursework');
-                break;
-            case enum::NEED_TO_FIX:
-                $text = get_string('work_need_to_fix', 'coursework');
-                break;
-            case enum::SENT_TO_CHECK:
-                $text = get_string('work_sent_to_check', 'coursework');
-                break;
-        }
-
+        $text = cg::get_state_name($this->student->status);
         return \html_writer::tag('td', $text);
     }
 

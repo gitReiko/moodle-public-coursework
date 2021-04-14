@@ -46,5 +46,27 @@ class CommonGetter
         return $photo;
     }
 
+    public static function get_state_name($status) 
+    {
+        switch($status)
+        {
+            case enum::NOT_READY:
+                return get_string('work_not_ready', 'coursework');
+            case enum::READY:
+                return get_string('work_ready', 'coursework');
+            case enum::NEED_TO_FIX:
+                return get_string('work_need_to_fix', 'coursework');
+            case enum::SENT_TO_CHECK:
+                return get_string('work_sent_to_check', 'coursework');
+        }
+    }
+
+    public static function get_user_name(int $id) : string
+    {
+        global $DB;
+        $user = $DB->get_record('user', array('id'=>$id), 'id, firstname, lastname');
+        return $user->lastname.' '.$user->firstname;
+    }
+
 
 }
