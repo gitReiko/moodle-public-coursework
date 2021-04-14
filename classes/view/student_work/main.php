@@ -11,7 +11,10 @@ require_once 'modules/send_for_check.php';
 require_once 'modules/work_check.php';
 require_once 'theme_selection/main.php';
 require_once 'task_assignment/main.php';
-require_once 'work_completion/main.php';
+//require_once 'work_completion/main.php';
+require_once 'work_completion_new/main.php';
+
+use Coursework\View\StudentsWork as sw;
 
 use coursework_lib as lib;
 use view_lib as view;
@@ -93,7 +96,7 @@ class StudentWorkMain
 
     private function get_work_completion_page() : string 
     {
-        $workCompletion = new WorkCompletionMain($this->course, $this->cm, $this->studentId);
+        $workCompletion = new sw\WorkCompletionMain($this->course, $this->cm, $this->studentId);
         return $workCompletion->get_page();
     }
 

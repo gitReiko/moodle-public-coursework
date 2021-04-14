@@ -11,6 +11,7 @@ require_once 'lib/getters/students_getter.php';
 require_once 'lib/getters/teachers_getter.php';
 require_once 'lib/getters/common_getter.php';
 require_once 'lib/notifications.php';
+require_once 'lib/common.php';
 require_once 'lib/enums.php';
  
 $id = required_param('id', PARAM_INT);    // Course Module ID
