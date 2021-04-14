@@ -1,0 +1,28 @@
+
+.yellowGrid 
+{
+    background-color: #fff9bb;
+}
+
+div.workInfoGrids 
+{
+    cursor: default;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+div.workInfoGrids div 
+{
+    padding: 5px;
+}
+
+div.workInfoGrids div.header
+{
+    border: 1px solid black;
+    grid-column-start: 1;
+    grid-column-end: 3;
+    cursor: pointer;
+}
+
+
+  

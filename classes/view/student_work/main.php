@@ -13,6 +13,8 @@ require_once 'theme_selection/main.php';
 require_once 'task_assignment/main.php';
 require_once 'work_completion/main.php';
 
+require_once 'grids/info.php';
+
 use Coursework\View\StudentsWork as sw;
 
 use coursework_lib as lib;

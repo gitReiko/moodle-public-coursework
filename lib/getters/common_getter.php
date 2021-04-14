@@ -68,5 +68,12 @@ class CommonGetter
         return $user->lastname.' '.$user->firstname;
     }
 
+    public static function get_course_name(int $id) : string 
+    {
+        global $DB;
+        $where = array('id' => $id);
+        return $DB->get_field('course', 'fullname', $where);
+    }
+
 
 }

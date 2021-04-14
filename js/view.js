@@ -550,3 +550,11 @@ function open_close_div(id)
     });
 }
 
+function open_close_by_class(className)
+{
+    require(['jquery'], function($)
+    {
+        $('.'+className).toggleClass('hidden');
+    });
+}
+
