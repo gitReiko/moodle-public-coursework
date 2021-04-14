@@ -2,7 +2,7 @@
 
 namespace Coursework\View\StudentWork;
 
-use Coursework\View\StudentsWork\Grids as g;
+use Coursework\View\StudentsWork\Components as c;
 use Coursework\Lib\Getters\CommonGetter as cg;
 
 class NewWorkCompletion
@@ -25,7 +25,6 @@ class NewWorkCompletion
 
         $str.= $this->get_info_grids();
         $str.= $this->get_guidelines_grids();
-        $str.= $this->get_chat_grids();
 
         return $str;
     }
@@ -38,21 +37,17 @@ class NewWorkCompletion
 
     private function get_info_grids() : string 
     {
-        $info = new g\InfoGrid($this->course, $this->cm, $this->studentId);
-        return $info->get_grid();
+        $info = new c\Info($this->course, $this->cm, $this->studentId);
+        return $info->get_component();
     }
 
     private function get_guidelines_grids() : string 
     {
-        $guidelines = new g\GuidelinesGrid($this->course, $this->cm, $this->studentId);
-        return $guidelines->get_grid();
+        $guidelines = new c\Guidelines($this->course, $this->cm, $this->studentId);
+        return $guidelines->get_component();
     }
 
-    private function get_chat_grids() : string 
-    {
-        $chat = new g\ChatGrid($this->course, $this->cm, $this->studentId);
-        return $chat->get_grid();
-    }
+
 
 
 

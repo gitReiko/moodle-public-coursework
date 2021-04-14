@@ -13,10 +13,9 @@ require_once 'theme_selection/main.php';
 require_once 'task_assignment/main.php';
 require_once 'work_completion/main.php';
 
-require_once 'grids/base_grid.php';
-require_once 'grids/info_grid.php';
-require_once 'grids/guidelines_grid.php';
-require_once 'grids/chat_grid.php';
+require_once 'components/base.php';
+require_once 'components/info.php';
+require_once 'components/guidelines.php';
 
 use Coursework\View\StudentsWork as sw;
 

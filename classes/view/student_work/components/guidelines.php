@@ -1,21 +1,16 @@
 <?php
 
-namespace Coursework\View\StudentsWork\Grids;
+namespace Coursework\View\StudentsWork\Components;
 
 use Coursework\Lib\Getters\CommonGetter as cg;
 
-class GuidelinesGrid extends BaseGrid
+class Guidelines extends Base 
 {
     private $work;
 
     function __construct(\stdClass $course, \stdClass $cm, int $studentId)
     {
         parent::__construct($course, $cm, $studentId);
-    }
-
-    protected function get_grid_css_class_name() : string
-    {
-        return 'guidelinesGrid greyGrid';
     }
 
     protected function get_hiding_class_name() : string
@@ -28,7 +23,7 @@ class GuidelinesGrid extends BaseGrid
         return get_string('guidelines', 'coursework');
     }
 
-    protected function get_grid_content() : string
+    protected function get_content() : string
     {
         $coursework = cg::get_coursework($this->cm->instance);
         $guidelines = format_module_intro('coursework', $coursework, $this->cm->id);

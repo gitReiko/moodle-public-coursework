@@ -1,11 +1,11 @@
 <?php
 
-namespace Coursework\View\StudentsWork\Grids;
+namespace Coursework\View\StudentsWork\Components;
 
 use Coursework\Lib\Getters\CommonGetter as cg;
 use Coursework\Lib\Getters\StudentsGetter as sg;
 
-class InfoGrid extends BaseGrid
+class Info extends Base
 {
     private $work;
 
@@ -14,11 +14,6 @@ class InfoGrid extends BaseGrid
         parent::__construct($course, $cm, $studentId);
 
         $this->work = sg::get_students_work($this->cm->instance, $this->studentId);
-    }
-
-    protected function get_grid_css_class_name() : string
-    {
-        return 'workInfoGrids yellowGrid';
     }
 
     protected function get_hiding_class_name() : string
@@ -31,14 +26,17 @@ class InfoGrid extends BaseGrid
         return get_string('work_info', 'coursework');
     }
 
-    protected function get_grid_content() : string
+    protected function get_content() : string
     {
-        $content = $this->get_theme_cell();
+        $attr = array('class' => 'workInfoGrids');
+        $content = \html_writer::start_tag('div', $attr);
+        $content.= $this->get_theme_cell();
         $content.= $this->get_course_cell();
         $content.= $this->get_student_cell();
         $content.= $this->get_teacher_cell();
         $content.= $this->get_state_cell();
         $content.= $this->get_grade_cell();
+        $content.= \html_writer::end_tag('div');
 
         return $content;
     }
