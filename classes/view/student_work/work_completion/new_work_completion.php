@@ -2,7 +2,7 @@
 
 namespace Coursework\View\StudentWork;
 
-use Coursework\View\StudentsWork\Grids as grid;
+use Coursework\View\StudentsWork\Grids as g;
 use Coursework\Lib\Getters\CommonGetter as cg;
 
 class NewWorkCompletion
@@ -37,7 +37,7 @@ class NewWorkCompletion
 
     private function get_info_grids() : string 
     {
-        $info = new grid\Info($this->course, $this->cm, $this->studentId);
+        $info = new g\InfoGrid($this->course, $this->cm, $this->studentId);
         return $info->get_grid();
     }
 
