@@ -47,5 +47,23 @@ div.guidelinesGrid div.header
     cursor: pointer;
 }
 
+div.chatGrid
+{
+    cursor: default;
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
+div.chatGrid div 
+{
+    padding: 3px;
+}
+
+div.chatGrid div.header
+{
+    border: 1px solid black;
+    cursor: pointer;
+}
+
 
   

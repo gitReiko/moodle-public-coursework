@@ -16,6 +16,7 @@ require_once 'work_completion/main.php';
 require_once 'grids/base_grid.php';
 require_once 'grids/info_grid.php';
 require_once 'grids/guidelines_grid.php';
+require_once 'grids/chat_grid.php';
 
 use Coursework\View\StudentsWork as sw;
 

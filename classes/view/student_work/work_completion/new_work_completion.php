@@ -25,7 +25,7 @@ class NewWorkCompletion
 
         $str.= $this->get_info_grids();
         $str.= $this->get_guidelines_grids();
-
+        $str.= $this->get_chat_grids();
 
         return $str;
     }
@@ -44,10 +44,15 @@ class NewWorkCompletion
 
     private function get_guidelines_grids() : string 
     {
-        $info = new g\GuidelinesGrid($this->course, $this->cm, $this->studentId);
-        return $info->get_grid();
+        $guidelines = new g\GuidelinesGrid($this->course, $this->cm, $this->studentId);
+        return $guidelines->get_grid();
     }
 
+    private function get_chat_grids() : string 
+    {
+        $chat = new g\ChatGrid($this->course, $this->cm, $this->studentId);
+        return $chat->get_grid();
+    }
 
 
 
