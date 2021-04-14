@@ -4,6 +4,11 @@
     background-color: #fff9bb;
 }
 
+.greyGrid 
+{
+    background-color: #eee;
+}
+
 div.workInfoGrids 
 {
     cursor: default;
@@ -13,7 +18,7 @@ div.workInfoGrids
 
 div.workInfoGrids div 
 {
-    padding: 5px;
+    padding: 3px;
 }
 
 div.workInfoGrids div.header
@@ -21,6 +26,24 @@ div.workInfoGrids div.header
     border: 1px solid black;
     grid-column-start: 1;
     grid-column-end: 3;
+    cursor: pointer;
+}
+
+div.guidelinesGrid
+{
+    cursor: default;
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
+div.guidelinesGrid div 
+{
+    padding: 3px;
+}
+
+div.guidelinesGrid div.header
+{
+    border: 1px solid black;
     cursor: pointer;
 }
 

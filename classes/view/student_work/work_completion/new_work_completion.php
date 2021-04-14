@@ -24,6 +24,7 @@ class NewWorkCompletion
         $str = $this->get_page_header();
 
         $str.= $this->get_info_grids();
+        $str.= $this->get_guidelines_grids();
 
 
         return $str;
@@ -41,7 +42,11 @@ class NewWorkCompletion
         return $info->get_grid();
     }
 
-
+    private function get_guidelines_grids() : string 
+    {
+        $info = new g\GuidelinesGrid($this->course, $this->cm, $this->studentId);
+        return $info->get_grid();
+    }
 
 
 
