@@ -43,52 +43,46 @@ class Info extends Base
 
     private function get_theme_cell() : string 
     {
-        $attr = array('class' => $this->hidingСlassName);
         $text = get_string('theme', 'coursework').': ';
         $text.= sg::get_student_theme($this->work);
-        return \html_writer::tag('div', $text, $attr);
+        return \html_writer::tag('div', $text);
     }
 
     private function get_course_cell() : string 
     {
-        $attr = array('class' => $this->hidingСlassName);
         $text = get_string('course', 'coursework').': ';
         $text.= cg::get_course_name($this->work->course);
-        return \html_writer::tag('div', $text, $attr);
+        return \html_writer::tag('div', $text);
     }
 
     private function get_student_cell() : string 
     {
-        $attr = array('class' => $this->hidingСlassName);
         $text = get_string('student', 'coursework').': ';
         $text.= cg::get_user_photo($this->work->student);
         $text.= cg::get_user_name($this->work->student);
-        return \html_writer::tag('div', $text, $attr);
+        return \html_writer::tag('div', $text);
     }
 
     private function get_teacher_cell() : string 
     {
-        $attr = array('class' => $this->hidingСlassName);
         $text = get_string('teacher', 'coursework').': ';
         $text.= cg::get_user_photo($this->work->teacher);
         $text.= cg::get_user_name($this->work->teacher);
-        return \html_writer::tag('div', $text, $attr);
+        return \html_writer::tag('div', $text);
     }
 
     private function get_state_cell() : string 
     {
-        $attr = array('class' => $this->hidingСlassName);
         $text = get_string('state', 'coursework').': ';
         $text.= cg::get_state_name($this->work->status);
-        return \html_writer::tag('div', $text, $attr);
+        return \html_writer::tag('div', $text);
     }
 
     private function get_grade_cell() : string 
     {
-        $attr = array('class' => $this->hidingСlassName);
         $text = get_string('grade', 'coursework').': ';
         $text.= $this->work->grade;
-        return \html_writer::tag('div', $text, $attr);
+        return \html_writer::tag('div', $text);
     }
 
 

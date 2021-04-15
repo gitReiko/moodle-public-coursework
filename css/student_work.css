@@ -27,14 +27,6 @@ div.workInfoGrids div
     padding: 3px;
 }
 
-div.workInfoGrids div.header
-{
-    border: 1px solid black;
-    grid-column-start: 1;
-    grid-column-end: 3;
-    cursor: pointer;
-}
-
 div.workContainer
 {
     margin: 3px;
@@ -107,5 +99,25 @@ input.sendMessageInput
     width: 75%;
     border: none;
     padding-left: 10px;
+}
+
+div.workFilemanagerGrids 
+{
+    cursor: default;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+div.workFilemanagerGrids div 
+{
+    padding: 3px;
+}
+
+div.workFilemanagerGrids div.header
+{
+    border: 1px solid black;
+    grid-column-start: 1;
+    grid-column-end: 3;
+    cursor: pointer;
 }
 
