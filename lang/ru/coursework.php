@@ -337,3 +337,4 @@ $string['files_attached_to_work'] = 'Прикреплённые к работе 
 $string['my_files'] = 'Мои файлы';
 $string['student_files'] = 'Файлы студента';
 $string['teacher_files'] = 'Файлы преподавателя';
+$string['change_my_files'] = 'Изменить мои файлы';

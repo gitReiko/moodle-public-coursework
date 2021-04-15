@@ -329,3 +329,4 @@ $string['files_attached_to_work'] = 'Files attached to work';
 $string['my_files'] = 'My files';
 $string['student_files'] = 'Student files';
 $string['teacher_files'] = 'Teacher files';
+$string['change_my_files'] = 'Change my files';

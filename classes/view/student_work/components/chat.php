@@ -2,6 +2,7 @@
 
 namespace Coursework\View\StudentsWork\Components;
 
+use Coursework\View\StudentsWork\Locallib as locallib;
 use Coursework\Lib\Getters\StudentsGetter as sg;
 
 class Chat extends Base 
@@ -46,7 +47,7 @@ class Chat extends Base
     {
         $c = $this->get_messages_box();
 
-        if($this->is_user_student() || $this->is_user_teacher())
+        if(locallib::is_user_student($this->work) || locallib::is_user_teacher($this->work))
         {
             $c.= $this->get_send_message_button();
         }
@@ -123,12 +124,12 @@ class Chat extends Base
         $text = $this->get_send_message_form_start();
         $text.= $this->get_send_message_neccessary_params();
 
-        if($this->is_user_student())
+        if(locallib::is_user_student($this->work))
         {
             $text.= $this->get_send_message_student_params();
         }
 
-        if($this->is_user_teacher())
+        if(locallib::is_user_teacher($this->work))
         {
             $text.= $this->get_send_message_teacher_params();
         }
@@ -166,20 +167,6 @@ class Chat extends Base
         return $params;
     }
 
-    private function is_user_student() : bool 
-    {
-        global $USER;
-
-        if($USER->id == $this->work->student)
-        {
-            return true;
-        }
-        else 
-        {
-            return false;
-        }
-    }
-
     private function get_send_message_student_params() : string 
     {
         $attr = array(
@@ -197,20 +184,6 @@ class Chat extends Base
         $params.= \html_writer::empty_tag('input', $attr);
 
         return $params;
-    }
-
-    private function is_user_teacher() : bool 
-    {
-        global $USER;
-
-        if($USER->id == $this->work->teacher)
-        {
-            return true;
-        }
-        else 
-        {
-            return false;
-        }
     }
 
     private function get_send_message_teacher_params() : string 

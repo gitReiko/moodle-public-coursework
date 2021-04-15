@@ -19,6 +19,8 @@ require_once 'components/guidelines.php';
 require_once 'components/chat.php';
 require_once 'components/filemanager.php';
 
+require_once 'locallib.php';
+
 use Coursework\View\StudentsWork as sw;
 
 use coursework_lib as lib;

@@ -106,18 +106,27 @@ div.workFilemanagerGrids
     cursor: default;
     display: grid;
     grid-template-columns: 1fr 1fr;
+    column-gap: 3px;
+    row-gap: 3px;
 }
 
 div.workFilemanagerGrids div 
 {
+    border: 1px solid grey;
     padding: 3px;
 }
 
 div.workFilemanagerGrids div.header
 {
-    border: 1px solid black;
+    text-align: center;
+    grid-column-start: 1;
+    grid-column-end: 3;
+}
+
+div.workFilemanagerGrids div.button
+{
+    text-align: center;
     grid-column-start: 1;
     grid-column-end: 3;
     cursor: pointer;
 }
-

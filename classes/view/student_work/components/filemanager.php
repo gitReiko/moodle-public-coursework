@@ -2,6 +2,7 @@
 
 namespace Coursework\View\StudentsWork\Components;
 
+use Coursework\View\StudentsWork\Locallib as locallib;
 use Coursework\Lib\Getters\StudentsGetter as sg;
 
 class Filemanager extends Base 
@@ -30,7 +31,8 @@ class Filemanager extends Base
         $content = \html_writer::start_tag('div', $attr);
         $content.= $this->get_grids_header();
         $content.= $this->get_student_files();
-
+        $content.= $this->get_teacher_files();
+        $content.= $this->get_change_my_files_button();
         $content.= \html_writer::end_tag('div');
 
         return $content;
@@ -45,7 +47,7 @@ class Filemanager extends Base
 
     private function get_student_files() : string 
     {
-        if($this->is_user_student())
+        if(locallib::is_user_student($this->work))
         {
             $text = get_string('my_files', 'coursework');
         }
@@ -54,23 +56,44 @@ class Filemanager extends Base
             $text = get_string('student_files', 'coursework');
         }
 
-        $text.= $this->get_files_list('student', $this->work->student);
+        $filesList = $this->get_files_list('student', $this->work->student);
+
+        if(empty($filesList))
+        {
+            $text.= \html_writer::tag('p', get_string('absent', 'coursework'));
+        }
+        else
+        {
+            $text.= $filesList;
+        }
         
         return \html_writer::tag('div', $text);
     }
 
-    private function is_user_student() : bool 
+    private function get_teacher_files() : string 
     {
-        global $USER;
-
-        if($USER->id == $this->work->student)
+        if(locallib::is_user_teacher($this->work))
         {
-            return true;
+            $text = get_string('my_files', 'coursework');
         }
         else 
         {
-            return false;
+            $text = get_string('teacher_files', 'coursework');
         }
+
+        $fmId = $this->work->teacher.'_'.$this->work->student;
+        $filesList = $this->get_files_list('teacher', $fmId);
+
+        if(empty($filesList))
+        {
+            $text.= \html_writer::tag('p', get_string('absent', 'coursework'));
+        }
+        else
+        {
+            $text.= $filesList;
+        }
+        
+        return \html_writer::tag('div', $text);
     }
 
     private function get_files_list($area, $itemid)
@@ -96,6 +119,13 @@ class Filemanager extends Base
         }
         
         return $list;
+    }
+
+    private function get_change_my_files_button() : string 
+    {
+        $attr = array('class' => 'button');
+        $text = get_string('change_my_files', 'coursework');
+        return \html_writer::tag('div', $text, $attr);
     }
 
 
