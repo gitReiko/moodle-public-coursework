@@ -23,7 +23,7 @@ abstract class Base
 
     public function get_component() : string 
     {
-        $component.= $this->get_header();
+        $component = $this->get_header();
         $component.= $this->get_content();
 
         return $component;
