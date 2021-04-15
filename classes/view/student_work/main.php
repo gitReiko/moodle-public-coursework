@@ -16,6 +16,7 @@ require_once 'work_completion/main.php';
 require_once 'components/base.php';
 require_once 'components/info.php';
 require_once 'components/guidelines.php';
+require_once 'components/chat.php';
 
 use Coursework\View\StudentsWork as sw;
 

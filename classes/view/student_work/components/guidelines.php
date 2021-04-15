@@ -28,17 +28,14 @@ class Guidelines extends Base
         $coursework = cg::get_coursework($this->cm->instance);
         $guidelines = format_module_intro('coursework', $coursework, $this->cm->id);
 
-        $attr = array('class' => $this->hidingСlassName);
         if(empty($guidelines))
         {
-            $text = get_string('absent', 'coursework');
+            return get_string('absent', 'coursework');
         }
         else 
         {
-            $text = $guidelines;
+            return $guidelines;
         }
-        
-        return \html_writer::tag('div', $text, $attr);
     }
 
 

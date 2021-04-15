@@ -23,8 +23,9 @@ class NewWorkCompletion
     {
         $str = $this->get_page_header();
 
-        $str.= $this->get_info_grids();
-        $str.= $this->get_guidelines_grids();
+        $str.= $this->get_info_block();
+        $str.= $this->get_guidelines_block();
+        $str.= $this->get_chat_block();
 
         return $str;
     }
@@ -35,18 +36,23 @@ class NewWorkCompletion
         return \html_writer::tag('h2', $text);
     }
 
-    private function get_info_grids() : string 
+    private function get_info_block() : string 
     {
         $info = new c\Info($this->course, $this->cm, $this->studentId);
         return $info->get_component();
     }
 
-    private function get_guidelines_grids() : string 
+    private function get_guidelines_block() : string 
     {
         $guidelines = new c\Guidelines($this->course, $this->cm, $this->studentId);
         return $guidelines->get_component();
     }
 
+    private function get_chat_block() : string 
+    {
+        $chat = new c\Chat($this->course, $this->cm, $this->studentId);
+        return $chat->get_component();
+    }
 
 
 

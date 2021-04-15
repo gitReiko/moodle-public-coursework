@@ -23,8 +23,10 @@ abstract class Base
 
     public function get_component() : string 
     {
+        $content = $this->get_content();
+
         $component = $this->get_header();
-        $component.= $this->get_content();
+        $component.= $this->put_content_in_hiding_block($content);
 
         return $component;
     }
@@ -45,6 +47,16 @@ abstract class Base
     }
 
     abstract protected function get_content() : string;
+
+    private function put_content_in_hiding_block($content) : string 
+    {
+        $attr = array('class' => $this->hidingСlassName.' workContainer');
+        $hiding = \html_writer::start_tag('div', $attr);
+        $hiding.= $this->get_content();
+        $hiding.= \html_writer::end_tag('div');
+
+        return $hiding;
+    }
 
 
 }
