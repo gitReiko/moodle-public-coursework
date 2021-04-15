@@ -6,7 +6,6 @@ use Coursework\Lib\Getters\CommonGetter as cg;
 
 class Guidelines extends Base 
 {
-    private $work;
 
     function __construct(\stdClass $course, \stdClass $cm, int $studentId)
     {

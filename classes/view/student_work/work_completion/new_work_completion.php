@@ -32,8 +32,9 @@ class NewWorkCompletion
 
     private function get_page_header() : string 
     {
+        $attr = array('class' => 'pageHeader');
         $text = cg::get_coursework_name($this->cm->instance);
-        return \html_writer::tag('h2', $text);
+        return \html_writer::tag('h2', $text, $attr);
     }
 
     private function get_info_block() : string 

@@ -1,12 +1,18 @@
 
+h2.pageHeader
+{
+    cursor: default;
+}
+
 p.workComponentHeader 
 {
-    background-color: #f7fbf1;
-    border-bottom: 2px solid #c6d5ad;
+    background-color: #eee;
+    border-bottom: 2px solid grey;
     cursor: pointer;
     padding: 2px;
     padding-left: 5px;
     margin: 3px;
+    font-size: large;
 }
 
 div.workInfoGrids 
@@ -35,5 +41,71 @@ div.workContainer
     padding: 2px;
 }
 
+div.workChat 
+{
+    border: 2px solid #dedede;
+    background-color: #fff;
+    padding: 10px;
+    height: 250px;
+    overflow-y: scroll;
+    cursor: default;
+}
 
-  
+div.workChat div.chatMessage 
+{
+    margin-top: -1px;
+    padding: 5px;
+    border: 1px solid grey;
+    cursor: default;
+}
+
+div.workChat div.studentMessage
+{
+    text-align: left;
+    padding-left: 15px;
+    background-color: white;
+}
+
+div.workChat div.teacherMessage
+{
+    text-align: right;
+    padding-right: 15px;
+    background-color: #f6f6f6;
+}
+
+div.workChat  div.message
+{
+    cursor: default;
+    font-size: medium;
+}
+
+div.workChat div.date
+{
+    cursor: default;
+    padding-top: 3px;
+    font-size: x-small;
+    color: grey;
+}
+
+div.sendMessageBox
+{
+    margin-top: -2px;
+    border: 2px solid #dedede;
+    height: 37px;
+}
+
+button.sendMessageButton
+{
+    width: 25%;
+    height: 33px;
+    border: none;
+    background-color: #f6f6f6;
+}
+
+input.sendMessageInput
+{
+    width: 75%;
+    border: none;
+    padding-left: 10px;
+}
+

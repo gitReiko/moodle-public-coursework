@@ -558,3 +558,19 @@ function open_close_by_class(className)
     });
 }
 
+require(['jquery'], function($)
+{
+    $(document).ready(function() 
+    {
+        scroll_page_to_last_chat_message();
+    });
+});
+
+function scroll_page_to_last_chat_message()
+{
+    var anchor = document.getElementById('last_chat_message');
+    anchor.scrollIntoView({block: "center", behavior: "smooth"});
+}
+
+
+
