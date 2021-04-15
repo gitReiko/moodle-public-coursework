@@ -26,6 +26,7 @@ class NewWorkCompletion
         $str.= $this->get_info_block();
         $str.= $this->get_guidelines_block();
         $str.= $this->get_chat_block();
+        $str.= $this->get_filemanager_block();
 
         return $str;
     }
@@ -52,6 +53,12 @@ class NewWorkCompletion
     private function get_chat_block() : string 
     {
         $chat = new c\Chat($this->course, $this->cm, $this->studentId);
+        return $chat->get_component();
+    }
+
+    private function get_filemanager_block() : string 
+    {
+        $chat = new c\Filemanager($this->course, $this->cm, $this->studentId);
         return $chat->get_component();
     }
 

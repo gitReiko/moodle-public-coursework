@@ -197,8 +197,9 @@ class FileManager extends ViewModule
         
         $data = new stdClass();
         
+        $newId = $this->work->teacher.'_'.$this->work->student;
         $data = file_prepare_standard_filemanager($data, 'teacher',
-                $fileoptions, context_module::instance($this->cm->id), 'mod_coursework', 'teacher', $this->work->teacher);
+                $fileoptions, context_module::instance($this->cm->id), 'mod_coursework', 'teacher', $newId);
         
         $mform = new TeacherFileManager(
             null,
