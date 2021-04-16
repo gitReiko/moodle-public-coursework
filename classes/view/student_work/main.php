@@ -14,6 +14,8 @@ require_once 'task_assignment/main.php';
 require_once 'work_completion/main.php';
 
 require_once 'save_files/page.php';
+require_once 'save_files/student_file_manager.php';
+require_once 'save_files/teacher_file_manager.php';
 
 require_once 'components/base.php';
 require_once 'components/info.php';

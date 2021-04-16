@@ -1,10 +1,12 @@
 <?php
 
+namespace Coursework\View\StudentWork\SaveFiles;
+
 require_once("$CFG->libdir/formslib.php");
 
 use Coursework\View\StudentsWork\Locallib as locallib;
 
-class StudentFileManager extends moodleform 
+class StudentFileManager extends \moodleform 
 {
     //Add elements to form
     public function definition() {
@@ -15,7 +17,7 @@ class StudentFileManager extends moodleform
         $fileoptions = $this->_customdata['fileoptions'];
 
         $mform->addElement('filemanager', 'student_filemanager',
-                get_string('student_files', 'coursework'), null, $fileoptions);
+                get_string('my_files', 'coursework'), null, $fileoptions);
         
         $cm = get_coursemodule_from_id('coursework', $PAGE->cm->id);
 

@@ -2,9 +2,12 @@
 
 namespace Coursework\View\StudentsWork\Components;
 
+use Coursework\View\StudentWork\SaveFiles\StudentFileManager;
+use Coursework\View\StudentWork\SaveFiles\TeacherFileManager;
 use Coursework\View\StudentsWork\Locallib as locallib;
 use Coursework\Lib\Getters\StudentsGetter as sg;
 
+use coursework_lib as lib;
 use ViewMain as m;
 
 class Filemanager extends Base 
@@ -45,6 +48,16 @@ class Filemanager extends Base
         }
         
         $content.= \html_writer::end_tag('div');
+
+        if(locallib::is_user_student($this->work))
+        {
+            $this->save_student_files();
+        }
+
+        if(locallib::is_user_teacher($this->work))
+        {
+            $this->save_teacher_files();
+        }
 
         return $content;
     }
@@ -92,8 +105,10 @@ class Filemanager extends Base
             $text = get_string('teacher_files', 'coursework');
         }
 
-        $fmId = $this->work->teacher.'_'.$this->work->student;
-        $filesList = $this->get_files_list('teacher', $fmId);
+        $filesList = $this->get_files_list(
+            'teacher'.$this->work->teacher, 
+            $this->work->student
+        );
 
         if(empty($filesList))
         {
@@ -117,9 +132,11 @@ class Filemanager extends Base
         foreach($files as $file) 
         {
             $fileName = $file->get_filename();
-            $fileUrl = \moodle_url::make_pluginfile_url($file->get_contextid(), 'mod_coursework', 
-                                                        $area, $file->get_itemid(), 
-                                                        $file->get_filepath(), $file->get_filename());
+            $fileUrl = \moodle_url::make_pluginfile_url(
+                $file->get_contextid(), 'mod_coursework', 
+                $area, $file->get_itemid(), 
+                $file->get_filepath(), $file->get_filename()
+            );
 
             if($fileName != '.')
             {
@@ -184,7 +201,119 @@ class Filemanager extends Base
         return $form;
     }
 
+    private function save_student_files()
+    {
+        $fileoptions = array(
+            'maxbytes' => 0,
+            'maxfiles' => '3',
+            'subdirs' => 0,
+            'context' => \context_module::instance($this->cm->id)
+        );
+        
+        $data = new \stdClass();
+        
+        $data = file_prepare_standard_filemanager(
+            $data, 'student', $fileoptions, 
+            \context_module::instance($this->cm->id), 'mod_coursework', 
+            'student', $this->work->student
+        );
+        
+        $mform = new StudentFileManager(
+            null,
+            array
+            (
+                'fileoptions' => $fileoptions,
+            )
+        );
+        
+        if($formdata = $mform->get_data()) 
+        {
+            // Save the file.
+            $data = file_postupdate_standard_filemanager($data, 'student',
+            $fileoptions, \context_module::instance($this->cm->id), 'mod_coursework', 'student', $this->work->student);
+            $this->send_notification_to_teacher();
+        } 
+    }
 
+    private function send_notification_to_teacher() : void 
+    {
+        $cm = $this->cm;
+        $course = $this->course;
+        $messageName = 'student_upload_file';
+        $userFrom = lib\get_user($this->work->student); 
+        $userTo = lib\get_user($this->work->teacher); 
+        $headerMessage = get_string('student_upload_file_header','coursework'); // Закончил здесь
+        $fullMessageHtml = $this->get_student_html_message();
+
+        lib\send_notification($cm, $course, $messageName, $userFrom, $userTo, $headerMessage, $fullMessageHtml);
+    }
+
+    private function get_student_html_message() : string
+    {
+        $message = get_string('student_upload_file_header','coursework');
+        $notification = get_string('answer_not_require', 'coursework');
+
+        return cw_get_html_message($this->cm, $this->course->id, $message, $notification);
+    }
+
+    private function save_teacher_files()
+    {
+        $fileoptions = array(
+            'maxbytes' => 0,
+            'maxfiles' => '3',
+            'subdirs' => 0,
+            'context' => \context_module::instance($this->cm->id)
+        );
+        
+        $data = new \stdClass();
+        
+        $data = file_prepare_standard_filemanager(
+            $data, 'teacher', $fileoptions, 
+            \context_module::instance($this->cm->id), 'mod_coursework', 
+            'teacher'.$this->work->teacher, $this->work->student
+        );
+
+        echo 'teacher'.$this->work->teacher;
+        
+        $mform = new TeacherFileManager(
+            null,
+            array
+            (
+                'fileoptions' => $fileoptions,
+                'work' => $this->work,
+            )
+        );
+        
+        if($formdata = $mform->get_data()) 
+        {
+            // Save the file.
+            $data = file_postupdate_standard_filemanager($data, 'teacher',
+            $fileoptions, \context_module::instance($this->cm->id), 'mod_coursework', 'teacher', $this->work->teacher);
+            $this->send_notification_to_student();
+        }
+    }
+
+    private function send_notification_to_student() : void 
+    {
+        $cm = $this->cm;
+        $course = $this->course;
+        $messageName = 'teacher_upload_file';
+        $userFrom = lib\get_user($this->work->teacher); 
+        $userTo = lib\get_user($this->work->student); 
+        $headerMessage = get_string('teacher_upload_file_header','coursework');
+        $fullMessageHtml = $this->get_teacher_html_message();
+
+        lib\send_notification($cm, $course, $messageName, $userFrom, $userTo, $headerMessage, $fullMessageHtml);
+
+    }
+
+    private function get_teacher_html_message() : string
+    {
+        $message = get_string('teacher_upload_file_header','coursework');
+        $notification = get_string('answer_not_require', 'coursework');
+
+        return cw_get_html_message($this->cm, $this->course->id, $message, $notification);
+    }
 
 
 }
