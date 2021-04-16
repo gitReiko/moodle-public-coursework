@@ -7,6 +7,13 @@ use Coursework\Lib\Enums as enum;
 class CommonGetter
 {
 
+    public static function get_page_header(\stdClass $cm) : string 
+    {
+        $attr = array('class' => 'pageHeader');
+        $text = self::get_coursework_name($cm->instance);
+        return \html_writer::tag('h2', $text, $attr);
+    }
+
     public static function get_coursework(int $courseworkId) : \stdClass 
     {
         global $DB;

@@ -13,6 +13,8 @@ require_once 'theme_selection/main.php';
 require_once 'task_assignment/main.php';
 require_once 'work_completion/main.php';
 
+require_once 'save_files/page.php';
+
 require_once 'components/base.php';
 require_once 'components/info.php';
 require_once 'components/guidelines.php';
@@ -21,6 +23,7 @@ require_once 'components/filemanager.php';
 
 require_once 'locallib.php';
 
+use Coursework\View\StudentWork\SaveFiles as save_files;
 use Coursework\View\StudentsWork as sw;
 
 use coursework_lib as lib;
@@ -28,6 +31,9 @@ use view_lib as view;
 
 class StudentWorkMain 
 {
+    const TO_PAGE = 'to_page';
+    const SAVE_FILES = 'save_files';
+
     const COURSEWORK_STAGE = 'coursework_stage';
     const THEME_SELECTION = 'theme_selection';
     const TASK_GETTING = 'task_getting';
@@ -46,7 +52,11 @@ class StudentWorkMain
 
     public function get_page() : string 
     {
-        if($this->is_theme_not_selected())
+        if($this->is_neccessary_save_files())
+        {
+            return $this->get_save_files_page();
+        }
+        else if($this->is_theme_not_selected())
         {
             return $this->get_theme_selection_page();
         }
@@ -59,6 +69,30 @@ class StudentWorkMain
         {
             return $this->get_work_completion_page();
         }
+    }
+
+    private function is_neccessary_save_files() : bool 
+    {
+        $toPage = optional_param(self::TO_PAGE, null, PARAM_TEXT);
+
+        if($toPage == self::SAVE_FILES)
+        {
+            return true;
+        }
+        else 
+        {
+            return false;
+        }
+    }
+
+    private function get_save_files_page() : string 
+    {
+        $saveFiles = new save_files\Page(
+            $this->course,
+            $this->cm,
+            $this->studentId
+        );
+        return $saveFiles->get_page();
     }
 
     private function get_theme_selection_page() : string 

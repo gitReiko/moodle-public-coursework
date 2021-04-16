@@ -21,7 +21,7 @@ class NewWorkCompletion
 
     public function get_page() : string 
     {
-        $str = $this->get_page_header();
+        $str = cg::get_page_header($this->cm);
 
         $str.= $this->get_info_block();
         $str.= $this->get_guidelines_block();
@@ -29,13 +29,6 @@ class NewWorkCompletion
         $str.= $this->get_filemanager_block();
 
         return $str;
-    }
-
-    private function get_page_header() : string 
-    {
-        $attr = array('class' => 'pageHeader');
-        $text = cg::get_coursework_name($this->cm->instance);
-        return \html_writer::tag('h2', $text, $attr);
     }
 
     private function get_info_block() : string 

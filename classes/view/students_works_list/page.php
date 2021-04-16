@@ -9,6 +9,7 @@ require_once 'components/students_without_teacher.php';
 require_once 'components/students_table/main.php';
 require_once 'getters/main_getter.php';
 
+use Coursework\Lib\Getters\CommonGetter as cg;
 use Coursework\View\StudentsWorksList\StudentsTable as st;
 
 class Page 
@@ -27,7 +28,7 @@ class Page
         if($this->is_teachers_exists())
         {
             $page = $this->get_form_start();
-            $page.= $this->get_page_header();
+            $page.= cg::get_page_header($this->d->get_cm());
             $page.= $this->get_group_selector();
             $page.= $this->get_teachers_selector();
             $page.= $this->get_courses_selector();
@@ -91,12 +92,6 @@ class Page
     {
         $attr = array('id' => self::FORM_ID, 'method' => 'post');
         return \html_writer::start_tag('form', $attr);
-    }
-
-    private function get_page_header() : string 
-    {
-        $text = $this->d->get_course_work_name();
-        return \html_writer::tag('h2', $text);
     }
 
     private function get_group_selector() : string 

@@ -57,11 +57,6 @@ class MainGetter
         return $this->cm;
     }
 
-    public function get_course_work_name() : string 
-    {
-        return cg::get_coursework_name($this->cm->instance);
-    }
-
     public function get_group_mode() 
     {
         return $this->groupMode;

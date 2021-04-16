@@ -5,8 +5,13 @@ namespace Coursework\View\StudentsWork\Components;
 use Coursework\View\StudentsWork\Locallib as locallib;
 use Coursework\Lib\Getters\StudentsGetter as sg;
 
+use ViewMain as m;
+
 class Filemanager extends Base 
 {
+    const FORM_ID = 'change_my_files_form';
+
+    private $work;
 
     function __construct(\stdClass $course, \stdClass $cm, int $studentId)
     {
@@ -34,6 +39,7 @@ class Filemanager extends Base
         $content.= $this->get_teacher_files();
         $content.= $this->get_change_my_files_button();
         $content.= \html_writer::end_tag('div');
+        $content.= $this->get_change_my_files_form();
 
         return $content;
     }
@@ -123,9 +129,54 @@ class Filemanager extends Base
 
     private function get_change_my_files_button() : string 
     {
-        $attr = array('class' => 'button');
+        $attr = array(
+            'class' => 'button',
+            'onclick' => 'submit_form(`'.self::FORM_ID.'`)'
+        );
         $text = get_string('change_my_files', 'coursework');
         return \html_writer::tag('div', $text, $attr);
+    }
+
+    private function get_change_my_files_form() : string 
+    {
+        $attr = array(
+            'id' => self::FORM_ID,
+            'method' => 'post'
+        );
+        $form = \html_writer::start_tag('form', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => m::ID,
+            'value' => $this->cm->id
+        );
+        $form.= \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => m::GUI_EVENT,
+            'value' => m::USER_WORK
+        );
+        $form.= \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => m::STUDENT_ID,
+            'value' => $this->work->student
+        );
+        $form.= \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => \StudentWorkMain::TO_PAGE,
+            'value' => \StudentWorkMain::SAVE_FILES
+        );
+        $form.= \html_writer::empty_tag('input', $attr);
+
+
+        $form.= \html_writer::end_tag('form');
+
+        return $form;
     }
 
 
