@@ -4,6 +4,7 @@ namespace Coursework\View\StudentWork\SaveFiles;
 
 use Coursework\Lib\Getters\CommonGetter as cg;
 use Coursework\Lib\Getters\StudentsGetter as sg;
+use Coursework\View\StudentsWork\Locallib as locallib;
 
 class Page 
 {
@@ -25,6 +26,19 @@ class Page
     public function get_page() : string 
     {
         $page = cg::get_page_header($this->cm);
+
+        if(locallib::is_user_student($this->work))
+        {
+            $page.= 'student';
+        }
+        else if(locallib::is_user_teacher($this->work))
+        {
+            $page.= 'teacher';
+        }
+        else 
+        {
+            $page.= 'error';
+        }
 
         return $page;
     }

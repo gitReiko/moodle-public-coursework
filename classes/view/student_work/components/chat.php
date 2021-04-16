@@ -47,7 +47,7 @@ class Chat extends Base
     {
         $c = $this->get_messages_box();
 
-        if(locallib::is_user_student($this->work) || locallib::is_user_teacher($this->work))
+        if(locallib::is_user_student_or_teacher($this->work))
         {
             $c.= $this->get_send_message_button();
         }

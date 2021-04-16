@@ -37,9 +37,14 @@ class Filemanager extends Base
         $content.= $this->get_grids_header();
         $content.= $this->get_student_files();
         $content.= $this->get_teacher_files();
-        $content.= $this->get_change_my_files_button();
+
+        if(locallib::is_user_student_or_teacher($this->work))
+        {
+            $content.= $this->get_change_my_files_button();
+            $content.= $this->get_change_my_files_form();
+        }
+        
         $content.= \html_writer::end_tag('div');
-        $content.= $this->get_change_my_files_form();
 
         return $content;
     }
