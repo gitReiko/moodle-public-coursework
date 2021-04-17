@@ -91,8 +91,6 @@ class Page
             \context_module::instance($this->cm->id), 'mod_coursework', 
             'teacher'.$this->work->teacher, $this->work->student
         );
-
-        echo 'teacher'.$this->work->teacher;
         
         $mform = new TeacherFileManager(
             null,

@@ -272,8 +272,6 @@ class Filemanager extends Base
             \context_module::instance($this->cm->id), 'mod_coursework', 
             'teacher'.$this->work->teacher, $this->work->student
         );
-
-        echo 'teacher'.$this->work->teacher;
         
         $mform = new TeacherFileManager(
             null,
@@ -288,7 +286,7 @@ class Filemanager extends Base
         {
             // Save the file.
             $data = file_postupdate_standard_filemanager($data, 'teacher',
-            $fileoptions, \context_module::instance($this->cm->id), 'mod_coursework', 'teacher', $this->work->teacher);
+            $fileoptions, \context_module::instance($this->cm->id), 'mod_coursework', 'teacher'.$this->work->teacher, $this->work->student);
             $this->send_notification_to_student();
         }
     }
