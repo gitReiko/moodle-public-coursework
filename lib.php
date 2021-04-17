@@ -93,6 +93,13 @@ function coursework_extend_settings_navigation($settings, $navref)
         $linkname = get_string('back_to_work_state', 'coursework');
         $node = $navref->add($linkname, $link, navigation_node::TYPE_SETTING);
     }
+
+    if (has_capability('mod/coursework:manage_old_files_area', $PAGE->cm->context))
+    {
+        $link = new moodle_url('/mod/coursework/manage_old_files_area.php', array('id' => $cm->id));
+        $linkname = get_string('manage_old_files_area', 'coursework');
+        $node = $navref->add($linkname, $link, navigation_node::TYPE_SETTING);
+    }
 }
 
 /**

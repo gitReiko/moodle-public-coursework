@@ -338,3 +338,4 @@ $string['my_files'] = 'Мои файлы';
 $string['student_files'] = 'Файлы студента';
 $string['teacher_files'] = 'Файлы преподавателя';
 $string['change_my_files'] = 'Изменить мои файлы';
+$string['manage_old_files_area'] = 'Управление старой областью файлов';

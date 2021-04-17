@@ -159,6 +159,17 @@ $capabilities = array(
         )
     ),
 
+    'mod/coursework:manage_old_files_area' => array(
+
+        'captype' => 'read',
+        'contextlevel' => CONTEXT_MODULE,
+        'archetypes' => array(
+            'teacher' => CAP_ALLOW,
+            'editingteacher' => CAP_ALLOW,
+            'manager' => CAP_ALLOW
+        )
+    ),
+
 );
 
 
