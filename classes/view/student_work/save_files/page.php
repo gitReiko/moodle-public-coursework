@@ -45,18 +45,20 @@ class Page
 
     private function get_student_files_manager() : string 
     {
+        $context = \context_module::instance($this->cm->id);
+
         $fileoptions = array(
             'maxbytes' => 0,
             'maxfiles' => '3',
             'subdirs' => 0,
-            'context' => \context_module::instance($this->cm->id)
+            'context' => $context
         );
         
         $data = new \stdClass();
         
         $data = file_prepare_standard_filemanager(
             $data, 'student', $fileoptions, 
-            \context_module::instance($this->cm->id), 'mod_coursework', 
+            $context, 'mod_coursework', 
             'student', $this->work->student
         );
         
@@ -77,19 +79,22 @@ class Page
 
     private function get_teacher_files_manager() : string 
     {
+        $context = \context_module::instance($this->cm->id);
+
         $fileoptions = array(
             'maxbytes' => 0,
             'maxfiles' => '3',
             'subdirs' => 0,
-            'context' => \context_module::instance($this->cm->id)
+            'context' => $context
         );
         
         $data = new \stdClass();
         
         $data = file_prepare_standard_filemanager(
             $data, 'teacher', $fileoptions, 
-            \context_module::instance($this->cm->id), 'mod_coursework', 
-            'teacher'.$this->work->teacher, $this->work->student
+            $context, 'mod_coursework', 
+            'teacher'.$this->work->teacher, 
+            $this->work->student
         );
         
         $mform = new TeacherFileManager(

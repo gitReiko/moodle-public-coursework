@@ -203,18 +203,20 @@ class Filemanager extends Base
 
     private function save_student_files()
     {
+        $context = \context_module::instance($this->cm->id);
+
         $fileoptions = array(
             'maxbytes' => 0,
             'maxfiles' => '3',
             'subdirs' => 0,
-            'context' => \context_module::instance($this->cm->id)
+            'context' => $context
         );
         
         $data = new \stdClass();
         
         $data = file_prepare_standard_filemanager(
             $data, 'student', $fileoptions, 
-            \context_module::instance($this->cm->id), 'mod_coursework', 
+            $context, 'mod_coursework', 
             'student', $this->work->student
         );
         
@@ -229,8 +231,10 @@ class Filemanager extends Base
         if($formdata = $mform->get_data()) 
         {
             // Save the file.
-            $data = file_postupdate_standard_filemanager($data, 'student',
-            $fileoptions, \context_module::instance($this->cm->id), 'mod_coursework', 'student', $this->work->student);
+            $data = file_postupdate_standard_filemanager(
+                $data, 'student', $fileoptions, $context, 
+                'mod_coursework', 'student', $this->work->student
+            );
             $this->send_notification_to_teacher();
         } 
     }
@@ -258,19 +262,22 @@ class Filemanager extends Base
 
     private function save_teacher_files()
     {
+        $context = \context_module::instance($this->cm->id);
+
         $fileoptions = array(
             'maxbytes' => 0,
             'maxfiles' => '3',
             'subdirs' => 0,
-            'context' => \context_module::instance($this->cm->id)
+            'context' => $context
         );
         
         $data = new \stdClass();
         
         $data = file_prepare_standard_filemanager(
             $data, 'teacher', $fileoptions, 
-            \context_module::instance($this->cm->id), 'mod_coursework', 
-            'teacher'.$this->work->teacher, $this->work->student
+            $context, 'mod_coursework', 
+            'teacher'.$this->work->teacher, 
+            $this->work->student
         );
         
         $mform = new TeacherFileManager(
@@ -285,8 +292,10 @@ class Filemanager extends Base
         if($formdata = $mform->get_data()) 
         {
             // Save the file.
-            $data = file_postupdate_standard_filemanager($data, 'teacher',
-            $fileoptions, \context_module::instance($this->cm->id), 'mod_coursework', 'teacher'.$this->work->teacher, $this->work->student);
+            $data = file_postupdate_standard_filemanager(
+                $data, 'teacher', $fileoptions, $context, 'mod_coursework', 
+                'teacher'.$this->work->teacher, $this->work->student
+            );
             $this->send_notification_to_student();
         }
     }
