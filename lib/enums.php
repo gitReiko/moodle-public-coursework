@@ -4,6 +4,9 @@ namespace Coursework\Lib;
 
 class Enums 
 {
+
+    const ID = 'id';
+
     // Group modes
     const NO_GROUPS = 0;
     const ISOLATED_GROUPS = 1;

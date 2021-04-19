@@ -2,6 +2,8 @@
 
 namespace Coursework\Lib\Getters;
 
+require_once 'students_getter.php';
+
 use Coursework\Lib\Getters\StudentsGetter as sg;
 use Coursework\Lib\Enums as enum;
 

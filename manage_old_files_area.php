@@ -1,10 +1,12 @@
 <?php
 
 require_once '../../config.php';
-require_once 'classes/view/manage_old_files_area/page.php';
+require_once 'classes/view/manage_old_files_area/main.php';
 require_once 'lib/getters/common_getter.php';
+require_once 'lib/getters/teachers_getter.php';
+require_once 'lib/enums.php';
 
-use Coursework\View\ManageOldFilesArea\Page;
+use Coursework\View\ManageOldFilesArea\Main;
  
 $id = required_param('id', PARAM_INT);    // Course Module ID
  
@@ -25,11 +27,13 @@ $PAGE->set_cm($cm);
 $PAGE->set_title(get_string('manage_old_files_area', 'coursework'));
 $PAGE->set_heading(get_string('manage_old_files_area', 'coursework'));
 
+$PAGE->requires->js('/mod/coursework/js/view.js');
+
 require_login();
   
 echo $OUTPUT->header();
 
-$manageOldFilesArea = new Page($cm);
+$manageOldFilesArea = new Main($cm);
 echo $manageOldFilesArea->get_page();
 
 echo $OUTPUT->footer();
