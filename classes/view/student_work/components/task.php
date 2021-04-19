@@ -77,16 +77,10 @@ class Task extends Base
         {
             $body.= \html_writer::start_tag('tr');
 
-            $text = $section->name;
-            $body.= \html_writer::tag('td', $text);
-
-            $text = cg::get_state_name($section->status);
-            $body.= \html_writer::tag('td', $text);
-
-            $text = $this->get_last_state_modify_date($section->statusmodified);
-            $body.= \html_writer::tag('td', $text);
-
-            $body.= \html_writer::tag('td', '');
+            $body.= $this->get_section_name_cell($section);
+            $body.= $this->get_section_state_cell($section);
+            $body.= $this->get_last_modify_date_cell($section);
+            $body.= $this->get_action_cells($section);
 
             $body.= \html_writer::end_tag('tr');
         }
@@ -96,16 +90,30 @@ class Task extends Base
         return $body;
     }
 
-    private function get_last_state_modify_date($date) 
+    private function get_section_name_cell(\stdClass $section) : string 
     {
-        if($this->is_date_exists($date))
+        $text = $section->name;
+        return \html_writer::tag('td', $text);
+    }
+
+    private function get_section_state_cell(\stdClass $section) : string 
+    {
+        $text = cg::get_state_name($section->status);
+        return \html_writer::tag('td', $text);
+    }
+
+    private function get_last_modify_date_cell(\stdClass $section) : string 
+    {
+        if($this->is_date_exists($section->statusmodified))
         {
-            return date('H:i d-m-Y', $date);
+            $text = date('H:i d-m-Y', $section->statusmodified);
         }
         else
         {
-            return '';
+            $text = '';
         }
+
+        return \html_writer::tag('td', $text);
     }
 
     private function is_date_exists($date) : bool 
@@ -118,6 +126,11 @@ class Task extends Base
         {
             return true;
         }
+    }
+
+    private function get_action_cells(\stdClass $section) : string
+    {
+        return \html_writer::tag('td', '');
     }
 
 
