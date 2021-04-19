@@ -3,6 +3,7 @@
 namespace Coursework\View\StudentWork;
 
 use Coursework\View\StudentsWork\Components as c;
+use Coursework\View\StudentsWork\Components\Task as task;
 use Coursework\Lib\Getters\CommonGetter as cg;
 use Coursework\Lib\CommonLib as cl; 
 
@@ -63,7 +64,7 @@ class NewWorkCompletion
 
     private function get_task_block() : string 
     {
-        $task = new c\Task($this->course, $this->cm, $this->studentId);
+        $task = new task\Main($this->course, $this->cm, $this->studentId);
         return $task->get_component();
     }
 

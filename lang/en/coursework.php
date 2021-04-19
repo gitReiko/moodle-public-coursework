@@ -334,3 +334,4 @@ $string['teacher_files'] = 'Teacher files';
 $string['change_my_files'] = 'Change my files';
 $string['manage_old_files_area'] = 'Manage old files area';
 $string['last_state_change'] = 'Last change state';
+$string['interaction'] = 'Interaction';
