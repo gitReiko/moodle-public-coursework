@@ -306,6 +306,8 @@ $string['coursework:sendsectionforcheck'] = 'Send task section for check';
 $string['coursework:taskassignment'] = 'Assign task to student';
 $string['coursework:view'] = 'View project';
 $string['coursework:viewfulltable'] = 'View list of projects';
+$string['coursework:manage_own_old_files_area'] = 'Manage own old teacher files area';
+$string['coursework:manage_global_old_files_area'] = 'Manage global old teacher files area';
 
 // List of students works
 $string['view_participants'] = 'View participants';

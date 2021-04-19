@@ -2,16 +2,15 @@
 
 namespace Coursework\View\ManageOldFilesArea;
 
-require_once 'dashboard.php';
 require_once 'getter.php';
+require_once 'dashboard.php';
+require_once 'filemanager.php';
 
 use Coursework\Lib\Getters\CommonGetter as cg;
-use Coursework\Lib\Getters\TeachersGetter as tg;
-use Coursework\Lib\Enums as enum;
 
 class Main 
 {
-    const SELECTED_TEACHER_ID = 'teacher_id';
+    const SELECTED_TEACHER_ID = 'selected_teacher_id';
 
     private $cm;
     private $teachers;
@@ -30,6 +29,7 @@ class Main
     {
         $page = cg::get_page_header($this->cm);
         $page.= $this->get_dashboard();
+        $page.= $this->get_filemanager();
 
         return $page;
     }
@@ -42,6 +42,15 @@ class Main
             $this->selectedTeacherId
         );
         return $dashboard->get();
+    }
+
+    private function get_filemanager() : string 
+    {
+        $filemanager = new FileManager(
+            $this->cm,
+            $this->selectedTeacherId
+        );
+        return \html_writer::tag('p', $filemanager->get()); 
     }
 
 

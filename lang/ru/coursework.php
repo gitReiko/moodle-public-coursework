@@ -314,6 +314,8 @@ $string['coursework:sendsectionforcheck'] = 'Отправление раздел
 $string['coursework:taskassignment'] = 'Выдать задание студенту';
 $string['coursework:view'] = 'Просмотр курсовой работы';
 $string['coursework:viewfulltable'] = 'Просмотр списка курсовых работ';
+$string['coursework:manage_own_old_files_area'] = 'Управление собственной старой областью файлов преподавателя';
+$string['coursework:manage_global_old_files_area'] = 'Глобальное управление старой областью файлов преподавателя';
 
 // List of students works
 $string['view_participants'] = 'Просмотреть участников';

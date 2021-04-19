@@ -16,7 +16,7 @@ class Getter
     function __construct(\stdClass $cm)
     {
         $this->cm = $cm;
-        $this->teachers = tg::get_coursework_teachers($this->cm->instance);
+        $this->teachers = $this->init_teachers();
         $this->selectedTeacherId = $this->init_selected_teacher_id();
     }
 
@@ -33,6 +33,26 @@ class Getter
     public function get_selected_teacher_id() 
     {
         return $this->selectedTeacherId;
+    }
+
+    private function init_teachers()
+    {
+        global $PAGE;
+
+        if(has_capability('mod/coursework:manage_global_old_files_area', $PAGE->cm->context))
+        {
+            return tg::get_coursework_teachers($this->cm->instance);
+        }
+        else 
+        {
+            return array($this->get_user());
+        }
+    }
+
+    private function get_user() 
+    {
+        global $USER;
+        return cg::get_user($USER->id);
     }
 
     private function init_selected_teacher_id()

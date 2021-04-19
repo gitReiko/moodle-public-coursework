@@ -159,13 +159,22 @@ $capabilities = array(
         )
     ),
 
-    'mod/coursework:manage_old_files_area' => array(
+    'mod/coursework:manage_own_old_files_area' => array(
 
         'captype' => 'read',
         'contextlevel' => CONTEXT_MODULE,
         'archetypes' => array(
             'teacher' => CAP_ALLOW,
             'editingteacher' => CAP_ALLOW,
+            'manager' => CAP_ALLOW
+        )
+    ),
+
+    'mod/coursework:manage_global_old_files_area' => array(
+
+        'captype' => 'read',
+        'contextlevel' => CONTEXT_MODULE,
+        'archetypes' => array(
             'manager' => CAP_ALLOW
         )
     ),
