@@ -2,6 +2,10 @@
 
 namespace Coursework\Lib;
 
+require_once 'getters/common_getter.php';
+
+use Coursework\Lib\Getters\CommonGetter as cg;
+
 class CommonLib 
 {
 
@@ -47,8 +51,19 @@ class CommonLib
         }
     }
 
+    public static function is_coursework_use_task(int $courseworkId) : bool 
+    {
+        $coursework = cg::get_coursework($courseworkId);
 
-
+        if($coursework->usetask == 1)
+        {
+            return true;
+        }
+        else 
+        {
+            return false;
+        }
+    }
 
 
 }

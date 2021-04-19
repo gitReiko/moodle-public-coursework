@@ -10,7 +10,7 @@ class StudentTaskGetter
     private $courseworkId;
     private $studentId;
 
-    private $taskId;
+    private $studentWork;
     private $sections;
 
     function __construct(int $courseworkId, int $studentId)
@@ -18,13 +18,13 @@ class StudentTaskGetter
         $this->courseworkId = $courseworkId;
         $this->studentId = $studentId;
 
-        $this->init_task();
+        $this->init_student_work();
         $this->init_sections();
     }
 
     public function get_task_id() 
     {
-        return $this->taskId;
+        return $this->studentWork->task;
     }
 
     public function get_sections()
@@ -32,14 +32,14 @@ class StudentTaskGetter
         return $this->sections;
     }
 
-    private function init_task()
+    private function init_student_work()
     {
         global $DB;
         $where = array(
             'coursework' => $this->courseworkId,
             'student' => $this->studentId
         );
-        $this->taskId = $DB->get_field('coursework_students', 'task', $where);
+        $this->studentWork = $DB->get_record('coursework_students', $where);
     }
 
     private function init_sections()
@@ -54,7 +54,7 @@ class StudentTaskGetter
     {
         global $DB;
         $table = 'coursework_tasks_sections';
-        $where = array('task' => $this->taskId);
+        $where = array('task' => $this->studentWork->task);
         $orderBy = 'listposition';
         return $DB->get_records($table, $where, $orderBy);
     }
@@ -68,10 +68,12 @@ class StudentTaskGetter
             if($this->is_section_status_exist($state))
             {
                 $section->status = $state->status;
+                $section->statusmodified = $state->timemodified;
             }
             else 
             {
                 $section->status = enum::NOT_READY;
+                $section->statusmodified = $this->studentWork->receivingtaskdate;
             }
         }
 

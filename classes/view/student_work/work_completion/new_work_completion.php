@@ -4,6 +4,7 @@ namespace Coursework\View\StudentWork;
 
 use Coursework\View\StudentsWork\Components as c;
 use Coursework\Lib\Getters\CommonGetter as cg;
+use Coursework\Lib\CommonLib as cl; 
 
 class NewWorkCompletion
 {
@@ -27,6 +28,11 @@ class NewWorkCompletion
         $str.= $this->get_guidelines_block();
         $str.= $this->get_chat_block();
         $str.= $this->get_filemanager_block();
+
+        if(cl::is_coursework_use_task($this->cm->instance))
+        {
+            $str.= $this->get_task_block();
+        }
 
         return $str;
     }
@@ -55,6 +61,11 @@ class NewWorkCompletion
         return $chat->get_component();
     }
 
+    private function get_task_block() : string 
+    {
+        $task = new c\Task($this->course, $this->cm, $this->studentId);
+        return $task->get_component();
+    }
 
 
 

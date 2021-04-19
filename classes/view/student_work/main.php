@@ -22,6 +22,7 @@ require_once 'components/info.php';
 require_once 'components/guidelines.php';
 require_once 'components/chat.php';
 require_once 'components/filemanager.php';
+require_once 'components/task.php';
 
 require_once 'locallib.php';
 

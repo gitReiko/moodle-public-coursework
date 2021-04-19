@@ -130,3 +130,23 @@ div.workFilemanagerGrids div.button
     grid-column-end: 3;
     cursor: pointer;
 }
+
+table.workTask 
+{
+    margin: 0px;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table.workTask thead tr td 
+{
+    text-align: center;
+}
+
+table.workTask tr td 
+{
+    padding: 5px;
+    border: 1px solid grey;
+    cursor: default;
+}
+
