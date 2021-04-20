@@ -37,29 +37,13 @@ class InteractionCell
 
     private function get_student_button() : string 
     {
-        if($this->is_section_not_ready())
+        if(locallib::is_state_not_ready_or_need_to_fix($this->section->status))
         {
             return $this->get_sent_to_check_button();
         }
         else 
         {
             return '';
-        }
-    }
-
-    private function is_section_not_ready() : bool 
-    {
-        if($this->section->status == enum::NOT_READY)
-        {
-            return true;
-        }
-        else if($this->section->status == enum::NEED_TO_FIX)
-        {
-            return true;
-        }
-        else 
-        {
-            return false;
         }
     }
 
@@ -112,25 +96,13 @@ class InteractionCell
     {
         $btn = '';
 
-        if($this->is_section_sent_for_check())
+        if(locallib::is_state_sent_for_check($this->section->status))
         {
             $btn.= $this->get_accept_section_button();
             $btn.= $this->get_send_for_rework_button();
         }
 
         return $btn;
-    }
-
-    private function is_section_sent_for_check() : bool 
-    {
-        if($this->section->status == enum::SENT_TO_CHECK)
-        {
-            return true;
-        }
-        else 
-        {
-            return false;
-        }
     }
 
     private function get_accept_section_button() : string 

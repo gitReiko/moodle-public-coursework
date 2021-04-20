@@ -2,9 +2,11 @@
 
 namespace Coursework\View\StudentWork;
 
+use Coursework\View\StudentsWork\Locallib as locallib;
 use Coursework\View\StudentsWork\Components as c;
 use Coursework\View\StudentsWork\Components\Task as task;
 use Coursework\Lib\Getters\CommonGetter as cg;
+use Coursework\Lib\Getters\StudentsGetter as sg;
 use Coursework\Lib\CommonLib as cl; 
 
 class NewWorkCompletion
@@ -13,12 +15,14 @@ class NewWorkCompletion
     private $course;
     private $cm;
     private $studentId;
+    private $work;
 
     function __construct(\stdClass $course, \stdClass $cm, int $studentId)
     {
         $this->course = $course;
         $this->cm = $cm;
         $this->studentId = $studentId;
+        $this->work = sg::get_students_work($this->cm->instance, $this->studentId);
     }
 
     public function get_page() : string 
@@ -33,6 +37,11 @@ class NewWorkCompletion
         if(cl::is_coursework_use_task($this->cm->instance))
         {
             $str.= $this->get_task_block();
+        }
+
+        if($this->is_work_check_neccessary()) 
+        {
+            $str.= $this->get_work_check_block();
         }
 
         return $str;
@@ -68,6 +77,41 @@ class NewWorkCompletion
         return $task->get_component();
     }
 
+    private function is_work_check_neccessary() : bool 
+    {
+        if(locallib::is_user_student($this->work)) 
+        {
+            if(locallib::is_state_not_ready_or_need_to_fix($this->work->status))
+            {
+                return true;
+            }
+            else 
+            {
+                return false;
+            }
+        }
+        else if(locallib::is_user_teacher($this->work))
+        {
+            if(locallib::is_state_sent_for_check($this->work->status))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else 
+        {
+            return false;
+        }
+    }
+
+    private function get_work_check_block() : string 
+    {
+        $workCheck = new c\WorkCheck($this->course, $this->cm, $this->studentId);
+        return $workCheck->get_component();
+    }
 
 
 }

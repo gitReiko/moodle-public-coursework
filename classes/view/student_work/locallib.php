@@ -2,6 +2,8 @@
 
 namespace Coursework\View\StudentsWork;
 
+use Coursework\Lib\Enums as enum;
+
 class Locallib 
 {
 
@@ -40,6 +42,34 @@ class Locallib
             return true;
         }
         else if(self::is_user_teacher($work))
+        {
+            return true;
+        }
+        else 
+        {
+            return false;
+        }
+    }
+
+    public static function is_state_not_ready_or_need_to_fix(string $status) : bool 
+    {
+        if($status == enum::NOT_READY)
+        {
+            return true;
+        }
+        else if($status == enum::NEED_TO_FIX)
+        {
+            return true;
+        }
+        else 
+        {
+            return false;
+        }
+    }
+
+    public static function is_state_sent_for_check(string $status) : bool 
+    {
+        if($status == enum::SENT_TO_CHECK)
         {
             return true;
         }
