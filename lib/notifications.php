@@ -87,7 +87,7 @@ class Notifications
         {
             if($this->coursework->automatictaskobtaining == 0)
             {
-                if(empty($student->task))
+                if(empty($this->student->task))
                 {
                     return true;
                 }
