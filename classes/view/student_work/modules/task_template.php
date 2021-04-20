@@ -13,7 +13,11 @@ class TaskTemplate extends ViewModule
         parent::__construct($course, $cm, $studentId, $displayBlock);
 
         $this->task = lib\get_using_task($this->cm);
-        $this->taskSections = lib\get_task_sections($this->task->id);
+
+        if(!empty($this->task->id))
+        {
+            $this->taskSections = lib\get_task_sections($this->task->id);
+        }
     }
 
 
