@@ -8,12 +8,15 @@ use Coursework\Lib\Getters\CommonGetter as cg;
 
 class Tbody
 {
-
+    private $cm;
+    private $work;
     private $taskSections;
 
-    function __construct($taskSections)
+    function __construct($cm, $taskSections, $work)
     {
+        $this->cm = $cm;
         $this->taskSections = $taskSections;
+        $this->work = $work;
     }
 
     public function get() : string 
@@ -77,7 +80,7 @@ class Tbody
 
     private function get_interaction_cell(\stdClass $section) : string
     {
-        $cell = new InteractionCell;
+        $cell = new InteractionCell($this->cm, $this->work, $section);
         return $cell->get();
     }
 

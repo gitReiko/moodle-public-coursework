@@ -5,11 +5,13 @@ namespace Coursework\View\StudentsWork\Components\Task;
 require 'tbody.php';
 
 use Coursework\View\StudentsWork\Components as c;
+use Coursework\Lib\Getters\StudentsGetter as sg;
 use Coursework\Lib\Getters\StudentTaskGetter;
 
 class Main extends c\Base 
 {
 
+    private $work;
     private $taskSections;
 
     function __construct(\stdClass $course, \stdClass $cm, int $studentId)
@@ -17,6 +19,7 @@ class Main extends c\Base
         parent::__construct($course, $cm, $studentId);
 
         $this->taskSections = $this->get_task_sections();
+        $this->work = sg::get_students_work($this->cm->instance, $this->studentId);
     }
 
     protected function get_hiding_class_name() : string
@@ -74,7 +77,7 @@ class Main extends c\Base
 
     private function get_table_body() : string 
     {
-        $tbody = new Tbody($this->taskSections);
+        $tbody = new Tbody($this->cm, $this->taskSections, $this->work);
         return $tbody->get();
     }
 
