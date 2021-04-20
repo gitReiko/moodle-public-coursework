@@ -150,3 +150,7 @@ table.workTask tr td
     cursor: default;
 }
 
+table.workTask tr td.center
+{
+    text-align: center;
+}

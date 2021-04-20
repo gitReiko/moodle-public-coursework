@@ -48,8 +48,9 @@ class Tbody
 
     private function get_section_state_cell(\stdClass $section) : string 
     {
+        $attr = array('class' => 'center');
         $text = cg::get_state_name($section->status);
-        return \html_writer::tag('td', $text);
+        return \html_writer::tag('td', $text, $attr);
     }
 
     private function get_last_modify_date_cell(\stdClass $section) : string 
@@ -63,7 +64,8 @@ class Tbody
             $text = '';
         }
 
-        return \html_writer::tag('td', $text);
+        $attr = array('class' => 'center');
+        return \html_writer::tag('td', $text, $attr);
     }
 
     private function is_date_exists($date) : bool 
