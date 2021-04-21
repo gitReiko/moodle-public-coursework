@@ -2,6 +2,7 @@
 
 require_once 'not_available_page.php';
 require_once 'theme_selection_page.php';
+require_once 'theme_selection_block.php';
 
 use Coursework\View\StudentsWork\Locallib as locallib;
 use Coursework\View\StudentsWork\Components as c;
@@ -25,6 +26,7 @@ class ThemeSelectionMain
     {
         $page = cg::get_page_header($this->cm);
         $page.= $this->get_guidelines_block();
+        $page.= $this->get_theme_selection_block_new();
         $page.= $this->get_theme_selection_block();
         $page.= $this->get_navigation_block();
 
@@ -94,7 +96,28 @@ class ThemeSelectionMain
     {
         $chat = new c\Navigation($this->course, $this->cm, $this->studentId);
         return $chat->get_component();
-    }    
+    }
+
+    private function get_theme_selection_block_new() : string 
+    {
+        $header = get_string('view_theme_selection_header', 'coursework');
+        $content = $this->get_new_content();
+        
+        $themeSelection = new c\Container(
+            $this->course, 
+            $this->cm, 
+            $this->studentId,
+            $header,
+            $content
+        );
+        return $themeSelection->get_component();
+    }
+
+    private function get_new_content() : string 
+    {
+        $themeSelection = new ThemeSelectionBlock($this->course, $this->cm, $this->studentId);
+        return $themeSelection->get_block();
+    }
 
 
 }

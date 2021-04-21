@@ -38,6 +38,16 @@ class ThemeSelectionMainGetter
         return $this->availableThemes;
     }
 
+    public function get_selected_leader() 
+    {
+        return reset($this->availableLeaders);
+    }
+
+    public function get_selected_course()
+    {
+        return reset(reset($this->availableLeaders)->courses);
+    }
+
     private function init_available_leaders_and_courses() : void 
     {
         $getter = new LeadersAndCoursesGetter($this->course, $this->cm);
