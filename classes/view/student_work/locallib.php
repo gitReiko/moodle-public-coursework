@@ -79,5 +79,17 @@ class Locallib
         }
     }
 
+    public static function is_state_ready(string $status) : bool 
+    {
+        if($status == enum::READY)
+        {
+            return true;
+        }
+        else 
+        {
+            return false;
+        }
+    }
+
 
 }

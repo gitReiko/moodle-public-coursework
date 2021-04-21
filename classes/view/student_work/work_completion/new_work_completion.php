@@ -96,6 +96,10 @@ class NewWorkCompletion
             {
                 return true;
             }
+            else if(locallib::is_state_ready($this->work->status))
+            {
+                return true;
+            }
             else
             {
                 return false;

@@ -4,6 +4,7 @@ namespace Coursework\View\StudentsWork\Components;
 
 use Coursework\View\StudentsWork\Locallib as locallib;
 use Coursework\Lib\Getters\StudentsGetter as sg;
+use Coursework\Lib\Enums as enum;
 
 class WorkCheck extends Base 
 {
@@ -41,7 +42,12 @@ class WorkCheck extends Base
         {
             if(locallib::is_state_sent_for_check($this->work->status))
             {
-
+                $con.= $this->get_send_for_rework_button();
+                $con.= $this->get_grade_and_regrade_button();
+            }
+            else if(locallib::is_state_ready($this->work->status))
+            {
+                $con.= $this->get_grade_and_regrade_button();
             }
         }
 
@@ -49,6 +55,24 @@ class WorkCheck extends Base
     }
 
     private function get_sent_to_check_button() : string 
+    {
+        $btn = $this->get_common_form_inputs();
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => DB_EVENT,
+            'value' => \ViewDatabaseHandler::SEND_WORK_FOR_CHECK
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $text = get_string('send_for_check_work', 'coursework');
+        $btn.= \html_writer::tag('button', $text);
+
+        $attr = array('method' => 'post', 'style' => 'display:inline-block;');
+        return \html_writer::tag('form', $btn, $attr);
+    }
+
+    private function get_common_form_inputs() : string 
     {
         $attr = array(
             'type' => 'hidden',
@@ -64,22 +88,77 @@ class WorkCheck extends Base
         );
         $btn.= \html_writer::empty_tag('input', $attr);
 
+        return $btn;
+    }
+
+    private function get_send_for_rework_button() : string 
+    {
+        $btn = $this->get_common_form_inputs();
+
         $attr = array(
             'type' => 'hidden',
-            'name' => DB_EVENT,
-            'value' => \ViewDatabaseHandler::SEND_WORK_FOR_CHECK
+            'name' => STATUS,
+            'value' => enum::NEED_TO_FIX
         );
         $btn.= \html_writer::empty_tag('input', $attr);
 
-        $text = get_string('send_for_check_work', 'coursework');
-        $btn.= \html_writer::tag('button', $text);
+        $attr = array(
+            'type' => 'hidden',
+            'name' => DB_EVENT,
+            'value' => \ViewDatabaseHandler::WORK_CHECK
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
 
+        $text = get_string('send_for_rework', 'coursework');
+        $btn.= \html_writer::tag('button', $text);
 
         $attr = array('method' => 'post', 'style' => 'display:inline-block;');
         return \html_writer::tag('form', $btn, $attr);
     }
 
+    private function get_grade_and_regrade_button() : string 
+    {
+        $btn = $this->get_common_form_inputs();
 
+        $attr = array(
+            'type' => 'hidden',
+            'name' => STATUS,
+            'value' => enum::READY
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => DB_EVENT,
+            'value' => \ViewDatabaseHandler::WORK_CHECK
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'number',
+            'name' => GRADE,
+            'size' => 4,
+            'min' => 0,
+            'max' => 10000,
+            'autocomplete' => 'off',
+            'required' => 'required'
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        if(locallib::is_state_sent_for_check($this->work->status))
+        {
+            $text = get_string('accept_work_and_grade', 'coursework');
+        }
+        else 
+        {
+            $text = get_string('regrade', 'coursework');
+        }
+        
+        $btn.= \html_writer::tag('button', $text);
+
+        $attr = array('method' => 'post', 'style' => 'display:inline-block;');
+        return \html_writer::tag('form', $btn, $attr);
+    }
 
 
 }
