@@ -21,9 +21,12 @@ class SectionsRows
     {
         $rows = '';
 
-        foreach ($this->student->sections as $section) 
+        if(!empty($this->student->sections))
         {
-            $rows.= $this->get_section_row($section);
+            foreach ($this->student->sections as $section) 
+            {
+                $rows.= $this->get_section_row($section);
+            }
         }
 
         return $rows;
