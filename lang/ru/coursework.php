@@ -345,3 +345,4 @@ $string['last_state_change'] = 'Послед. измен. статуса';
 $string['interaction'] = 'Взаимодействие';
 $string['accept_work_and_grade'] = 'Принять работу и оценить';
 $string['regrade'] = 'Переоценить';
+$string['navigation'] = 'Навигация';

@@ -24,6 +24,7 @@ require_once 'components/chat.php';
 require_once 'components/filemanager.php';
 require_once 'components/task/main.php';
 require_once 'components/workcheck.php';
+require_once 'components/navigation.php';
 
 require_once 'locallib.php';
 

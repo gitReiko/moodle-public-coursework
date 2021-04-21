@@ -44,6 +44,8 @@ class NewWorkCompletion
             $str.= $this->get_work_check_block();
         }
 
+        $str.= $this->get_navigation_block();
+
         return $str;
     }
 
@@ -116,6 +118,12 @@ class NewWorkCompletion
         $workCheck = new c\WorkCheck($this->course, $this->cm, $this->studentId);
         return $workCheck->get_component();
     }
+
+    private function get_navigation_block() : string 
+    {
+        $chat = new c\Navigation($this->course, $this->cm, $this->studentId);
+        return $chat->get_component();
+    }    
 
 
 }

@@ -337,3 +337,4 @@ $string['last_state_change'] = 'Last change state';
 $string['interaction'] = 'Interaction';
 $string['accept_work_and_grade'] = 'Accept work and grade';
 $string['regrade'] = 'Regrade';
+$string['navigation'] = 'Navigation';
