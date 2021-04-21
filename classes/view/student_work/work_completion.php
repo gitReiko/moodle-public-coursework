@@ -9,7 +9,7 @@ use Coursework\Lib\Getters\CommonGetter as cg;
 use Coursework\Lib\Getters\StudentsGetter as sg;
 use Coursework\Lib\CommonLib as cl; 
 
-class NewWorkCompletion
+class WorkCompletion
 {
 
     private $course;
