@@ -29,7 +29,6 @@ class ThemeSelectionPage
     public function get_page() : string 
     {
         $page = $this->get_start_of_html_form();
-        $page.= $this->get_theme_selection_header();
         $page.= $this->get_leader_field();
         $page.= $this->get_course_field();
         $page.= $this->get_theme_field();
@@ -64,11 +63,6 @@ class ThemeSelectionPage
     private function get_start_of_html_form() : string 
     {
         return '<form name="selectForm" method="post">';
-    }
-
-    private function get_theme_selection_header() : string 
-    {
-        return '<h3>'.get_string('view_theme_selection_header', 'coursework').'</p>';
     }
 
     private function get_leader_field() : string 

@@ -28,7 +28,11 @@ class Navigation extends Base
 
     protected function get_content() : string
     {
-        if(locallib::is_user_student($this->work))
+        if(empty($this->work))
+        {
+            return $this->get_back_to_course_button();
+        }
+        else if(locallib::is_user_student($this->work))
         {
             return $this->get_back_to_course_button();
         }

@@ -15,6 +15,7 @@ require_once 'save_files/student_file_manager.php';
 require_once 'save_files/teacher_file_manager.php';
 
 require_once 'components/base.php';
+require_once 'components/container.php';
 require_once 'components/info.php';
 require_once 'components/guidelines.php';
 require_once 'components/chat.php';
