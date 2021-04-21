@@ -1,6 +1,6 @@
 <?php
 
-
+use Coursework\Lib\Getters\StudentsGetter as sg;
 use coursework_lib as lib;
 
 class ThemesGetter 
