@@ -1,8 +1,7 @@
 <?php
 
 require_once 'data_getters/main.php';
-
-use coursework_lib as lib;
+require_once 'data_getters/neccessary_javascript.php';
 
 class ThemeSelectionBlock
 {
@@ -42,12 +41,21 @@ class ThemeSelectionBlock
     public function get_block() : string 
     {
         $page = $this->get_start_of_html_form();
-        $page.= $this->get_leader_field();
-        $page.= $this->get_course_field();
-        $page.= $this->get_theme_field();
-        $page.= $this->get_use_own_theme_field();
-        $page.= $this->get_own_theme_field();
-        $page.= $this->get_action_buttons();
+        $page.= $this->get_teacher_select();
+        $page.= $this->get_course_select();
+
+        if($this->is_proposed_themes_exists())
+        {
+            $page.= $this->get_theme_select();
+        }
+        else 
+        {
+            $page.= $this->get_missing_proposed_themes();
+        }
+        
+        $page.= $this->get_use_own_theme_checkbox();
+        $page.= $this->get_own_theme_input();
+        $page.= $this->get_select_theme_button();
         $page.= $this->get_neccessary_form_inputs();
         $page.= $this->get_end_of_html_form();
         $page.= $this->get_js_data();
@@ -56,60 +64,81 @@ class ThemeSelectionBlock
 
     private function get_start_of_html_form() : string 
     {
-        return '<form name="selectForm" method="post">';
+        $attr = array(
+            'name' => 'selectForm',
+            'method' => 'post'
+        );
+        return \html_writer::start_tag('form', $attr);
     }
 
-    private function get_leader_field() : string 
+    private function get_teacher_select() : string 
     {
-        $field = '<h4>'.get_string('leader', 'coursework').'</h4>';
-        $field.= $this->get_leaders_select();
-        return $field;
+        $title = get_string('leader', 'coursework');
+        $id = 'leader_select';
+        $name = TEACHER;
+        $onchange = 'SelectThemePage.change_available_courses()';
+        $options = $this->get_teachers_options();
+
+        return $this->get_select($title, $id, $name, $onchange, $options);
     }
 
-    private function get_leaders_select() : string 
+    private function get_select(string $title, string $id, string $name, string $onchange, string $options, int $size = 1) : string 
     {
-        $sel = '<p>';
-        $sel.= '<select id="leader_select" ';
-        $sel.= ' name="'.TEACHER.'" ';
-        $sel.= ' onchange="SelectThemePage.change_available_courses()"';
-        $sel.= ' autocomplete="off" autofocus>';
+        $attr = array('class' => 'pageHeader');
+        $header = \html_writer::tag('p', $title, $attr);
+        
+        $attr = array(
+            'id' => $id,
+            'name' => $name,
+            'onchange' => $onchange,
+            'size' => $size,
+            'autocomplete' => 'off',
+            'autofocus' => 'autofocus'
+        );
+        $select = \html_writer::tag('select', $options, $attr);
+        $select = \html_writer::tag('p', $select);
+
+        return $header.$select;
+    }
+
+    private function get_teachers_options() : string 
+    {
+        $options = '';
         foreach($this->leaders as $leader)
         {
-            $sel.= '<option value="'.$leader->id.'">';
-            $sel.= $leader->fullname;
-            $sel.= '</option>';
+            $attr = array('value' => $leader->id);
+            $text = $leader->fullname;
+            $options.= \html_writer::tag('option', $text, $attr);
         }
-        $sel.= '</select>';
-        $sel.= '</p>';
-        return $sel;
+
+        return $options;
     }
 
-    private function get_course_field() : string 
+    private function get_course_select() : string 
     {
-        $field = '<h4>'.get_string('course', 'coursework').'</h4>';
-        $field.= $this->get_courses_select();
-        return $field;
+        $title = get_string('course', 'coursework');
+        $id = 'course_select';
+        $name = COURSE;
+        $onchange = 'SelectThemePage.update_themes_select()';
+        $options = $this->get_courses_options();
+
+        return $this->get_select($title, $id, $name, $onchange, $options);
     }
 
-    private function get_courses_select() : string 
+    private function get_courses_options()
     {
-        $sel = '<p>';
-        $sel.= '<select id="course_select" ';
-        $sel.= ' onchange="SelectThemePage.update_themes_select()"';
-        $sel.= ' name="'.COURSE.'" ';
-        $sel.= ' autocomplete="off">';
+        $options = '';
         foreach($this->courses as $course)
         {
             if($this->is_course_belong_to_leader($course))
             {
-                $sel.= '<option class="course_option" value="'.$course->id.'">';
-                $sel.= $course->fullname;
-                $sel.= '</option>';
+                $attr = array('class' => 'course_option', 'value' => $course->id);
+                $text = $course->fullname;
+                $options.= \html_writer::tag('option', $text, $attr);
             }
         }
-        $sel.= '</select>';
-        $sel.= '</p>';
-        return $sel;
+
+        return $options;
     }
 
     private function is_course_belong_to_leader(stdClass $course) : bool 
@@ -125,155 +154,159 @@ class ThemeSelectionBlock
         return false;
     }
 
-    private function get_theme_field() : string 
+    private function is_proposed_themes_exists() : bool 
     {
-        $field = '<h4>'.get_string('theme', 'coursework').'</h4>';
-        $field.= $this->get_theme_select();
-        return $field;
+        foreach($this->themes as $container)
+        {
+            if($container->course == $this->selectedCourse)
+            {
+                if(is_array($container->themes))
+                {
+                    if(count($container->themes))
+                    {
+                        return true;
+                    }
+                    else 
+                    {
+                        return false;
+                    }
+                }
+                else 
+                {
+                    return fales;
+                }
+            }
+        }
+
+        return false;
     }
 
     private function get_theme_select() : string 
     {
-        $sel = '<p>';
-        $sel.= '<select id="theme_select" required ';
-        $sel.= ' name="'.THEME.'" ';
-        $sel.= ' autocomplete="off" size="10">';
+        $title = get_string('proposed_themes', 'coursework');
+        $id = 'theme_select';
+        $name = THEME;
+        $onchange = '';
+        $options = $this->get_themes_options();
+        $size = 10;
+
+        return $this->get_select($title, $id, $name, $onchange, $options, $size);
+    }
+
+    private function get_themes_options() : string 
+    {
+        $options = '';
         foreach($this->themes as $container)
         {
             if($container->course == $this->selectedCourse)
             {
                 foreach($container->themes as $theme)
                 {
-                    $sel.= '<option class="course_option" value="'.$theme->id.'">';
-                    $sel.= $theme->name;
-                    $sel.= '</option>';
+                    $attr = array('class' => 'course_option', 'value' => $theme->id);
+                    $text = $theme->name;
+                    $options.= \html_writer::tag('option', $text, $attr);
                 }
             }
         }
-        $sel.= '</select>';
-        $sel.= '</p>';
-        return $sel;
+
+        return $options;
     }
 
-    private function get_use_own_theme_field()
+    private function get_missing_proposed_themes() : string 
     {
-        $field = '<div>';
-        $field.= $this->get_use_own_theme_checkbox().' ';
-        $field.= '<h4 class="themeSelectCheckbox" onclick="SelectThemePage.use_own_theme()">';
-        $field.= get_string('use_own_theme', 'coursework');
-        $field.= '</h4>';
-        $field.= '</div>';
-        return $field;
+        $attr = array('class' => 'pageHeader');
+        $text = get_string('proposed_themes', 'coursework');
+        $str = \html_writer::tag('p', $text, $attr);
+
+        $text = get_string('themes_missing', 'coursework');
+        $str.= \html_writer::tag('p', $text);
+        
+        return $str;
     }
 
     private function get_use_own_theme_checkbox()
     {
-        $input = '<input type="checkbox" id="useOwnTheme" ';
-        $input.= ' onclick="SelectThemePage.offer_or_own_theme_switcher()"';
-        $input.= ' autocomplete="off">';
-        return $input;
-    }
+        $attr = array(
+            'type' => 'checkbox',
+            'id' => 'useOwnTheme',
+            'onclick' => 'SelectThemePage.use_own_theme()',
+            'autocomplete' => 'off'
+        );
+        $input = \html_writer::empty_tag('input', $attr);
 
-    private function get_own_theme_field() : string 
-    {
-        $field = '<h4>'.get_string('own_theme', 'coursework').'</h4>';
-        $field.= $this->get_own_theme_input();
-        return $field;
+        $attr = array(
+            'class' => 'pageHeader themeSelectCheckbox',
+            'onclick' => 'SelectThemePage.use_own_theme()'
+        );
+        $text = $input;
+        $text.= ' '.get_string('use_own_theme', 'coursework');
+
+        return \html_writer::tag('p', $text, $attr);
     }
 
     private function get_own_theme_input() : string 
     {
-        $input = '<p><input type="text" id="own_theme_input"';
-        $input.= ' name="'.OWN_THEME.'" ';
-        $input.= ' maxlength=254 minlength="5" size="140"';
-        $input.= ' disabled autocomplete="off" required></p>';
-        return $input;
+        $attr = array('class' => 'pageHeader');
+        $text = get_string('own_theme', 'coursework');
+        $header = \html_writer::tag('p', $text, $attr);
+
+        $attr = array(
+            'type' => 'text',
+            'id' => 'own_theme_input',
+            'name' => OWN_THEME,
+            'minlength' => 5,
+            'maxlength' => 254,
+            'size' => 140,
+            'disabled' => 'disabled',
+            'autocomplete' => 'off',
+            'required' => 'required'
+        );
+        $input = \html_writer::empty_tag('input', $attr);
+        $input = \html_writer::tag('p', $input);
+
+        return $header.$input;
     }
 
-    private function get_action_buttons() : string 
+    private function get_select_theme_button() : string 
     {
-        $btns = '<table><tr>';
-        $btns.= '<td>'.$this->get_select_button().'</td>';
-        $btns.= '<td>'.lib\get_back_to_course_button($this->course->id).'</td>';
-        $btns.= '</tr></table>';
-        return $btns;
-    }
-
-    private function get_select_button() : string 
-    {
-        $btn = '<p><input type="submit" ';
-        $btn.= 'value="'.get_string('choose', 'coursework').'" ';
-        $btn.= '></p>';
-        return $btn;
+        $text = get_string('choose', 'coursework');
+        $button = \html_writer::tag('button', $text);
+        
+        return \html_writer::tag('p', $button);
     }
 
     private function get_neccessary_form_inputs() : string 
     {
-        $inputs = '<input type="hidden" name="'.ID.'" value="'.$this->cm->id.'"/>';
-        $inputs.= '<input type="hidden" name="'.DB_EVENT.'" value="'.ViewDatabaseHandler::SELECT_THEME.'">';
+        $attr = array(
+            'type' => 'hidden',
+            'name' => ID,
+            'value' => $this->cm->id
+        );
+        $inputs = \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => DB_EVENT,
+            'value' => ViewDatabaseHandler::SELECT_THEME
+        );
+        $inputs.= \html_writer::empty_tag('input', $attr);
+
         return $inputs;
     }
 
     private function get_end_of_html_form() : string 
     {
-        return '</form>';
+        return \html_writer::end_tag('form');
     }
 
     private function get_js_data() : string 
     {
-        $data = $this->get_leaders_js_data();
-        $data.= $this->get_courses_js_data();
-        $data.= $this->get_themes_js_data();
-        return $data;
-    }
-
-    private function get_leaders_js_data() : string 
-    {
-        $data = '';
-        foreach($this->leaders as $leader)
-        {
-            $data.= '<p class="hidden leaders_courses_js" ';
-            $data.= ' data-leader="'.$leader->id.'" ';
-
-            $data.= ' data-courses="';
-            foreach($leader->courses as $course)
-            {
-                $data.= $course.' ';
-            }
-            $data = mb_substr($data, 0, -1);
-            $data.= '" ></p>';
-        }
-        return $data;
-    }
-
-    private function get_courses_js_data() : string 
-    {
-        $data = '';
-        foreach($this->courses as $course)
-        {
-            $data.= '<p class="hidden courses_js" ';
-            $data.= ' data-id="'.$course->id.'" ';
-            $data.= ' data-fullname="'.$course->fullname.'" ';
-            $data.= '" ></p>';
-        }
-        return $data;
-    }
-
-    private function get_themes_js_data() : string 
-    {
-        $data = '';
-        foreach($this->themes as $container)
-        {
-            foreach($container->themes as $theme)
-            {   
-                $data.= '<p class="hidden themes_js" ';
-                $data.= ' data-theme-id="'.$theme->id.'" ';
-                $data.= ' data-course-id="'.$container->course.'" ';
-                $data.= ' data-name="'.$theme->name.'" ';
-                $data.= '" ></p>';
-            }
-        }
-        return $data;  
+        $js = new NeccessaryJavascript(
+            $this->leaders,
+            $this->courses,
+            $this->themes
+        );
+        return $js->get();
     }
 
 

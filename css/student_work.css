@@ -4,6 +4,12 @@ h2.pageHeader
     cursor: default;
 }
 
+p.pageHeader
+{
+    cursor: default;
+    font-size: large;
+}
+
 p.workComponentHeader 
 {
     background-color: #eee;

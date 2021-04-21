@@ -338,3 +338,5 @@ $string['interaction'] = 'Interaction';
 $string['accept_work_and_grade'] = 'Accept work and grade';
 $string['regrade'] = 'Regrade';
 $string['navigation'] = 'Navigation';
+$string['proposed_themes'] = 'Proposed themes';
+$string['themes_missing'] = 'Missing.';
