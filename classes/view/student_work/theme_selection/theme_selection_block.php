@@ -47,13 +47,13 @@ class ThemeSelectionBlock
         if($this->is_proposed_themes_exists())
         {
             $page.= $this->get_theme_select();
+            $page.= $this->get_use_own_theme_checkbox();
         }
         else 
         {
             $page.= $this->get_missing_proposed_themes();
         }
         
-        $page.= $this->get_use_own_theme_checkbox();
         $page.= $this->get_own_theme_input();
         $page.= $this->get_select_theme_button();
         $page.= $this->get_neccessary_form_inputs();
@@ -229,7 +229,7 @@ class ThemeSelectionBlock
         $attr = array(
             'type' => 'checkbox',
             'id' => 'useOwnTheme',
-            'onclick' => 'SelectThemePage.use_own_theme()',
+            'onclick' => 'SelectThemePage.offer_or_own_theme_switcher()',
             'autocomplete' => 'off'
         );
         $input = \html_writer::empty_tag('input', $attr);
@@ -257,10 +257,15 @@ class ThemeSelectionBlock
             'minlength' => 5,
             'maxlength' => 254,
             'size' => 140,
-            'disabled' => 'disabled',
             'autocomplete' => 'off',
             'required' => 'required'
         );
+
+        if($this->is_proposed_themes_exists())
+        {
+            $attr = array_merge($attr, array('disabled' => 'disabled'));
+        }
+
         $input = \html_writer::empty_tag('input', $attr);
         $input = \html_writer::tag('p', $input);
 
