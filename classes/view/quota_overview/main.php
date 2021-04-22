@@ -174,23 +174,40 @@ class Main
 
     private function get_teacher_rows(\stdClass $teacher) : string 
     {
-        $rowspan = count($teacher->students);
+        $rows = '';
 
-        $rows = \html_writer::start_tag('tr');
+        foreach($teacher->courses as $course)
+        {
+            $rowspan = $this->get_rowspan($course);
 
-        $rows.= $this->get_row_cell($rowspan, $teacher->fullname);
-        $rows.= $this->get_row_cell($rowspan, $teacher->coursename);
-        $class = 'tac';
-        $rows.= $this->get_row_cell($rowspan, $teacher->total_quota, $class);
-        $rows.= $this->get_row_cell($rowspan, $teacher->used_quota, $class);
-        $rows.= $this->get_row_cell($rowspan, $teacher->available_quota, $class);
-        $rows.= $this->get_first_student_cells($teacher->students);
+            $rows.= \html_writer::start_tag('tr');
 
-        $rows.= \html_writer::end_tag('tr');
-
-        $rows.= $this->get_student_rows_from_second($teacher->students);
+            $rows.= $this->get_row_cell($rowspan, $this->get_name($teacher));
+            $rows.= $this->get_row_cell($rowspan, $course->fullname);
+            $class = 'tac';
+            $rows.= $this->get_row_cell($rowspan, $course->total_quota, $class);
+            $rows.= $this->get_row_cell($rowspan, $course->used_quota, $class);
+            $rows.= $this->get_row_cell($rowspan, $course->available_quota, $class);
+            $rows.= $this->get_first_student_cells($course);
+    
+            $rows.= \html_writer::end_tag('tr');
+    
+            $rows.= $this->get_student_rows_from_second($course);
+        }
 
         return $rows;
+    }
+
+    private function get_rowspan($course) : int 
+    {
+        if(empty($course->students))
+        {
+            return 0;
+        }
+        else 
+        {
+            return count($course->students);
+        }
     }
 
     private function get_row_cell($rowspan, $text, $class = '') : string 
@@ -207,36 +224,43 @@ class Main
         }
     }
 
-    private function get_first_student_cells($students)
+    private function get_first_student_cells($course)
     {
         $cells = '';
 
-        if(empty($students))
+        if(empty($course->students))
         {
             $cells.= \html_writer::tag('td', '');
             $cells.= \html_writer::tag('td', '');
         }
         else 
         {
-            $cells = \html_writer::tag('td', reset($students)->fullname);
-            $cells.= \html_writer::tag('td', reset($students)->themename);
+            $firstStudent = reset($course->students);
+            $cells = \html_writer::tag('td', $this->get_name($firstStudent));
+            $cells.= \html_writer::tag('td', $firstStudent->theme);
         }
 
         return $cells;
     }
 
-    private function get_student_rows_from_second($students) : string  
+    private function get_name($user) : string 
+    {
+        return $user->lastname.' '.$user->firstname;
+    }
+
+    private function get_student_rows_from_second($course) : string  
     {
         $rows = '';
 
-        foreach(array_slice($students, 1) as $student)
+        if(!empty($course->students))
         {
-
-            $rows.= \html_writer::start_tag('tr');
-            $this->get_row_cell($rowspan, $totalQuota, $class);
-            $rows.= \html_writer::tag('td', $student->fullname);
-            $rows.= \html_writer::tag('td', $student->themename);
-            $rows.= \html_writer::end_tag('tr');
+            foreach(array_slice($course->students, 1) as $student)
+            {
+                $rows.= \html_writer::start_tag('tr');
+                $rows.= \html_writer::tag('td', $this->get_name($student));
+                $rows.= \html_writer::tag('td', $student->theme);
+                $rows.= \html_writer::end_tag('tr');
+            }
         }
 
         return $rows;

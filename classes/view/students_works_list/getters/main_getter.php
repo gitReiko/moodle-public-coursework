@@ -216,7 +216,6 @@ class MainGetter
             $this->cm,
             $this->groupMode,
             $this->selectedGroupId,
-            $this->availableGroups,
             $this->selectedTeacherId,
             $this->selectedCourseId
         );

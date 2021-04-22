@@ -10,6 +10,20 @@ class StudentsGetter
 
     public static function get_all_students(\stdClass $cm)
     {
+        $groupMode = cg::get_coursework_group_mode($cm);
+
+        if($groupMode == enum::NO_GROUPS)
+        {
+            return self::get_all_course_students($cm);
+        }
+        else 
+        {
+            return self::get_students_from_available_groups($cm);
+        }
+    }
+
+    public static function get_all_course_students(\stdClass $cm)
+    {
         $context = \context_module::instance($cm->id); 
         $groupId = enum::NO_GROUPS;
         $userfields = 'u.id,u.firstname,u.lastname,u.email,u.phone1,u.phone2';
@@ -24,9 +38,11 @@ class StudentsGetter
         );
     }
 
-    public static function get_students_from_available_groups(\stdClass $cm, $groups)
+    public static function get_students_from_available_groups(\stdClass $cm)
     {
         $students = array();
+
+        $groups = cg::get_coursework_groups($this->cm);
 
         foreach($groups as $group)
         {

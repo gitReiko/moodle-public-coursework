@@ -16,7 +16,6 @@ class StudentsGetter
 
     private $groupMode;
     private $selectedGroupId;
-    private $availableGroups;
 
     private $teacherStudents;
     private $studentsWithoutTeacher;
@@ -26,7 +25,6 @@ class StudentsGetter
         \stdClass $cm,
         int $groupMode,
         int $selectedGroupId,
-        $availableGroups,
         $selectedTeacherId,
         $selectedCourseId
     ) 
@@ -36,7 +34,6 @@ class StudentsGetter
         $this->coursework = cg::get_coursework($cm->instance);
         $this->groupMode = $groupMode;
         $this->selectedGroupId = $selectedGroupId;
-        $this->availableGroups = $availableGroups;
         $this->selectedTeacherId = $selectedTeacherId;
         $this->selectedCourseId = $selectedCourseId;
         $this->init_students();
@@ -62,7 +59,7 @@ class StudentsGetter
         }
         else if($this->selectedGroupId === grp::ALL_GROUPS)
         {
-            $students = sg::get_students_from_available_groups($this->cm, $this->availableGroups);
+            $students = sg::get_students_from_available_groups($this->cm);
         }
         else 
         {

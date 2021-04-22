@@ -87,6 +87,68 @@ class TeachersGetter
         }
     }
 
+    public static function get_courses_with_quotas(\stdClass $cm, int $teacherId, $courses)
+    {
+        foreach($courses as $course)
+        {
+            $course->total_quota = self::get_course_configured_quota($cm, $teacherId, $course->id);
+            $course->used_quota = self::get_course_used_quota($cm, $teacherId, $course->id); 
+            $course->available_quota = $course->total_quota - $course->used_quota;
+        }
+
+        return $courses;
+    }
+
+    private static function get_course_configured_quota(\stdClass $cm, int $teacherId, int $courseId)
+    {
+        global $DB;
+        $where = array(
+            'coursework' => $cm->instance,
+            'teacher' => $teacherId,
+            'course' => $courseId
+        );
+
+        $quota = $DB->get_field('coursework_teachers', 'quota', $where);
+
+        if($quota)
+        {
+            return $quota;
+        }
+        else 
+        {
+            return 0;
+        }
+    }
+
+    private static function get_course_used_quota(\stdClass $cm, int $teacherId, int $courseId) : int 
+    {
+        $students = sg::get_all_students($cm);
+
+        $usedQuota = 0;
+        foreach($students as $student)
+        {
+            if(self::is_student_used_quota($cm, $student->id, $teacherId, $courseId))
+            {
+                $usedQuota++;
+            }
+        }
+        
+        return $usedQuota;
+    }
+
+    private static function is_student_used_quota(\stdClass $cm, int $studentId, int $teacherId, int $courseId) : bool 
+    {
+        global $DB;
+        $conditions = array
+        (
+            'coursework' => $cm->instance, 
+            'student' => $studentId,
+            'teacher' => $teacherId, 
+            'course' => $courseId
+        );
+        return $DB->record_exists('coursework_students', $conditions);
+    }
+
     private static function is_teacher_not_exist_in_teachers_array(int $teacherId, $teachers) : bool
     {
         foreach($teachers as $teacher)
@@ -258,6 +320,7 @@ class TeachersGetter
 
         return false;
     }
+
 
 
 }
