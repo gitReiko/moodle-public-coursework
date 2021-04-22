@@ -1,5 +1,6 @@
 <?php
 
+use Coursework\View\StudentsWork\Locallib as locallib;
 use coursework_lib as lib;
 use view_lib as view;
 
@@ -136,7 +137,7 @@ class ThemeSelectDatabaseHandler
         if(isset($row->theme))
         {
             global $DB;
-            $students = lib\get_coursework_students_for_in_query($this->cm);
+            $students = locallib::get_students_list_for_in_query($this->cm);
             $sql = "SELECT id 
                     FROM {coursework_students}
                     WHERE coursework = ?

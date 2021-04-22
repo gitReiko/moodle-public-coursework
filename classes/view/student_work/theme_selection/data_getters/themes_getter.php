@@ -1,7 +1,6 @@
 <?php
 
-use Coursework\Lib\Getters\StudentsGetter as sg;
-use coursework_lib as lib;
+use Coursework\View\StudentsWork\Locallib as locallib;
 
 class ThemesGetter 
 {
@@ -70,7 +69,7 @@ class ThemesGetter
 
     private function filter_used_themes(array $allThemes) : array
     {
-        $students = lib\get_coursework_students_for_in_query($this->cm);
+        $students = locallib::get_students_list_for_in_query($this->cm);
 
         $themes = array();
         foreach($allThemes as $theme)

@@ -2,6 +2,7 @@
 
 namespace Coursework\View\StudentsWork;
 
+use Coursework\Lib\Getters\StudentsGetter as sg;
 use Coursework\Lib\Enums as enum;
 
 class Locallib 
@@ -89,6 +90,18 @@ class Locallib
         {
             return false;
         }
+    }
+
+    public static function get_students_list_for_in_query(\stdClass $cm) : string 
+    {
+        $inQuery = '';
+        $students = sg::get_all_students($cm);
+        foreach($students as $student)
+        {
+            $inQuery.= $student->id.',';
+        }
+        $inQuery = mb_substr($inQuery, 0, -1);
+        return $inQuery;
     }
 
 
