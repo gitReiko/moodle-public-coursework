@@ -1,9 +1,8 @@
 <?php
 
-use Coursework\Lib\Getters\StudentsGetter as sg;
 use Coursework\Lib\Getters\TeachersGetter as tg;
 
-class NewGetter  
+class TeachersAndCoursesGetter  
 {
     private $course;
     private $cm;
@@ -13,20 +12,16 @@ class NewGetter
 
     private $availableTeachers;
     private $availableCourses;
-    private $availableThemes;
 
-    function __construct(stdClass $course, stdClass $cm)
+    function __construct(stdClass $course, stdClass $cm, $students)
     {
         $this->course = $course;
         $this->cm = $cm;
+        $this->students = $students;
 
-        $this->students = sg::get_all_students($this->cm);
         $this->teachers = $this->init_teachers();
-
         $this->availableTeachers = $this->init_available_teachers();
         $this->availableCourses = $this->init_available_courses();
-
-        print_r($this->availableCourses);
     }
 
     public function get_available_teachers()

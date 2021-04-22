@@ -1,20 +1,20 @@
 <?php
 
-use Coursework\View\StudentsWork\Locallib as locallib;
-
 class ThemesGetter 
 {
     private $course;
     private $cm;
     private $themesCourses;
+    private $students;
 
     private $availableThemes;
 
-    function __construct(stdClass $course, stdClass $cm, array $themesCourses)
+    function __construct(stdClass $course, stdClass $cm, array $themesCourses, $students)
     {
         $this->course = $course;
         $this->cm = $cm;
         $this->themesCourses = $themesCourses;
+        $this->students = $students;
 
         $this->init_themes();
     }
@@ -69,7 +69,7 @@ class ThemesGetter
 
     private function filter_used_themes(array $allThemes) : array
     {
-        $students = locallib::get_students_list_for_in_query($this->cm);
+        $students = $this->get_students_list_for_in_query();
 
         $themes = array();
         foreach($allThemes as $theme)
@@ -80,6 +80,17 @@ class ThemesGetter
             }
         }
         return $themes;
+    }
+
+    private function get_students_list_for_in_query()
+    {
+        $inQuery = '';
+        foreach($this->students as $student)
+        {
+            $inQuery.= $student->id.',';
+        }
+        $inQuery = mb_substr($inQuery, 0, -1);
+        return $inQuery;
     }
 
     private function is_theme_not_used($themeId, $students) : bool 
