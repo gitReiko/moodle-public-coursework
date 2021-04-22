@@ -226,10 +226,13 @@ class ThemeSelectionBlock
 
     private function get_use_own_theme_checkbox()
     {
+        $onclick = 'SelectThemePage.use_own_theme();';
+        $onclick.= 'SelectThemePage.offer_or_own_theme_switcher();';
+
         $attr = array(
             'type' => 'checkbox',
             'id' => 'useOwnTheme',
-            'onclick' => 'SelectThemePage.offer_or_own_theme_switcher()',
+            'onclick' => $onclick,
             'autocomplete' => 'off'
         );
         $input = \html_writer::empty_tag('input', $attr);
