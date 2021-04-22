@@ -1,6 +1,7 @@
 <?php
 
 require_once 'theme_selection_block.php';
+require_once 'new_getter.php';
 
 use Coursework\View\StudentsWork\Components as c;
 use Coursework\Lib\Getters\CommonGetter as cg;
@@ -16,6 +17,8 @@ class ThemeSelectionMain
         $this->course = $course;
         $this->cm = $cm;
         $this->studentId = $studentId;
+
+        $newGetter = new NewGetter($course, $cm);
     }
 
     public function get_page() : string 
