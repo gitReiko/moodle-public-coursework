@@ -9,11 +9,11 @@ class ThemeSelectionBlock
     private $cm;
     private $studentId;
 
-    private $leaders;
+    private $teachers;
     private $courses;
     private $themes;
 
-    private $selectedLeader;
+    private $selectedTeacher;
     private $selectedCourse;
 
     function __construct(stdClass $course, stdClass $cm, int $studentId)
@@ -24,9 +24,9 @@ class ThemeSelectionBlock
 
         $getter = new ThemeSelectionMainGetter($this->course, $this->cm);
 
-        $this->leaders = $getter->get_available_leaders();
+        $this->teachers = $getter->get_available_teachers();
 
-        if(empty($this->leaders))
+        if(empty($this->teachers))
         {
             throw new Exception(get_string('e:quota_is_over', 'coursework'));
         }
@@ -34,7 +34,7 @@ class ThemeSelectionBlock
         $this->courses = $getter->get_available_courses();
         $this->themes = $getter->get_available_themes();
 
-        $this->selectedLeader = $getter->get_selected_leader();
+        $this->selectedTeacher = $getter->get_selected_teacher();
         $this->selectedCourse = $getter->get_selected_course();
     }
 
@@ -104,10 +104,10 @@ class ThemeSelectionBlock
     private function get_teachers_options() : string 
     {
         $options = '';
-        foreach($this->leaders as $leader)
+        foreach($this->teachers as $teacher)
         {
-            $attr = array('value' => $leader->id);
-            $text = $leader->fullname;
+            $attr = array('value' => $teacher->id);
+            $text = $teacher->name;
             $options.= \html_writer::tag('option', $text, $attr);
         }
 
@@ -130,28 +130,12 @@ class ThemeSelectionBlock
         $options = '';
         foreach($this->courses as $course)
         {
-            if($this->is_course_belong_to_leader($course))
-            {
-                $attr = array('class' => 'course_option', 'value' => $course->id);
-                $text = $course->fullname;
-                $options.= \html_writer::tag('option', $text, $attr);
-            }
+            $attr = array('class' => 'course_option', 'value' => $course->id);
+            $text = $course->name;
+            $options.= \html_writer::tag('option', $text, $attr);
         }
 
         return $options;
-    }
-
-    private function is_course_belong_to_leader(stdClass $course) : bool 
-    {
-        foreach($this->selectedLeader->courses as $selCourse)
-        {
-            if($course->id == $selCourse)
-            {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     private function is_proposed_themes_exists() : bool 
@@ -310,7 +294,7 @@ class ThemeSelectionBlock
     private function get_js_data() : string 
     {
         $js = new NeccessaryJavascript(
-            $this->leaders,
+            $this->teachers,
             $this->courses,
             $this->themes
         );

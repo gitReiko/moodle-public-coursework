@@ -11,7 +11,7 @@ class ThemeSelectionMainGetter
     private $cm;
     private $students;
 
-    private $availableLeaders;
+    private $availableTeachers;
     private $availableCourses;
     private $availableThemes;
 
@@ -21,13 +21,13 @@ class ThemeSelectionMainGetter
         $this->cm = $cm;
         $this->students = sg::get_all_students($this->cm);
 
-        $this->init_available_leaders_and_courses();
+        $this->init_available_teachers_and_courses();
         $this->init_available_themes();
     }
 
-    public function get_available_leaders()
+    public function get_available_teachers()
     {
-        return $this->availableLeaders;
+        return $this->availableTeachers;
     }
 
     public function get_available_courses() 
@@ -40,20 +40,20 @@ class ThemeSelectionMainGetter
         return $this->availableThemes;
     }
 
-    public function get_selected_leader() 
+    public function get_selected_teacher() 
     {
-        return reset($this->availableLeaders);
+        return reset($this->availableTeachers);
     }
 
     public function get_selected_course()
     {
-        return reset(reset($this->availableLeaders)->courses);
+        return reset(reset($this->availableTeachers)->courses);
     }
 
-    private function init_available_leaders_and_courses() : void 
+    private function init_available_teachers_and_courses() : void 
     {
         $getter = new TeachersAndCoursesGetter($this->course, $this->cm, $this->students);
-        $this->availableLeaders = $getter->get_available_teachers();
+        $this->availableTeachers = $getter->get_available_teachers();
         $this->availableCourses = $getter->get_available_courses();
     }
 
