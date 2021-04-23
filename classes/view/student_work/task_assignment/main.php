@@ -8,6 +8,10 @@ require_once 'assign_custom_task.php';
 require_once 'assign_new_task.php';
 require_once 'correct_task.php';
 
+require_once 'new_main.php';
+
+use Coursework\View\StudentWork\TaskAssignment as ta; 
+
 use coursework_lib as lib;
 
 class TaskAssignmentMain 
@@ -29,6 +33,11 @@ class TaskAssignmentMain
 
     public function get_page() : string 
     {
+        $str = '';
+
+        $newMain = new ta\Main($this->course, $this->cm, $this->studentId);
+        $str.= $newMain->get_page();
+
         global $USER;
         if(lib\is_user_teacher($this->cm, $USER->id))
         {
@@ -36,28 +45,30 @@ class TaskAssignmentMain
 
             if($page == self::TEMPLATE_CORRECT)
             {
-                return $this->get_correct_task_page();
+                $str.= $this->get_correct_task_page();
             }
             else if($page == self::NEW_TASK)
             {
-                return $this->get_create_new_task_page();
+                $str.= $this->get_create_new_task_page();
             }
             else 
             {
-                return $this->get_teacher_task_issuance_page();
+                $str.= $this->get_teacher_task_issuance_page();
             }
         }
         else 
         {
             if(lib\is_user_manager($this->cm, $USER->id))
             {
-                return $this->get_manager_task_issuance_page();
+                $str.= $this->get_manager_task_issuance_page();
             }
             else 
             {
-                return $this->get_student_task_issuance_page();
+                $str.= $this->get_student_task_issuance_page();
             }
         }
+
+        return $str;
     }
 
     private function get_teacher_task_issuance_page() : string 
