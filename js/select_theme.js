@@ -11,7 +11,7 @@ class SelectThemePage
     static get_leader_available_courses()
     {
         let selectedLeader = document.getElementById('leader_select').value;
-        let leaders = document.getElementsByClassName('leaders_courses_js');
+        let leaders = document.getElementsByClassName('teachers_and_their_courses_js_data');
 
         let availableCourses;
         for(let i = 0; i < leaders.length; i++)
@@ -45,7 +45,7 @@ class SelectThemePage
 
     static get_course_name(courseId)
     {
-        let courses = document.getElementsByClassName('courses_js');
+        let courses = document.getElementsByClassName('courses_js_data');
         for(let course of courses)
         {
             if(course.dataset.id == courseId)
@@ -63,7 +63,7 @@ class SelectThemePage
 
         // Insert neccessary options
         let selectedCourse = document.getElementById('course_select').value;
-        let themes = document.getElementsByClassName('themes_js');
+        let themes = document.getElementsByClassName('themes_js_data');
         for(let theme of themes)
         {
             if(theme.dataset.courseId == selectedCourse)

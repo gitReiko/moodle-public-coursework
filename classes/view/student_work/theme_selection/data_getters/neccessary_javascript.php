@@ -29,7 +29,7 @@ class NeccessaryJavascript
         foreach($this->teachers as $teacher)
         {
             $attr = array(
-                'class' => 'hidden leaders_courses_js',
+                'class' => 'hidden teachers_and_their_courses_js_data',
                 'data-leader' => $teacher->id,
                 'data-courses' => $this->get_teacher_courses($teacher)
             );
@@ -59,7 +59,7 @@ class NeccessaryJavascript
         foreach($this->courses as $course)
         {
             $attr = array(
-                'class' => 'hidden courses_js',
+                'class' => 'hidden courses_js_data',
                 'data-id' => $course->id,
                 'data-fullname' => $course->name
             );
@@ -79,7 +79,7 @@ class NeccessaryJavascript
             foreach($container->themes as $theme)
             {   
                 $attr = array(
-                    'class' => 'hidden themes_js',
+                    'class' => 'hidden themes_js_data',
                     'data-theme-id' => $theme->id,
                     'data-course-id' => $container->course,
                     'data-name' => $theme->name
