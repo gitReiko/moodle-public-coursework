@@ -9,10 +9,11 @@ class ThemeSelectionBlock
     private $cm;
     private $studentId;
 
-    private $teachers;
-    private $courses;
-    private $themes;
-
+    private $availableTeachers;
+    private $availableCourses;
+    private $availableThemes;
+    private $selectedCourses;
+    private $selectedThemes;
     private $selectedTeacher;
     private $selectedCourse;
 
@@ -24,15 +25,18 @@ class ThemeSelectionBlock
 
         $getter = new ThemeSelectionMainGetter($this->course, $this->cm);
 
-        $this->teachers = $getter->get_available_teachers();
+        $this->availableTeachers = $getter->get_available_teachers();
 
-        if(empty($this->teachers))
+        if(empty($this->availableTeachers))
         {
             throw new Exception(get_string('e:quota_is_over', 'coursework'));
         }
 
-        $this->courses = $getter->get_available_courses();
-        $this->themes = $getter->get_available_themes();
+        $this->availableCourses = $getter->get_available_courses();
+        $this->availableThemes = $getter->get_available_themes();
+
+        $this->selectedCourses = $getter->get_selected_courses();
+        $this->selectedThemes = $getter->get_selected_themes();
 
         $this->selectedTeacher = $getter->get_selected_teacher();
         $this->selectedCourse = $getter->get_selected_course();
@@ -104,7 +108,7 @@ class ThemeSelectionBlock
     private function get_teachers_options() : string 
     {
         $options = '';
-        foreach($this->teachers as $teacher)
+        foreach($this->availableTeachers as $teacher)
         {
             $attr = array('value' => $teacher->id);
             $text = $teacher->name;
@@ -128,7 +132,7 @@ class ThemeSelectionBlock
     private function get_courses_options()
     {
         $options = '';
-        foreach($this->courses as $course)
+        foreach($this->selectedCourses as $course)
         {
             $attr = array('class' => 'course_option', 'value' => $course->id);
             $text = $course->name;
@@ -140,9 +144,9 @@ class ThemeSelectionBlock
 
     private function is_proposed_themes_exists() : bool 
     {
-        foreach($this->themes as $container)
+        foreach($this->availableThemes as $container)
         {
-            if($container->course == $this->selectedCourse)
+            if($container->course == $this->selectedCourse->id)
             {
                 if(is_array($container->themes))
                 {
@@ -180,17 +184,11 @@ class ThemeSelectionBlock
     private function get_themes_options() : string 
     {
         $options = '';
-        foreach($this->themes as $container)
+        foreach($this->selectedThemes as $theme)
         {
-            if($container->course == $this->selectedCourse)
-            {
-                foreach($container->themes as $theme)
-                {
-                    $attr = array('class' => 'course_option', 'value' => $theme->id);
-                    $text = $theme->name;
-                    $options.= \html_writer::tag('option', $text, $attr);
-                }
-            }
+            $attr = array('class' => 'course_option', 'value' => $theme->id);
+            $text = $theme->name;
+            $options.= \html_writer::tag('option', $text, $attr);
         }
 
         return $options;
@@ -294,9 +292,9 @@ class ThemeSelectionBlock
     private function get_js_data() : string 
     {
         $js = new NeccessaryJavascript(
-            $this->teachers,
-            $this->courses,
-            $this->themes
+            $this->availableTeachers,
+            $this->availableCourses,
+            $this->availableThemes
         );
         return $js->get();
     }

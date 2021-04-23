@@ -14,6 +14,10 @@ class ThemeSelectionMainGetter
     private $availableTeachers;
     private $availableCourses;
     private $availableThemes;
+    private $selectedCourses;
+    private $selectedThemes;
+    private $selectedTeacher;
+    private $selectedCourse;
 
     function __construct(stdClass $course, stdClass $cm)
     {
@@ -33,21 +37,31 @@ class ThemeSelectionMainGetter
     public function get_available_courses() 
     {
         return $this->availableCourses;
-    } 
+    }
 
     public function get_available_themes()
     {
         return $this->availableThemes;
     }
 
+    public function get_selected_courses()
+    {
+        return $this->selectedCourses;
+    }
+
+    public function get_selected_themes()
+    {
+        return $this->selectedThemes;
+    }
+
     public function get_selected_teacher() 
     {
-        return reset($this->availableTeachers);
+        return $this->selectedTeacher;
     }
 
     public function get_selected_course()
     {
-        return reset(reset($this->availableTeachers)->courses);
+        return $this->selectedCourse;
     }
 
     private function init_available_teachers_and_courses() : void 
@@ -55,12 +69,22 @@ class ThemeSelectionMainGetter
         $getter = new TeachersAndCoursesGetter($this->course, $this->cm, $this->students);
         $this->availableTeachers = $getter->get_available_teachers();
         $this->availableCourses = $getter->get_available_courses();
+        $this->selectedCourses = $getter->get_selected_courses();
+        $this->selectedTeacher = $getter->get_selected_teacher();
+        $this->selectedCourse = $getter->get_selected_course();
     }
 
     private function init_available_themes() : void 
     {
-        $getter = new ThemesGetter($this->course, $this->cm, $this->availableCourses, $this->students);
+        $getter = new ThemesGetter(
+            $this->course, 
+            $this->cm, 
+            $this->availableCourses, 
+            $this->students, 
+            $this->selectedCourse
+        );
         $this->availableThemes = $getter->get_available_themes();
+        $this->selectedThemes = $getter->get_selected_themes();
     }
 
 

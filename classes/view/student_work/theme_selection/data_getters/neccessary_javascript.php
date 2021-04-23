@@ -61,7 +61,7 @@ class NeccessaryJavascript
             $attr = array(
                 'class' => 'hidden courses_js',
                 'data-id' => $course->id,
-                'data-fullname' => $course->fullname
+                'data-fullname' => $course->name
             );
 
             $data.= \html_writer::tag('p', '', $attr);

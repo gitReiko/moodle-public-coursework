@@ -6,17 +6,21 @@ class ThemesGetter
     private $cm;
     private $themesCourses;
     private $students;
+    private $selectedCourse;
 
     private $availableThemes;
+    private $selectedThemes;
 
-    function __construct(stdClass $course, stdClass $cm, array $themesCourses, $students)
+    function __construct(stdClass $course, stdClass $cm, array $themesCourses, $students, $selectedCourse)
     {
         $this->course = $course;
         $this->cm = $cm;
         $this->themesCourses = $themesCourses;
         $this->students = $students;
+        $this->selectedCourse = $selectedCourse;
 
-        $this->init_themes();
+        $this->init_available_themes();
+        $this->init_selected_themes();
     }
 
     public function get_available_themes()
@@ -24,7 +28,12 @@ class ThemesGetter
         return $this->availableThemes;
     }
 
-    private function init_themes() 
+    public function get_selected_themes()
+    {
+        return $this->selectedThemes;
+    }
+
+    private function init_available_themes() 
     {
         $themes = array();
         foreach($this->themesCourses as $course)
@@ -37,6 +46,19 @@ class ThemesGetter
         }
 
         $this->availableThemes = $themes;
+    }
+
+    private function init_selected_themes()
+    {
+        $selectedThemes = array();
+
+        foreach($this->availableThemes as $value)
+        {
+            if($value->course == $this->selectedCourse->id)
+            {
+                $this->selectedThemes = $value->themes;
+            }
+        }
     }
 
     private function get_course_available_themes(int $courseId) 
