@@ -2,26 +2,29 @@
 
 namespace Coursework\View\StudentWork\ThemeSelection;
 
+use Coursework\Lib\Getters\StudentsGetter as sg;
 use Coursework\Lib\Getters\TeachersGetter as tg;
 
 class TeachersAndCoursesGetter  
 {
     private $course;
     private $cm;
-
+    private $studentId;
     private $students;
     private $teachers;
+    private $studentWork;
  
     private $availableTeachers;
     private $availableCourses;
     private $selectedCourses;
 
-    function __construct(\stdClass $course, \stdClass $cm, $students)
+    function __construct(\stdClass $course, \stdClass $cm, int $studentId, $students)
     {
         $this->course = $course;
         $this->cm = $cm;
+        $this->studentId = $studentId;
         $this->students = $students;
-
+        $this->studentWork = sg::get_students_work($this->cm->instance, $this->studentId);
         $this->teachers = $this->init_teachers();
         $this->availableTeachers = $this->init_available_teachers();
         $this->selectedCourses = $this->init_selected_courses();
@@ -58,6 +61,11 @@ class TeachersAndCoursesGetter
         $teachers = tg::get_coursework_teachers($this->cm->instance);
         $teachers = $this->add_courses_with_quotas_to_teachers($teachers);
 
+        if($this->is_student_selected_teacher())
+        {
+            $teachers = $this->filter_out_unselected_teachers($teachers);
+        }
+
         return $teachers;
     }
 
@@ -70,6 +78,29 @@ class TeachersAndCoursesGetter
         }
 
         return $teachers;
+    }
+
+    private function is_student_selected_teacher() : bool 
+    {
+        if(empty($this->studentWork->teacher))
+        {
+            return false;
+        }
+        else 
+        {
+            return true;
+        }
+    }
+
+    private function filter_out_unselected_teachers($teachers)
+    {
+        foreach($teachers as $teacher)
+        {
+            if($this->studentWork->teacher == $teacher->id)
+            {
+                return array($teacher);
+            }
+        }
     }
 
     private function init_available_teachers()
@@ -138,7 +169,35 @@ class TeachersAndCoursesGetter
             }
         }
 
+        if($this->is_student_selected_course())
+        {
+            $availableCourses = $this->filter_out_unselected_courses($availableCourses);
+        }
+
         return $availableCourses;
+    }
+
+    private function is_student_selected_course() : bool 
+    {
+        if(empty($this->studentWork->course))
+        {
+            return false;
+        }
+        else 
+        {
+            return true;
+        }
+    }
+
+    private function filter_out_unselected_courses($courses)
+    {
+        foreach($courses as $course)
+        {
+            if($this->studentWork->course == $course->id)
+            {
+                return array($course);
+            }
+        }
     }
 
     private function init_selected_courses()
@@ -156,6 +215,11 @@ class TeachersAndCoursesGetter
 
                 $availableCourses[] = $tempCourse;
             }
+        }
+
+        if($this->is_student_selected_course())
+        {
+            $availableCourses = $this->filter_out_unselected_courses($availableCourses);
         }
 
         return $availableCourses;

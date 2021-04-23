@@ -11,6 +11,7 @@ class MainGetter
 {
     private $course;
     private $cm;
+    private $studentId;
     private $students;
 
     private $availableTeachers;
@@ -21,10 +22,11 @@ class MainGetter
     private $selectedTeacher;
     private $selectedCourse;
 
-    function __construct(\stdClass $course, \stdClass $cm)
+    function __construct(\stdClass $course, \stdClass $cm, int $studentId)
     {
         $this->course = $course;
         $this->cm = $cm;
+        $this->studentId = $studentId;
         $this->students = sg::get_all_students($this->cm);
 
         $this->init_available_teachers_and_courses();
@@ -68,7 +70,7 @@ class MainGetter
 
     private function init_available_teachers_and_courses() : void 
     {
-        $getter = new TeachersAndCoursesGetter($this->course, $this->cm, $this->students);
+        $getter = new TeachersAndCoursesGetter($this->course, $this->cm, $this->studentId, $this->students);
         $this->availableTeachers = $getter->get_available_teachers();
         $this->availableCourses = $getter->get_available_courses();
         $this->selectedCourses = $getter->get_selected_courses();

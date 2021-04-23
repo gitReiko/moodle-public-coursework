@@ -27,7 +27,7 @@ class ThemeSelectionBlock
         $this->cm = $cm;
         $this->studentId = $studentId;
 
-        $getter = new MainGetter($this->course, $this->cm);
+        $getter = new MainGetter($this->course, $this->cm, $this->studentId);
 
         $this->availableTeachers = $getter->get_available_teachers();
 
