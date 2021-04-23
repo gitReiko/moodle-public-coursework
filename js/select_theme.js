@@ -57,13 +57,70 @@ class SelectThemePage
 
     static update_themes_select()
     {
-        // Delete select options
         let themeSelect = document.getElementById('theme_select');
-        themeSelect.innerHTML = '';
-
-        // Insert neccessary options
         let selectedCourse = document.getElementById('course_select').value;
         let themes = document.getElementsByClassName('themes_js_data');
+
+        if(this.is_course_themes_not_exists(selectedCourse, themes))
+        {
+            this.disable_proposed_themes(themeSelect);
+        }
+        else 
+        {
+            this.update_themes(themeSelect, selectedCourse, themes);
+        }
+    }
+
+    static is_course_themes_not_exists(selectedCourse, themes)
+    {
+        for(let theme of themes)
+        {
+            if(theme.dataset.courseId == selectedCourse)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    static disable_proposed_themes(themeSelect)
+    {
+        this.delete_select_options(themeSelect);
+
+        let useOwnTheme = document.getElementById('useOwnTheme');
+        let ownThemeInput = document.getElementById('own_theme_input');
+
+        themeSelect.disabled = true;
+        useOwnTheme.disabled = true;
+        ownThemeInput.disabled = false;
+
+        document.getElementById('useOwnThemeParagraph').onclick = '';
+
+        let option = document.createElement('option');
+        option.value = 0;
+        option.innerHTML = 'Отсутствуют';
+        themeSelect.append(option);
+    }
+
+    static delete_select_options(themeSelect)
+    {
+        themeSelect.innerHTML = '';
+    }
+
+    static update_themes(themeSelect, selectedCourse, themes)
+    {
+        this.delete_select_options(themeSelect);
+
+        document.getElementById('useOwnThemeParagraph').onclick = function()
+        {
+            SelectThemePage.use_own_theme();
+        }
+
+        themeSelect.disabled = false;
+        document.getElementById('useOwnTheme').disabled = false;
+        document.getElementById('own_theme_input').disabled = true;
+
         for(let theme of themes)
         {
             if(theme.dataset.courseId == selectedCourse)
@@ -103,7 +160,6 @@ class SelectThemePage
         {
             ownTheme.disabled = true;
             offerTheme.disabled = false;
-
         }
         else 
         {

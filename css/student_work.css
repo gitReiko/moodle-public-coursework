@@ -160,3 +160,8 @@ table.workTask tr td.center
 {
     text-align: center;
 }
+
+.grey 
+{
+    color: grey;
+}

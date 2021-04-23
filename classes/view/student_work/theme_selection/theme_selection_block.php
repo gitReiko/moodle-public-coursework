@@ -222,6 +222,7 @@ class ThemeSelectionBlock
         $input = \html_writer::empty_tag('input', $attr);
 
         $attr = array(
+            'id' => 'useOwnThemeParagraph',
             'class' => 'pageHeader themeSelectCheckbox',
             'onclick' => 'SelectThemePage.use_own_theme()'
         );
