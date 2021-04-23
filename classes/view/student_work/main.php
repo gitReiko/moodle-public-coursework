@@ -26,6 +26,7 @@ require_once 'components/navigation.php';
 
 require_once 'locallib.php';
 
+use Coursework\View\StudentWork\ThemeSelection\Main as themeSelect;
 use Coursework\View\StudentWork\SaveFiles as save_files;
 use Coursework\View\StudentsWork as sw;
 
@@ -101,7 +102,7 @@ class StudentWorkMain
 
     private function get_theme_selection_page() : string 
     {
-        $themeSelection = new ThemeSelectionMain($this->course, $this->cm, $this->studentId);
+        $themeSelection = new themeSelect($this->course, $this->cm, $this->studentId);
         return $themeSelection->get_page();
     }
 

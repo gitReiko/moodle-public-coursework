@@ -1,11 +1,13 @@
 <?php
 
+namespace Coursework\View\StudentWork\ThemeSelection;
+
 use Coursework\Lib\Getters\StudentsGetter as sg;
 
 require_once 'teachers_and_courses.php';
 require_once 'themes_getter.php';
 
-class ThemeSelectionMainGetter  
+class MainGetter  
 {
     private $course;
     private $cm;
@@ -19,7 +21,7 @@ class ThemeSelectionMainGetter
     private $selectedTeacher;
     private $selectedCourse;
 
-    function __construct(stdClass $course, stdClass $cm)
+    function __construct(\stdClass $course, \stdClass $cm)
     {
         $this->course = $course;
         $this->cm = $cm;

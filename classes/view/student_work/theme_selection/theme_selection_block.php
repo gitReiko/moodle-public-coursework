@@ -1,5 +1,7 @@
 <?php
 
+namespace Coursework\View\StudentWork\ThemeSelection;
+
 require_once 'data_getters/main.php';
 require_once 'data_getters/neccessary_javascript.php';
 
@@ -17,13 +19,13 @@ class ThemeSelectionBlock
     private $selectedTeacher;
     private $selectedCourse;
 
-    function __construct(stdClass $course, stdClass $cm, int $studentId)
+    function __construct(\stdClass $course, \stdClass $cm, int $studentId)
     {
         $this->course = $course;
         $this->cm = $cm;
         $this->studentId = $studentId;
 
-        $getter = new ThemeSelectionMainGetter($this->course, $this->cm);
+        $getter = new MainGetter($this->course, $this->cm);
 
         $this->availableTeachers = $getter->get_available_teachers();
 
@@ -277,7 +279,7 @@ class ThemeSelectionBlock
         $attr = array(
             'type' => 'hidden',
             'name' => DB_EVENT,
-            'value' => ViewDatabaseHandler::SELECT_THEME
+            'value' => \ViewDatabaseHandler::SELECT_THEME
         );
         $inputs.= \html_writer::empty_tag('input', $attr);
 

@@ -1,5 +1,7 @@
 <?php 
 
+namespace Coursework\View\StudentWork\ThemeSelection;
+
 class NeccessaryJavascript 
 {
     private $teachers;

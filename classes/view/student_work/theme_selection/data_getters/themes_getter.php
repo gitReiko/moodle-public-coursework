@@ -1,5 +1,7 @@
 <?php
 
+namespace Coursework\View\StudentWork\ThemeSelection;
+
 class ThemesGetter 
 {
     private $course;
@@ -11,7 +13,7 @@ class ThemesGetter
     private $availableThemes;
     private $selectedThemes;
 
-    function __construct(stdClass $course, stdClass $cm, array $themesCourses, $students, $selectedCourse)
+    function __construct(\stdClass $course, \stdClass $cm, array $themesCourses, $students, $selectedCourse)
     {
         $this->course = $course;
         $this->cm = $cm;
@@ -38,7 +40,7 @@ class ThemesGetter
         $themes = array();
         foreach($this->themesCourses as $course)
         {
-            $collection = new stdClass;
+            $collection = new \stdClass;
             $collection->course = $course->id;
             $collection->themes = $this->get_course_available_themes($course->id);
 

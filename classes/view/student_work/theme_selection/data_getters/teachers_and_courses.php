@@ -1,5 +1,7 @@
 <?php
 
+namespace Coursework\View\StudentWork\ThemeSelection;
+
 use Coursework\Lib\Getters\TeachersGetter as tg;
 
 class TeachersAndCoursesGetter  
@@ -14,7 +16,7 @@ class TeachersAndCoursesGetter
     private $availableCourses;
     private $selectedCourses;
 
-    function __construct(stdClass $course, stdClass $cm, $students)
+    function __construct(\stdClass $course, \stdClass $cm, $students)
     {
         $this->course = $course;
         $this->cm = $cm;
