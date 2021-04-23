@@ -2,6 +2,8 @@
 
 namespace Coursework\View\StudentWork\ThemeSelection;
 
+use Coursework\Lib\CommonLib as cl; 
+
 require_once 'data_getters/main.php';
 require_once 'data_getters/neccessary_javascript.php';
 
@@ -46,6 +48,20 @@ class ThemeSelectionBlock
 
     public function get_block() : string 
     {
+        global $USER;
+
+        if(cl::is_user_student($this->cm, $USER->id))
+        {
+            return $this->get_select_theme_block();
+        }
+        else 
+        {
+            return $this->get_theme_no_selected();
+        }
+    }
+
+    private function get_select_theme_block() : string 
+    {
         $page = $this->get_start_of_html_form();
         $page.= $this->get_teacher_select();
         $page.= $this->get_course_select();
@@ -65,7 +81,14 @@ class ThemeSelectionBlock
         $page.= $this->get_neccessary_form_inputs();
         $page.= $this->get_end_of_html_form();
         $page.= $this->get_js_data();
+
         return $page;
+    }
+
+    private function get_theme_no_selected() : string 
+    {
+        $text = get_string('theme_no_selected', 'coursework');
+        return \html_writer::tag('p', $text);
     }
 
     private function get_start_of_html_form() : string 

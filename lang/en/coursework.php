@@ -340,3 +340,4 @@ $string['regrade'] = 'Regrade';
 $string['navigation'] = 'Navigation';
 $string['proposed_themes'] = 'Proposed themes';
 $string['themes_missing'] = 'Missing.';
+$string['theme_no_selected'] = 'Theme no selected.';

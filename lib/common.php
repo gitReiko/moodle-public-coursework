@@ -13,7 +13,11 @@ class CommonLib
     {
         $context = \context_module::instance($cm->id);
 
-        if(has_capability('mod/coursework:is_student', $context, $userId))
+        if(
+            (has_capability('mod/coursework:is_student', $context, $userId))
+            && !(has_capability('mod/coursework:is_teacher', $context, $userId))
+            && !(has_capability('mod/coursework:is_manager', $context, $userId))
+        )
         {
             return true;
         }
@@ -27,7 +31,9 @@ class CommonLib
     {
         $context = \context_module::instance($cm->id);
 
-        if(has_capability('mod/coursework:is_teacher', $context, $userId))
+        if((has_capability('mod/coursework:is_teacher', $context, $userId))
+            && !(has_capability('mod/coursework:is_manager', $context, $userId))
+        )
         {
             return true;
         }
