@@ -1,5 +1,4 @@
 
-// --------------------------------------------------------
 class SelectThemePage 
 {
     static change_available_courses()
@@ -57,17 +56,16 @@ class SelectThemePage
 
     static update_themes_select()
     {
-        let themeSelect = document.getElementById('theme_select');
         let selectedCourse = document.getElementById('course_select').value;
         let themes = document.getElementsByClassName('themes_js_data');
 
         if(this.is_course_themes_not_exists(selectedCourse, themes))
         {
-            this.disable_proposed_themes(themeSelect);
+            this.disable_proposed_themes();
         }
         else 
         {
-            this.update_themes(themeSelect, selectedCourse, themes);
+            this.update_proposed_themes(selectedCourse, themes);
         }
     }
 
@@ -84,54 +82,24 @@ class SelectThemePage
         return true;
     }
 
-    static disable_proposed_themes(themeSelect)
+    static disable_proposed_themes()
     {
-        this.delete_select_options(themeSelect);
+        this.disable_proposed_themes_select();
+        this.delete_select_options();
+        this.add_missing_themes_option();
 
-        let useOwnTheme = document.getElementById('useOwnTheme');
-        let ownThemeInput = document.getElementById('own_theme_input');
-
-        themeSelect.disabled = true;
-        useOwnTheme.disabled = true;
-        ownThemeInput.disabled = false;
-
-        document.getElementById('useOwnThemeParagraph').onclick = '';
-
-        let option = document.createElement('option');
-        option.value = 0;
-        option.innerHTML = 'Отсутствуют';
-        themeSelect.append(option);
+        this.disable_use_own_theme();
+        this.enable_own_theme_input();
     }
 
-    static delete_select_options(themeSelect)
+    static update_proposed_themes(selectedCourse, themes)
     {
-        themeSelect.innerHTML = '';
-    }
+        this.enable_proposed_themes_select();
+        this.delete_select_options();
+        this.add_proposed_themes_options(selectedCourse, themes);
 
-    static update_themes(themeSelect, selectedCourse, themes)
-    {
-        this.delete_select_options(themeSelect);
-
-        document.getElementById('useOwnThemeParagraph').onclick = function()
-        {
-            SelectThemePage.use_own_theme();
-        }
-
-        themeSelect.disabled = false;
-        document.getElementById('useOwnTheme').disabled = false;
-        document.getElementById('own_theme_input').disabled = true;
-
-        for(let theme of themes)
-        {
-            if(theme.dataset.courseId == selectedCourse)
-            {
-                let option = document.createElement('option');
-                option.value = theme.dataset.themeId;
-                option.innerHTML = theme.dataset.name;
-    
-                themeSelect.append(option);
-            }
-        }
+        this.enable_use_own_theme();
+        this.disable_own_theme_input();
     }
 
     static use_own_theme()
@@ -167,5 +135,78 @@ class SelectThemePage
             offerTheme.disabled = true;
         }
     }
+
+    static enable_proposed_themes_select()
+    {
+        document.getElementById('theme_select').disabled = false;
+    }
+
+    static disable_proposed_themes_select()
+    {
+        document.getElementById('theme_select').disabled = true;
+    }
+
+    static delete_select_options()
+    {
+        document.getElementById('theme_select').innerHTML = '';
+    }
+
+    static add_missing_themes_option()
+    {
+        let option = document.createElement('option');
+        option.value = 0;
+        option.innerHTML = 'Отсутствуют';
+        document.getElementById('theme_select').append(option);
+    }
+
+    static add_proposed_themes_options(selectedCourse, themes)
+    {
+        let themeSelect = document.getElementById('theme_select');
+
+        for(let theme of themes)
+        {
+            if(theme.dataset.courseId == selectedCourse)
+            {
+                let option = document.createElement('option');
+                option.value = theme.dataset.themeId;
+                option.innerHTML = theme.dataset.name;
+    
+                themeSelect.append(option);
+            }
+        }
+    }
+
+    static enable_use_own_theme()
+    {
+        document.getElementById('useOwnThemeParagraph').onclick = function()
+        {
+            SelectThemePage.use_own_theme();
+        }
+
+        document.getElementById('useOwnTheme').onclick = function()
+        {
+            SelectThemePage.use_own_theme();
+            SelectThemePage.offer_or_own_theme_switcher();
+        }
+        document.getElementById('useOwnTheme').disabled = false;
+    }
+
+    static disable_use_own_theme()
+    {
+        document.getElementById('useOwnThemeParagraph').onclick = '';
+        document.getElementById('useOwnTheme').disabled = true;
+        document.getElementById('useOwnTheme').onclick = '';
+    }
+
+    static enable_own_theme_input()
+    {
+        document.getElementById('own_theme_input').disabled = false;
+    }
+
+    static disable_own_theme_input()
+    {
+        document.getElementById('own_theme_input').disabled = true;
+    }
+
 
 }

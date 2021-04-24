@@ -65,17 +65,8 @@ class ThemeSelectionBlock
         $page = $this->get_start_of_html_form();
         $page.= $this->get_teacher_select();
         $page.= $this->get_course_select();
-
-        if($this->is_proposed_themes_exists())
-        {
-            $page.= $this->get_theme_select();
-            $page.= $this->get_use_own_theme_checkbox();
-        }
-        else 
-        {
-            $page.= $this->get_missing_proposed_themes();
-        }
-        
+        $page.= $this->get_theme_select();
+        $page.= $this->get_use_own_theme_checkbox();
         $page.= $this->get_own_theme_input();
         $page.= $this->get_select_theme_button();
         $page.= $this->get_neccessary_form_inputs();
@@ -111,7 +102,15 @@ class ThemeSelectionBlock
         return $this->get_select($title, $id, $name, $onchange, $options);
     }
 
-    private function get_select(string $title, string $id, string $name, string $onchange, string $options, int $size = 1) : string 
+    private function get_select(
+        string $title, 
+        string $id, 
+        string $name, 
+        string $onchange, 
+        string $options, 
+        int $size = 1, 
+        bool $disabled = false
+    ) : string 
     {
         $attr = array('class' => 'pageHeader');
         $header = \html_writer::tag('p', $title, $attr);
@@ -124,6 +123,12 @@ class ThemeSelectionBlock
             'autocomplete' => 'off',
             'autofocus' => 'autofocus'
         );
+
+        if($disabled)
+        {
+            $attr = array_merge($attr, array('disabled' => 'disabled'));
+        }
+
         $select = \html_writer::tag('select', $options, $attr);
         $select = \html_writer::tag('p', $select);
 
@@ -203,10 +208,31 @@ class ThemeSelectionBlock
         $options = $this->get_themes_options();
         $size = 10;
 
-        return $this->get_select($title, $id, $name, $onchange, $options, $size);
+        if($this->is_proposed_themes_exists())
+        {
+            $disabled = false;
+        }
+        else 
+        {
+            $disabled = true;
+        }
+
+        return $this->get_select($title, $id, $name, $onchange, $options, $size, $disabled);
     }
 
     private function get_themes_options() : string 
+    {
+        if($this->is_proposed_themes_exists())
+        {
+            return $this->get_proposed_themes_options();
+        }
+        else 
+        {
+            return $this->get_missing_themes_option();
+        }
+    }
+
+    private function get_proposed_themes_options() : bool 
     {
         $options = '';
         foreach($this->selectedThemes as $theme)
@@ -219,36 +245,44 @@ class ThemeSelectionBlock
         return $options;
     }
 
-    private function get_missing_proposed_themes() : string 
+    private function get_missing_themes_option() : string 
     {
-        $attr = array('class' => 'pageHeader');
-        $text = get_string('proposed_themes', 'coursework');
-        $str = \html_writer::tag('p', $text, $attr);
-
+        $attr = array('class' => 'course_option', 'value' => 0);
         $text = get_string('themes_missing', 'coursework');
-        $str.= \html_writer::tag('p', $text);
-        
-        return $str;
+        return \html_writer::tag('option', $text, $attr);
     }
 
     private function get_use_own_theme_checkbox()
     {
-        $onclick = 'SelectThemePage.use_own_theme();';
-        $onclick.= 'SelectThemePage.offer_or_own_theme_switcher();';
-
         $attr = array(
             'type' => 'checkbox',
             'id' => 'useOwnTheme',
-            'onclick' => $onclick,
             'autocomplete' => 'off'
         );
+
+        if($this->is_proposed_themes_exists())
+        {
+            $onclick = 'SelectThemePage.use_own_theme();';
+            $onclick.= 'SelectThemePage.offer_or_own_theme_switcher();';
+            $attr = array_merge($attr, array('onclick' => $onclick));
+        }
+        else
+        {
+            $attr = array_merge($attr, array('disabled' => 'disabled'));
+        }
+
         $input = \html_writer::empty_tag('input', $attr);
 
         $attr = array(
             'id' => 'useOwnThemeParagraph',
-            'class' => 'pageHeader themeSelectCheckbox',
-            'onclick' => 'SelectThemePage.use_own_theme()'
+            'class' => 'pageHeader themeSelectCheckbox'
         );
+
+        if($this->is_proposed_themes_exists())
+        {
+            $attr = array_merge($attr, array('onclick' => 'SelectThemePage.use_own_theme()'));
+        }
+
         $text = $input;
         $text.= ' '.get_string('use_own_theme', 'coursework');
 
