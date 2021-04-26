@@ -350,3 +350,7 @@ $string['proposed_themes'] = 'Предлагаемые темы';
 $string['themes_missing'] = 'Отсутствуют';
 $string['theme_no_selected'] = 'Тема не выбрана.';
 $string['waiting_for_task_assignment'] = 'Ожидание выдачи задания.';
+$string['assign_default_task'] = 'Выдать стандартное задание';
+$string['correct_default_task'] = 'Скорректировать стандартное задание';
+$string['issuing_assignment_to_student'] = 'Выдача задания студенту';
+$string['default_task'] = 'Стандартное задание';

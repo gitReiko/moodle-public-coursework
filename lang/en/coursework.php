@@ -342,3 +342,7 @@ $string['proposed_themes'] = 'Proposed themes';
 $string['themes_missing'] = 'Missing';
 $string['theme_no_selected'] = 'Theme no selected.';
 $string['waiting_for_task_assignment'] = 'Waiting for task assignment.';
+$string['assign_default_task'] = 'Assign default task';
+$string['correct_default_task'] = 'Correct default task';
+$string['issuing_assignment_to_student'] = 'Issuing an assignment to a student';
+$string['default_task'] = 'Default task';

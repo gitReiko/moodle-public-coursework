@@ -2,6 +2,7 @@
 
 namespace Coursework\View\StudentWork\TaskAssignment;
 
+require_once 'task_assign_methods.php';
 require_once 'assign_custom_task.php';
 require_once 'assign_new_task.php';
 require_once 'correct_task.php';
@@ -101,7 +102,7 @@ class Main
         }
         else 
         {
-            return $this->get_assign_task_buttons();
+            return $this->get_task_assign_methods();
         }
     }
 
@@ -117,108 +118,10 @@ class Main
         return $newTask->get_page();
     }
 
-    private function get_assign_task_buttons() : string 
+    private function get_task_assign_methods() : string 
     {
-        $text = $this->get_use_template_button();
-        $text.= $this->get_correct_template_button();
-        $text.= $this->get_create_task_button();
-        return \html_writer::tag('p', $text);
-    }
-
-    private function get_use_template_button() : string 
-    {
-        $btn = $this->get_neccessary_form_params();
-
-        $attr = array(
-            'type' => 'hidden',
-            'name' => DB_EVENT,
-            'value' => \ViewDatabaseHandler::USE_TASK_TEMPLATE
-        );
-        $btn.= \html_writer::empty_tag('input', $attr);
-
-        $text = get_string('use_task_template', 'coursework');
-        $btn.= \html_writer::tag('button', $text);
-
-        $attr = array(
-            'method' => 'post',
-            'style' => 'display: inline-block'
-        );
-        return \html_writer::tag('form', $btn, $attr);
-    }
-
-    private function get_neccessary_form_params() : string 
-    {
-        $attr = array(
-            'type' => 'hidden',
-            'name' => ID,
-            'value' => $this->cm->id
-        );
-        $params = \html_writer::empty_tag('input', $attr);
-
-        $attr = array(
-            'type' => 'hidden',
-            'name' => STUDENT.ID,
-            'value' => $this->studentId
-        );
-        $params.= \html_writer::empty_tag('input', $attr);
-
-        return $params;
-    }
-
-    private function get_correct_template_button() : string 
-    {
-        $btn = $this->get_neccessary_form_params();
-
-        $attr = array(
-            'type' => 'hidden', 
-            'name' => \ViewMain::GUI_EVENT, 
-            'value' => \ViewMain::USER_WORK 
-        );
-        $btn.= \html_writer::empty_tag('input', $attr);
-
-        $attr = array(
-            'type' => 'hidden', 
-            'name' => self::ASSIGN_PAGE, 
-            'value' => self::TEMPLATE_CORRECT 
-        );
-        $btn.= \html_writer::empty_tag('input', $attr);
-
-        $text = get_string('correct_template', 'coursework');
-        $btn.= \html_writer::tag('button', $text);
-
-        $attr = array(
-            'method' => 'post',
-            'style' => 'display: inline-block'
-        );
-        return \html_writer::tag('form', $btn, $attr);
-    }
-
-    private function get_create_task_button() : string 
-    {
-        $btn = $this->get_neccessary_form_params();
-
-        $attr = array(
-            'type' => 'hidden', 
-            'name' => \ViewMain::GUI_EVENT, 
-            'value' => \ViewMain::USER_WORK 
-        );
-        $btn.= \html_writer::empty_tag('input', $attr);
-
-        $attr = array(
-            'type' => 'hidden', 
-            'name' => self::ASSIGN_PAGE, 
-            'value' => self::NEW_TASK 
-        );
-        $btn.= \html_writer::empty_tag('input', $attr);
-
-        $text = get_string('create_new_task', 'coursework');
-        $btn.= \html_writer::tag('button', $text);
-
-        $attr = array(
-            'method' => 'post',
-            'style' => 'display: inline-block'
-        );
-        return \html_writer::tag('form', $btn, $attr);
+        $taskAssignMethods = new TaskAssignMethods($this->cm, $this->studentId);
+        return $taskAssignMethods->get();
     }
 
     protected function get_waiting_for_task_assignment_message() : string 
