@@ -26,6 +26,25 @@ class CommonGetter
         return $DB->get_field('coursework', 'name', array('id'=> $courseworkId));
     }
 
+    public static function get_default_coursework_task(\stdClass $cm)
+    {
+        global $DB;
+        $sql = 'SELECT ct.*
+                FROM {coursework_tasks} AS ct
+                INNER JOIN {coursework_tasks_using} AS ctu
+                ON ct.id = ctu.task
+                WHERE coursework = ?';
+        $conditions = array($cm->instance);
+        return $DB->get_record_sql($sql, $conditions);
+    }
+
+    public static function get_task_sections(int $taskId)
+    {
+        global $DB;
+        $conditions = array('task' => $taskId);
+        return $DB->get_records('coursework_tasks_sections', $conditions, 'listposition, name');
+    }
+
     public static function get_coursework_group_mode(\stdClass $cm) 
     {
         return groups_get_activity_groupmode($cm);

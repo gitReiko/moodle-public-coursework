@@ -11,6 +11,7 @@ class StudentTaskGetter
     private $studentId;
 
     private $studentWork;
+    private $task;
     private $sections;
 
     function __construct(int $courseworkId, int $studentId)
@@ -19,12 +20,18 @@ class StudentTaskGetter
         $this->studentId = $studentId;
 
         $this->init_student_work();
+        $this->init_task();
         $this->init_sections();
     }
 
     public function get_task_id() 
     {
-        return $this->studentWork->task;
+        return $this->task->id;
+    }
+
+    public function get_task()
+    {
+        return $this->task;
     }
 
     public function get_sections()
@@ -42,6 +49,13 @@ class StudentTaskGetter
         $this->studentWork = $DB->get_record('coursework_students', $where);
     }
 
+    function init_task()
+    {
+        global $DB;
+        $where = array('id' => $this->studentWork->task);
+        $this->task = $DB->get_record('coursework_tasks', $where);
+    }
+
     private function init_sections()
     {
         $sections = $this->get_task_sections();
@@ -54,7 +68,7 @@ class StudentTaskGetter
     {
         global $DB;
         $table = 'coursework_tasks_sections';
-        $where = array('task' => $this->studentWork->task);
+        $where = array('task' => $this->task->id);
         $orderBy = 'listposition';
         return $DB->get_records($table, $where, $orderBy);
     }

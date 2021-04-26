@@ -1,18 +1,26 @@
 <?php
 
-use coursework_lib as lib;
+namespace Coursework\View\StudentWork\TaskAssignment;
+
+use Coursework\Lib\Getters\CommonGetter as cg;
 
 class CorrectTask extends AssignCustomTask 
 {
     private $task;
     private $taskSections;
 
-    function __construct(stdClass $course, stdClass $cm, int $studentId)
+    function __construct(\stdClass $course, \stdClass $cm, int $studentId)
     {
         parent::__construct($course, $cm, $studentId);
 
-        $this->task = lib\get_using_task($cm);
-        $this->taskSections = lib\get_task_sections($this->task->id);
+        $this->task = cg::get_default_coursework_task($cm);
+
+        if(empty($this->task->id))
+        {
+            throw new \Exception('Missing default coursework task id.');
+        }
+
+        $this->taskSections = cg::get_task_sections($this->task->id);
     }
 
     protected function get_page_header() : string
@@ -41,7 +49,7 @@ class CorrectTask extends AssignCustomTask
         return $tbody;
     }
 
-    private function get_name_cell(stdClass $section) : string 
+    private function get_name_cell(\stdClass $section) : string 
     {
         $cell = '<td>';
         $cell.= '<input type="text" name="name[]" ';
@@ -53,7 +61,7 @@ class CorrectTask extends AssignCustomTask
         return $cell;
     }
 
-    private function get_completion_date_cell(stdClass $section) : string 
+    private function get_completion_date_cell(\stdClass $section) : string 
     {
         $cell = '<td>';
         $cell.= '<input type="date" name="completion_date[]" ';

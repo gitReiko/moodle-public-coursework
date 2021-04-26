@@ -2,6 +2,10 @@
 
 namespace Coursework\View\StudentWork\TaskAssignment;
 
+require_once 'new_assign_custom_task.php';
+require_once 'new_assign_new_task.php';
+require_once 'new_correct_task.php';
+
 use Coursework\View\StudentsWork\Locallib as locallib;
 use Coursework\View\StudentsWork\Components as c;
 use Coursework\Lib\Getters\CommonGetter as cg;
@@ -9,6 +13,10 @@ use Coursework\Lib\Getters\StudentsGetter as sg;
 
 class Main 
 {
+    const ASSIGN_PAGE = 'assign_page';
+    const TEMPLATE_CORRECT = 'template_correct';
+    const NEW_TASK = 'new_task';
+
     private $course;
     private $cm;
     private $studentId;
@@ -71,7 +79,7 @@ class Main
     {
         if(locallib::is_user_teacher($this->studentWork))
         {
-            return $this->get_assign_task_buttons();
+            return $this->get_teacher_task_assignment_block();
         }
         else 
         {
@@ -79,7 +87,37 @@ class Main
         }
     }
 
-    protected function get_assign_task_buttons() : string 
+    private function get_teacher_task_assignment_block()
+    {
+        $page = optional_param(self::ASSIGN_PAGE, null, PARAM_TEXT);
+
+        if($page == self::TEMPLATE_CORRECT)
+        {
+            return $this->get_correct_task_page();
+        }
+        else if($page == self::NEW_TASK)
+        {
+            return $this->get_create_new_task_page();
+        }
+        else 
+        {
+            return $this->get_assign_task_buttons();
+        }
+    }
+
+    private function get_correct_task_page() : string 
+    {
+        $correctTask = new CorrectTask($this->course, $this->cm, $this->studentId);
+        return $correctTask->get_page();
+    }
+
+    private function get_create_new_task_page() : string 
+    {
+        $newTask = new AssignNewTask($this->course, $this->cm, $this->studentId);
+        return $newTask->get_page();
+    }
+
+    private function get_assign_task_buttons() : string 
     {
         $text = $this->get_use_template_button();
         $text.= $this->get_correct_template_button();
