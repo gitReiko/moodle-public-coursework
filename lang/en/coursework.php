@@ -341,3 +341,4 @@ $string['navigation'] = 'Navigation';
 $string['proposed_themes'] = 'Proposed themes';
 $string['themes_missing'] = 'Missing';
 $string['theme_no_selected'] = 'Theme no selected.';
+$string['waiting_for_task_assignment'] = 'Waiting for task assignment.';

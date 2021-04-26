@@ -349,3 +349,4 @@ $string['navigation'] = 'Навигация';
 $string['proposed_themes'] = 'Предлагаемые темы';
 $string['themes_missing'] = 'Отсутствуют';
 $string['theme_no_selected'] = 'Тема не выбрана.';
+$string['waiting_for_task_assignment'] = 'Ожидание выдачи задания.';
