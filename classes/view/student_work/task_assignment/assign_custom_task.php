@@ -31,97 +31,166 @@ abstract class AssignCustomTask
 
     private function get_description_field() : string 
     {
-        $field = '<h4>'.get_string('description', 'coursework').'</h4>';
-        $field.= '<p>'.$this->get_description_textarea().'</p>';
-        return $field; 
+        $attr = array('style' => 'font-size:large');
+        $text = get_string('description', 'coursework');
+        $str = \html_writer::tag('h3', $text, $attr);
+
+        $text = $this->get_description_textarea();
+        $str.= \html_writer::tag('p', $text);
+
+        return $str;
     }
 
     private function get_description_textarea() : string 
     {
-        $area = '<textarea name="'.DESCRIPTION.'" cols="80" rows="5" ';
-        $area.= ' form="'.$this->formName.'" autofocus>';
-        $area.= $this->get_description_value();
-        $area.= '</textarea>';
-        return $area;
+        $attr = array(
+            'name' => DESCRIPTION,
+            'cols' => 80,
+            'rows' => 5,
+            'form' => $this->formName,
+            'autofocus' => 'autofocus'
+        );
+        $text = $this->get_description_value();
+        return \html_writer::tag('textarea', $text, $attr);
     }
 
     abstract protected function get_description_value() : string;
 
     private function get_task_sections_list() : string 
     {
-        $table = '<h4>'.get_string('task_sections_list', 'coursework').'</h4>';
-        $table.= '<table class="simple_table">';
-        $table.= $this->get_task_sections_list_header();
-        $table.= $this->get_task_sections_list_body();
-        $table.= '</table>';
-        return $table;
+        $attr = array('style' => 'font-size: large');
+        $text = get_string('task_sections_list', 'coursework');
+        $str = \html_writer::tag('p', $text, $attr);
+
+        $attr = array('class' => 'simple_table');
+        $text = $this->get_task_sections_list_header();
+        $text.= $this->get_task_sections_list_body();
+        return \html_writer::tag('table', $text, $attr);
     }
+
     private function get_task_sections_list_header() : string 
     {
-        $header = '<thead><tr class="header">';
-        $header.= '<td>'.get_string('name', 'coursework').'</td>';
-        $header.= '<td>'.get_string('completion_date', 'coursework'). '</td>';
-        $header.= '<td></td>';
-        $header.= '</tr></thead>';
+        $text = get_string('name', 'coursework');
+        $header = \html_writer::tag('td', $text);
+
+        $text = get_string('completion_date', 'coursework');
+        $header.= \html_writer::tag('td', $text);
+
+        $text = '';
+        $header.= \html_writer::tag('td', $text);
+
+        $attr = array('class' => 'header');
+        $header = \html_writer::tag('tr', $header, $attr);
+
+        $header = \html_writer::tag('thead', $header);
+
         return $header;
     }
 
     private function get_task_sections_list_body() : string 
     {
-        $tbody = '<tbody id="sections_container">';
-        $tbody.= $this->get_tbody_sections();
-        $tbody.= '</tbody>';
-        return $tbody;
+        $attr = array('id' => 'sections_container');
+        $text = $this->get_tbody_sections();
+        return \html_writer::tag('tbody', $text, $attr);
     }
 
     abstract protected function get_tbody_sections() : string;
 
     private function get_add_section_button() : string 
     {
-        return '<button onclick="CustomTaskPage.add_section()">'.get_string('add_task_section', 'coursework').'</button>';
+        $attr = array('onclick' => 'CustomTaskPage.add_section()');
+        $text = get_string('add_task_section', 'coursework');
+        $btn = \html_writer::tag('button', $text, $attr);
+
+        return \html_writer::tag('p', $btn);
     }
 
     private function get_button_block() : string 
     {
-        $block = '<table><tr>';
-        $block.= '<td>'.$this->get_give_task_button().'</td>';
-        $block.= '<td>'.$this->get_back_button().'</td>';
-        $block.= '</tr></table>';
-        return $block;
+        $text = $this->get_give_task_button();
+        $block = \html_writer::tag('td', $text);
+
+        $text = $this->get_back_button();
+        $block.= \html_writer::tag('td', $text);
+
+        $block = \html_writer::tag('tr', $block);
+        
+        return \html_writer::tag('table', $block);
     }
 
     private function get_give_task_button() : string 
     {
-        $btn = '<button onclick="return CustomTaskPage.validate_form()" ';
-        $btn.= 'form="'.$this->formName.'">';
-        $btn.= get_string('give_task', 'coursework');
-        $btn.= '</button>';
-        return $btn;
+        $attr = array(
+            'onclick' => 'return CustomTaskPage.validate_form()',
+            'form' => $this->formName
+        );
+        $text = get_string('give_task', 'coursework');
+        return \html_writer::tag('button', $text, $attr);
     }
 
     private function get_back_button() : string 
     {
-        $btn = '<form method="post">';
-        $btn.= '<input type="hidden" name="'.ID.'" value="'.$this->cm->id.'"/>';
-        $btn.= '<input type="hidden" name="'.\ViewMain::GUI_EVENT.'" value="'.\ViewMain::USER_WORK.'">';
-        $btn.= '<input type="hidden" name="'.STUDENT.ID.'" value="'.$this->studentId.'">';
-        $btn.= '<button>'.get_string('back', 'coursework').'</button>';
-        $btn.= '</form>';
-        return $btn;
+        $attr = array(
+            'type' => 'hidden',
+            'name' => ID,
+            'value' => $this->cm->id
+        );
+        $btn = \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => \ViewMain::GUI_EVENT,
+            'value' => \ViewMain::USER_WORK
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => STUDENT.ID,
+            'value' => $this->studentId
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $text = get_string('back', 'coursework');
+        $btn.= \html_writer::tag('button', $text);
+
+        $attr = array(
+            'method' => 'post',
+            'style' => 'display:inline-block'
+        );
+        return \html_writer::tag('form', $btn, $attr);
     }
 
     private function get_custom_assignment_form() : string 
     {
-        $form = '<form id="'.$this->formName.'" method="post">';
-        $form.= '<input type="hidden" name="'.ID.'" value="'.$this->cm->id.'"/>';
-        $form.= '<input type="hidden" name="'.STUDENT.ID.'" value="'.$this->studentId.'">';
-        $form.= '<input type="hidden" name="'.DB_EVENT.'" value="'.\ViewDatabaseHandler::CUSTOM_TASK_ASSIGNMENT.'">';
-        $form.= '</form>';   
-        return $form;
+        $attr = array(
+            'type' => 'hidden',
+            'name' => ID,
+            'value' => $this->cm->id
+        );
+        $form = \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => STUDENT.ID,
+            'value' => $this->studentId
+        );
+        $form.= \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => DB_EVENT,
+            'value' => \ViewDatabaseHandler::CUSTOM_TASK_ASSIGNMENT
+        );
+        $form.= \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'id' => $this->formName,
+            'method' => 'post',
+            'style' => 'display:inline-block'
+        );
+        return \html_writer::tag('form', $form, $attr);
     }
-
-
-   
 
 
 }
