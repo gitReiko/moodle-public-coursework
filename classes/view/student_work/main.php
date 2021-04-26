@@ -1,11 +1,5 @@
 <?php
 
-require_once 'modules/module.php';
-require_once 'modules/chat.php';
-require_once 'modules/guidelines.php';
-require_once 'modules/work_info.php';
-require_once 'modules/task_template.php';
-
 require_once 'theme_selection/main.php';
 require_once 'task_assignment/main.php';
 require_once 'work_completion.php';
@@ -30,6 +24,7 @@ use Coursework\View\StudentWork\ThemeSelection\Main as themeSelect;
 use Coursework\View\StudentWork\SaveFiles as save_files;
 use Coursework\View\StudentsWork as sw;
 
+use Coursework\View\StudentWork\TaskAssignment\Main as TaskAssignment;
 use Coursework\View\StudentWork\WorkCompletion;
 use coursework_lib as lib;
 use view_lib as view;
@@ -136,7 +131,7 @@ class StudentWorkMain
 
     private function get_task_assignment_page() : string 
     {
-        $taskAssign = new TaskAssignmentMain($this->course, $this->cm, $this->studentId);
+        $taskAssign = new TaskAssignment($this->course, $this->cm, $this->studentId);
         return $taskAssign->get_page();
     }
 

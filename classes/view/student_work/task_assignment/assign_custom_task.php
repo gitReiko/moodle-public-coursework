@@ -1,7 +1,6 @@
 <?php
 
-use coursework_lib as lib;
-use view_lib as view;
+namespace Coursework\View\StudentWork\TaskAssignment;
 
 abstract class AssignCustomTask 
 {
@@ -10,7 +9,7 @@ abstract class AssignCustomTask
     protected $studentId;
     protected $formName = 'custom_form';
 
-    function __construct(stdClass $course, stdClass $cm, int $studentId)
+    function __construct(\stdClass $course, \stdClass $cm, int $studentId)
     {
         $this->course = $course;
         $this->cm = $cm;
@@ -104,7 +103,7 @@ abstract class AssignCustomTask
     {
         $btn = '<form method="post">';
         $btn.= '<input type="hidden" name="'.ID.'" value="'.$this->cm->id.'"/>';
-        $btn.= '<input type="hidden" name="'.ViewMain::GUI_EVENT.'" value="'.ViewMain::USER_WORK.'">';
+        $btn.= '<input type="hidden" name="'.\ViewMain::GUI_EVENT.'" value="'.\ViewMain::USER_WORK.'">';
         $btn.= '<input type="hidden" name="'.STUDENT.ID.'" value="'.$this->studentId.'">';
         $btn.= '<button>'.get_string('back', 'coursework').'</button>';
         $btn.= '</form>';
@@ -116,7 +115,7 @@ abstract class AssignCustomTask
         $form = '<form id="'.$this->formName.'" method="post">';
         $form.= '<input type="hidden" name="'.ID.'" value="'.$this->cm->id.'"/>';
         $form.= '<input type="hidden" name="'.STUDENT.ID.'" value="'.$this->studentId.'">';
-        $form.= '<input type="hidden" name="'.DB_EVENT.'" value="'.ViewDatabaseHandler::CUSTOM_TASK_ASSIGNMENT.'">';
+        $form.= '<input type="hidden" name="'.DB_EVENT.'" value="'.\ViewDatabaseHandler::CUSTOM_TASK_ASSIGNMENT.'">';
         $form.= '</form>';   
         return $form;
     }

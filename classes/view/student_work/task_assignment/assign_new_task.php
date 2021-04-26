@@ -1,7 +1,6 @@
 <?php
 
-use coursework_lib as lib;
-use view_lib as view;
+namespace Coursework\View\StudentWork\TaskAssignment;
 
 class AssignNewTask extends AssignCustomTask 
 {
