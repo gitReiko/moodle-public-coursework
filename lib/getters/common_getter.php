@@ -91,8 +91,7 @@ class CommonGetter
     {
         global $DB;
         $where = array('id' => $userId);
-        $select = 'id, firstname, lastname, email, phone1, phone2';
-        return $DB->get_record('user', $where , $select);
+        return $DB->get_record('user', $where);
     }
 
     public static function get_user_name(int $id) : string

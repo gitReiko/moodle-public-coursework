@@ -2,7 +2,7 @@
 
 namespace view\back_to_work_state;
 
-use coursework_lib as lib;
+use Coursework\Lib\Getters\CommonGetter as cg;
 
 class Database 
 {
@@ -101,7 +101,7 @@ class Database
     {
         try
         {
-            $userto = lib\get_user_record($studentId);
+            $userto = cg::get_user($studentId);
             $headerMessage = get_string('leader_changed_for_student','coursework');
             $htmlMessage = $this->get_student_html_message();
 

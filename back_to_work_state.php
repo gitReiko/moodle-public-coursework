@@ -1,6 +1,14 @@
 <?php
 
 require_once '../../config.php';
+
+require_once 'lib/getters/common_getter.php';
+require_once 'lib/getters/students_getter.php';
+require_once 'lib/common.php';
+require_once 'lib/enums.php';
+
+
+
 require_once 'classes/view/back_to_work_state/main.php';
 require_once 'newlib.php';
 require_once 'enums.php';

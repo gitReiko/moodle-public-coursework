@@ -2,7 +2,7 @@
 
 namespace view\back_to_work_state;
 
-use coursework_lib as lib;
+use Coursework\Lib\Getters\StudentsGetter as sg;
 
 class Page 
 {
@@ -12,7 +12,7 @@ class Page
     function __construct(\stdClass $cm) 
     {
         $this->cm = $cm;
-        $this->students = lib\get_coursework_students($this->cm);
+        $this->students = sg::get_all_students($this->cm);
     }
 
     public function get_page() : string  
@@ -26,14 +26,6 @@ class Page
         $p.= $this->get_end_of_form();
 
         return $p;
-    }
-
-    private function init_students() : void
-    {
-        $students = lib\get_coursework_students($this->cm);
-        $students = $this->add_student_work_info($students);
-
-        $this->students = $students;
     }
 
     private function get_page_header() : string  
