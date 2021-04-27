@@ -25,7 +25,9 @@ class CorrectTask extends AssignCustomTask
 
     protected function get_page_header() : string
     {
-        return '<h3>'.get_string('correct_task', 'coursework').'</h3>';
+        $attr = array('style' => 'font-size: large');
+        $text = get_string('correct_task', 'coursework');
+        return \html_writer::tag('p', $text, $attr);
     }
 
     protected function get_description_value() : string
@@ -39,51 +41,75 @@ class CorrectTask extends AssignCustomTask
         $i = 0;
         foreach($this->taskSections as $section)
         {
-            $tbody.= '<tr id="section'.$i.'" class="taskSections">';
-            $tbody.= $this->get_name_cell($section);
-            $tbody.= $this->get_completion_date_cell($section);
-            $tbody.= $this->get_actions_buttons_cell();
-            $tbody.= '</tr>';
+            $cells = $this->get_name_cell($section);
+            $cells.= $this->get_completion_date_cell($section);
+            $cells.= $this->get_actions_buttons_cell();
+
+            $attr = array(
+                'id' => 'section'.$i,
+                'class' => 'taskSections'
+            );
+            $tbody.= \html_writer::tag('tr', $cells, $attr);
+
             $i++;
         }
+
         return $tbody;
     }
 
     private function get_name_cell(\stdClass $section) : string 
     {
-        $cell = '<td>';
-        $cell.= '<input type="text" name="name[]" ';
-        $cell.= ' minlength="5" maxlength="254" required ';
-        $cell.= ' size="80" autocomplete="off" ';
-        $cell.= ' value="'.$section->name.'" ';
-        $cell.= ' form="'.$this->formName.'" >';
-        $cell.= '</td>';
-        return $cell;
+        $attr = array(
+            'type' => 'text',
+            'name' => 'name[]',
+            'minlength' => 5,
+            'maxlength' => 254,
+            'required' => 'required',
+            'size' => 80,
+            'autocomplete' => 'off',
+            'value' => $section->name,
+            'form' => $this->formName
+        );
+        $input = \html_writer::empty_tag('input', $attr);
+
+        return \html_writer::tag('td', $input);
     }
 
     private function get_completion_date_cell(\stdClass $section) : string 
     {
-        $cell = '<td>';
-        $cell.= '<input type="date" name="completion_date[]" ';
-        $cell.= ' class="completion_date" autocomplete="off" ';
+        $attr = array(
+            'type' => 'date',
+            'name' => 'completion_date[]',
+            'class' => 'completion_date',
+            'autocomplete' => 'off',
+            'form' => $this->formName
+        );
+
         if(!empty($section->completiondate))
         {
-            $cell.= ' value="'.date('Y-m-d', $section->completiondate).'" ';
+            $attr = array_merge($attr, array('value' => date('Y-m-d', $section->completiondate)));
         }
-        $cell.= ' form="'.$this->formName.'" >';
-        $cell.= '</td>';
-        return $cell;
+
+        $input = \html_writer::empty_tag('input', $attr);
+
+        return \html_writer::tag('td', $input);
     }
 
     private function get_actions_buttons_cell() : string 
     {
-        $cell = '<td>';
-        $cell.= '<button onclick="CustomTaskPage.up_section(this);">↑</button>';
-        $cell.= '<button onclick="CustomTaskPage.down_section(this);">↓</button>';
-        $cell.= '<button onclick="CustomTaskPage.delete_section(this);">';
-        $cell.= get_string('delete', 'coursework').'</button>';
-        $cell.= '</td>';
-        return $cell;
+        $attr = array('onclick' => 'CustomTaskPage.up_section(this);');
+        $text = '↑';
+        $btn = \html_writer::tag('button', $text, $attr);
+
+        $attr = array('onclick' => 'CustomTaskPage.down_section(this);');
+        $text = '↓';
+        $btn.= \html_writer::tag('button', $text, $attr);
+
+        $attr = array('onclick' => 'CustomTaskPage.delete_section(this);');
+        $text = get_string('delete', 'coursework');
+        $btn.= \html_writer::tag('button', $text, $attr);
+
+        return \html_writer::tag('td', $btn);
     }
 
 
