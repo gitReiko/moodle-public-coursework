@@ -4,6 +4,7 @@ namespace Coursework\View\StudentWork\Components;
 
 use Coursework\View\StudentWork\Locallib as locallib;
 use Coursework\Lib\Getters\StudentsGetter as sg;
+use Coursework\Lib\Getters\CommonGetter as cg;
 
 class Chat extends Base 
 {
@@ -51,8 +52,66 @@ class Chat extends Base
         {
             $c.= $this->get_send_message_button();
         }
+
+        $c.= $this->get_message_box_new();
         
         return $c;
+    }
+
+    private function get_message_box_new() : string 
+    {
+        $text = '';
+
+        foreach($this->messages as $message)
+        {
+            if($this->is_student_sent_message($message))
+            {
+                $text.= $this->get_student_message($message);
+            }
+            else 
+            {
+                $text.= $this->get_teacher_message($message);
+            }
+        }
+
+        $text.= $this->get_last_message_anchor();
+
+        $attr = array('class' => 'newChat');
+        return \html_writer::tag('div', $text, $attr);
+    }
+
+    private function get_student_message(\stdClass $message) : string 
+    {
+        $inner = cg::get_chat_user_photo($this->work->student);
+        $td = \html_writer::tag('td', $inner);
+
+        $inner = $this->get_message_text($message);
+        $inner.= $this->get_message_date($message);
+        $td.= \html_writer::tag('td', $inner);
+
+        $tr = \html_writer::tag('tr', $td);
+
+        $attr = array('class' => 'studentMessage');
+        $table = \html_writer::tag('table', $tr, $attr);
+
+        return $table;
+    }
+
+    private function get_teacher_message(\stdClass $message) : string 
+    {
+        $inner = $this->get_message_text($message);
+        $inner.= $this->get_message_date($message);
+        $td = \html_writer::tag('td', $inner);
+
+        $inner = cg::get_chat_user_photo($this->work->student);
+        $td.= \html_writer::tag('td', $inner);
+
+        $tr = \html_writer::tag('tr', $td);
+
+        $attr = array('class' => 'teacherMessage');
+        $table = \html_writer::tag('table', $tr, $attr);
+
+        return $table;
     }
 
     private function get_messages_box() : string 

@@ -66,6 +66,46 @@ div.workContainer
     padding: 2px;
 }
 
+div.work_chat_content div.newChat 
+{
+    border: 1px solid brown;
+
+    margin: auto;
+    max-width: 900px;
+    height: 250px;
+    overflow-y: scroll;
+    cursor: default;
+}
+
+table.teacherMessage
+{
+    margin-right: 0px;
+    margin-left: auto;
+}
+
+table.teacherMessage tr td 
+{
+    text-align: right;
+    padding: 5px;
+}
+
+table.studentMessage
+{
+    margin-right: auto;
+    margin-left: 0px;
+}
+
+table.studentMessage tr td 
+{
+    padding: 5px;
+}
+
+table tr td p.date
+{
+    font-size: smaller;
+    color: grey;
+}
+
 div.workChat 
 {
     border: 2px solid #dedede;
