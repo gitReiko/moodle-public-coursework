@@ -3,7 +3,6 @@
 require_once 'students_works_list/page.php';
 require_once 'student_work/main.php';
 require_once 'database_handlers/main.php';
-require_once 'view_lib.php';
 
 use Coursework\View\StudentWork\Main as StudentWork;
 use Coursework\View\StudentsWorksList as swl;

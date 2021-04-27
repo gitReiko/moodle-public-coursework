@@ -1,7 +1,7 @@
 <?php
 
+use Coursework\Lib\CommonLib as cl;
 use coursework_lib as lib;
-use view_lib as view;
 
 class WorkCheckDatabaseHandler 
 {
@@ -66,7 +66,7 @@ class WorkCheckDatabaseHandler
         {
             $this->save_grade_in_gradebook();
 
-            if(view\is_coursework_use_task($this->cm))
+            if(cl::is_coursework_use_task($this->cm->instance))
             {
                 $this->update_user_task_sections_to_ready();
             }

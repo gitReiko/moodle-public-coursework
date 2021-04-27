@@ -1,8 +1,8 @@
 <?php
 
 use Coursework\View\StudentWork\Locallib as locallib;
+use Coursework\Lib\Getters\CommonGetter as cg;
 use coursework_lib as lib;
-use view_lib as view;
 
 class ThemeSelectDatabaseHandler 
 {
@@ -31,14 +31,34 @@ class ThemeSelectDatabaseHandler
             $this->add_student_row($student);
         }
 
-        $work = $this->get_student_coursework($student);
-        if(view\is_teacher_must_give_task($work))
+        if($this->is_teacher_must_give_task())
         {
             $this->send_notification_to_teacher_give_task($student);
         }
         else 
         {
             $this->send_notification_to_teacher_theme_selected($student);
+        }
+    }
+
+    private function is_teacher_must_give_task() : bool 
+    {
+        $coursework = cg::get_coursework($this->cm->instance);
+
+        if($coursework->usetask)
+        {
+            if($coursework->automatictaskobtaining)
+            {
+                return false;
+            }
+            else 
+            {
+                return true;
+            }
+        }
+        else 
+        {
+            return false;
         }
     }
 
@@ -268,13 +288,6 @@ class ThemeSelectDatabaseHandler
         $task = $DB->get_field('coursework_tasks_using', 'task', $where);
         if(empty($task)) throw new Exception('Task template is absent.');
         return $task;
-    }
-
-    private function get_student_coursework($row) : stdClass
-    {
-        global $DB;
-        $where = array('coursework' => $row->coursework, 'student' => $row->student);
-        return $DB->get_record('coursework_students', $where);
     }
 
 
