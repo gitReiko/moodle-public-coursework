@@ -24,8 +24,7 @@ use Coursework\View\StudentWork\TaskAssignment\Main as TaskAssignment;
 use Coursework\View\StudentWork\WorkCompletion\Main as WorkCompletion;
 use Coursework\View\StudentWork\SaveFiles\Main as SaveFiles;
 use Coursework\View\StudentsWork as sw;
-
-use view_lib as view;
+use Coursework\Lib\CommonLib as cl;
 
 class Main 
 {
@@ -58,7 +57,7 @@ class Main
         {
             return $this->get_theme_selection_page();
         }
-        else if(view\is_coursework_use_task($this->cm)
+        else if(cl::is_coursework_use_task($this->cm->instance)
                     && $this->is_task_not_assign_to_student())
         {
             return $this->get_task_assignment_page();
