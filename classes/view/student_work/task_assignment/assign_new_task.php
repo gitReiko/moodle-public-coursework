@@ -7,7 +7,9 @@ class AssignNewTask extends AssignCustomTask
 
     protected function get_page_header() : string
     {
-        return '<h3>'.get_string('creating_new_task', 'coursework').'</h3>';
+        $attr = array('style' => 'font-size: large');
+        $text = get_string('creating_new_task', 'coursework');
+        return \html_writer::tag('p', $text, $attr);
     }
 
     protected function get_description_value() : string
