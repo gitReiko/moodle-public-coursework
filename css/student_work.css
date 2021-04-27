@@ -25,7 +25,34 @@ div.workInfoGrids
 {
     cursor: default;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    
+}
+
+@media (min-width:900px) 
+{
+    div.workInfoGrids 
+    {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width:899px) 
+{
+    div.workInfoGrids 
+    {
+        grid-template-columns: 1fr;
+    }
+}
+
+div.workInfoGrids div table.teacherGrid
+{
+    margin-right: 0px;
+    margin-left: auto;
+}
+
+div.workInfoGrids div table.teacherGrid tr td 
+{
+    text-align: right;
 }
 
 div.workInfoGrids div 

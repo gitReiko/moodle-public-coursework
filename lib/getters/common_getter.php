@@ -72,6 +72,16 @@ class CommonGetter
         return $photo;
     }
 
+    public static function get_big_user_photo($userID) : string
+    {
+        global $DB, $OUTPUT;
+
+        $user = $DB->get_record('user', array('id' => $userID));
+        $photo = $OUTPUT->user_picture($user, array('size' => 100));
+
+        return $photo;
+    }
+
     public static function get_state_name($status) 
     {
         switch($status)

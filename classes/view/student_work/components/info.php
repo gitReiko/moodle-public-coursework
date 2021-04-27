@@ -30,60 +30,115 @@ class Info extends Base
     {
         $attr = array('class' => 'workInfoGrids');
         $content = \html_writer::start_tag('div', $attr);
-        $content.= $this->get_theme_cell();
-        $content.= $this->get_course_cell();
-        $content.= $this->get_student_cell();
-        $content.= $this->get_teacher_cell();
-        $content.= $this->get_state_cell();
-        $content.= $this->get_grade_cell();
+
+        $content.= $this->get_student_grid();
+        $content.= $this->get_teacher_grid();
+
         $content.= \html_writer::end_tag('div');
 
         return $content;
     }
 
-    private function get_theme_cell() : string 
+    private function get_student_grid() : string 
     {
-        $text = get_string('theme', 'coursework').': ';
-        $text.= sg::get_student_theme($this->work);
-        return \html_writer::tag('div', $text);
+        $inner = $this->get_student_photo();
+        $td = \html_writer::tag('td', $inner);
+
+        $inner = $this->get_theme();
+        $inner.= $this->get_course();
+        $inner.= $this->get_student_name();
+        $td.= \html_writer::tag('td', $inner);
+
+        $tr = \html_writer::tag('tr', $td);
+
+        $attr = array('class' => 'studentGrid');
+        $table = \html_writer::tag('table', $tr, $attr);
+
+        $grid = \html_writer::tag('div', $table);
+
+        return $grid;
     }
 
-    private function get_course_cell() : string 
+    private function get_student_photo() : string 
     {
-        $text = get_string('course', 'coursework').': ';
-        $text.= cg::get_course_name($this->work->course);
-        return \html_writer::tag('div', $text);
+        $inner = cg::get_big_user_photo($this->work->student);
+        return \html_writer::tag('p', $inner);
     }
 
-    private function get_student_cell() : string 
+    private function get_theme() : string 
     {
-        $text = get_string('student', 'coursework').': ';
-        $text.= cg::get_user_photo($this->work->student);
-        $text.= cg::get_user_name($this->work->student);
-        return \html_writer::tag('div', $text);
+        $inner = get_string('theme', 'coursework').': ';
+        $inner = \html_writer::tag('b', $inner);
+        $inner.= sg::get_student_theme($this->work);
+        return \html_writer::tag('p', $inner);
     }
 
-    private function get_teacher_cell() : string 
+    private function get_course() : string 
     {
-        $text = get_string('teacher', 'coursework').': ';
-        $text.= cg::get_user_photo($this->work->teacher);
-        $text.= cg::get_user_name($this->work->teacher);
-        return \html_writer::tag('div', $text);
+        $inner = get_string('course', 'coursework').': ';
+        $inner = \html_writer::tag('b', $inner);
+        $inner.= cg::get_course_name($this->work->course);
+        return \html_writer::tag('p', $inner);
     }
 
-    private function get_state_cell() : string 
+    private function get_student_name() : string 
     {
-        $text = get_string('state', 'coursework').': ';
-        $text.= cg::get_state_name($this->work->status);
-        return \html_writer::tag('div', $text);
+        $inner = get_string('student', 'coursework').': ';
+        $inner = \html_writer::tag('b', $inner);
+        $inner.= cg::get_user_name($this->work->student);
+        return \html_writer::tag('p', $inner);
     }
 
-    private function get_grade_cell() : string 
+    private function get_teacher_grid() : string 
     {
-        $text = get_string('grade', 'coursework').': ';
-        $text.= $this->work->grade;
-        return \html_writer::tag('div', $text);
+        $inner = $this->get_work_state();
+        $inner.= $this->get_work_grade();
+        $inner.= $this->get_teacher_name();
+        $td = \html_writer::tag('td', $inner);
+
+        $inner = $this->get_teacher_photo();
+        $td.= \html_writer::tag('td', $inner);
+
+        $tr = \html_writer::tag('tr', $td);
+
+        $attr = array('class' => 'teacherGrid');
+        $table = \html_writer::tag('table', $tr, $attr);
+
+        $grid = \html_writer::tag('div', $table);
+
+        return $grid;
     }
+
+    private function get_teacher_photo() : string 
+    {
+        $inner = cg::get_big_user_photo($this->work->teacher);
+        return \html_writer::tag('div', $inner);
+    }
+
+    private function get_work_state() : string 
+    {
+        $inner = get_string('state', 'coursework').': ';
+        $inner = \html_writer::tag('b', $inner);
+        $inner.= cg::get_state_name($this->work->status);
+        return \html_writer::tag('p', $inner);
+    }
+
+    private function get_work_grade() : string 
+    {
+        $inner = get_string('grade', 'coursework').': ';
+        $inner = \html_writer::tag('b', $inner);
+        $inner.= $this->work->grade;
+        return \html_writer::tag('p', $inner);
+    }
+
+    private function get_teacher_name() : string 
+    {
+        $inner = get_string('teacher', 'coursework').': ';
+        $inner = \html_writer::tag('b', $inner);
+        $inner.= cg::get_user_name($this->work->teacher);
+        return \html_writer::tag('p', $inner);
+    }
+
 
 
 }
