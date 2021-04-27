@@ -134,12 +134,12 @@ class WorkCheck extends Base
         $text = get_string('teacher_regrade_header', 'coursework');
         $block = \html_writer::tag('p', $text);
         $block.= \html_writer::empty_tag('hr');
-        $block.= $this->get_regrade_button();
+        $block.= $this->get_grade_and_regrade_button();
 
         return $block;
     }
 
-    private function get_regrade_button() : string 
+    private function get_grade_and_regrade_button() : string 
     {
         $btn = $this->get_common_form_inputs();
 
