@@ -21,7 +21,11 @@ class StudentTaskGetter
 
         $this->init_student_work();
         $this->init_task();
-        $this->init_sections();
+
+        if(!empty($this->task->id))
+        {
+            $this->init_sections();
+        }
     }
 
     public function get_task_id() 
