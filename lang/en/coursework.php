@@ -346,3 +346,5 @@ $string['assign_default_task'] = 'Assign default task';
 $string['correct_default_task'] = 'Correct default task';
 $string['issuing_assignment_to_student'] = 'Issuing an assignment to a student';
 $string['default_task'] = 'Default task';
+$string['teacher_work_check_header'] = 'Student sent work for check. Decide what to do with it.';
+$string['teacher_regrade_header'] = 'If you wish, you can regrade the student\'s work.';

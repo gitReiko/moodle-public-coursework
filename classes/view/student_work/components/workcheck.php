@@ -42,12 +42,11 @@ class WorkCheck extends Base
         {
             if(locallib::is_state_sent_for_check($this->work->status))
             {
-                $con.= $this->get_send_for_rework_button();
-                $con.= $this->get_grade_and_regrade_button();
+                $con.= $this->get_teacher_check_work_block();
             }
             else if(locallib::is_state_ready($this->work->status))
             {
-                $con.= $this->get_grade_and_regrade_button();
+                $con.= $this->get_teacher_regrade_block();
             }
         }
 
@@ -91,6 +90,18 @@ class WorkCheck extends Base
         return $btn;
     }
 
+    private function get_teacher_check_work_block() : string 
+    {
+        $text = get_string('teacher_work_check_header', 'coursework');
+        $block = \html_writer::tag('p', $text);
+        $block.= \html_writer::empty_tag('hr');
+        $block.= $this->get_send_for_rework_button();
+        $block.= \html_writer::empty_tag('hr');
+        $block.= $this->get_grade_and_regrade_button();
+
+        return $block;
+    }
+
     private function get_send_for_rework_button() : string 
     {
         $btn = $this->get_common_form_inputs();
@@ -113,10 +124,22 @@ class WorkCheck extends Base
         $btn.= \html_writer::tag('button', $text);
 
         $attr = array('method' => 'post', 'style' => 'display:inline-block;');
-        return \html_writer::tag('form', $btn, $attr);
+        $btn = \html_writer::tag('form', $btn, $attr);
+
+        return \html_writer::tag('p', $btn);
     }
 
-    private function get_grade_and_regrade_button() : string 
+    private function get_teacher_regrade_block() : string 
+    {
+        $text = get_string('teacher_regrade_header', 'coursework');
+        $block = \html_writer::tag('p', $text);
+        $block.= \html_writer::empty_tag('hr');
+        $block.= $this->get_regrade_button();
+
+        return $block;
+    }
+
+    private function get_regrade_button() : string 
     {
         $btn = $this->get_common_form_inputs();
 
@@ -143,7 +166,7 @@ class WorkCheck extends Base
             'autocomplete' => 'off',
             'required' => 'required'
         );
-        $btn.= \html_writer::empty_tag('input', $attr);
+        $btn.= \html_writer::empty_tag('input', $attr).' ';
 
         if(locallib::is_state_sent_for_check($this->work->status))
         {
@@ -157,7 +180,9 @@ class WorkCheck extends Base
         $btn.= \html_writer::tag('button', $text);
 
         $attr = array('method' => 'post', 'style' => 'display:inline-block;');
-        return \html_writer::tag('form', $btn, $attr);
+        $btn = \html_writer::tag('form', $btn, $attr);
+
+        return \html_writer::tag('p', $btn);
     }
 
 
