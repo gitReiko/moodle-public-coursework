@@ -1,9 +1,9 @@
 <?php
 
-namespace Coursework\View\StudentsWork\Components\Task;
+namespace Coursework\View\StudentWork\Components\Task;
 
 use Coursework\Lib\Enums as enum;
-use Coursework\View\StudentsWork\Locallib as locallib;
+use Coursework\View\StudentWork\Locallib as locallib;
 
 class InteractionCell 
 {

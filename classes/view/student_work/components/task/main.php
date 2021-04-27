@@ -1,10 +1,10 @@
 <?php
 
-namespace Coursework\View\StudentsWork\Components\Task;
+namespace Coursework\View\StudentWork\Components\Task;
 
 require 'tbody.php';
 
-use Coursework\View\StudentsWork\Components as c;
+use Coursework\View\StudentWork\Components as c;
 use Coursework\Lib\Getters\StudentsGetter as sg;
 use Coursework\Lib\Getters\StudentTaskGetter;
 

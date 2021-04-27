@@ -1,12 +1,11 @@
 <?php
 
+namespace Coursework\View\StudentWork;
+
 require_once 'theme_selection/main.php';
 require_once 'task_assignment/main.php';
-require_once 'work_completion.php';
-
-require_once 'save_files/page.php';
-require_once 'save_files/student_file_manager.php';
-require_once 'save_files/teacher_file_manager.php';
+require_once 'work_completion/main.php';
+require_once 'save_files/main.php';
 
 require_once 'components/base.php';
 require_once 'components/container.php';
@@ -21,15 +20,14 @@ require_once 'components/navigation.php';
 require_once 'locallib.php';
 
 use Coursework\View\StudentWork\ThemeSelection\Main as themeSelect;
-use Coursework\View\StudentWork\SaveFiles as save_files;
+use Coursework\View\StudentWork\TaskAssignment\Main as TaskAssignment;
+use Coursework\View\StudentWork\WorkCompletion\Main as WorkCompletion;
+use Coursework\View\StudentWork\SaveFiles\Main as SaveFiles;
 use Coursework\View\StudentsWork as sw;
 
-use Coursework\View\StudentWork\TaskAssignment\Main as TaskAssignment;
-use Coursework\View\StudentWork\WorkCompletion;
-use coursework_lib as lib;
 use view_lib as view;
 
-class StudentWorkMain 
+class Main 
 {
     const TO_PAGE = 'to_page';
     const SAVE_FILES = 'save_files';
@@ -43,7 +41,7 @@ class StudentWorkMain
     private $cm;
     private $studentId;
 
-    function __construct(stdClass $course, stdClass $cm, int $studentId)
+    function __construct(\stdClass $course, \stdClass $cm, int $studentId)
     {
         $this->course = $course;
         $this->cm = $cm;
@@ -87,7 +85,7 @@ class StudentWorkMain
 
     private function get_save_files_page() : string 
     {
-        $saveFiles = new save_files\Page(
+        $saveFiles = new SaveFiles(
             $this->course,
             $this->cm,
             $this->studentId

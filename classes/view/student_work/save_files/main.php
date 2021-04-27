@@ -2,11 +2,14 @@
 
 namespace Coursework\View\StudentWork\SaveFiles;
 
+require_once 'student_file_manager.php';
+require_once 'teacher_file_manager.php';
+
 use Coursework\Lib\Getters\CommonGetter as cg;
 use Coursework\Lib\Getters\StudentsGetter as sg;
-use Coursework\View\StudentsWork\Locallib as locallib;
+use Coursework\View\StudentWork\Locallib as locallib;
 
-class Page 
+class Main 
 {
     private $course;
     private $cm;

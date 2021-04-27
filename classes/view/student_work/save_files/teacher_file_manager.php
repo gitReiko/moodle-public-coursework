@@ -4,7 +4,7 @@ namespace Coursework\View\StudentWork\SaveFiles;
 
 require_once("$CFG->libdir/formslib.php");
 
-use Coursework\View\StudentsWork\Locallib as locallib;
+use Coursework\View\StudentWork\Locallib as locallib;
 
 class TeacherFileManager extends \moodleform 
 {

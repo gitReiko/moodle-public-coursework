@@ -1,8 +1,8 @@
 <?php
 
-namespace Coursework\View\StudentsWork\Components;
+namespace Coursework\View\StudentWork\Components;
 
-use Coursework\View\StudentsWork\Locallib as locallib;
+use Coursework\View\StudentWork\Locallib as locallib;
 use Coursework\Lib\Getters\StudentsGetter as sg;
 use Coursework\Lib\Enums as enum;
 

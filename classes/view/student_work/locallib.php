@@ -1,6 +1,6 @@
 <?php
 
-namespace Coursework\View\StudentsWork;
+namespace Coursework\View\StudentWork;
 
 use Coursework\Lib\Getters\StudentsGetter as sg;
 use Coursework\Lib\Enums as enum;

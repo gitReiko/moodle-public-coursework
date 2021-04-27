@@ -5,6 +5,7 @@ require_once 'student_work/main.php';
 require_once 'database_handlers/main.php';
 require_once 'view_lib.php';
 
+use Coursework\View\StudentWork\Main as StudentWork;
 use Coursework\View\StudentsWorksList as swl;
 use coursework_lib as lib;
 
@@ -78,7 +79,7 @@ class ViewMain
 
     private function get_student_work_page(int $userId) : string 
     {
-        $studentWork = new StudentWorkMain($this->course, $this->cm, $userId);
+        $studentWork = new StudentWork($this->course, $this->cm, $userId);
         return $studentWork->get_page();
     }
 

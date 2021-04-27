@@ -1,6 +1,6 @@
 <?php
 
-namespace Coursework\View\StudentsWork\Components\Task;
+namespace Coursework\View\StudentWork\Components\Task;
 
 require_once 'interaction_cell.php';
 

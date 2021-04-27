@@ -1,10 +1,11 @@
 <?php
 
-namespace Coursework\View\StudentsWork\Components;
+namespace Coursework\View\StudentWork\Components;
 
 use Coursework\View\StudentWork\SaveFiles\StudentFileManager;
 use Coursework\View\StudentWork\SaveFiles\TeacherFileManager;
-use Coursework\View\StudentsWork\Locallib as locallib;
+use Coursework\View\StudentWork\Locallib as locallib;
+use Coursework\View\StudentWork\Main as StudentWorkMain;
 use Coursework\Lib\Getters\StudentsGetter as sg;
 
 use coursework_lib as lib;
@@ -190,8 +191,8 @@ class Filemanager extends Base
 
         $attr = array(
             'type' => 'hidden',
-            'name' => \StudentWorkMain::TO_PAGE,
-            'value' => \StudentWorkMain::SAVE_FILES
+            'name' => StudentWorkMain::TO_PAGE,
+            'value' => StudentWorkMain::SAVE_FILES
         );
         $form.= \html_writer::empty_tag('input', $attr);
 

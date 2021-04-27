@@ -7,8 +7,8 @@ require_once 'assign_custom_task.php';
 require_once 'assign_new_task.php';
 require_once 'correct_task.php';
 
-use Coursework\View\StudentsWork\Locallib as locallib;
-use Coursework\View\StudentsWork\Components as c;
+use Coursework\View\StudentWork\Locallib as locallib;
+use Coursework\View\StudentWork\Components as c;
 use Coursework\Lib\Getters\CommonGetter as cg;
 use Coursework\Lib\Getters\StudentsGetter as sg;
 

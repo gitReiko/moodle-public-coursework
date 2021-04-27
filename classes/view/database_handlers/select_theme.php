@@ -1,6 +1,6 @@
 <?php
 
-use Coursework\View\StudentsWork\Locallib as locallib;
+use Coursework\View\StudentWork\Locallib as locallib;
 use coursework_lib as lib;
 use view_lib as view;
 

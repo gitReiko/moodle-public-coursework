@@ -1,6 +1,6 @@
 <?php
 
-namespace Coursework\View\StudentsWork\Components;
+namespace Coursework\View\StudentWork\Components;
 
 abstract class Base 
 {

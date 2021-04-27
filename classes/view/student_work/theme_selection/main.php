@@ -4,7 +4,7 @@ namespace Coursework\View\StudentWork\ThemeSelection;
 
 require_once 'theme_selection_block.php';
 
-use Coursework\View\StudentsWork\Components as c;
+use Coursework\View\StudentWork\Components as c;
 use Coursework\Lib\Getters\CommonGetter as cg;
 
 class Main 

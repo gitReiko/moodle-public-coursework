@@ -1,15 +1,15 @@
 <?php 
 
-namespace Coursework\View\StudentWork;
+namespace Coursework\View\StudentWork\WorkCompletion;
 
-use Coursework\View\StudentsWork\Locallib as locallib;
-use Coursework\View\StudentsWork\Components as c;
-use Coursework\View\StudentsWork\Components\Task as task;
+use Coursework\View\StudentWork\Locallib as locallib;
+use Coursework\View\StudentWork\Components as c;
+use Coursework\View\StudentWork\Components\Task as task;
 use Coursework\Lib\Getters\CommonGetter as cg;
 use Coursework\Lib\Getters\StudentsGetter as sg;
 use Coursework\Lib\CommonLib as cl; 
 
-class WorkCompletion
+class Main
 {
 
     private $course;
