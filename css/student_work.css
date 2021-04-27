@@ -12,8 +12,8 @@ p.pageHeader
 
 p.workComponentHeader 
 {
-    background-color: #eee;
-    border-bottom: 2px solid grey;
+    background-color: #c4d8c3;
+    border-bottom: 2px solid #888;
     cursor: pointer;
     padding: 2px;
     padding-left: 5px;
@@ -97,7 +97,22 @@ button.sendMessageButton
     width: 25%;
     height: 33px;
     border: none;
-    background-color: #f6f6f6;
+    background: #fff5ec;
+}
+
+button.sendMessageButton:hover
+{
+    background: #fff1e6;
+}
+
+.changeMyFilesButton
+{
+    background: #fff5ec;
+}
+
+.changeMyFilesButton:hover
+{
+    background: #fff1e6;
 }
 
 input.sendMessageInput

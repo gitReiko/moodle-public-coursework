@@ -154,7 +154,7 @@ class Filemanager extends Base
     private function get_change_my_files_button() : string 
     {
         $attr = array(
-            'class' => 'button',
+            'class' => 'button changeMyFilesButton',
             'onclick' => 'submit_form(`'.self::FORM_ID.'`)'
         );
         $text = get_string('change_my_files', 'coursework');
