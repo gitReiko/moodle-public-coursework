@@ -130,6 +130,7 @@ div.work_chat_content div.chat
     height: 250px;
     overflow-y: scroll;
     cursor: default;
+    border: none;
 }
 
 div.work_chat_content table.teacherMessage
