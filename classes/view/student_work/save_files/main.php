@@ -8,6 +8,7 @@ require_once 'teacher_file_manager.php';
 use Coursework\Lib\Getters\CommonGetter as cg;
 use Coursework\Lib\Getters\StudentsGetter as sg;
 use Coursework\View\StudentWork\Locallib as locallib;
+use ViewMain as m;
 
 class Main 
 {
@@ -42,6 +43,8 @@ class Main
         {
             $page.= 'Error. Only students or teachers can manage files.';
         }
+
+        $page.= $this->get_back_to_coursework_button();
 
         return $page;
     }
@@ -114,6 +117,41 @@ class Main
         $manager = '<h4>'.get_string('teacher_files', 'coursework').'</h4>';
         $manager.= $mform->render();
         return $manager;
+    }
+
+    private function get_back_to_coursework_button() : string 
+    {
+        if(locallib::is_user_student($this->work))
+        {
+            return $this->get_back_to_coursework_student_button();
+        }
+        else if(locallib::is_user_teacher($this->work))
+        {
+            return $this->get_back_to_coursework_teacher_button();
+        }
+    }
+
+    private function get_back_to_coursework_student_button() : string 
+    {
+        $text = get_string('back_to_coursework_without_save_changes', 'coursework');
+        $btn = \html_writer::tag('button', $text);
+
+        $url = '/mod/coursework/view.php?id='.$this->cm->id;
+        $attr = array('href' => $url);
+        return \html_writer::tag('a', $btn, $attr);
+    }
+
+    private function get_back_to_coursework_teacher_button() : string 
+    {
+        $text = get_string('back_to_coursework_without_save_changes', 'coursework');
+        $btn = \html_writer::tag('button', $text);
+
+        $url = '/mod/coursework/view.php?id='.$this->cm->id;
+        $url.= '&'.m::GUI_EVENT.'='.m::USER_WORK;
+        $url.= '&'.m::STUDENT_ID.'='.$this->studentId;
+
+        $attr = array('href' => $url);
+        return \html_writer::tag('a', $btn, $attr);
     }
 
 
