@@ -8,6 +8,7 @@ use Coursework\Lib\Getters\CommonGetter as cg;
 
 class Chat extends Base 
 {
+    private $formId;
     private $work;
     private $messages;
 
@@ -15,6 +16,7 @@ class Chat extends Base
     {
         parent::__construct($course, $cm, $studentId);
 
+        $this->formId = 'messageFormId';
         $this->work = sg::get_students_work($cm->instance, $studentId);
         $this->messages = $this->get_messages();
     }
@@ -46,19 +48,19 @@ class Chat extends Base
 
     protected function get_content() : string
     {
-        $c = $this->get_messages_box();
-
+        $с = $this->get_messages_box();
         if(locallib::is_user_student_or_teacher($this->work))
         {
-            $c.= $this->get_send_message_button();
+            $с.= $this->get_send_message_button();
         }
 
-        $c.= $this->get_message_box_new();
+        $attr = array('class' => 'chatWindow');
+        $c = \html_writer::tag('div', $с, $attr);
         
         return $c;
     }
 
-    private function get_message_box_new() : string 
+    private function get_messages_box() : string 
     {
         $text = '';
 
@@ -103,7 +105,7 @@ class Chat extends Base
         $inner.= $this->get_message_date($message);
         $td = \html_writer::tag('td', $inner);
 
-        $inner = cg::get_chat_user_photo($this->work->student);
+        $inner = cg::get_chat_user_photo($this->work->teacher);
         $td.= \html_writer::tag('td', $inner);
 
         $tr = \html_writer::tag('tr', $td);
@@ -114,36 +116,74 @@ class Chat extends Base
         return $table;
     }
 
-    private function get_messages_box() : string 
+    private function get_send_message_button() : string 
     {
-        $text = '';
+        $attr = array('class' => 'inputMessage');
+        $inner = $this->get_message_input();
+        $td = \html_writer::tag('td', $inner, $attr);
 
-        foreach($this->messages as $message)
+        $attr = array('class' => 'sendButton');
+        $inner = $this->get_message_button();
+        $td.= \html_writer::tag('td', $inner, $attr);
+
+        $tr = \html_writer::tag('tr', $td);
+
+        $attr = array('class' => 'sendMessage');
+        $table = \html_writer::tag('table', $td, $attr);
+
+        if(locallib::is_user_student_or_teacher($this->work))
         {
-            $text.= $this->get_chat_message($message);
+            $table.= $this->get_send_message_form();
         }
 
-        $text.= $this->get_last_message_anchor();
-
-        $attr = array('class' => 'workChat');
-        return \html_writer::tag('div', $text, $attr);
+        return $table;
     }
 
-    private function get_chat_message(\stdClass $message) : string 
+    private function get_message_input() : string 
     {
-        if($this->is_student_sent_message($message))
+        $attr = array(
+            'id' => 'chatMessageInput',
+            'class' => 'newInputMessage',
+            'form' => $this->formId,
+            'name' => \MESSAGE,
+            'value' => get_string('write_your_message_here', 'coursework'),
+            'title' => get_string('write_your_message_here', 'coursework'),
+            'onclick' => 'Chat.remove_title_text();',
+            'autocomlete' => 'off'
+        );
+        return \html_writer::empty_tag('input', $attr);
+    }
+
+    private function get_message_button() : string 
+    {
+        $attr = array(
+            'class' => 'newSendButton',
+            'onclick' => 'Chat.send_chat_message()'
+        );
+        $text = get_string('send', 'coursework');
+        return \html_writer::tag('p', $text, $attr);
+    }
+
+    private function get_send_message_form() : string 
+    {
+        $form = $this->get_neccessary_form_params();
+
+        if(locallib::is_user_student($this->work))
         {
-            $attr = array('class' => 'chatMessage studentMessage');
+            $form.= $this->get_student_form_params(); 
         }
-        else 
+        else if(locallib::is_user_teacher($this->work))
         {
-            $attr = array('class' => 'chatMessage teacherMessage');
+            $form.= $this->get_teacher_form_params();
         }
 
-        $text = $this->get_message_text($message);
-        $text.= $this->get_message_date($message);
+        $attr = array(
+            'id' => $this->formId,
+            'method' => 'post'
+        );
+        $form = \html_writer::tag('form', $form, $attr);
 
-        return \html_writer::tag('div', $text, $attr);
+        return $form;
     }
 
     private function is_student_sent_message(\stdClass $message) : bool 
@@ -178,36 +218,7 @@ class Chat extends Base
         return \html_writer::tag('p', '', $attr);
     }
 
-    private function get_send_message_button() : string 
-    {
-        $text = $this->get_send_message_form_start();
-        $text.= $this->get_send_message_neccessary_params();
-
-        if(locallib::is_user_student($this->work))
-        {
-            $text.= $this->get_send_message_student_params();
-        }
-
-        if(locallib::is_user_teacher($this->work))
-        {
-            $text.= $this->get_send_message_teacher_params();
-        }
-
-        $text.= $this->get_send_message_input();
-        $text.= $this->get_send_message_button_();
-        $text.= $this->get_send_message_form_end();
-
-        $attr = array('class' => 'sendMessageBox');
-        return \html_writer::tag('div', $text, $attr);
-    }
-
-    private function get_send_message_form_start() : string 
-    {
-        $attr = array('method' => 'post');
-        return \html_writer::start_tag('form', $attr);
-    }
-
-    private function get_send_message_neccessary_params() : string 
+    private function get_neccessary_form_params() : string 
     {
         $attr = array(
             'type' => 'hidden',
@@ -226,7 +237,7 @@ class Chat extends Base
         return $params;
     }
 
-    private function get_send_message_student_params() : string 
+    private function get_student_form_params() : string 
     {
         $attr = array(
             'type' => 'hidden',
@@ -245,7 +256,7 @@ class Chat extends Base
         return $params;
     }
 
-    private function get_send_message_teacher_params() : string 
+    private function get_teacher_form_params() : string 
     {
         $attr = array(
             'type' => 'hidden',
@@ -262,31 +273,6 @@ class Chat extends Base
         $params.= \html_writer::empty_tag('input', $attr);
 
         return $params;
-    }
-
-    private function get_send_message_input() : string 
-    {
-        $attr = array(
-            'class' => 'sendMessageInput',
-            'type' => 'text',
-            'name' => \MESSAGE,
-            'required' => 'required',
-            'minlength' => 1,
-            'autocomplete' => 'off'
-        );
-        return \html_writer::empty_tag('input', $attr);
-    }
-
-    private function get_send_message_button_() : string 
-    {
-        $attr = array('class' => 'sendMessageButton');
-        $text = get_string('send', 'coursework');
-        return \html_writer::tag('button', $text, $attr);
-    }
-
-    private function get_send_message_form_end() : string 
-    {
-        return \html_writer::end_tag('form');
     }
 
 

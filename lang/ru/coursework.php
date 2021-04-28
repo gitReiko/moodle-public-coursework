@@ -356,3 +356,5 @@ $string['issuing_assignment_to_student'] = 'Выдача задания студ
 $string['default_task'] = 'Стандартное задание';
 $string['teacher_work_check_header'] = 'Студент отправил работу на проверку. Решите, что с ней делать.';
 $string['teacher_regrade_header'] = 'При желании Вы можете переоценить работу студента.';
+$string['write_your_message_here'] = 'Напишите тут своё сообщение';
+

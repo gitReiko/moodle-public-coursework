@@ -34,9 +34,10 @@ $PAGE->set_title(get_string('pluginname', 'coursework'));
 $PAGE->set_heading(get_string('pluginname', 'coursework'));
 
 $PAGE->requires->css('/mod/coursework/css/view.css?v=1');
-$PAGE->requires->css('/mod/coursework/css/student_work.css?v=1.0.13');
+$PAGE->requires->css('/mod/coursework/css/student_work.css?v=1.0.16');
 $PAGE->requires->css('/mod/coursework/css/students_works.css?v=1.1.1');
 $PAGE->requires->js('/mod/coursework/js/view.js');
+$PAGE->requires->js('/mod/coursework/js/chat.js');
 $PAGE->requires->js('/mod/coursework/js/select_theme.js');
 
 require_login();

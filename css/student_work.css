@@ -66,10 +66,64 @@ div.workContainer
     padding: 2px;
 }
 
+div.work_chat_content div.chatWindow
+{
+    margin: auto;
+    max-width: 900px;
+    cursor: default;
+}
+
+div.work_chat_content div.chatWindow table.sendMessage
+{
+    width: 100%;
+    height: 100%;
+}
+
+table.sendMessage tr td.inputMessage
+{
+    width: 75%;
+    height: 40px;
+}
+
+table.sendMessage tr td.sendButton
+{
+    cursor: pointer;
+    width: 25%;
+    text-align: center;
+    height: 40px;
+}
+
+input.newInputMessage
+{
+    height: 30px;
+    border: 2px solid #c4c4c4;
+    width: 99%;
+    color: #555;
+    cursor: pointer;
+}
+
+input.newInputMessage:focus
+{
+    border: 2px solid #444;
+    width: 99%;
+    cursor: text;
+}
+
+p.newSendButton
+{
+    line-height:26px;
+    background-color: #eee;
+    border: 2px solid #c4c4c4;
+    height: 30px;
+}
+
+p.newSendButton:hover
+{
+    background-color: #ddd;
+}
+
 div.work_chat_content div.newChat 
 {
-    border: 1px solid brown;
-
     margin: auto;
     max-width: 900px;
     height: 250px;
