@@ -13,7 +13,7 @@ p.pageHeader
 p.workComponentHeader 
 {
     background-color: #c4d8c3;
-    border-bottom: 2px solid #888;
+    border-bottom: 5px solid #bbb;
     cursor: pointer;
     padding: 2px;
     padding-left: 5px;
@@ -79,13 +79,13 @@ div.work_chat_content div.chatWindow table.sendMessage
     height: 100%;
 }
 
-table.sendMessage tr td.inputMessage
+div.work_chat_content table.sendMessage tr td.inputMessage
 {
     width: 75%;
     height: 40px;
 }
 
-table.sendMessage tr td.sendButton
+div.work_chat_content table.sendMessage tr td.sendButton
 {
     cursor: pointer;
     width: 25%;
@@ -93,7 +93,7 @@ table.sendMessage tr td.sendButton
     height: 40px;
 }
 
-input.newInputMessage
+div.work_chat_content input.inputMessage
 {
     height: 30px;
     border: 2px solid #c4c4c4;
@@ -102,14 +102,14 @@ input.newInputMessage
     cursor: pointer;
 }
 
-input.newInputMessage:focus
+div.work_chat_content input.inputMessage:focus
 {
     border: 2px solid #444;
     width: 99%;
     cursor: text;
 }
 
-p.newSendButton
+div.work_chat_content p.sendButton
 {
     line-height:26px;
     background-color: #eee;
@@ -117,12 +117,12 @@ p.newSendButton
     height: 30px;
 }
 
-p.newSendButton:hover
+div.work_chat_content p.sendButton:hover
 {
     background-color: #ddd;
 }
 
-div.work_chat_content div.newChat 
+div.work_chat_content div.chat 
 {
     margin: auto;
     max-width: 900px;
@@ -131,99 +131,33 @@ div.work_chat_content div.newChat
     cursor: default;
 }
 
-table.teacherMessage
+div.work_chat_content table.teacherMessage
 {
     margin-right: 0px;
     margin-left: auto;
 }
 
-table.teacherMessage tr td 
+div.work_chat_content table.teacherMessage tr td 
 {
     text-align: right;
     padding: 5px;
 }
 
-table.studentMessage
+div.work_chat_content table.studentMessage
 {
     margin-right: auto;
     margin-left: 0px;
 }
 
-table.studentMessage tr td 
+div.work_chat_content table.studentMessage tr td 
 {
     padding: 5px;
 }
 
-table tr td p.date
+div.work_chat_content table tr td p.date
 {
     font-size: smaller;
     color: grey;
-}
-
-div.workChat 
-{
-    border: 2px solid #dedede;
-    background-color: #fff;
-    padding: 10px;
-    height: 250px;
-    overflow-y: scroll;
-    cursor: default;
-}
-
-div.workChat div.chatMessage 
-{
-    margin-top: -1px;
-    padding: 5px;
-    border: 1px solid grey;
-    cursor: default;
-}
-
-div.workChat div.studentMessage
-{
-    text-align: left;
-    padding-left: 15px;
-    background-color: white;
-}
-
-div.workChat div.teacherMessage
-{
-    text-align: right;
-    padding-right: 15px;
-    background-color: #f6f6f6;
-}
-
-div.workChat  div.message
-{
-    cursor: default;
-    font-size: medium;
-}
-
-div.workChat div.date
-{
-    cursor: default;
-    padding-top: 3px;
-    font-size: x-small;
-    color: grey;
-}
-
-div.sendMessageBox
-{
-    margin-top: -2px;
-    border: 2px solid #dedede;
-    height: 37px;
-}
-
-button.sendMessageButton
-{
-    width: 25%;
-    height: 33px;
-    border: none;
-    background: #fff5ec;
-}
-
-button.sendMessageButton:hover
-{
-    background: #fff1e6;
 }
 
 .changeMyFilesButton

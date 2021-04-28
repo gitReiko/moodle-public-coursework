@@ -78,7 +78,7 @@ class Chat extends Base
 
         $text.= $this->get_last_message_anchor();
 
-        $attr = array('class' => 'newChat');
+        $attr = array('class' => 'chat');
         return \html_writer::tag('div', $text, $attr);
     }
 
@@ -143,7 +143,7 @@ class Chat extends Base
     {
         $attr = array(
             'id' => 'chatMessageInput',
-            'class' => 'newInputMessage',
+            'class' => 'inputMessage',
             'form' => $this->formId,
             'name' => \MESSAGE,
             'value' => get_string('write_your_message_here', 'coursework'),
@@ -157,7 +157,7 @@ class Chat extends Base
     private function get_message_button() : string 
     {
         $attr = array(
-            'class' => 'newSendButton',
+            'class' => 'sendButton',
             'onclick' => 'Chat.send_chat_message()'
         );
         $text = get_string('send', 'coursework');
