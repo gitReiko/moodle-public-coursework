@@ -149,6 +149,11 @@ div.work_chat_content table.studentMessage
     margin-right: auto;
     margin-left: 0px;
 }
+div.work_chat_content div.chatWindow img.userpicture
+{
+    height: 50px;
+    width: 50px;
+}
 
 div.work_chat_content table.studentMessage tr td 
 {
