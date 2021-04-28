@@ -81,6 +81,7 @@ class Filemanager extends Base
         {
             $text = get_string('student_files', 'coursework');
         }
+        $text = \html_writer::tag('b', $text);
 
         $filesList = $this->get_files_list('student', $this->work->student);
 
@@ -106,6 +107,7 @@ class Filemanager extends Base
         {
             $text = get_string('teacher_files', 'coursework');
         }
+        $text = \html_writer::tag('b', $text);
 
         $filesList = $this->get_files_list(
             'teacher'.$this->work->teacher, 

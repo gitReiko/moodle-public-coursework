@@ -187,30 +187,60 @@ div.workFilemanagerGrids
 {
     cursor: default;
     display: grid;
-    grid-template-columns: 1fr 1fr;
     column-gap: 3px;
     row-gap: 3px;
+}
+
+@media (min-width:630px) 
+{
+    div.workFilemanagerGrids div.header
+    {
+        grid-column-start: 1;
+        grid-column-end: 3;
+    }
+
+    div.workFilemanagerGrids div.button
+    {
+        grid-column-start: 1;
+        grid-column-end: 3;
+    }
+
+    div.workFilemanagerGrids 
+    {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width:629px) 
+{
+    div.workFilemanagerGrids 
+    {
+        grid-template-columns: 1fr;
+    }
+}
+
+div.workFilemanagerGrids div.header
+{
+    background-color: #eee;
+    text-align: center;
+}
+
+div.workFilemanagerGrids div.button
+{
+    background-color: #eee;
+    text-align: center;
+    cursor: pointer;
+}
+
+div.workFilemanagerGrids div.button:hover
+{
+    background-color: #ddd;
 }
 
 div.workFilemanagerGrids div 
 {
     border: 1px solid grey;
     padding: 3px;
-}
-
-div.workFilemanagerGrids div.header
-{
-    text-align: center;
-    grid-column-start: 1;
-    grid-column-end: 3;
-}
-
-div.workFilemanagerGrids div.button
-{
-    text-align: center;
-    grid-column-start: 1;
-    grid-column-end: 3;
-    cursor: pointer;
 }
 
 table.workTask 
