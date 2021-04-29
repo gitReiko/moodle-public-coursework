@@ -2,6 +2,7 @@
 
 namespace Coursework\View\StudentWork\Components;
 
+use Coursework\View\DatabaseHandlers\MarkMessageAsReaded;
 use Coursework\View\StudentWork\Locallib as locallib;
 use Coursework\Lib\Getters\StudentsGetter as sg;
 use Coursework\Lib\Getters\CommonGetter as cg;
@@ -20,6 +21,7 @@ class Chat extends Base
         $this->formId = 'messageFormId';
         $this->work = sg::get_students_work($cm->instance, $studentId);
         $this->messages = $this->get_messages();
+        $this->mark_messages_as_readed();
     }
 
     protected function get_hiding_class_name() : string
@@ -30,6 +32,20 @@ class Chat extends Base
     protected function get_header_text() : string
     {
         return get_string('chat', 'coursework');
+    }
+
+    private function mark_messages_as_readed()
+    {
+        global $USER;
+        foreach($this->messages as $message)
+        {
+            if($message->readed == '0'
+                && $message->userto == $USER->id)
+            {
+                $db = new MarkMessageAsReaded($this->course, $this->cm, $message->id);
+                $db->handle();
+            }
+        }
     }
 
     private function get_messages()
