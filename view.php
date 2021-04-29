@@ -13,6 +13,8 @@ require_once 'lib/getters/common_getter.php';
 require_once 'lib/notifications.php';
 require_once 'lib/common.php';
 require_once 'lib/enums.php';
+
+use Coursework\View\Main;
  
 $id = required_param('id', PARAM_INT);    // Course Module ID
  
@@ -44,7 +46,7 @@ require_login();
   
 echo $OUTPUT->header();
 
-$view = new ViewMain($course, $cm);
+$view = new Main($course, $cm);
 echo $view->get_gui();
 
 echo $OUTPUT->footer();

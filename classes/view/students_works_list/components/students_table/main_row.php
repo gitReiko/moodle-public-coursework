@@ -6,7 +6,7 @@ use Coursework\Lib\Getters\CommonGetter as cg;
 use Coursework\View\StudentsWorksList as swl;
 use Coursework\Lib\Notifications;
 use Coursework\Lib\Enums as enum;
-use ViewMain as m;
+use Coursework\View\Main as view_main;
 
 class MainRow 
 {
@@ -89,9 +89,9 @@ class MainRow
     private function get_go_to_work_url()
     {
         $url = '/mod/coursework/view.php';
-        $url.= '?'.m::ID.'='.$this->cm->id;
-        $url.= '&'.m::GUI_EVENT.'='.m::USER_WORK;
-        $url.= '&'.m::STUDENT_ID.'='.$this->student->id;
+        $url.= '?'.view_main::ID.'='.$this->cm->id;
+        $url.= '&'.view_main::GUI_EVENT.'='.view_main::USER_WORK;
+        $url.= '&'.view_main::STUDENT_ID.'='.$this->student->id;
 
         return $url;
     }

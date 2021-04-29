@@ -8,7 +8,7 @@ require_once 'teacher_file_manager.php';
 use Coursework\Lib\Getters\CommonGetter as cg;
 use Coursework\Lib\Getters\StudentsGetter as sg;
 use Coursework\View\StudentWork\Locallib as locallib;
-use ViewMain as m;
+use Coursework\View\Main as view_main;
 
 class Main 
 {
@@ -147,8 +147,8 @@ class Main
         $btn = \html_writer::tag('button', $text);
 
         $url = '/mod/coursework/view.php?id='.$this->cm->id;
-        $url.= '&'.m::GUI_EVENT.'='.m::USER_WORK;
-        $url.= '&'.m::STUDENT_ID.'='.$this->studentId;
+        $url.= '&'.view_main::GUI_EVENT.'='.view_main::USER_WORK;
+        $url.= '&'.view_main::STUDENT_ID.'='.$this->studentId;
 
         $attr = array('href' => $url);
         return \html_writer::tag('a', $btn, $attr);

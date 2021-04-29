@@ -1,6 +1,6 @@
 <?php
 
-namespace view\quota_overview;
+namespace Coursework\View\QuotaOverview;
 
 require_once 'getter.php';
 

@@ -33,9 +33,8 @@ require_login();
   
 echo $OUTPUT->header();
 
-$page = new view\quota_overview\Main($cm);
+$page = new Coursework\View\QuotaOverview\Main($cm);
 echo $page->get_page();
 
 echo $OUTPUT->footer();
-
 

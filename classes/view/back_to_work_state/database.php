@@ -1,6 +1,6 @@
 <?php
 
-namespace view\back_to_work_state;
+namespace Coursework\View\BackToWorkState;
 
 use Coursework\Lib\Getters\CommonGetter as cg;
 

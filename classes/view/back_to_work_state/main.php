@@ -1,6 +1,6 @@
 <?php
 
-namespace view\back_to_work_state;
+namespace Coursework\View\BackToWorkState;
 
 require_once 'database.php';
 require_once 'page.php';

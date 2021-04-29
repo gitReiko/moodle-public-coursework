@@ -10,7 +10,7 @@ use Coursework\Lib\Getters\CommonGetter as cg;
 use Coursework\Lib\Getters\StudentsGetter as sg;
 
 use coursework_lib as lib;
-use ViewMain as m;
+use Coursework\View\Main as view_main;
 
 class Filemanager extends Base 
 {
@@ -173,21 +173,21 @@ class Filemanager extends Base
 
         $attr = array(
             'type' => 'hidden',
-            'name' => m::ID,
+            'name' => view_main::ID,
             'value' => $this->cm->id
         );
         $form.= \html_writer::empty_tag('input', $attr);
 
         $attr = array(
             'type' => 'hidden',
-            'name' => m::GUI_EVENT,
-            'value' => m::USER_WORK
+            'name' => view_main::GUI_EVENT,
+            'value' => view_main::USER_WORK
         );
         $form.= \html_writer::empty_tag('input', $attr);
 
         $attr = array(
             'type' => 'hidden',
-            'name' => m::STUDENT_ID,
+            'name' => view_main::STUDENT_ID,
             'value' => $this->work->student
         );
         $form.= \html_writer::empty_tag('input', $attr);

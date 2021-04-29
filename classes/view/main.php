@@ -1,5 +1,7 @@
 <?php
 
+namespace Coursework\View;
+
 require_once 'students_works_list/page.php';
 require_once 'student_work/main.php';
 require_once 'database_handlers/main.php';
@@ -8,7 +10,7 @@ use Coursework\View\StudentWork\Main as StudentWork;
 use Coursework\View\StudentsWorksList as swl;
 use Coursework\Lib\CommonLib as cl;
 
-class ViewMain 
+class Main 
 {
     const DATABASE_EVENT = 'database_event';
     const GUI_EVENT = 'gui_event';
@@ -20,7 +22,7 @@ class ViewMain
     private $course;
     private $cm;
 
-    function __construct(stdClass $course, stdClass $cm)
+    function __construct(\stdClass $course, \stdClass $cm)
     {
         $this->course = $course;
         $this->cm = $cm;

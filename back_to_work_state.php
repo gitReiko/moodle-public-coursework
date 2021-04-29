@@ -37,7 +37,7 @@ require_login();
   
 echo $OUTPUT->header();
 
-$page = new view\back_to_work_state\Main($cm);
+$page = new Coursework\View\BackToWorkState\Main($cm);
 echo $page->get_page();
 
 echo $OUTPUT->footer();

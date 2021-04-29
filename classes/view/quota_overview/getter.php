@@ -1,6 +1,6 @@
 <?php
 
-namespace view\quota_overview;
+namespace Coursework\View\QuotaOverview;
 
 use Coursework\Lib\Getters\StudentsGetter as sg;
 use Coursework\Lib\Getters\TeachersGetter as tg;

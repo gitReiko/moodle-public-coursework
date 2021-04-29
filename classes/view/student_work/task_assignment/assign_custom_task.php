@@ -2,6 +2,8 @@
 
 namespace Coursework\View\StudentWork\TaskAssignment;
 
+use Coursework\View\Main as view_main;
+
 abstract class AssignCustomTask 
 {
     protected $course;
@@ -139,8 +141,8 @@ abstract class AssignCustomTask
 
         $attr = array(
             'type' => 'hidden',
-            'name' => \ViewMain::GUI_EVENT,
-            'value' => \ViewMain::USER_WORK
+            'name' => view_main::GUI_EVENT,
+            'value' => view_main::USER_WORK
         );
         $btn.= \html_writer::empty_tag('input', $attr);
 
