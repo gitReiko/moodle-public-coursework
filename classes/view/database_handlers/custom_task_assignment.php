@@ -4,7 +4,7 @@ namespace Coursework\View\DatabaseHandlers;
 
 use coursework_lib as lib;
 
-class CustomTaskTemplateDatabaseHandler 
+class CustomTaskAssignment 
 {
     protected $course;
     protected $cm;

@@ -79,7 +79,7 @@ class Main
 
     private function handle_custom_task_assignment_database_event() : void 
     {
-        $database = new CustomTaskTemplateDatabaseHandler($this->course, $this->cm);
+        $database = new CustomTaskAssignment($this->course, $this->cm);
         $database->handle();
     }
 
