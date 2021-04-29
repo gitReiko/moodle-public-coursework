@@ -233,7 +233,7 @@ class ThemeSelectionBlock
         }
     }
 
-    private function get_proposed_themes_options() : bool 
+    private function get_proposed_themes_options() : string 
     {
         $options = '';
         foreach($this->selectedThemes as $theme)
