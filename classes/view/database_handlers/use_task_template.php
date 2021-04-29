@@ -2,6 +2,8 @@
 
 namespace Coursework\View\DatabaseHandlers;
 
+use Coursework\Lib\Getters\CommonGetter as cg;
+use Coursework\Lib\Notification;
 use coursework_lib as lib;
 
 class UseTaskTemplate 
@@ -57,25 +59,21 @@ class UseTaskTemplate
 
         $cm = $this->cm;
         $course = $this->course;
-        $messageName = 'taskassignment';
         $userFrom = $USER;
-        $userTo = lib\get_user($this->get_student_id()); 
-        $headerMessage = get_string('task_assignment_header','coursework');
-        $fullMessageHtml = $this->get_student_html_message();
+        $userTo = cg::get_user($this->get_student_id()); 
+        $messageName = 'taskassignment';
+        $messageText = get_string('task_assignment_header','coursework');
 
-        lib\send_notification($cm, $course, $messageName, $userFrom, $userTo, $headerMessage, $fullMessageHtml);
+        $notification = new Notification(
+            $cm,
+            $course,
+            $userFrom,
+            $userTo,
+            $messageName,
+            $messageText
+        );
 
+        $notification->send();
     }
-
-    private function get_student_html_message() : string
-    {
-        $params = cw_prepare_data_for_message();
-        $message = get_string('task_assignment_header','coursework', $params);
-        $notification = get_string('answer_not_require', 'coursework');
-
-        return cw_get_html_message($this->cm, $this->course->id, $message, $notification);
-    }
-
-
 
 }

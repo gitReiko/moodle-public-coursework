@@ -8,8 +8,8 @@ use Coursework\View\StudentWork\Locallib as locallib;
 use Coursework\View\StudentWork\Main as StudentWorkMain;
 use Coursework\Lib\Getters\CommonGetter as cg;
 use Coursework\Lib\Getters\StudentsGetter as sg;
+use Coursework\Lib\Notification;
 
-use coursework_lib as lib;
 use Coursework\View\Main as view_main;
 
 class Filemanager extends Base 
@@ -247,21 +247,21 @@ class Filemanager extends Base
     {
         $cm = $this->cm;
         $course = $this->course;
-        $messageName = 'student_upload_file';
         $userFrom = cg::get_user($this->work->student);
         $userTo = cg::get_user($this->work->teacher); 
-        $headerMessage = get_string('student_upload_file_header','coursework'); // Закончил здесь
-        $fullMessageHtml = $this->get_student_html_message();
+        $messageName = 'student_upload_file';
+        $messageText = get_string('student_upload_file_header','coursework');
 
-        lib\send_notification($cm, $course, $messageName, $userFrom, $userTo, $headerMessage, $fullMessageHtml);
-    }
+        $notification = new Notification(
+            $cm,
+            $course,
+            $userFrom,
+            $userTo,
+            $messageName,
+            $messageText
+        );
 
-    private function get_student_html_message() : string
-    {
-        $message = get_string('student_upload_file_header','coursework');
-        $notification = get_string('answer_not_require', 'coursework');
-
-        return cw_get_html_message($this->cm, $this->course->id, $message, $notification);
+        $notification->send();
     }
 
     private function save_teacher_files()
@@ -308,22 +308,21 @@ class Filemanager extends Base
     {
         $cm = $this->cm;
         $course = $this->course;
-        $messageName = 'teacher_upload_file';
-        $userFrom = cg::get_user($this->work->teacher); 
+        $userFrom = cg::get_user($this->work->teacher);
         $userTo = cg::get_user($this->work->student); 
-        $headerMessage = get_string('teacher_upload_file_header','coursework');
-        $fullMessageHtml = $this->get_teacher_html_message();
+        $messageName = 'teacher_upload_file';
+        $messageText = get_string('teacher_upload_file_header','coursework');
 
-        lib\send_notification($cm, $course, $messageName, $userFrom, $userTo, $headerMessage, $fullMessageHtml);
+        $notification = new Notification(
+            $cm,
+            $course,
+            $userFrom,
+            $userTo,
+            $messageName,
+            $messageText
+        );
 
-    }
-
-    private function get_teacher_html_message() : string
-    {
-        $message = get_string('teacher_upload_file_header','coursework');
-        $notification = get_string('answer_not_require', 'coursework');
-
-        return cw_get_html_message($this->cm, $this->course->id, $message, $notification);
+        $notification->send();
     }
 
 

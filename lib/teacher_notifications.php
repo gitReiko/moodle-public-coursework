@@ -7,7 +7,7 @@ require_once 'getters/common_getter.php';
 use Coursework\Lib\Getters\CommonGetter as cg;
 
 // Students notification for teacher
-class Notifications 
+class TeacherNotifications 
 {
     public $isTeacherMustGiveTask;
     public $isTeacherHasUnreadedMessages;

@@ -4,7 +4,7 @@ namespace Coursework\View\StudentsWorksList\StudentsTable;
 
 use Coursework\Lib\Getters\CommonGetter as cg;
 use Coursework\View\StudentsWorksList as swl;
-use Coursework\Lib\Notifications;
+use Coursework\Lib\TeacherNotifications;
 use Coursework\Lib\Enums as enum;
 use Coursework\View\Main as view_main;
 
@@ -17,7 +17,7 @@ class MainRow
     private $moreClass;
     private $moreBtnId;
 
-    function __construct(\stdClass $cm, \stdClass $student, Notifications $ntfs) 
+    function __construct(\stdClass $cm, \stdClass $student, TeacherNotifications $ntfs) 
     {
         $this->cm = $cm;
         $this->student = $student;

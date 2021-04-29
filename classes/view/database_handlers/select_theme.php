@@ -4,6 +4,7 @@ namespace Coursework\View\DatabaseHandlers;
 
 use Coursework\View\StudentWork\Locallib as locallib;
 use Coursework\Lib\Getters\CommonGetter as cg;
+use Coursework\Lib\Notification;
 use coursework_lib as lib;
 
 class ThemeSelect 
@@ -226,13 +227,21 @@ class ThemeSelect
 
         $cm = $this->cm;
         $course = $this->course;
-        $messageName = 'selecttheme';
         $userFrom = $USER;
-        $userTo = lib\get_user($row->teacher); 
-        $headerMessage = get_string('theme_selection_header','coursework');
-        $fullMessageHtml = $this->get_select_theme_html_message();
+        $userTo = cg::get_user($row->teacher); 
+        $messageName = 'selecttheme';
+        $messageText = $this->get_select_theme_html_message();
 
-        lib\send_notification($cm, $course, $messageName, $userFrom, $userTo, $headerMessage, $fullMessageHtml);
+        $notification = new Notification(
+            $cm,
+            $course,
+            $userFrom,
+            $userTo,
+            $messageName,
+            $messageText
+        );
+
+        $notification->send();
     }
 
     private function send_notification_to_teacher_give_task(\stdClass $work) : void 
@@ -241,29 +250,37 @@ class ThemeSelect
 
         $cm = $this->cm;
         $course = $this->course;
-        $messageName = 'givetask';
         $userFrom = $USER;
-        $userTo = lib\get_user($work->teacher); 
-        $headerMessage = get_string('give_task_header','coursework');
+        $userTo = cg::get_user($work->teacher); 
+        $messageName = 'givetask';
         $giveTask = true;
-        $fullMessageHtml = $this->get_select_theme_html_message($giveTask);
+        $messageText = $this->get_select_theme_html_message($giveTask);
 
-        lib\send_notification($cm, $course, $messageName, $userFrom, $userTo, $headerMessage, $fullMessageHtml);
+        $notification = new Notification(
+            $cm,
+            $course,
+            $userFrom,
+            $userTo,
+            $messageName,
+            $messageText
+        );
+
+        $notification->send();
     }
 
     private function get_select_theme_html_message($giveTask = false) : string
     {
         $params = $this->get_data_for_teacher_message();
-        $message = '<p>'.get_string('student_select_theme','coursework', $params).'</p>';
+        $text = get_string('student_select_theme','coursework', $params);
+        $message = \html_writer::tag('p', $text);
 
         if($giveTask)
         {
-            $message.= '<p>'.get_string('give_them_a_task','coursework', $params).'</p>';
+            $text = get_string('give_them_a_task','coursework', $params);
+            $message.= \html_writer::tag('p', $text);
         }
 
-        $notification = get_string('answer_not_require', 'coursework');
-
-        return cw_get_html_message($this->cm, $this->course->id, $message, $notification);
+        return $message;
     }
 
     private function get_data_for_teacher_message() : \stdClass 

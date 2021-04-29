@@ -2,7 +2,7 @@
 
 namespace Coursework\View\StudentsWorksList\StudentsTable;
 
-use Coursework\Lib\Notifications;
+use Coursework\Lib\TeacherNotifications;
 
 class NotificationRow 
 {
@@ -11,7 +11,7 @@ class NotificationRow
 
     private $moreClass;
 
-    function __construct(\stdClass $student, Notifications $ntfs) 
+    function __construct(\stdClass $student, TeacherNotifications $ntfs) 
     {
         $this->student = $student;
         $this->ntfs = $ntfs;

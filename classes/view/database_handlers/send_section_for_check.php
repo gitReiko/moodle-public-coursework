@@ -2,6 +2,8 @@
 
 namespace Coursework\View\DatabaseHandlers;
 
+use Coursework\Lib\Getters\CommonGetter as cg;
+use Coursework\Lib\Notification;
 use coursework_lib as lib;
 
 class SendSectionForCheck 
@@ -102,21 +104,21 @@ class SendSectionForCheck
 
         $cm = $this->cm;
         $course = $this->course;
-        $messageName = 'sendsectionforcheck';
         $userFrom = $USER;
-        $userTo = lib\get_user($work->teacher); 
-        $headerMessage = get_string('section_check','coursework');
-        $fullMessageHtml = $this->get_select_theme_html_message();
+        $userTo = cg::get_user($work->teacher); 
+        $messageName = 'sendsectionforcheck';
+        $messageText = get_string('section_check','coursework');
 
-        lib\send_notification($cm, $course, $messageName, $userFrom, $userTo, $headerMessage, $fullMessageHtml);
-    }
+        $notification = new Notification(
+            $cm,
+            $course,
+            $userFrom,
+            $userTo,
+            $messageName,
+            $messageText
+        );
 
-    private function get_select_theme_html_message() : string
-    {
-        $message = '<p>'.get_string('section_check','coursework').'</p>';
-        $notification = get_string('answer_not_require', 'coursework');
-
-        return cw_get_html_message($this->cm, $this->course->id, $message, $notification);
+        $notification->send();
     }
 
 

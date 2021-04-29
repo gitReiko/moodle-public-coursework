@@ -7,7 +7,7 @@ require_once 'notification_row.php';
 require_once 'sections_rows.php';
 
 use Coursework\View\StudentsWorksList as swl;
-use Coursework\Lib\Notifications;
+use Coursework\Lib\TeacherNotifications;
 
 class Tbody 
 {
@@ -37,16 +37,16 @@ class Tbody
         return $body;
     }
 
-    private function get_notifications(\stdClass $student) : Notifications
+    private function get_notifications(\stdClass $student) : TeacherNotifications
     {
-        return new Notifications(
+        return new TeacherNotifications(
             $this->d->get_cm()->instance,
             $student,
             $this->d->get_selected_teacher_id()
         );
     }
 
-    private function get_main_row(\stdClass $student, Notifications $ntfs) : string 
+    private function get_main_row(\stdClass $student, TeacherNotifications $ntfs) : string 
     {
         $mainRow = new MainRow(
             $this->d->get_cm(), 
@@ -56,7 +56,7 @@ class Tbody
         return $mainRow->get();
     }
 
-    private function get_notification_row(\stdClass $student, Notifications $ntfs) : string 
+    private function get_notification_row(\stdClass $student, TeacherNotifications $ntfs) : string 
     {
         $notificationsRow = new NotificationRow($student, $ntfs);
         return $notificationsRow->get();

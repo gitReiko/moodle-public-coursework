@@ -128,5 +128,12 @@ class CommonGetter
         return $DB->get_field('course', 'fullname', $where);
     }
 
+    public static function get_course_fullname($courseId) : string
+    {
+        global $DB;
+        $where = array('id' => $courseId);
+        return $DB->get_field('course', 'fullname', $where);
+    }
+
 
 }

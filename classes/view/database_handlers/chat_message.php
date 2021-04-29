@@ -2,7 +2,8 @@
 
 namespace Coursework\View\DatabaseHandlers;
 
-use coursework_lib as lib;
+use Coursework\Lib\Getters\CommonGetter as cg;
+use Coursework\Lib\Notification;
 
 class ChatMessage 
 {
@@ -72,25 +73,23 @@ class ChatMessage
 
     private function send_notification() : void 
     {
-        global $USER;
-
         $cm = $this->cm;
         $course = $this->course;
+        $userFrom = cg::get_user($this->message->userfrom); 
+        $userTo = cg::get_user($this->message->userto); 
         $messageName = 'chatmessage';
-        $userFrom = lib\get_user($this->message->userfrom);
-        $userTo = lib\get_user($this->message->userto);
-        $headerMessage = get_string('chat_message','coursework');
-        $fullMessageHtml = $this->get_select_theme_html_message();
+        $messageText = get_string('chat_message','coursework');
 
-        lib\send_notification($cm, $course, $messageName, $userFrom, $userTo, $headerMessage, $fullMessageHtml);
-    }
+        $notification = new Notification(
+            $cm,
+            $course,
+            $userFrom,
+            $userTo,
+            $messageName,
+            $messageText
+        );
 
-    private function get_select_theme_html_message() : string
-    {
-        $message = '<p>'.get_string('chat_message','coursework').'</p>';
-        $notification = get_string('answer_not_require', 'coursework');
-
-        return cw_get_html_message($this->cm, $this->course->id, $message, $notification);
+        $notification->send();
     }
 
 
