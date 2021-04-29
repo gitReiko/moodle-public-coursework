@@ -67,7 +67,7 @@ class Main
 
     private function handle_select_theme_database_event() : void 
     {
-        $database = new ThemeSelectDatabaseHandler($this->course, $this->cm);
+        $database = new ThemeSelect($this->course, $this->cm);
         $database->handle();
     }
 

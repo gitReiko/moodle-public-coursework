@@ -6,7 +6,7 @@ use Coursework\View\StudentWork\Locallib as locallib;
 use Coursework\Lib\Getters\CommonGetter as cg;
 use coursework_lib as lib;
 
-class ThemeSelectDatabaseHandler 
+class ThemeSelect 
 {
       
     private $course;
