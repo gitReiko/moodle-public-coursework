@@ -85,7 +85,7 @@ class Main
 
     private function handle_chat_message_database_event() : void 
     {
-        $database = new ChatMessageDatabaseHandler($this->course, $this->cm);
+        $database = new ChatMessage($this->course, $this->cm);
         $database->handle();
     }
 

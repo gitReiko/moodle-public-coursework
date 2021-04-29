@@ -4,7 +4,7 @@ namespace Coursework\View\DatabaseHandlers;
 
 use coursework_lib as lib;
 
-class ChatMessageDatabaseHandler 
+class ChatMessage 
 {
     private $course;
     private $cm;
@@ -80,14 +80,14 @@ class ChatMessageDatabaseHandler
         $userFrom = lib\get_user($this->message->userfrom);
         $userTo = lib\get_user($this->message->userto);
         $headerMessage = get_string('chat_message','coursework');
-        $fullMessageHtml = $this->get_select_theme_html_message($giveTask);
+        $fullMessageHtml = $this->get_select_theme_html_message();
 
         lib\send_notification($cm, $course, $messageName, $userFrom, $userTo, $headerMessage, $fullMessageHtml);
     }
 
     private function get_select_theme_html_message() : string
     {
-        $message = '<p>'.get_string('chat_message','coursework', $params).'</p>';
+        $message = '<p>'.get_string('chat_message','coursework').'</p>';
         $notification = get_string('answer_not_require', 'coursework');
 
         return cw_get_html_message($this->cm, $this->course->id, $message, $notification);
