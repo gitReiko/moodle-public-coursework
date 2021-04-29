@@ -6,7 +6,7 @@ require_once 'database_handlers/main.php';
 
 use Coursework\View\StudentWork\Main as StudentWork;
 use Coursework\View\StudentsWorksList as swl;
-use coursework_lib as lib;
+use Coursework\Lib\CommonLib as cl;
 
 class ViewMain 
 {
@@ -35,7 +35,7 @@ class ViewMain
     {
         global $USER;
 
-        if(lib\is_user_student($this->cm, $USER->id))
+        if(cl::is_user_student($this->cm, $USER->id))
         {
             global $USER;
             return $this->get_student_work_page($USER->id);
