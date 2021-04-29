@@ -1,5 +1,7 @@
 <?php
 
+namespace Coursework\View\DatabaseHandlers;
+
 use Coursework\Lib\CommonLib as cl;
 use coursework_lib as lib;
 
@@ -10,7 +12,7 @@ class WorkCheckDatabaseHandler
 
     private $work;
 
-    function __construct(stdClass $course, stdClass $cm)
+    function __construct(\stdClass $course, \stdClass $cm)
     {
         $this->course = $course;
         $this->cm = $cm;
@@ -24,7 +26,7 @@ class WorkCheckDatabaseHandler
         $this->send_notification($this->work);
     }
 
-    private function get_work() : stdClass 
+    private function get_work() : \stdClass 
     {
         $student = $this->get_student();
         $work = lib\get_student_work($this->cm, $student);
@@ -78,7 +80,7 @@ class WorkCheckDatabaseHandler
 
     private function save_grade_in_gradebook() : void 
     {
-        $grade = new stdClass;
+        $grade = new \stdClass;
         $grade->userid   = $this->work->student;
         $grade->rawgrade = $this->work->grade;
         $coursework = lib\get_coursework($this->cm->instance);
@@ -129,9 +131,9 @@ class WorkCheckDatabaseHandler
         return $DB->record_exists_sql($sql, $params);
     }
 
-    private function get_section(int $sectionId) : stdClass 
+    private function get_section(int $sectionId) : \stdClass 
     {
-        $section = new stdClass;
+        $section = new \stdClass;
         $section->coursework = $this->cm->instance;
         $section->student = $this->work->student;
         $section->section = $sectionId;
@@ -140,7 +142,7 @@ class WorkCheckDatabaseHandler
         return $section;
     }
 
-    private function insert_section_to_database(stdClass $section) : void 
+    private function insert_section_to_database(\stdClass $section) : void 
     {
         global $DB;
         $DB->insert_record('coursework_sections_status', $section);
@@ -155,13 +157,13 @@ class WorkCheckDatabaseHandler
         return $DB->get_field('coursework_sections_status', 'id', $conditions);
     }
     
-    private function update_section_in_database(stdClass $section) : void 
+    private function update_section_in_database(\stdClass $section) : void 
     {
         global $DB;
         $DB->update_record('coursework_sections_status', $section);
     }
 
-    private function send_notification(stdClass $work) : void 
+    private function send_notification(\stdClass $work) : void 
     {
         global $USER;
 

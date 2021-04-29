@@ -1,5 +1,7 @@
 <?php
 
+namespace Coursework\View\DatabaseHandlers;
+
 use coursework_lib as lib;
 
 class CustomTaskTemplateDatabaseHandler 
@@ -8,7 +10,7 @@ class CustomTaskTemplateDatabaseHandler
     protected $cm;
     protected $studentId;
 
-    function __construct(stdClass $course, stdClass $cm)
+    function __construct(\stdClass $course, \stdClass $cm)
     {
         $this->course = $course;
         $this->cm = $cm;
@@ -19,7 +21,7 @@ class CustomTaskTemplateDatabaseHandler
     {
         $taskId = $this->add_new_task();
 
-        if(empty($taskId)) throw new Exception('Task was not assigned to student (task creation error).');
+        if(empty($taskId)) throw new \Exception('Task was not assigned to student (task creation error).');
 
         $this->add_task_sections($taskId);
         $this->assign_new_task_to_student($taskId);
@@ -35,13 +37,13 @@ class CustomTaskTemplateDatabaseHandler
     private function get_student_id() : int 
     {
         $studentId = optional_param(STUDENT.ID, null, PARAM_INT);
-        if(empty($studentId)) throw new Exception('Misssing student id');
+        if(empty($studentId)) throw new \Exception('Misssing student id');
         return $studentId;
     }
 
-    private function get_task() : stdClass 
+    private function get_task() : \stdClass 
     {
-        $task = new stdClass;
+        $task = new \stdClass;
         $task->name = $this->get_task_name();
         $task->description = $this->get_task_description();
         $task->template = 0;
@@ -70,7 +72,7 @@ class CustomTaskTemplateDatabaseHandler
         {
             $sectionId = $DB->insert_record('coursework_tasks_sections', $section, true);
 
-            if(empty($sectionId)) throw new Exception('Section not created.');
+            if(empty($sectionId)) throw new \Exception('Section not created.');
         }
     }
 
@@ -84,7 +86,7 @@ class CustomTaskTemplateDatabaseHandler
         $j = 0;
         for($i = 0; $i < count($names); $i++)
         {
-            $section = new stdClass;
+            $section = new \stdClass;
             $section->name = $names[$i];
             $section->listposition = $i + 1;
             $section->task = $taskId;
@@ -114,7 +116,7 @@ class CustomTaskTemplateDatabaseHandler
         }
     }
 
-    private function send_notification_to_student(stdClass $work) : void 
+    private function send_notification_to_student(\stdClass $work) : void 
     {
         $cm = $this->cm;
         $course = $this->course;

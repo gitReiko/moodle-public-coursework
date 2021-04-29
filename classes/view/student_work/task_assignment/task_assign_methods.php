@@ -2,6 +2,7 @@
 
 namespace Coursework\View\StudentWork\TaskAssignment;
 
+use Coursework\View\DatabaseHandlers\Main as db;
 use Coursework\Lib\Getters\CommonGetter as cg;
 use Coursework\View\Main as view_main;
 
@@ -109,7 +110,7 @@ class TaskAssignMethods
         $attr = array(
             'type' => 'hidden',
             'name' => DB_EVENT,
-            'value' => \ViewDatabaseHandler::USE_TASK_TEMPLATE
+            'value' => db::USE_TASK_TEMPLATE
         );
         $btn.= \html_writer::empty_tag('input', $attr);
 

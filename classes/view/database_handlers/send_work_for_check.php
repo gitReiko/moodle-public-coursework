@@ -1,5 +1,7 @@
 <?php
 
+namespace Coursework\View\DatabaseHandlers;
+
 use coursework_lib as lib;
 
 class SendWorkForCheckDatabaseHandler 
@@ -9,7 +11,7 @@ class SendWorkForCheckDatabaseHandler
 
     private $work;
 
-    function __construct(stdClass $course, stdClass $cm)
+    function __construct(\stdClass $course, \stdClass $cm)
     {
         $this->course = $course;
         $this->cm = $cm;
@@ -26,7 +28,7 @@ class SendWorkForCheckDatabaseHandler
     }
 
 
-    private function get_work() : stdClass 
+    private function get_work() : \stdClass 
     {
         $student = $this->get_student();
         $work = lib\get_student_work($this->cm, $student);
@@ -49,14 +51,14 @@ class SendWorkForCheckDatabaseHandler
         return $DB->update_record('coursework_students', $this->work);
     }
 
-    private function get_student_coursework() : stdClass
+    private function get_student_coursework() : \stdClass
     {
         global $DB, $USER;
         $where = array('coursework' => $this->cm->instance, 'student' => $USER->id);
         return $DB->get_record('coursework_students', $where);
     }
 
-    private function send_notification(stdClass $work) : void 
+    private function send_notification(\stdClass $work) : void 
     {
         global $USER;
 

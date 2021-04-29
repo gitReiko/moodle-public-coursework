@@ -1,5 +1,7 @@
 <?php
 
+namespace Coursework\View\DatabaseHandlers;
+
 use coursework_lib as lib;
 
 class UseTaskTemplateDatabaseHandler 
@@ -8,7 +10,7 @@ class UseTaskTemplateDatabaseHandler
     private $course;
     private $cm;
 
-    function __construct(stdClass $course, stdClass $cm)
+    function __construct(\stdClass $course, \stdClass $cm)
     {
         $this->course = $course;
         $this->cm = $cm;
@@ -20,13 +22,13 @@ class UseTaskTemplateDatabaseHandler
         $this->update_student_work($work);
     }
 
-    private function get_student_work() : stdClass 
+    private function get_student_work() : \stdClass 
     {
         $studentId = $this->get_student_id();
         $work = lib\get_student_work($this->cm, $studentId);
         $taskTemplate = lib\get_using_task($this->cm);
 
-        $studentWork = new stdClass;
+        $studentWork = new \stdClass;
         $studentWork->id = $work->id;
         $studentWork->task = $taskTemplate->id;
 
@@ -40,7 +42,7 @@ class UseTaskTemplateDatabaseHandler
         return $studentId;
     }
 
-    private function update_student_work(stdClass $work)
+    private function update_student_work(\stdClass $work)
     {
         global $DB;
         if($DB->update_record('coursework_students', $work))
@@ -49,7 +51,7 @@ class UseTaskTemplateDatabaseHandler
         }
     }
 
-    private function send_notification_to_student(stdClass $row) : void 
+    private function send_notification_to_student(\stdClass $row) : void 
     {
         global $USER;
 

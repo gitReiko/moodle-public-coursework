@@ -1,5 +1,7 @@
 <?php
 
+namespace Coursework\View\DatabaseHandlers;
+
 use Coursework\View\StudentWork\Locallib as locallib;
 use Coursework\Lib\Getters\CommonGetter as cg;
 use coursework_lib as lib;
@@ -10,7 +12,7 @@ class ThemeSelectDatabaseHandler
     private $course;
     private $cm;
 
-    function __construct(stdClass $course, stdClass $cm)
+    function __construct(\stdClass $course, \stdClass $cm)
     {
         $this->course = $course;
         $this->cm = $cm;
@@ -62,9 +64,9 @@ class ThemeSelectDatabaseHandler
         }
     }
 
-    private function get_coursework_student_row() : stdClass 
+    private function get_coursework_student_row() : \stdClass 
     {
-        $row = new stdClass;
+        $row = new \stdClass;
         $row->coursework = $this->get_coursework();
         $row->student = $this->get_student();
         $row->teacher = $this->get_teacher();
@@ -85,7 +87,7 @@ class ThemeSelectDatabaseHandler
     private function get_coursework() : int 
     {
         $coursework = $this->cm->instance;
-        if(empty($coursework)) throw new Exception('Missing coursework id.');
+        if(empty($coursework)) throw new \Exception('Missing coursework id.');
         return $coursework;
     }
 
@@ -93,21 +95,21 @@ class ThemeSelectDatabaseHandler
     {
         global $USER;
         $student = $USER->id;
-        if(empty($student)) throw new Exception('Missing student id');
+        if(empty($student)) throw new \Exception('Missing student id');
         return $student;
     }
 
     private function get_teacher() : int 
     {
         $teacher = optional_param(TEACHER, null, PARAM_INT);
-        if(empty($teacher)) throw new Exception('Missing teacher id.');
+        if(empty($teacher)) throw new \Exception('Missing teacher id.');
         return $teacher;
     }
 
     private function get_course() : int 
     {
         $course = optional_param(COURSE, null, PARAM_INT);
-        if(empty($course)) throw new Exception('Missing course id.');
+        if(empty($course)) throw new \Exception('Missing course id.');
         return $course;
     }
 
@@ -123,7 +125,7 @@ class ThemeSelectDatabaseHandler
         return $theme;
     }
 
-    private function handle_exceptions(stdClass $row) : void 
+    private function handle_exceptions(\stdClass $row) : void 
     {
         if($this->is_user_didnt_selected_theme($row))
         {
@@ -140,7 +142,7 @@ class ThemeSelectDatabaseHandler
         }
     }
 
-    private function is_user_didnt_selected_theme(stdClass $row) : bool 
+    private function is_user_didnt_selected_theme(\stdClass $row) : bool 
     {
         if(empty($row->theme) && empty($row->owntheme))
         {
@@ -152,7 +154,7 @@ class ThemeSelectDatabaseHandler
         }
     }
 
-    private function is_theme_already_used(stdClass $row) : bool 
+    private function is_theme_already_used(\stdClass $row) : bool 
     {
         if(isset($row->theme))
         {
@@ -173,7 +175,7 @@ class ThemeSelectDatabaseHandler
         }
     }
 
-    private function is_it_not_theme_select_update(stdClass $row) : bool 
+    private function is_it_not_theme_select_update(\stdClass $row) : bool 
     {
         global $DB;
         $where = array
@@ -186,39 +188,39 @@ class ThemeSelectDatabaseHandler
         return !$DB->record_exists('coursework_students', $where);
     }
 
-    private function is_student_row_exist(stdClass $row) : bool 
+    private function is_student_row_exist(\stdClass $row) : bool 
     {
         global $DB;
         $where = array('coursework' => $row->coursework, 'student' => $row->student);
         return $DB->record_exists('coursework_students', $where);
     }
 
-    private function get_student_row_id(stdClass $row) : int 
+    private function get_student_row_id(\stdClass $row) : int 
     {
         global $DB;
         $where = array('coursework' => $row->coursework, 'student' => $row->student);
         return $DB->get_field('coursework_students', 'id', $where);
     }
 
-    private function add_student_row(stdClass $row) : void 
+    private function add_student_row(\stdClass $row) : void 
     {
         global $DB;
         if(!$DB->insert_record('coursework_students', $row)) 
         {
-            throw new Exception(get_string('e:ins:student-not-selected', 'coursework'));
+            throw new \Exception(get_string('e:ins:student-not-selected', 'coursework'));
         }
     }
 
-    private function update_student_row(stdClass $row) : void 
+    private function update_student_row(\stdClass $row) : void 
     {
         global $DB;
         if(!$DB->update_record('coursework_students', $row)) 
         {
-            throw new Exception(get_string('e:upd:student-not-selected', 'coursework'));
+            throw new \Exception(get_string('e:upd:student-not-selected', 'coursework'));
         }
     }
 
-    private function send_notification_to_teacher_theme_selected(stdClass $row) : void 
+    private function send_notification_to_teacher_theme_selected(\stdClass $row) : void 
     {
         global $USER;
 
@@ -233,7 +235,7 @@ class ThemeSelectDatabaseHandler
         lib\send_notification($cm, $course, $messageName, $userFrom, $userTo, $headerMessage, $fullMessageHtml);
     }
 
-    private function send_notification_to_teacher_give_task(stdClass $work) : void 
+    private function send_notification_to_teacher_give_task(\stdClass $work) : void 
     {
         global $USER;
 
@@ -264,10 +266,10 @@ class ThemeSelectDatabaseHandler
         return cw_get_html_message($this->cm, $this->course->id, $message, $notification);
     }
 
-    private function get_data_for_teacher_message() : stdClass 
+    private function get_data_for_teacher_message() : \stdClass 
     {
         global $USER;
-        $data = new stdClass;
+        $data = new \stdClass;
         $data->student = cw_get_user_name($USER->id);
         $data->date = date('d-m-Y');
         $data->time = date('G:i');
@@ -286,7 +288,7 @@ class ThemeSelectDatabaseHandler
         global $DB;
         $where = array('coursework' => $this->cm->instance);
         $task = $DB->get_field('coursework_tasks_using', 'task', $where);
-        if(empty($task)) throw new Exception('Task template is absent.');
+        if(empty($task)) throw new \Exception('Task template is absent.');
         return $task;
     }
 

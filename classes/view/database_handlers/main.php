@@ -1,5 +1,7 @@
 <?php
 
+namespace Coursework\View\DatabaseHandlers;
+
 require_once 'select_theme.php';
 require_once 'use_task_template.php';
 require_once 'custom_task_assignment.php';
@@ -10,7 +12,7 @@ require_once 'section_check.php';
 require_once 'work_check.php';
 require_once 'mark_messages_as_readed.php';
 
-class ViewDatabaseHandler 
+class Main 
 {
     const SELECT_THEME = 'select_theme';
     const USE_TASK_TEMPLATE = 'use_task_template';
@@ -24,7 +26,7 @@ class ViewDatabaseHandler
     private $course;
     private $cm;
 
-    function __construct(stdClass $course, stdClass $cm)
+    function __construct(\stdClass $course, \stdClass $cm)
     {
         $this->course = $course;
         $this->cm = $cm;

@@ -2,6 +2,7 @@
 
 namespace Coursework\View\StudentWork\ThemeSelection;
 
+use Coursework\View\DatabaseHandlers\Main as db;
 use Coursework\Lib\CommonLib as cl; 
 
 require_once 'data_getters/main.php';
@@ -337,7 +338,7 @@ class ThemeSelectionBlock
         $attr = array(
             'type' => 'hidden',
             'name' => DB_EVENT,
-            'value' => \ViewDatabaseHandler::SELECT_THEME
+            'value' => db::SELECT_THEME
         );
         $inputs.= \html_writer::empty_tag('input', $attr);
 

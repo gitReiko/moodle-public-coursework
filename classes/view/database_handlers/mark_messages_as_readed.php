@@ -1,5 +1,7 @@
 <?php
 
+namespace Coursework\View\DatabaseHandlers;
+
 use coursework_lib as lib;
 
 class MarkMessageAsReadedDatabaseHandler 
@@ -9,12 +11,12 @@ class MarkMessageAsReadedDatabaseHandler
 
     private $message;
 
-    function __construct(stdClass $course, stdClass $cm, int $messageId)
+    function __construct(\stdClass $course, \stdClass $cm, int $messageId)
     {
         $this->course = $course;
         $this->cm = $cm;
 
-        if(empty($messageId)) throw new Exception('Missing message id');
+        if(empty($messageId)) throw new \Exception('Missing message id');
 
 
         $this->message = $this->get_message($messageId);
@@ -25,9 +27,9 @@ class MarkMessageAsReadedDatabaseHandler
         $this->mark_message_as_readed();
     }
 
-    private function get_message(int $messageId) : stdClass 
+    private function get_message(int $messageId) : \stdClass 
     {
-        $message = new stdClass;
+        $message = new \stdClass;
         $message->id = $messageId;
         $message->readed = 1;
         return $message;

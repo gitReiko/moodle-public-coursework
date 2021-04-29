@@ -5,6 +5,7 @@ namespace Coursework\View\StudentWork\Components;
 use Coursework\View\StudentWork\Locallib as locallib;
 use Coursework\Lib\Getters\StudentsGetter as sg;
 use Coursework\Lib\Getters\CommonGetter as cg;
+use Coursework\View\DatabaseHandlers\Main as db;
 
 class Chat extends Base 
 {
@@ -230,7 +231,7 @@ class Chat extends Base
         $attr = array(
             'type' => 'hidden',
             'name' => \DB_EVENT,
-            'value' => \ViewDatabaseHandler::CHAT_MESSAGE
+            'value' => db::CHAT_MESSAGE
         );
         $params.= \html_writer::empty_tag('input', $attr);
 

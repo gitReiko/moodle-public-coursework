@@ -5,6 +5,7 @@ namespace Coursework\View\StudentWork\Components;
 use Coursework\View\StudentWork\Locallib as locallib;
 use Coursework\Lib\Getters\StudentsGetter as sg;
 use Coursework\Lib\Enums as enum;
+use Coursework\View\DatabaseHandlers\Main as db;
 
 class WorkCheck extends Base 
 {
@@ -60,7 +61,7 @@ class WorkCheck extends Base
         $attr = array(
             'type' => 'hidden',
             'name' => DB_EVENT,
-            'value' => \ViewDatabaseHandler::SEND_WORK_FOR_CHECK
+            'value' => db::SEND_WORK_FOR_CHECK
         );
         $btn.= \html_writer::empty_tag('input', $attr);
 
@@ -116,7 +117,7 @@ class WorkCheck extends Base
         $attr = array(
             'type' => 'hidden',
             'name' => DB_EVENT,
-            'value' => \ViewDatabaseHandler::WORK_CHECK
+            'value' => db::WORK_CHECK
         );
         $btn.= \html_writer::empty_tag('input', $attr);
 
@@ -153,7 +154,7 @@ class WorkCheck extends Base
         $attr = array(
             'type' => 'hidden',
             'name' => DB_EVENT,
-            'value' => \ViewDatabaseHandler::WORK_CHECK
+            'value' => db::WORK_CHECK
         );
         $btn.= \html_writer::empty_tag('input', $attr);
 

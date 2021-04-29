@@ -1,5 +1,7 @@
 <?php
 
+namespace Coursework\View\DatabaseHandlers;
+
 use coursework_lib as lib;
 
 class SectionsCheckDatabaseHandler 
@@ -8,7 +10,7 @@ class SectionsCheckDatabaseHandler
     private $cm;
     private $sectionStatus;
 
-    function __construct(stdClass $course, stdClass $cm)
+    function __construct(\stdClass $course, \stdClass $cm)
     {
         $this->course = $course;
         $this->cm = $cm;
@@ -23,9 +25,9 @@ class SectionsCheckDatabaseHandler
         $this->send_notification($work);
     }
 
-    private function get_section_status() : stdClass 
+    private function get_section_status() : \stdClass 
     {
-        $sectionStatus = new stdClass;
+        $sectionStatus = new \stdClass;
         $sectionStatus->coursework = $this->get_coursework();
         $sectionStatus->student = $this->get_student();
         $sectionStatus->section = $this->get_section();
@@ -36,28 +38,28 @@ class SectionsCheckDatabaseHandler
 
     private function get_coursework() : int 
     {
-        if(empty($this->cm->instance)) throw new Exception('Missing coursework id.');
+        if(empty($this->cm->instance)) throw new \Exception('Missing coursework id.');
         return $this->cm->instance;
     }
 
     private function get_student() : int 
     {
         $student = optional_param(STUDENT, null, PARAM_INT);
-        if(empty($student)) throw new Exception('Missing student id.');
+        if(empty($student)) throw new \Exception('Missing student id.');
         return $student;
     }
 
     private function get_section() : int 
     {
         $section= optional_param(SECTION, null, PARAM_INT);
-        if(empty($section)) throw new Exception('Missing section id.');
+        if(empty($section)) throw new \Exception('Missing section id.');
         return $section;
     }
 
     private function get_status() : string  
     {
         $status= optional_param(STATUS, null, PARAM_TEXT);
-        if(empty($status)) throw new Exception('Missing status.');
+        if(empty($status)) throw new \Exception('Missing status.');
         return $status;
     }
 
@@ -77,14 +79,14 @@ class SectionsCheckDatabaseHandler
         return $DB->update_record('coursework_sections_status', $this->sectionStatus);
     }
 
-    private function get_student_coursework() : stdClass
+    private function get_student_coursework() : \stdClass
     {
         global $DB;
         $where = array('coursework' => $this->cm->instance, 'student' => $this->sectionStatus->student);
         return $DB->get_record('coursework_students', $where);
     }
 
-    private function send_notification(stdClass $work) : void 
+    private function send_notification(\stdClass $work) : void 
     {
         $cm = $this->cm;
         $course = $this->course;

@@ -6,6 +6,7 @@ require_once 'students_works_list/page.php';
 require_once 'student_work/main.php';
 require_once 'database_handlers/main.php';
 
+use Coursework\View\DatabaseHandlers\Main as MainDatabaseHandler;
 use Coursework\View\StudentWork\Main as StudentWork;
 use Coursework\View\StudentsWorksList as swl;
 use Coursework\Lib\CommonLib as cl;
@@ -68,7 +69,7 @@ class Main
 
     private function handle_database_event() : void 
     {
-        $database = new ViewDatabaseHandler($this->course, $this->cm);
+        $database = new MainDatabaseHandler($this->course, $this->cm);
         $database->handle();
     }
 

@@ -4,6 +4,7 @@ namespace Coursework\View\StudentWork\Components\Task;
 
 use Coursework\Lib\Enums as enum;
 use Coursework\View\StudentWork\Locallib as locallib;
+use Coursework\View\DatabaseHandlers\Main as db;
 
 class InteractionCell 
 {
@@ -54,7 +55,7 @@ class InteractionCell
         $attr = array(
             'type' => 'hidden',
             'name' => DB_EVENT,
-            'value' => \ViewDatabaseHandler::SEND_SECTION_FOR_CHECK
+            'value' => db::SEND_SECTION_FOR_CHECK
         );
         $btn.= \html_writer::empty_tag('input', $attr);
 
@@ -119,7 +120,7 @@ class InteractionCell
         $attr = array(
             'type' => 'hidden',
             'name' => DB_EVENT,
-            'value' => \ViewDatabaseHandler::SECTION_CHECK
+            'value' => db::SECTION_CHECK
         );
         $btn.= \html_writer::empty_tag('input', $attr);
 
@@ -144,7 +145,7 @@ class InteractionCell
         $attr = array(
             'type' => 'hidden',
             'name' => DB_EVENT,
-            'value' => \ViewDatabaseHandler::SECTION_CHECK
+            'value' => db::SECTION_CHECK
         );
         $btn.= \html_writer::empty_tag('input', $attr);
 

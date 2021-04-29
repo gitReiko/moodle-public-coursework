@@ -1,5 +1,7 @@
 <?php
 
+namespace Coursework\View\DatabaseHandlers;
+
 use coursework_lib as lib;
 
 class SendSectionForCheckDatabaseHandler 
@@ -9,7 +11,7 @@ class SendSectionForCheckDatabaseHandler
 
     private $sectionStatus;
 
-    function __construct(stdClass $course, stdClass $cm)
+    function __construct(\stdClass $course, \stdClass $cm)
     {
         $this->course = $course;
         $this->cm = $cm;
@@ -34,9 +36,9 @@ class SendSectionForCheckDatabaseHandler
     }
 
 
-    private function get_section_status() : stdClass 
+    private function get_section_status() : \stdClass 
     {
-        $sectionStatus = new stdClass;
+        $sectionStatus = new \stdClass;
         $sectionStatus->coursework = $this->get_coursework();
         $sectionStatus->student = $this->get_student();
         $sectionStatus->section = $this->get_section();
@@ -47,21 +49,21 @@ class SendSectionForCheckDatabaseHandler
 
     private function get_coursework() : int 
     {
-        if(empty($this->cm->instance)) throw new Exception('Missing coursework id.');
+        if(empty($this->cm->instance)) throw new \Exception('Missing coursework id.');
         return $this->cm->instance;
     }
 
     private function get_student() : int 
     {
         $student = optional_param(STUDENT, null, PARAM_INT);
-        if(empty($student)) throw new Exception('Missing student id.');
+        if(empty($student)) throw new \Exception('Missing student id.');
         return $student;
     }
 
     private function get_section() : int 
     {
         $section= optional_param(SECTION, null, PARAM_INT);
-        if(empty($section)) throw new Exception('Missing section id.');
+        if(empty($section)) throw new \Exception('Missing section id.');
         return $section;
     }
 
@@ -87,14 +89,14 @@ class SendSectionForCheckDatabaseHandler
         return $DB->update_record('coursework_sections_status', $this->sectionStatus);
     }
 
-    private function get_student_coursework() : stdClass
+    private function get_student_coursework() : \stdClass
     {
         global $DB, $USER;
         $where = array('coursework' => $this->cm->instance, 'student' => $USER->id);
         return $DB->get_record('coursework_students', $where);
     }
 
-    private function send_notification(stdClass $work) : void 
+    private function send_notification(\stdClass $work) : void 
     {
         global $USER;
 

@@ -2,6 +2,7 @@
 
 namespace Coursework\View\StudentWork\TaskAssignment;
 
+use Coursework\View\DatabaseHandlers\Main as db;
 use Coursework\View\Main as view_main;
 
 abstract class AssignCustomTask 
@@ -182,7 +183,7 @@ abstract class AssignCustomTask
         $attr = array(
             'type' => 'hidden',
             'name' => DB_EVENT,
-            'value' => \ViewDatabaseHandler::CUSTOM_TASK_ASSIGNMENT
+            'value' => db::CUSTOM_TASK_ASSIGNMENT
         );
         $form.= \html_writer::empty_tag('input', $attr);
 
