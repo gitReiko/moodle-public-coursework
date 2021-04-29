@@ -99,8 +99,8 @@ class Main
         $data = file_prepare_standard_filemanager(
             $data, 'teacher', $fileoptions, 
             $context, 'mod_coursework', 
-            'teacher'.$this->work->teacher, 
-            $this->work->student
+            'teacher', 
+            $this->work->teacher
         );
         
         $mform = new TeacherFileManager(
