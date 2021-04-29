@@ -91,7 +91,7 @@ class Main
 
     private function handle_send_section_to_check_database_event() : void 
     {
-        $database = new SendSectionForCheckDatabaseHandler($this->course, $this->cm);
+        $database = new SendSectionForCheck($this->course, $this->cm);
         $database->handle();
     }
 
