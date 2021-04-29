@@ -4,7 +4,7 @@ namespace Coursework\View\DatabaseHandlers;
 
 use coursework_lib as lib;
 
-class UseTaskTemplateDatabaseHandler 
+class UseTaskTemplate 
 {
       
     private $course;

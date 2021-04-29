@@ -73,7 +73,7 @@ class Main
 
     private function handle_use_task_template_database_event() : void 
     {
-        $database = new UseTaskTemplateDatabaseHandler($this->course, $this->cm);
+        $database = new UseTaskTemplate($this->course, $this->cm);
         $database->handle();
     }
 
