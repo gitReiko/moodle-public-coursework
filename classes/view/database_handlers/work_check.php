@@ -5,7 +5,7 @@ namespace Coursework\View\DatabaseHandlers;
 use Coursework\Lib\CommonLib as cl;
 use coursework_lib as lib;
 
-class WorkCheckDatabaseHandler 
+class WorkCheck 
 {
     private $course;
     private $cm;
@@ -173,14 +173,14 @@ class WorkCheckDatabaseHandler
         $userFrom = lib\get_user($work->teacher);
         $userTo = lib\get_user($work->student); 
         $headerMessage = get_string('work_check_message','coursework');
-        $fullMessageHtml = $this->get_select_theme_html_message($giveTask);
+        $fullMessageHtml = $this->get_select_theme_html_message();
 
         lib\send_notification($cm, $course, $messageName, $userFrom, $userTo, $headerMessage, $fullMessageHtml);
     }
 
     private function get_select_theme_html_message() : string
     {
-        $message = '<p>'.get_string('work_check_message','coursework', $params).'</p>';
+        $message = '<p>'.get_string('work_check_message','coursework').'</p>';
         $notification = get_string('answer_not_require', 'coursework');
 
         return cw_get_html_message($this->cm, $this->course->id, $message, $notification);

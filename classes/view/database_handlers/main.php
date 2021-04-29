@@ -109,7 +109,7 @@ class Main
 
     private function handle_work_check_database_event() : void 
     {
-        $database = new WorkCheckDatabaseHandler($this->course, $this->cm);
+        $database = new WorkCheck($this->course, $this->cm);
         $database->handle();
     }
 
