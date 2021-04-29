@@ -97,7 +97,7 @@ class Main
 
     private function handle_send_work_to_check_database_event() : void 
     {
-        $database = new SendWorkForCheckDatabaseHandler($this->course, $this->cm);
+        $database = new SendWorkForCheck($this->course, $this->cm);
         $database->handle();
     }
 
