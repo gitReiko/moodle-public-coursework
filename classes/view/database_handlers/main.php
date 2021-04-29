@@ -103,7 +103,7 @@ class Main
 
     private function handle_sections_check_database_event() : void 
     {
-        $database = new SectionsCheckDatabaseHandler($this->course, $this->cm);
+        $database = new SectionsCheck($this->course, $this->cm);
         $database->handle();
     }
 

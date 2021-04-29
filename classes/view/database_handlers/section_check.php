@@ -4,7 +4,7 @@ namespace Coursework\View\DatabaseHandlers;
 
 use coursework_lib as lib;
 
-class SectionsCheckDatabaseHandler 
+class SectionsCheck 
 {
     private $course;
     private $cm;
@@ -101,7 +101,7 @@ class SectionsCheckDatabaseHandler
 
     private function get_select_theme_html_message() : string
     {
-        $message = '<p>'.get_string('section_send_for_cheack_header','coursework', $params).'</p>';
+        $message = '<p>'.get_string('section_send_for_cheack_header','coursework').'</p>';
         $notification = get_string('answer_not_require', 'coursework');
 
         return cw_get_html_message($this->cm, $this->course->id, $message, $notification);
