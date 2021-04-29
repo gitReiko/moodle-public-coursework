@@ -271,3 +271,33 @@ table.workTask tr td.center
 {
     color: grey;
 }
+
+input.back_to_coursework
+{
+    display:inline-block;
+}
+
+@media (min-width:767px) 
+{
+    input.back_to_coursework
+    {
+        margin-left:29px;
+    }
+}
+
+@media (max-width:766px) and (min-width:576px) 
+{
+    input.back_to_coursework
+    {
+        margin-left:54px;
+    }
+}
+
+@media (max-width:575px)
+{
+    input.back_to_coursework
+    {
+        margin-left:15px;
+    }
+}
+

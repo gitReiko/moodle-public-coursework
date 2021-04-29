@@ -133,25 +133,55 @@ class Main
 
     private function get_back_to_coursework_student_button() : string 
     {
-        $text = get_string('back_to_coursework_without_save_changes', 'coursework');
-        $btn = \html_writer::tag('button', $text);
+        $attr = array(
+            'type' => 'submit',
+            'class' => 'btn btn-primary back_to_coursework',
+            'value' => get_string('back_to_coursework_without_save_changes', 'coursework')
+        );
+        $btn = \html_writer::empty_tag('input', $attr);
 
         $url = '/mod/coursework/view.php?id='.$this->cm->id;
         $attr = array('href' => $url);
-        return \html_writer::tag('a', $btn, $attr);
+        $btn = \html_writer::tag('a', $btn, $attr);
+
+        $btn = $this->get_button_margin_block($btn);
+
+        return $btn;
     }
 
     private function get_back_to_coursework_teacher_button() : string 
     {
-        $text = get_string('back_to_coursework_without_save_changes', 'coursework');
-        $btn = \html_writer::tag('button', $text);
+        $attr = array(
+            'type' => 'submit',
+            'class' => 'btn btn-primary back_to_coursework',
+            'value' => get_string('back_to_coursework_without_save_changes', 'coursework')
+        );
+        $btn = \html_writer::empty_tag('input', $attr);
 
         $url = '/mod/coursework/view.php?id='.$this->cm->id;
         $url.= '&'.view_main::GUI_EVENT.'='.view_main::USER_WORK;
         $url.= '&'.view_main::STUDENT_ID.'='.$this->studentId;
 
         $attr = array('href' => $url);
-        return \html_writer::tag('a', $btn, $attr);
+        $btn = \html_writer::tag('a', $btn, $attr);
+
+        $btn = $this->get_button_margin_block($btn);
+
+        return $btn;
+    }
+
+    private function get_button_margin_block(string $btn) : string 
+    {
+        $attr = array('class' => 'col-md-3');
+        $div = \html_writer::tag('div', '', $attr);
+
+        $attr = array('class' => 'col-md-9');
+        $div.= \html_writer::tag('div', $btn, $attr);
+
+        $attr = array('class' => 'row');
+        $div = \html_writer::tag('div', $div, $attr);
+
+        return $div;
     }
 
 
