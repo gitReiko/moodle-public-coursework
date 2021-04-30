@@ -55,24 +55,35 @@ class Main
 
         if(cl::is_user_student($this->cm, $USER->id))
         {
-            $this->log_event_student_view_own_work($USER->id);
+            $this->log_event_student_view_own_work();
         }
         else 
         {
-            // 
+            $this->log_event_user_view_student_work();
         }
 
     }
 
-    private function log_event_student_view_own_work(int $studentId)
+    private function log_event_student_view_own_work()
     {
         $params = array
         (
-            'relateduserid' => $studentId, 
             'context' => \context_module::instance($this->cm->id)
         );
 
         $event = \mod_coursework\event\student_view_own_work::create($params);
+        $event->trigger();
+    }
+
+    private function log_event_user_view_student_work()
+    {
+        $params = array
+        (
+            'relateduserid' => $this->studentId, 
+            'context' => \context_module::instance($this->cm->id)
+        );
+        
+        $event = \mod_coursework\event\user_view_student_work::create($params);
         $event->trigger();
     }
 

@@ -37,7 +37,7 @@ defined('MOODLE_INTERNAL') || die();
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  **/
 
-class student_view_own_work extends \core\event\base {
+class user_view_student_work extends \core\event\base {
     protected function init() {
         $this->data['crud'] = 'r'; // c(reate), r(ead), u(pdate), d(elete)
         $this->data['edulevel'] = self::LEVEL_PARTICIPATING;
@@ -45,12 +45,12 @@ class student_view_own_work extends \core\event\base {
  
     public static function get_name() {
     
-        return get_string('student_view_own_work', 'coursework');
+        return get_string('user_view_student_work', 'coursework');
     }
  
     public function get_description() 
     {
-        return "The student with id '$this->userid' views own coursework.";
+        return "The user with id '$this->userid' views coursework of student with id '$this->relateduserid'.";
     }
  
     public function get_url() {

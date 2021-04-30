@@ -351,3 +351,4 @@ $string['teacher_regrade_header'] = 'If you wish, you can regrade the student\'s
 $string['write_your_message_here'] = 'Write your message here';
 $string['back_to_coursework_without_save_changes'] = 'Back to coursework without save changes';
 $string['student_view_own_work'] = 'Student view own coursework.';
+$string['user_view_student_work'] = 'User view student work';
