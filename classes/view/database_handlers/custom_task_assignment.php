@@ -115,6 +115,7 @@ class CustomTaskAssignment
         if($DB->update_record('coursework_students', $work)) 
         {
             $this->send_notification_to_student($work);
+            $this->log_event();
         }
     }
 
@@ -137,6 +138,18 @@ class CustomTaskAssignment
         );
 
         $notification->send();
+    }
+
+    private function log_event() : void 
+    {
+        $params = array
+        (
+            'relateduserid' => $this->studentId, 
+            'context' => \context_module::instance($this->cm->id)
+        );
+        
+        $event = \mod_coursework\event\teacher_assign_new_task_to_student::create($params);
+        $event->trigger();
     }
     
 
