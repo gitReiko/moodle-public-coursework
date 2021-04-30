@@ -16,6 +16,7 @@ class Main
     function __construct(\stdClass $cm) 
     {
         $this->cm = $cm;
+        $this->log_event_user_view_back_to_work_state_page();
     }
 
     public function get_page() : string  
@@ -26,6 +27,17 @@ class Main
         }
 
         return $this->get_page_();
+    }
+
+    private function log_event_user_view_back_to_work_state_page()
+    {
+        $params = array
+        (
+            'context' => \context_module::instance($this->cm->id)
+        );
+
+        $event = \mod_coursework\event\user_view_back_to_work_state_page::create($params);
+        $event->trigger();
     }
 
     private function is_neccessary_back_to_work_state() : bool

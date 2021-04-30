@@ -23,7 +23,7 @@ class Page
     {
         $this->cm = $cm;
         $this->d = new MainGetter($course, $cm);
-        $this->log_event_student_view_students_works();
+        $this->log_event_user_view_students_works();
     }
 
     public function get_page() : string 
@@ -47,7 +47,7 @@ class Page
         return $page;
     }
 
-    private function log_event_student_view_students_works()
+    private function log_event_user_view_students_works()
     {
         $params = array
         (

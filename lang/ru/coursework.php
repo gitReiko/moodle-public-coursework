@@ -361,3 +361,4 @@ $string['back_to_coursework_without_save_changes'] = 'Вернуться к ку
 $string['student_view_own_work'] = 'Студент просмотрел собственную работу.';
 $string['user_view_student_work'] = 'Пользователь просмотрел работу студента';
 $string['user_view_students_works_list'] = 'Пользователь просмотрел список работ студентов';
+$string['user_view_back_to_work_state_page'] = 'Пользователь просмотрел страницу возвращения попытки к рабочему статусу.';
