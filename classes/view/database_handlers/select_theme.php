@@ -82,6 +82,7 @@ class ThemeSelect
         {
             $row->task = $this->get_coursework_task_template();
             $row->receivingtaskdate = time();
+            $this->log_event_assign_default_task_to_student($row);
         }
 
         return $row;
@@ -340,6 +341,18 @@ class ThemeSelect
         );
         
         $event = \mod_coursework\event\student_chose_theme::create($params);
+        $event->trigger();
+    }
+
+    private function log_event_assign_default_task_to_student(\stdClass $work) : void 
+    {
+        $params = array
+        (
+            'relateduserid' => $work->student, 
+            'context' => \context_module::instance($this->cm->id)
+        );
+        
+        $event = \mod_coursework\event\assign_default_task_to_student::create($params);
         $event->trigger();
     }
 

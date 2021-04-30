@@ -50,6 +50,7 @@ class UseTaskTemplate
         if($DB->update_record('coursework_students', $work))
         {
             $this->send_notification_to_student($work);
+            $this->log_event();
         }
     }
 
@@ -74,6 +75,18 @@ class UseTaskTemplate
         );
 
         $notification->send();
+    }
+
+    private function log_event() : void 
+    {
+        $params = array
+        (
+            'relateduserid' => $this->get_student_id(), 
+            'context' => \context_module::instance($this->cm->id)
+        );
+        
+        $event = \mod_coursework\event\assign_default_task_to_student::create($params);
+        $event->trigger();
     }
 
 }

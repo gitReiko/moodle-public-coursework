@@ -362,3 +362,5 @@ $string['teacher_check_section'] = 'Teacher check coursework section';
 $string['student_chose_theme'] = 'Student chose theme of coursework';
 $string['student_sent_section_for_check'] = 'Student sent section of coursework for check';
 $string['student_sent_work_for_check'] = 'Student sent coursework for check';
+$string['assign_default_task_to_student'] = 'Student got default task of coursework';
+
