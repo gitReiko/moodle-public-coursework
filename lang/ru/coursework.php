@@ -369,3 +369,4 @@ $string['teacher_assign_new_task_to_student'] = 'Преподаватель вы
 $string['teacher_check_section'] = 'Преподаватель проверил раздел курсовой работы';
 $string['student_chose_theme'] = 'Студент выбрал тему курсовой работы';
 $string['student_sent_section_for_check'] = 'Студент отправил раздел курсовой работы на проверку';
+$string['student_sent_work_for_check'] = 'Студент отправил курсовую работу на проверку';

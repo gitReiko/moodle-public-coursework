@@ -23,10 +23,13 @@ class SendWorkForCheck
 
     public function handle()
     {
-        $this->update_work_status();
+        if($this->update_work_status())
+        {
+            $work = $this->get_student_coursework();
+            $this->send_notification($work);
 
-        $work = $this->get_student_coursework();
-        $this->send_notification($work);
+            $this->log_event_student_sent_work_for_check();
+        }
     }
 
 
@@ -81,6 +84,17 @@ class SendWorkForCheck
         );
 
         $notification->send();
+    }
+
+    private function log_event_student_sent_work_for_check() : void 
+    {
+        $params = array
+        (
+            'context' => \context_module::instance($this->cm->id)
+        );
+        
+        $event = \mod_coursework\event\student_sent_work_for_check::create($params);
+        $event->trigger();
     }
 
 

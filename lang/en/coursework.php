@@ -361,3 +361,4 @@ $string['teacher_assign_new_task_to_student'] = 'Teacher assign new task to stud
 $string['teacher_check_section'] = 'Teacher check coursework section';
 $string['student_chose_theme'] = 'Student chose theme of coursework';
 $string['student_sent_section_for_check'] = 'Student sent section of coursework for check';
+$string['student_sent_work_for_check'] = 'Student sent coursework for check';
