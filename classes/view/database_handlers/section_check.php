@@ -20,10 +20,13 @@ class SectionsCheck
 
     public function handle()
     {
-        $this->update_section_status();
+        if($this->update_section_status())
+        {
+            $work = $this->get_student_coursework();
+            $this->send_notification($work);
 
-        $work = $this->get_student_coursework();
-        $this->send_notification($work);
+            $this->log_event_teacher_check_section();
+        }
     }
 
     private function get_section_status() : \stdClass 
@@ -106,6 +109,18 @@ class SectionsCheck
         );
 
         $notification->send();
+    }
+
+    private function log_event_teacher_check_section() : void 
+    {
+        $params = array
+        (
+            'relateduserid' => $this->get_student(),
+            'context' => \context_module::instance($this->cm->id)
+        );
+        
+        $event = \mod_coursework\event\teacher_check_section::create($params);
+        $event->trigger();
     }
 
 

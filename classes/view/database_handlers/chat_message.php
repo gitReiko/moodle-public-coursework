@@ -17,14 +17,15 @@ class ChatMessage
         $this->course = $course;
         $this->cm = $cm;
         $this->message = $this->get_message();
-
-        $this->send_notification();
     }
 
     public function handle()
     {
-        $this->add_message_to_database();
-        $this->log_event_user_sent_message();
+        if($this->add_message_to_database())
+        {
+            $this->send_notification();
+            $this->log_event_user_sent_message();
+        }
     }
 
     private function get_message() : \stdClass 
