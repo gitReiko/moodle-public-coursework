@@ -4,7 +4,6 @@ namespace Coursework\View\DatabaseHandlers;
 
 use Coursework\Lib\Getters\CommonGetter as cg;
 use Coursework\Lib\Notification;
-use coursework_lib as lib;
 
 class SendSectionForCheck 
 {
@@ -22,9 +21,7 @@ class SendSectionForCheck
 
     public function handle()
     {
-        if(lib\is_section_status_exist($this->cm, 
-                                    $this->sectionStatus->student, 
-                                    $this->sectionStatus->section))
+        if($this->is_section_status_exist())
         {
             $this->update_section_status();
         }
@@ -37,6 +34,14 @@ class SendSectionForCheck
         $this->send_notification($work);
     }
 
+    private function is_section_status_exist() : bool 
+    {
+        global $DB;
+        $where = array('coursework'=>$this->cm->instance, 
+                        'student' => $this->sectionStatus->student,
+                        'section' => $this->sectionStatus->section);
+        return $DB->record_exists('coursework_sections_status', $where);
+    }
 
     private function get_section_status() : \stdClass 
     {

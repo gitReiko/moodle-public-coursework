@@ -2,9 +2,9 @@
 
 namespace Coursework\View\DatabaseHandlers;
 
+use Coursework\Lib\Getters\StudentsGetter as sg;
 use Coursework\Lib\Getters\CommonGetter as cg;
 use Coursework\Lib\Notification;
-use coursework_lib as lib;
 
 class UseTaskTemplate 
 {
@@ -27,8 +27,8 @@ class UseTaskTemplate
     private function get_student_work() : \stdClass 
     {
         $studentId = $this->get_student_id();
-        $work = lib\get_student_work($this->cm, $studentId);
-        $taskTemplate = lib\get_using_task($this->cm);
+        $work = sg::get_students_work($this->cm->instance, $studentId);
+        $taskTemplate = cg::get_default_coursework_task($this->cm);
 
         $studentWork = new \stdClass;
         $studentWork->id = $work->id;
