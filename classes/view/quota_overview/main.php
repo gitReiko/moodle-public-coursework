@@ -13,6 +13,7 @@ class Main
     {
         $this->cm = $cm;
         $this->d = new Getter($cm);
+        $this->log_event_user_view_quota_overview_page();
     }
 
     public function get_page() : string  
@@ -22,6 +23,17 @@ class Main
         $p.= $this->get_overview_table();
 
         return $p;
+    }
+
+    private function log_event_user_view_quota_overview_page()
+    {
+        $params = array
+        (
+            'context' => \context_module::instance($this->cm->id)
+        );
+
+        $event = \mod_coursework\event\user_view_quota_overview_page::create($params);
+        $event->trigger();
     }
 
     private function get_page_header() : string  

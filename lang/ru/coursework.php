@@ -358,10 +358,10 @@ $string['teacher_work_check_header'] = 'Студент отправил рабо
 $string['teacher_regrade_header'] = 'При желании Вы можете переоценить работу студента.';
 $string['write_your_message_here'] = 'Напишите тут своё сообщение';
 $string['back_to_coursework_without_save_changes'] = 'Вернуться к курсовой работе без сохранения изменений';
-$string['student_view_own_work'] = 'Студент просмотрел собственную работу.';
+$string['student_view_own_work'] = 'Студент просмотрел собственную работу';
 $string['user_view_student_work'] = 'Пользователь просмотрел работу студента';
 $string['user_view_students_works_list'] = 'Пользователь просмотрел список работ студентов';
 $string['user_view_back_to_work_state_page'] = 'Пользователь просмотрел страницу возвращения попытки к рабочему статусу.';
 $string['user_view_manage_old_files_page'] = 'Пользователь просмотрел страницу управления старой областью файлов';
-
+$string['user_view_quota_overview_page'] = 'Пользователь просмотрел страницу обзора квоты';
 
