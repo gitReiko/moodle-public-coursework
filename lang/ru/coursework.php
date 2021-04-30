@@ -358,3 +358,4 @@ $string['teacher_work_check_header'] = 'Студент отправил рабо
 $string['teacher_regrade_header'] = 'При желании Вы можете переоценить работу студента.';
 $string['write_your_message_here'] = 'Напишите тут своё сообщение';
 $string['back_to_coursework_without_save_changes'] = 'Вернуться к курсовой работе без сохранения изменений';
+$string['student_view_own_work'] = 'Студент просмотрел собственную работу.';
