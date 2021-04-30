@@ -42,6 +42,8 @@ class ThemeSelect
         {
             $this->send_notification_to_teacher_theme_selected($student);
         }
+
+        $this->log_event_student_chose_theme();
     }
 
     private function is_teacher_must_give_task() : bool 
@@ -328,6 +330,17 @@ class ThemeSelect
         $task = $DB->get_field('coursework_tasks_using', 'task', $where);
         if(empty($task)) throw new \Exception('Task template is absent.');
         return $task;
+    }
+
+    private function log_event_student_chose_theme() : void 
+    {
+        $params = array
+        (
+            'context' => \context_module::instance($this->cm->id)
+        );
+        
+        $event = \mod_coursework\event\student_chose_theme::create($params);
+        $event->trigger();
     }
 
 

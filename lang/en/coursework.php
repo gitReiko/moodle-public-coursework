@@ -359,5 +359,5 @@ $string['user_view_quota_overview_page'] = 'User view quota overview page';
 $string['user_sent_message'] = 'User sent a message';
 $string['teacher_assign_new_task_to_student'] = 'Teacher assign new task to student';
 $string['teacher_check_section'] = 'Teacher check coursework section';
-
+$string['student_chose_theme'] = 'Student chose theme of coursework';
 
