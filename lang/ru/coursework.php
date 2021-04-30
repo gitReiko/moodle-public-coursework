@@ -368,4 +368,4 @@ $string['user_sent_message'] = 'Пользователь отправил соо
 $string['teacher_assign_new_task_to_student'] = 'Преподаватель выдал новое задание студенту';
 $string['teacher_check_section'] = 'Преподаватель проверил раздел курсовой работы';
 $string['student_chose_theme'] = 'Студент выбрал тему курсовой работы';
-
+$string['student_sent_section_for_check'] = 'Студент отправил раздел курсовой работы на проверку';

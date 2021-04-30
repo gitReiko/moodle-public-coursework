@@ -23,15 +23,24 @@ class SendSectionForCheck
     {
         if($this->is_section_status_exist())
         {
-            $this->update_section_status();
+            if($this->update_section_status())
+            {
+                $work = $this->get_student_coursework();
+                $this->send_notification($work);
+        
+                $this->log_event_student_sent_section_for_check();
+            }
         }
         else 
         {
-            $this->add_section_status();
+            if($this->add_section_status())
+            {
+                $work = $this->get_student_coursework();
+                $this->send_notification($work);
+        
+                $this->log_event_student_sent_section_for_check();
+            }
         }
-
-        $work = $this->get_student_coursework();
-        $this->send_notification($work);
     }
 
     private function is_section_status_exist() : bool 
@@ -124,6 +133,17 @@ class SendSectionForCheck
         );
 
         $notification->send();
+    }
+
+    private function log_event_student_sent_section_for_check() : void 
+    {
+        $params = array
+        (
+            'context' => \context_module::instance($this->cm->id)
+        );
+        
+        $event = \mod_coursework\event\student_sent_section_for_check::create($params);
+        $event->trigger();
     }
 
 
