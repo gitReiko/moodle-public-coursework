@@ -356,4 +356,4 @@ $string['user_view_students_works_list'] = 'User view list of students works';
 $string['user_view_back_to_work_state_page'] = 'User view back to work state page';
 $string['user_view_manage_old_files_page'] = 'User view manage old files page';
 $string['user_view_quota_overview_page'] = 'User view quota overview page';
-
+$string['user_sent_message'] = 'User sent a message';

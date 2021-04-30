@@ -24,6 +24,7 @@ class ChatMessage
     public function handle()
     {
         $this->add_message_to_database();
+        $this->log_event_user_sent_message();
     }
 
     private function get_message() : \stdClass 
@@ -90,6 +91,18 @@ class ChatMessage
         );
 
         $notification->send();
+    }
+
+    private function log_event_user_sent_message()
+    {
+        $params = array
+        (
+            'relateduserid' => $this->message->userto, 
+            'context' => \context_module::instance($this->cm->id)
+        );
+        
+        $event = \mod_coursework\event\user_sent_message::create($params);
+        $event->trigger();
     }
 
 
