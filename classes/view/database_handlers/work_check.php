@@ -2,10 +2,11 @@
 
 namespace Coursework\View\DatabaseHandlers;
 
+use Coursework\Lib\Getters\StudentTaskGetter;
+use Coursework\Lib\Getters\StudentsGetter as sg;
 use Coursework\Lib\Getters\CommonGetter as cg;
 use Coursework\Lib\CommonLib as cl;
 use Coursework\Lib\Notification;
-use coursework_lib as lib;
 
 class WorkCheck 
 {
@@ -31,7 +32,7 @@ class WorkCheck
     private function get_work() : \stdClass 
     {
         $student = $this->get_student();
-        $work = lib\get_student_work($this->cm, $student);
+        $work = sg::get_students_work($this->cm->instance, $student);
         $work->status = $this->get_status();
 
         if($work->status == READY)
@@ -85,13 +86,13 @@ class WorkCheck
         $grade = new \stdClass;
         $grade->userid   = $this->work->student;
         $grade->rawgrade = $this->work->grade;
-        $coursework = lib\get_coursework($this->cm->instance);
+        $coursework = cg::get_coursework($this->cm->instance);
         coursework_grade_item_update($coursework, $grade);
     }
 
     private function update_user_task_sections_to_ready() : void 
     {
-        $sections = lib\get_sections_to_check($this->cm, $this->work->student);
+        $sections = $this->get_sections();
 
         foreach($sections as $section)
         {
@@ -109,6 +110,12 @@ class WorkCheck
                 $this->insert_section_to_database($sectionRow);
             }
         }
+    }
+
+    private function get_sections()
+    {
+        $ts = new StudentTaskGetter($this->cm->instance, $this->get_student());
+        return $ts->get_sections();
     }
 
     private function is_student_task_section_exist(int $sectionId) : bool 

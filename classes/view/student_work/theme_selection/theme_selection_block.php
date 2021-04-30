@@ -34,7 +34,7 @@ class ThemeSelectionBlock
 
         if(empty($this->availableTeachers))
         {
-            throw new Exception(get_string('e:quota_is_over', 'coursework'));
+            throw new \Exception(get_string('e:quota_is_over', 'coursework'));
         }
 
         $this->availableCourses = $getter->get_available_courses();

@@ -2,8 +2,6 @@
 
 namespace Coursework\View\DatabaseHandlers;
 
-use coursework_lib as lib;
-
 class MarkMessageAsReaded
 {
     private $course;

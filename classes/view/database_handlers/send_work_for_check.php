@@ -2,9 +2,9 @@
 
 namespace Coursework\View\DatabaseHandlers;
 
+use Coursework\Lib\Getters\StudentsGetter as sg;
 use Coursework\Lib\Getters\CommonGetter as cg;
 use Coursework\Lib\Notification;
-use coursework_lib as lib;
 
 class SendWorkForCheck 
 {
@@ -33,7 +33,7 @@ class SendWorkForCheck
     private function get_work() : \stdClass 
     {
         $student = $this->get_student();
-        $work = lib\get_student_work($this->cm, $student);
+        $work = sg::get_students_work($this->cm->instance, $student);
         $work->status = SENT_TO_CHECK;
         $work->workstatuschangedate = time();
         return $work;

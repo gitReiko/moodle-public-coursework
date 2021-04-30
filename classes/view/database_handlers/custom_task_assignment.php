@@ -3,8 +3,8 @@
 namespace Coursework\View\DatabaseHandlers;
 
 use Coursework\Lib\Getters\CommonGetter as cg;
+use Coursework\Lib\Getters\StudentsGetter as sg;
 use Coursework\Lib\Notification;
-use coursework_lib as lib;
 
 class CustomTaskAssignment 
 {
@@ -55,7 +55,7 @@ class CustomTaskAssignment
     private function get_task_name() : string 
     {
         $name = get_string('task', 'coursework');
-        $user = lib\get_user_from_id($this->studentId);
+        $user = cg::get_user($this->studentId);
         $name.= ' '.$user->lastname.' '.$user->firstname;
         return $name;
     }
@@ -108,7 +108,7 @@ class CustomTaskAssignment
     private function assign_new_task_to_student(int $taskId)
     {
         global $DB;
-        $work = lib\get_student_work($this->cm, $this->studentId);
+        $work = sg::get_students_work($this->cm->instance, $this->studentId);
         $work->task = $taskId;
         $work->receivingtaskdate = time();
 

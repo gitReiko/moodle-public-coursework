@@ -147,7 +147,7 @@ class TeachersAndCoursesGetter
             }
         }
 
-        return $false;
+        return false;
     } 
 
     private function init_available_courses()
