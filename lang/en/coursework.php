@@ -354,3 +354,6 @@ $string['student_view_own_work'] = 'Student view own coursework.';
 $string['user_view_student_work'] = 'User view student work';
 $string['user_view_students_works_list'] = 'User view list of students works';
 $string['user_view_back_to_work_state_page'] = 'User view back to work state page.';
+$string['user_view_manage_old_files_page'] = 'User view manage old files page';
+
+

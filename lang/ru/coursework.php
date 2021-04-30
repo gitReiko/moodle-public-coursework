@@ -362,3 +362,6 @@ $string['student_view_own_work'] = 'Студент просмотрел собс
 $string['user_view_student_work'] = 'Пользователь просмотрел работу студента';
 $string['user_view_students_works_list'] = 'Пользователь просмотрел список работ студентов';
 $string['user_view_back_to_work_state_page'] = 'Пользователь просмотрел страницу возвращения попытки к рабочему статусу.';
+$string['user_view_manage_old_files_page'] = 'Пользователь просмотрел страницу управления старой областью файлов';
+
+
