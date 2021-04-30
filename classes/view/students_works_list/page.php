@@ -16,11 +16,14 @@ class Page
 {
     const FORM_ID = 'swl_dashboard_form';
     
+    private $cm;
     private $d;
 
     function __construct(\stdClass $course, \stdClass $cm) 
     {
+        $this->cm = $cm;
         $this->d = new MainGetter($course, $cm);
+        $this->log_event_student_view_students_works();
     }
 
     public function get_page() : string 
@@ -42,6 +45,17 @@ class Page
         }
 
         return $page;
+    }
+
+    private function log_event_student_view_students_works()
+    {
+        $params = array
+        (
+            'context' => \context_module::instance($this->cm->id)
+        );
+
+        $event = \mod_coursework\event\user_view_students_works_list::create($params);
+        $event->trigger();
     }
 
     private function is_teachers_exists() : bool 

@@ -352,3 +352,4 @@ $string['write_your_message_here'] = 'Write your message here';
 $string['back_to_coursework_without_save_changes'] = 'Back to coursework without save changes';
 $string['student_view_own_work'] = 'Student view own coursework.';
 $string['user_view_student_work'] = 'User view student work';
+$string['user_view_students_works_list'] = 'User view list of students works';
