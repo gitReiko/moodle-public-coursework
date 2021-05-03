@@ -366,3 +366,4 @@ $string['default_task_assigned_to_student'] = 'Student got default task of cours
 $string['teacher_sent_section_for_rework'] = 'Teacher sent task section for rework';
 $string['teacher_sent_coursework_for_rework'] = 'Teacher sent coursework for rework';
 $string['teacher_accepted_and_graded_coursework'] = 'Teacher accepted and graded coursework';
+$string['teacher_regraded_coursework'] = 'Teacher regraded coursework';

@@ -41,6 +41,7 @@ class WorkCheck
 
                 if($this->is_coursework_already_graded())
                 {
+                    $this->log_event_teacher_regraded_coursework();
                 }
                 else 
                 {
@@ -61,6 +62,10 @@ class WorkCheck
         if(empty($work->grade))
         {
             $work->emptyGrade = true;
+        }
+        else
+        {
+            $work->emptyGrade = false;
         }
 
         if($work->status == READY)
@@ -256,6 +261,18 @@ class WorkCheck
         );
         
         $event = \mod_coursework\event\teacher_accepted_and_graded_coursework::create($params);
+        $event->trigger();
+    }
+
+    private function log_event_teacher_regraded_coursework() : void 
+    {
+        $params = array
+        (
+            'relateduserid' => $this->work->student,
+            'context' => \context_module::instance($this->cm->id)
+        );
+        
+        $event = \mod_coursework\event\teacher_regraded_coursework::create($params);
         $event->trigger();
     }
 
