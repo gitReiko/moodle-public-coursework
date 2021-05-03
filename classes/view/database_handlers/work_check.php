@@ -38,6 +38,14 @@ class WorkCheck
                 {
                     $this->update_user_task_sections_to_ready();
                 }
+
+                if($this->is_coursework_already_graded())
+                {
+                }
+                else 
+                {
+                    $this->log_event_teacher_accepted_and_graded_coursework();
+                }
             }
 
             $this->send_notification($this->work);
@@ -49,6 +57,11 @@ class WorkCheck
         $student = $this->get_student();
         $work = sg::get_students_work($this->cm->instance, $student);
         $work->status = $this->get_status();
+
+        if(empty($work->grade))
+        {
+            $work->emptyGrade = true;
+        }
 
         if($work->status == READY)
         {
@@ -219,6 +232,30 @@ class WorkCheck
         );
         
         $event = \mod_coursework\event\teacher_sent_coursework_for_rework::create($params);
+        $event->trigger();
+    }
+
+    private function is_coursework_already_graded() : bool 
+    {
+        if($this->work->emptyGrade)
+        {
+            return false;
+        }
+        else 
+        {
+            return true;
+        }
+    }
+
+    private function log_event_teacher_accepted_and_graded_coursework() : void 
+    {
+        $params = array
+        (
+            'relateduserid' => $this->work->student,
+            'context' => \context_module::instance($this->cm->id)
+        );
+        
+        $event = \mod_coursework\event\teacher_accepted_and_graded_coursework::create($params);
         $event->trigger();
     }
 

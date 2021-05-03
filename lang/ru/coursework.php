@@ -373,3 +373,4 @@ $string['student_sent_work_for_check'] = 'Студент отправил кур
 $string['default_task_assigned_to_student'] = 'Студент получил стандартное задание курсовой работы';
 $string['teacher_sent_section_for_rework'] = 'Преподаватель отправил раздел задания на доработку';
 $string['teacher_sent_coursework_for_rework'] = 'Преподаватель отправил курсовую работу на доработку';
+$string['teacher_accepted_and_graded_coursework'] = 'Преподаватель принял и оценил курсовую работу';
