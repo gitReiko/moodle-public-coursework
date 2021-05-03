@@ -189,6 +189,7 @@ class SelectThemePage
             SelectThemePage.offer_or_own_theme_switcher();
         }
         document.getElementById('useOwnTheme').disabled = false;
+        document.getElementById('useOwnTheme').checked = false;
     }
 
     static disable_use_own_theme()
