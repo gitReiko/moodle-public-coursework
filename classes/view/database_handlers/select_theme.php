@@ -352,7 +352,7 @@ class ThemeSelect
             'context' => \context_module::instance($this->cm->id)
         );
         
-        $event = \mod_coursework\event\assign_default_task_to_student::create($params);
+        $event = \mod_coursework\event\default_task_assigned_to_student::create($params);
         $event->trigger();
     }
 

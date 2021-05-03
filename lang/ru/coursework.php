@@ -370,6 +370,6 @@ $string['teacher_check_section'] = 'Преподаватель проверил 
 $string['student_chose_theme'] = 'Студент выбрал тему курсовой работы';
 $string['student_sent_section_for_check'] = 'Студент отправил раздел курсовой работы на проверку';
 $string['student_sent_work_for_check'] = 'Студент отправил курсовую работу на проверку';
-$string['assign_default_task_to_student'] = 'Студент получил стандартное задание курсовой работы';
+$string['default_task_assigned_to_student'] = 'Студент получил стандартное задание курсовой работы';
 
 

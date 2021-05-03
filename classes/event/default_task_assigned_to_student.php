@@ -37,7 +37,7 @@ defined('MOODLE_INTERNAL') || die();
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  **/
 
-class assign_default_task_to_student extends \core\event\base {
+class default_task_assigned_to_student extends \core\event\base {
     protected function init() {
         $this->data['crud'] = 'u'; // c(reate), r(ead), u(pdate), d(elete)
         $this->data['edulevel'] = self::LEVEL_PARTICIPATING;
@@ -45,7 +45,7 @@ class assign_default_task_to_student extends \core\event\base {
  
     public static function get_name() {
     
-        return get_string('assign_default_task_to_student', 'coursework');
+        return get_string('default_task_assigned_to_student', 'coursework');
     }
  
     public function get_description() 
