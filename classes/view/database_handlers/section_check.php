@@ -31,7 +31,7 @@ class SectionsCheck
             }
             else 
             {
-                $this->log_event_teacher_check_section();
+                $this->log_event_teacher_accepted_section();
             }
         }
     }
@@ -142,7 +142,7 @@ class SectionsCheck
         $event->trigger();
     }
 
-    private function log_event_teacher_check_section() : void 
+    private function log_event_teacher_accepted_section() : void 
     {
         $params = array
         (
@@ -150,7 +150,7 @@ class SectionsCheck
             'context' => \context_module::instance($this->cm->id)
         );
         
-        $event = \mod_coursework\event\teacher_check_section::create($params);
+        $event = \mod_coursework\event\teacher_accepted_section::create($params);
         $event->trigger();
     }
 

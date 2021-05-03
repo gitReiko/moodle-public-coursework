@@ -37,7 +37,7 @@ defined('MOODLE_INTERNAL') || die();
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  **/
 
-class teacher_check_section extends \core\event\base {
+class teacher_accepted_section  extends \core\event\base {
     protected function init() {
         $this->data['crud'] = 'u'; // c(reate), r(ead), u(pdate), d(elete)
         $this->data['edulevel'] = self::LEVEL_PARTICIPATING;
@@ -45,12 +45,12 @@ class teacher_check_section extends \core\event\base {
  
     public static function get_name() {
     
-        return get_string('teacher_check_section', 'coursework');
+        return get_string('teacher_accepted_section', 'coursework');
     }
  
     public function get_description() 
     {
-        return "The teacher with id '$this->userid' check task section of student with id '$this->relateduserid'.";
+        return "The teacher with id '$this->userid' accepted task section of student with id '$this->relateduserid'.";
     }
  
     public function get_url() {
