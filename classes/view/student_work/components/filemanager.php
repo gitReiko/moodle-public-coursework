@@ -236,6 +236,7 @@ class Filemanager extends Base
                 $data, 'student', $fileoptions, $context, 
                 'mod_coursework', 'student', $this->work->student
             );
+            $this->log_event_user_save_files();
             $this->send_notification_to_teacher();
         } 
     }
@@ -297,6 +298,7 @@ class Filemanager extends Base
                 $data, 'teacher', $fileoptions, $context, 'mod_coursework', 
                 'teacher', $this->work->teacher
             );
+            $this->log_event_user_save_files();
             $this->send_notification_to_student();
         }
     }
@@ -320,6 +322,19 @@ class Filemanager extends Base
         );
 
         $notification->send();
+    }
+
+    
+    private function log_event_user_save_files() : void 
+    {
+        $params = array
+        (
+            'relateduserid' => $this->work->student,
+            'context' => \context_module::instance($this->cm->id)
+        );
+        
+        $event = \mod_coursework\event\user_save_files::create($params);
+        $event->trigger();
     }
 
 
