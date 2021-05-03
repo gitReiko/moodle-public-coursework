@@ -25,7 +25,14 @@ class SectionsCheck
             $work = $this->get_student_coursework();
             $this->send_notification($work);
 
-            $this->log_event_teacher_check_section();
+            if($this->is_section_status_need_to_fix())
+            {
+                $this->log_event_teacher_sent_section_for_rework();
+            }
+            else 
+            {
+                $this->log_event_teacher_check_section();
+            }
         }
     }
 
@@ -109,6 +116,30 @@ class SectionsCheck
         );
 
         $notification->send();
+    }
+
+    private function is_section_status_need_to_fix() : bool 
+    {
+        if($this->sectionStatus->status == NEED_TO_FIX)
+        {
+            return true;
+        }
+        else 
+        {
+            return false;
+        }
+    }
+
+    private function log_event_teacher_sent_section_for_rework() : void 
+    {
+        $params = array
+        (
+            'relateduserid' => $this->get_student(),
+            'context' => \context_module::instance($this->cm->id)
+        );
+        
+        $event = \mod_coursework\event\teacher_sent_section_for_rework::create($params);
+        $event->trigger();
     }
 
     private function log_event_teacher_check_section() : void 
