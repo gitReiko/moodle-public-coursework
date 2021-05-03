@@ -24,9 +24,24 @@ class WorkCheck
 
     public function handle()
     {
-        $this->update_work_status();
+        if($this->update_work_status())
+        {
+            if($this->is_new_status_need_to_fix())
+            {
+                $this->log_event_teacher_sent_coursework_for_rework();
+            }
+            else 
+            {
+                $this->save_grade_in_gradebook();
+    
+                if(cl::is_coursework_use_task($this->cm->instance))
+                {
+                    $this->update_user_task_sections_to_ready();
+                }
+            }
 
-        $this->send_notification($this->work);
+            $this->send_notification($this->work);
+        }
     }
 
     private function get_work() : \stdClass 
@@ -67,18 +82,20 @@ class WorkCheck
 
     private function update_work_status()
     {
-        if($this->work->status == READY)
-        {
-            $this->save_grade_in_gradebook();
-
-            if(cl::is_coursework_use_task($this->cm->instance))
-            {
-                $this->update_user_task_sections_to_ready();
-            }
-        }
-
         global $DB;
         return $DB->update_record('coursework_students', $this->work);
+    }
+
+    private function is_new_status_need_to_fix() : bool 
+    {
+        if($this->work->status == NEED_TO_FIX)
+        {
+            return true;
+        }
+        else 
+        {
+            return false;
+        }
     }
 
     private function save_grade_in_gradebook() : void 
@@ -192,6 +209,19 @@ class WorkCheck
 
         $notification->send();
     }
+
+    private function log_event_teacher_sent_coursework_for_rework() : void 
+    {
+        $params = array
+        (
+            'relateduserid' => $this->work->student,
+            'context' => \context_module::instance($this->cm->id)
+        );
+        
+        $event = \mod_coursework\event\teacher_sent_coursework_for_rework::create($params);
+        $event->trigger();
+    }
+
 
 
 

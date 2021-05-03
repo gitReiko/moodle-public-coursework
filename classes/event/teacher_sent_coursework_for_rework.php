@@ -37,7 +37,7 @@ defined('MOODLE_INTERNAL') || die();
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  **/
 
-class teacher_sent_section_for_rework extends \core\event\base {
+class teacher_sent_coursework_for_rework extends \core\event\base {
     protected function init() {
         $this->data['crud'] = 'u'; // c(reate), r(ead), u(pdate), d(elete)
         $this->data['edulevel'] = self::LEVEL_TEACHING;
@@ -45,12 +45,12 @@ class teacher_sent_section_for_rework extends \core\event\base {
  
     public static function get_name() {
     
-        return get_string('teacher_sent_section_for_rework', 'coursework');
+        return get_string('teacher_sent_coursework_for_rework', 'coursework');
     }
  
     public function get_description() 
     {
-        return "The teacher with id '$this->userid' sent task section of student with id '$this->relateduserid' for rework.";
+        return "The teacher with id '$this->userid' sent coursework of student with id '$this->relateduserid' for rework.";
     }
  
     public function get_url() {

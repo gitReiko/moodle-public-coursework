@@ -40,7 +40,7 @@ defined('MOODLE_INTERNAL') || die();
 class student_coursework_back_to_work_state extends \core\event\base {
     protected function init() {
         $this->data['crud'] = 'u'; // c(reate), r(ead), u(pdate), d(elete)
-        $this->data['edulevel'] = self::LEVEL_PARTICIPATING;
+        $this->data['edulevel'] = self::LEVEL_TEACHING;
     }
  
     public static function get_name() {

@@ -40,7 +40,7 @@ defined('MOODLE_INTERNAL') || die();
 class teacher_assign_new_task_to_student extends \core\event\base {
     protected function init() {
         $this->data['crud'] = 'c'; // c(reate), r(ead), u(pdate), d(elete)
-        $this->data['edulevel'] = self::LEVEL_PARTICIPATING;
+        $this->data['edulevel'] = self::LEVEL_TEACHING;
     }
  
     public static function get_name() {
