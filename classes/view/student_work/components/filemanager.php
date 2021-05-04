@@ -43,7 +43,7 @@ class Filemanager extends Base
         $content.= $this->get_student_files();
         $content.= $this->get_teacher_files();
 
-        if(locallib::is_user_student_or_teacher($this->work))
+        if($this->is_user_can_change_files())
         {
             $content.= $this->get_change_my_files_button();
             $content.= $this->get_change_my_files_form();
@@ -62,6 +62,40 @@ class Filemanager extends Base
         }
 
         return $content;
+    }
+
+    private function is_user_can_change_files() : bool 
+    {
+        if(locallib::is_user_student($this->work))
+        {
+            if($this->work->status == READY)
+            {
+                return false;
+            }
+            else if($this->work->status == SENT_TO_CHECK)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        else if(locallib::is_user_teacher($this->work))
+        {
+            if($this->work->status == READY)
+            {
+                return false;
+            }
+            else 
+            {
+                return true;
+            }
+        }
+        else 
+        {
+            return false;
+        }
     }
 
     private function get_grids_header() : string 
