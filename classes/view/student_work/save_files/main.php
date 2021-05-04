@@ -100,7 +100,7 @@ class Main
             $data, 'teacher', $fileoptions, 
             $context, 'mod_coursework', 
             'teacher', 
-            $this->work->teacher
+            $this->work->student
         );
         
         $mform = new TeacherFileManager(

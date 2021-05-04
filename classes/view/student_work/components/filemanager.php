@@ -143,7 +143,7 @@ class Filemanager extends Base
         }
         $text = \html_writer::tag('b', $text);
 
-        $filesList = $this->get_files_list('teacher', $this->work->teacher);
+        $filesList = $this->get_files_list('teacher', $this->work->student);
 
         if(empty($filesList))
         {
@@ -313,7 +313,7 @@ class Filemanager extends Base
             $data, 'teacher', $fileoptions, 
             $context, 'mod_coursework', 
             'teacher', 
-            $this->work->teacher
+            $this->work->student
         );
         
         $mform = new TeacherFileManager(
@@ -330,7 +330,7 @@ class Filemanager extends Base
             // Save the file.
             $data = file_postupdate_standard_filemanager(
                 $data, 'teacher', $fileoptions, $context, 'mod_coursework', 
-                'teacher', $this->work->teacher
+                'teacher', $this->work->student
             );
             $this->log_event_user_save_files();
             $this->send_notification_to_student();
