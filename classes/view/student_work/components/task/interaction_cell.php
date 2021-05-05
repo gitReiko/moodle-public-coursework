@@ -102,8 +102,39 @@ class InteractionCell
             $btn.= $this->get_accept_section_button();
             $btn.= $this->get_send_for_rework_button();
         }
+        else if($this->is_section_ready())
+        {
+            if($this->is_coursework_not_ready())
+            {
+                $btn.= $this->get_send_for_rework_button();
+            }
+        }
 
         return $btn;
+    }
+
+    private function is_section_ready() : bool 
+    {
+        if($this->section->status == READY)
+        {
+            return true;
+        }
+        else 
+        {
+            return false;
+        }
+    }
+
+    private function is_coursework_not_ready() : bool 
+    {
+        if($this->work->status == READY)
+        {
+            return false;
+        }
+        else 
+        {
+            return true;
+        }
     }
 
     private function get_accept_section_button() : string 
