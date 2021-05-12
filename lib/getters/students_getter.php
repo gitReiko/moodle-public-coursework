@@ -42,7 +42,7 @@ class StudentsGetter
     {
         $students = array();
 
-        $groups = cg::get_coursework_groups($this->cm);
+        $groups = cg::get_coursework_groups($cm);
 
         foreach($groups as $group)
         {
