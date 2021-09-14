@@ -48,7 +48,7 @@ class NeccessaryJavascript
 
         foreach($teacher->courses as $course)
         {
-            $courses.= $course.' ';
+            $courses.= $course->id.' ';
         }
         
         return mb_substr($courses, 0, -1);

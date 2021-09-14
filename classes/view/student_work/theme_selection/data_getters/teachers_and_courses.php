@@ -114,27 +114,13 @@ class TeachersAndCoursesGetter
                 $tempTeacher = new \stdClass;
                 $tempTeacher->id = $teacher->id;
                 $tempTeacher->name = $teacher->lastname.' '.$teacher->firstname;
-                $tempTeacher->courses = $this->get_teachers_courses($teacher);
+                $tempTeacher->courses = $teacher->courses;
 
                 $availableTeachers[] = $tempTeacher;
             }
         }
 
         return $availableTeachers;
-    }
-
-    private function get_teachers_courses(\stdClass $teacher)
-    {
-        $courses = array();
-        foreach($teacher->courses as $course)
-        {
-            if($course->available_quota > 0)
-            {
-                $courses[] = $course->id;
-            }
-        }
-
-        return $courses;
     }
 
     private function is_teacher_quota_is_not_exhausted($teacher)
@@ -202,7 +188,7 @@ class TeachersAndCoursesGetter
 
     private function init_selected_courses()
     {
-        $firstTeacher = reset($this->teachers);
+        $firstTeacher = reset($this->availableTeachers);
 
         $availableCourses = array();
         foreach($firstTeacher->courses as $course)
