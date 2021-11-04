@@ -376,3 +376,5 @@ $string['teacher_sent_coursework_for_rework'] = 'Преподаватель от
 $string['teacher_accepted_and_graded_coursework'] = 'Преподаватель принял и оценил курсовую работу';
 $string['teacher_regraded_coursework'] = 'Преподаватель переоценил курсовую работу';
 $string['user_save_files'] = 'Пользователь сохранил файлы';
+
+$string['all_teachers'] = 'Все преподаватели';

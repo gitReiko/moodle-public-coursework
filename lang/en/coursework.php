@@ -368,3 +368,5 @@ $string['teacher_sent_coursework_for_rework'] = 'Teacher sent coursework for rew
 $string['teacher_accepted_and_graded_coursework'] = 'Teacher accepted and graded coursework';
 $string['teacher_regraded_coursework'] = 'Teacher regraded coursework';
 $string['user_save_files'] = 'User saved files';
+
+$string['all_teachers'] = 'All teachers';

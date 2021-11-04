@@ -4,6 +4,7 @@ namespace Coursework\View\StudentsWorksList;
 
 require_once 'groups_getter.php';
 require_once 'students_getter.php';
+require_once 'new_main_getter.php';
 
 use Coursework\View\StudentsWorksList\GroupsSelector as grp;
 use Coursework\View\StudentsWorksList\TeachersSelector as ts;
@@ -45,6 +46,10 @@ class MainGetter
             $this->init_selected_course_id();
             $this->init_students();
         }
+
+
+        $newMainGetter = new NewMainGetter($this->course, $this->cm);
+        print_r($newMainGetter->get_teachers());
     }
 
     public function get_course() : \stdClass
