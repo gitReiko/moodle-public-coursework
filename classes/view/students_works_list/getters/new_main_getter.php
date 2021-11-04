@@ -5,16 +5,7 @@ namespace Coursework\View\StudentsWorksList;
 require_once 'groups_getter.php';
 require_once 'teachers_getter.php';
 require_once 'courses_getter.php';
-
-/*
-require_once 'students_getter.php';
-
-use Coursework\View\StudentsWorksList\GroupsSelector as grp;
-use Coursework\View\StudentsWorksList\TeachersSelector as ts;
-use Coursework\View\StudentsWorksList\CoursesSelector as cs;
-
-use Coursework\Lib\Getters\CommonGetter as cg;
-*/
+require_once 'new_students_getter.php';
 
 class NewMainGetter 
 {
@@ -35,14 +26,7 @@ class NewMainGetter
     private $courses;
     private $selectedCourseId;
 
-    /*
-
-    private $courses;
-    private $selectedCourseId;
-
-    private $teacherStudents;
-    private $studentsWithoutTeacher;
-    */
+    private $students;
 
     function __construct(\stdClass $course, \stdClass $cm) 
     {
@@ -52,10 +36,7 @@ class NewMainGetter
         $this->init_group_params();
         $this->init_teachers_params();
         $this->init_courses_params();
-
-        /*
         $this->init_students();
-        */
     }
 
     public function get_course() : \stdClass
@@ -98,6 +79,11 @@ class NewMainGetter
         return $this->selectedCourseId;
     }
 
+    public function get_students() 
+    {
+        return $this->students;
+    }
+
     private function init_group_params() 
     {
         $grp = new GroupsGetter($this->course, $this->cm);
@@ -128,7 +114,19 @@ class NewMainGetter
         $this->selectedCourseId = $courseGetter->get_selected_course_id();
     }
 
+    private function init_students() 
+    {
+        $st = new NewStudentsGetter(
+            $this->course, 
+            $this->cm,
+            $this->groupMode,
+            $this->selectedGroupId,
+            $this->selectedTeacherId,
+            $this->selectedCourseId
+        );
 
+        $this->students = $st->get_students();
+    }
 
 
 

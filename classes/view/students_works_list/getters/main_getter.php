@@ -49,7 +49,7 @@ class MainGetter
 
 
         $newMainGetter = new NewMainGetter($this->course, $this->cm);
-        print_r($newMainGetter->get_selected_course_id());
+        print_r($newMainGetter->get_students());
     }
 
     public function get_course() : \stdClass
