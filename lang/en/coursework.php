@@ -370,3 +370,4 @@ $string['teacher_regraded_coursework'] = 'Teacher regraded coursework';
 $string['user_save_files'] = 'User saved files';
 
 $string['all_teachers'] = 'All teachers';
+$string['all_courses'] = 'All courses';

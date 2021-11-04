@@ -378,3 +378,4 @@ $string['teacher_regraded_coursework'] = 'Преподаватель перео�
 $string['user_save_files'] = 'Пользователь сохранил файлы';
 
 $string['all_teachers'] = 'Все преподаватели';
+$string['all_courses'] = 'Все курсы';

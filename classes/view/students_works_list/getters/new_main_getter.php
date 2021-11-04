@@ -4,6 +4,7 @@ namespace Coursework\View\StudentsWorksList;
 
 require_once 'groups_getter.php';
 require_once 'teachers_getter.php';
+require_once 'courses_getter.php';
 
 /*
 require_once 'students_getter.php';
@@ -18,17 +19,21 @@ use Coursework\Lib\Getters\CommonGetter as cg;
 class NewMainGetter 
 {
     const ALL_TEACHERS = -1;
+    const ALL_COURSES = -1;
 
     private $course;
     private $cm;
     
     private $groupMode;
-    private $selectedGroupId;
-    private $availableGroups;
     private $groups;
+    private $availableGroups;
+    private $selectedGroupId;
 
     private $teachers;
     private $selectedTeacherId;
+
+    private $courses;
+    private $selectedCourseId;
 
     /*
 
@@ -46,14 +51,10 @@ class NewMainGetter
         
         $this->init_group_params();
         $this->init_teachers_params();
-/*
-        if($this->is_teachers_exists())
-        {
-            $this->init_selected_teacher();
-            $this->init_courses();
-            $this->init_selected_course_id();
-            $this->init_students();
-        }
+        $this->init_courses_params();
+
+        /*
+        $this->init_students();
         */
     }
 
@@ -87,6 +88,16 @@ class NewMainGetter
         return $this->selectedTeacherId;
     }
 
+    public function get_courses() 
+    {
+        return $this->courses;
+    }
+
+    public function get_selected_course_id()
+    {
+        return $this->selectedCourseId;
+    }
+
     private function init_group_params() 
     {
         $grp = new GroupsGetter($this->course, $this->cm);
@@ -103,6 +114,18 @@ class NewMainGetter
 
         $this->teachers = $teachGetter->get_teachers();
         $this->selectedTeacherId = $teachGetter->get_selected_teacher_id();
+    }
+
+    private function init_courses_params()
+    {
+        $courseGetter = new CoursesGetter(
+            $this->course, 
+            $this->cm, 
+            $this->selectedTeacherId
+        );
+
+        $this->courses = $courseGetter->get_courses();
+        $this->selectedCourseId = $courseGetter->get_selected_course_id();
     }
 
 
