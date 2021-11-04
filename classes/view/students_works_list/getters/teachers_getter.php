@@ -2,12 +2,12 @@
 
 namespace Coursework\View\StudentsWorksList;
 
+use Coursework\View\StudentsWorksList\TeachersSelector as ts;
 use Coursework\View\StudentsWorksList\NewMainGetter as mg;
 use Coursework\Lib\Getters\TeachersGetter as tg;
 
 class TeachersGetter 
 {
-
     private $course;
     private $cm;
 
@@ -20,6 +20,7 @@ class TeachersGetter
         $this->cm = $cm;
 
         $this->init_teachers();
+        $this->init_selected_teacher_id();
     }
 
     public function get_teachers() 
@@ -59,6 +60,46 @@ class TeachersGetter
         return $allTeachers;
     }
 
+    private function init_selected_teacher_id()
+    {
+        $teacherIdFromPost = optional_param(ts::TEACHER, null, PARAM_INT);
 
+        if(empty($teacherIdFromPost))
+        {
+            if($this->is_user_teacher())
+            {
+                $this->selectedTeacherId = $this->get_user_id();
+            }
+            else 
+            {
+                $this->selectedTeacherId = mg::ALL_TEACHERS;
+            }
+        }
+        else 
+        {
+            $this->selectedTeacherId = $teacherIdFromPost;
+        }
+    }
+
+    private function is_user_teacher() : bool 
+    {
+        global $USER;
+
+        foreach($this->teachers as $teacher)
+        {
+            if($teacher->id == $USER->id)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private function get_user_id() : int 
+    {
+        global $USER;
+        return $USER->id;
+    }
 
 }
