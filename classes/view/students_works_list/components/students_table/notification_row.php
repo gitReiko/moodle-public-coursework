@@ -58,7 +58,7 @@ class NotificationRow
 
     private function get_list_of_notifications_cell(array $notifications) : string 
     {
-        $attr = array('class' => 'red-bg', 'colspan' => '5');
+        $attr = array('class' => 'red-bg', 'colspan' => '7');
 
         $text = '';
         foreach ($notifications as $notification) 
@@ -71,7 +71,7 @@ class NotificationRow
 
     private function get_no_notifications_cell() : string 
     {
-        $attr = array('colspan' => '5');
+        $attr = array('colspan' => '7');
         $text = get_string('no_notifications', 'coursework');
         return \html_writer::tag('td', $text, $attr);
     }

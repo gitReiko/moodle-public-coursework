@@ -3,24 +3,22 @@
 namespace Coursework\View\StudentsWorksList;
 
 require_once 'groups_getter.php';
+require_once 'teachers_getter.php';
+require_once 'courses_getter.php';
 require_once 'students_getter.php';
-require_once 'new_main_getter.php';
-
-use Coursework\View\StudentsWorksList\GroupsSelector as grp;
-use Coursework\View\StudentsWorksList\TeachersSelector as ts;
-use Coursework\View\StudentsWorksList\CoursesSelector as cs;
-use Coursework\Lib\Getters\TeachersGetter as tg;
-use Coursework\Lib\Getters\CommonGetter as cg;
 
 class MainGetter 
 {
+    const ALL_TEACHERS = -1;
+    const ALL_COURSES = -1;
+
     private $course;
     private $cm;
-
+    
     private $groupMode;
-    private $selectedGroupId;
-    private $availableGroups;
     private $groups;
+    private $availableGroups;
+    private $selectedGroupId;
 
     private $teachers;
     private $selectedTeacherId;
@@ -28,28 +26,17 @@ class MainGetter
     private $courses;
     private $selectedCourseId;
 
-    private $teacherStudents;
-    private $studentsWithoutTeacher;
+    private $students;
 
     function __construct(\stdClass $course, \stdClass $cm) 
     {
         $this->course = $course;
         $this->cm = $cm;
-
+        
         $this->init_group_params();
-        $this->init_teachers();
-
-        if($this->is_teachers_exists())
-        {
-            $this->init_selected_teacher();
-            $this->init_courses();
-            $this->init_selected_course_id();
-            $this->init_students();
-        }
-
-
-        $newMainGetter = new NewMainGetter($this->course, $this->cm);
-        print_r($newMainGetter->get_students());
+        $this->init_teachers_params();
+        $this->init_courses_params();
+        $this->init_students();
     }
 
     public function get_course() : \stdClass
@@ -97,14 +84,9 @@ class MainGetter
         return $this->selectedCourseId;
     }
 
-    public function get_teacher_students() 
+    public function get_students() 
     {
-        return $this->teacherStudents;
-    }
-
-    public function get_students_without_teacher() 
-    {
-        return $this->studentsWithoutTeacher;
+        return $this->students;
     }
 
     private function init_group_params() 
@@ -117,101 +99,24 @@ class MainGetter
         $this->availableGroups = $grp->get_available_groups();
     }
 
-    private function init_teachers() 
+    private function init_teachers_params() 
     {
-        $this->teachers = tg::get_coursework_teachers($this->cm->instance);
+        $teachGetter = new TeachersGetter($this->course, $this->cm);
+
+        $this->teachers = $teachGetter->get_teachers();
+        $this->selectedTeacherId = $teachGetter->get_selected_teacher_id();
     }
 
-    private function is_teachers_exists() : bool 
+    private function init_courses_params()
     {
-        if(is_array($this->teachers))
-        {
-            if(count($this->teachers) > 0)
-            {
-                return true;
-            }
-            else 
-            {
-                return false;
-            }
-        }
-        else 
-        {
-            return false;
-        }
-    }
-
-    private function init_selected_teacher()
-    {
-        $teacher = optional_param(ts::TEACHER, null, PARAM_INT);
-
-        if(empty($teacher))
-        {
-            if($this->is_user_teacher())
-            {
-                $this->selectedTeacherId = $this->get_user_id();
-            }
-            else 
-            {
-                $this->selectedTeacherId = $this->get_first_teacher_id();
-            }
-        }
-        else 
-        {
-            $this->selectedTeacherId = $teacher;
-        }
-    }
-
-    private function is_user_teacher() : bool 
-    {
-        global $USER;
-
-        foreach($this->teachers as $teacher)
-        {
-            if($teacher->id == $USER->id)
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    private function get_user_id() : int 
-    {
-        global $USER;
-        return $USER->id;
-    }
-
-    private function get_first_teacher_id() : int 
-    {
-        return reset($this->teachers)->id;
-    }
-
-    private function init_courses()
-    {
-        $this->courses = tg::get_teacher_courses(
-            $this->cm->instance, 
+        $courseGetter = new CoursesGetter(
+            $this->course, 
+            $this->cm, 
             $this->selectedTeacherId
         );
-    }
 
-    private function init_selected_course_id()
-    {
-        $course = optional_param(cs::COURSE, null, PARAM_INT);
-
-        if(empty($course))
-        {
-            $this->selectedCourseId = reset($this->courses)->id;
-        }
-        else if(tg::is_this_course_is_teacher_course($this->cm->instance, $this->selectedTeacherId, $course))
-        {
-            $this->selectedCourseId = $course;
-        }
-        else 
-        {
-            $this->selectedCourseId = reset($this->courses)->id;
-        }
+        $this->courses = $courseGetter->get_courses();
+        $this->selectedCourseId = $courseGetter->get_selected_course_id();
     }
 
     private function init_students() 
@@ -225,9 +130,9 @@ class MainGetter
             $this->selectedCourseId
         );
 
-        $this->teacherStudents = $st->get_teacher_students();
-        $this->studentsWithoutTeacher = $st->get_students_without_teacher();
+        $this->students = $st->get_students();
     }
+
 
 
 }

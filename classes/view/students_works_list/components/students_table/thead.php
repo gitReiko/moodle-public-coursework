@@ -17,6 +17,8 @@ class Thead
         $head.= $this->get_go_to_work_cell();
         $head.= $this->get_student_cell();
         $head.= $this->get_state_cell();
+        $head.= $this->get_leader_cell();
+        $head.= $this->get_course_cell();
         $head.= $this->get_theme_cell();
         $head.= $this->get_grade_cell();
 
@@ -56,6 +58,18 @@ class Thead
     private function get_state_cell() : string 
     {
         $text = get_string('state', 'coursework');
+        return \html_writer::tag('td', $text);
+    }
+
+    private function get_leader_cell() : string 
+    {
+        $text = get_string('leader', 'coursework');
+        return \html_writer::tag('td', $text);
+    }
+
+    private function get_course_cell() : string 
+    {
+        $text = get_string('course', 'coursework');
         return \html_writer::tag('td', $text);
     }
 

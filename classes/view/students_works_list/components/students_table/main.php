@@ -51,7 +51,7 @@ class Main
 
     private function is_teacher_students_exist() : bool 
     {
-        $students = $this->d->get_teacher_students();
+        $students = $this->d->get_students();
 
         if(is_array($students))
         {

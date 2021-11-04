@@ -2,9 +2,10 @@
 
 namespace Coursework\View\StudentsWorksList;
 
-use Coursework\Lib\Getters\CommonGetter as cg;
-use Coursework\Lib\Getters\StudentsGetter as sg;
 use Coursework\View\StudentsWorksList\GroupsSelector as grp;
+use Coursework\View\StudentsWorksList\MainGetter as mg;
+use Coursework\Lib\Getters\StudentsGetter as sg;
+use Coursework\Lib\Getters\CommonGetter as cg;
 use Coursework\Lib\Getters\StudentTaskGetter;
 use Coursework\Lib\Enums as enum;
 
@@ -17,8 +18,7 @@ class StudentsGetter
     private $groupMode;
     private $selectedGroupId;
 
-    private $teacherStudents;
-    private $studentsWithoutTeacher;
+    private $students;
 
     function __construct(
         \stdClass $course, 
@@ -39,14 +39,9 @@ class StudentsGetter
         $this->init_students();
     }
 
-    public function get_teacher_students() 
+    public function get_students() 
     {
-        return $this->teacherStudents;
-    }
-
-    public function get_students_without_teacher() 
-    {
-        return $this->studentsWithoutTeacher;
+        return $this->students;
     }
 
     private function init_students() 
@@ -68,71 +63,76 @@ class StudentsGetter
 
         $students = sg::add_works_to_students($this->cm->instance, $students);
 
-        $this->studentsWithoutTeacher = $this->get_students_without_teacher_from_array($students);
+        if($this->is_selected_course_is_not_all_courses())
+        {
+            $students = $this->filter_out_all_unnecessary_courses($students);
+        }
 
-        $teacherStudents = $this->get_teacher_students_from_array($students);
+        if($this->is_selected_teacher_is_not_all_teachers())
+        {
+            $students = $this->filter_out_all_unnecessary_teachers($students);
+        }
 
         if($this->coursework->usetask == 1)
         {
-            $teacherStudents = $this->add_students_task_sections($teacherStudents);
+            $students = $this->add_students_task_sections($students);
         }
 
-        $this->teacherStudents = $teacherStudents;
+        $this->students = $students;
     }
 
-    private function get_teacher_students_from_array($students)
+    private function is_selected_course_is_not_all_courses() : bool 
     {
-        $teacherStudents = array();
-        foreach($students as $student) 
-        {
-            if($this->is_students_belong_to_teacher($student))
-            {
-                $teacherStudents[] = $student;
-            }
-        }
-        return $teacherStudents;
-    }
-
-    private function is_students_belong_to_teacher($student) : bool 
-    {
-        if
-        (
-            ($student->teacher == $this->selectedTeacherId)
-            && 
-            ($student->course == $this->selectedCourseId)
-        )
-        {
-            return true;
-        }
-        else 
+        if($this->selectedCourseId == mg::ALL_COURSES)
         {
             return false;
         }
-    }
-
-    private function get_students_without_teacher_from_array($students) 
-    {
-        $withoutTeacher = array();
-        foreach($students as $student) 
-        {
-            if($this->is_student_without_teacher($student))
-            {
-                $withoutTeacher[] = $student;
-            }
-        }
-        return $withoutTeacher;
-    }
-
-    private function is_student_without_teacher($student) : bool 
-    {
-        if(empty($student->teacher))
+        else
         {
             return true;
         }
-        else 
+    }
+
+    private function is_selected_teacher_is_not_all_teachers() : bool 
+    {
+        if($this->selectedTeacherId == mg::ALL_TEACHERS)
         {
             return false;
         }
+        else
+        {
+            return true;
+        }
+    }
+
+    private function filter_out_all_unnecessary_courses($students)
+    {
+        $filtered = array();
+
+        foreach($students as $student)
+        {
+            if($student->course == $this->selectedCourseId)
+            {
+                $filtered[] = $student;
+            }
+        }
+
+        return $filtered;
+    }
+
+    private function filter_out_all_unnecessary_teachers($students)
+    {
+        $filtered = array();
+
+        foreach($students as $student)
+        {
+            if($student->teacher == $this->selectedTeacherId)
+            {
+                $filtered[] = $student;
+            }
+        }
+
+        return $filtered;
     }
 
     private function add_students_task_sections($students)
@@ -149,10 +149,6 @@ class StudentsGetter
 
         return $students;
     }
-
-
-
-
 
 
 

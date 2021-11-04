@@ -7,6 +7,7 @@ use Coursework\View\StudentsWorksList as swl;
 use Coursework\Lib\TeacherNotifications;
 use Coursework\Lib\Enums as enum;
 use Coursework\View\Main as view_main;
+use coursework_lib as cw;
 
 class MainRow 
 {
@@ -35,6 +36,8 @@ class MainRow
         $row.= $this->get_work_cell();
         $row.= $this->get_student_cell();
         $row.= $this->get_state_cell();
+        $row.= $this->get_leader_cell();
+        $row.= $this->get_course_cell();
         $row.= $this->get_theme_cell();
         $row.= $this->get_grade_cell();
         $row.= \html_writer::end_tag('tr');
@@ -113,6 +116,50 @@ class MainRow
     private function get_state_cell() : string 
     {
         $text = cg::get_state_name($this->student->status);
+        return \html_writer::tag('td', $text);
+    }
+
+    private function get_leader_cell() : string 
+    {
+        if(empty($this->student->teacher))
+        {
+            $text = '';
+        }
+        else 
+        {
+            $text = cg::get_user_photo($this->student->teacher).' ';
+
+            global $COURSE;
+            $url = '/user/view.php?id='.$this->student->teacher;
+            $url.= '&course='.$COURSE->id;
+            $attr = array('href' => $url);
+            $name = $this->get_user_fullname($this->student->teacher);
+            $text.= \html_writer::tag('a', $name, $attr);
+        }
+
+        return \html_writer::tag('td', $text);
+    }
+
+    private function get_user_fullname(int $id) : string 
+    {
+        global $DB;
+        $where = array('id' => $id);
+        $user = $DB->get_record('user', $where, 'firstname,lastname');
+
+        return $user->lastname.' '.$user->firstname;
+    }
+
+    private function get_course_cell() : string 
+    {
+        if(empty($this->student->course))
+        {
+            $text = '';
+        }
+        else 
+        {
+            $text = cw\get_course_fullname($this->student->course);
+        }
+        
         return \html_writer::tag('td', $text);
     }
 

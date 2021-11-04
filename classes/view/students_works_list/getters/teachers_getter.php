@@ -3,7 +3,7 @@
 namespace Coursework\View\StudentsWorksList;
 
 use Coursework\View\StudentsWorksList\TeachersSelector as ts;
-use Coursework\View\StudentsWorksList\NewMainGetter as mg;
+use Coursework\View\StudentsWorksList\MainGetter as mg;
 use Coursework\Lib\Getters\TeachersGetter as tg;
 
 class TeachersGetter 
