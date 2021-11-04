@@ -379,3 +379,4 @@ $string['user_save_files'] = 'Пользователь сохранил файл
 
 $string['all_teachers'] = 'Все преподаватели';
 $string['all_courses'] = 'Все курсы';
+$string['student_not_chosen_theme'] = 'Студент не выбрал тему';
