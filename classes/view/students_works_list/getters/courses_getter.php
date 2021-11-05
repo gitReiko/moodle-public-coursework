@@ -37,13 +37,27 @@ class CoursesGetter
 
     private function init_courses()
     {
-        $courses = $this->get_courses_from_getter();
+        if($this->selectedTeacherId == mg::ALL_COURSES)
+        {
+
+        }
+        else 
+        {
+            $courses = $this->get_teacher_courses();
+        }
+
         $courses = $this->add_all_courses_item_to_courses($courses);
 
         $this->courses = $courses;
     }
 
-    private function get_courses_from_getter()
+    private function get_all_coursework_courses()
+    {
+        // from conf leaders
+        // from students works
+    }
+
+    private function get_teacher_courses()
     {
         return tg::get_teacher_courses(
             $this->cm->instance, 

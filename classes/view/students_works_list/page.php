@@ -34,7 +34,6 @@ class Page
             $page.= $this->get_group_selector();
             $page.= $this->get_teachers_selector();
             $page.= $this->get_courses_selector();
-            //$page.= $this->get_not_chosen_teacher();
             $page.= $this->get_students_table();
             $page.= $this->get_form_end();
         }
