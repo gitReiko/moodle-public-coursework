@@ -2,6 +2,8 @@
 
 namespace Coursework\View\StudentsWorksList;
 
+use Coursework\View\StudentsWorksList\StudentsHider as sh;
+
 require_once 'groups_getter.php';
 require_once 'teachers_getter.php';
 require_once 'courses_getter.php';
@@ -28,6 +30,8 @@ class MainGetter
 
     private $students;
 
+    private $hideStudents;
+
     function __construct(\stdClass $course, \stdClass $cm) 
     {
         $this->course = $course;
@@ -38,6 +42,7 @@ class MainGetter
         $this->init_courses_params();
         $this->init_students();
         $this->add_student_courses();
+        $this->init_hide_students();
     }
 
     public function get_course() : \stdClass
@@ -88,6 +93,11 @@ class MainGetter
     public function get_students() 
     {
         return $this->students;
+    }
+
+    public function is_hide_students_without_theme()
+    {
+        return $this->hideStudents;
     }
 
     private function init_group_params() 
@@ -143,6 +153,20 @@ class MainGetter
         );
         $courseGetter->add_student_courses($this->students);
         $this->courses = $courseGetter->get_courses();
+    }
+
+    private function init_hide_students()
+    {
+        $hider = optional_param(sh::HIDE_STUDENTS, null, PARAM_INT);
+
+        if($hider)
+        {
+            $this->hideStudents = true;
+        }
+        else 
+        {
+            $this->hideStudents = false;
+        }
     }
 
 

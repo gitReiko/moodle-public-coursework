@@ -372,3 +372,4 @@ $string['user_save_files'] = 'User saved files';
 $string['all_teachers'] = 'All teachers';
 $string['all_courses'] = 'All courses';
 $string['student_not_chosen_theme'] = 'Student hasn\'t chosen theme';
+$string['hide_students_without_theme'] = 'Hide students who have not chosen a topic';

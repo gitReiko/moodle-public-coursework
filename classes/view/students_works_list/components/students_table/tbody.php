@@ -25,14 +25,28 @@ class Tbody
 
         foreach($this->d->get_students() as $student)
         {
-            $ntfs = $this->get_notifications($student);
-
-            $body.= $this->get_main_row($student, $ntfs);
-            $body.= $this->get_notification_row($student, $ntfs);
-            $body.= $this->get_sections_rows($student);
+            if(!$this->d->is_hide_students_without_theme())
+            {
+                $body.= $this->get_row($student);
+            }
+            else if(!empty($student->theme))
+            {
+                $body.= $this->get_row($student);
+            }
         }
 
         $body.= \html_writer::end_tag('tbody');
+
+        return $body;
+    }
+
+    private function get_row($student) : string 
+    {
+        $ntfs = $this->get_notifications($student);
+
+        $body = $this->get_main_row($student, $ntfs);
+        $body.= $this->get_notification_row($student, $ntfs);
+        $body.= $this->get_sections_rows($student);
 
         return $body;
     }
