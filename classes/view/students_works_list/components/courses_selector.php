@@ -4,6 +4,7 @@ namespace Coursework\View\StudentsWorksList;
 
 use Coursework\Lib\Enums as enum;
 use Coursework\View\StudentsWorksList\Page as p;
+use Coursework\View\StudentsWorksList\MainGetter as mg;
 
 class CoursesSelector 
 {
@@ -70,7 +71,12 @@ class CoursesSelector
     private function get_selector_end() : string 
     {
         $selector = \html_writer::end_tag('select');
-        $selector.= ' '.$this->get_link_to_course();
+
+        if($this->d->get_selected_course_id() != mg::ALL_COURSES)
+        {
+            $selector.= ' '.$this->get_link_to_course();
+        }
+        
         $selector.= \html_writer::end_tag('p'); 
         return $selector;
     }

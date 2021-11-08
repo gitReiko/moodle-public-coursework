@@ -35,11 +35,79 @@ class CoursesGetter
         return $this->selectedCourseId;
     }
 
+    public function add_student_courses($students)
+    {
+        $this->courses = $this->merge_courses(
+            $this->courses,
+            $this->get_courses_from_coursework_students($students)
+        );
+    }
+
+    private function get_courses_from_coursework_students($students)
+    {
+        global $DB;
+        $in = $this->get_coursework_students_in_clause($students);
+        $sql = "SELECT cs.id as cid, c.id, c.fullname 
+                FROM {coursework_students} AS cs
+                INNER JOIN {course} AS c
+                ON cs.course = c.id
+                WHERE cs.coursework = ?
+                AND cs.student IN($in)
+                ORDER BY c.fullname";
+        $params = array($this->cm->instance);
+        return $DB->get_records_sql($sql, $params);
+    }
+
+    private function get_coursework_students_in_clause($students)
+    {
+        $in = '';
+
+        foreach($students as $student)
+        {
+            $in.= $student->id.',';
+        }
+
+        $in = mb_substr($in,0,-1);
+
+        return $in;
+    }
+
+    private function merge_courses($tCourses, $sCourses)
+    {
+        foreach($sCourses as $sCourse)
+        {
+            if($this->is_course_unique($tCourses, $sCourse))
+            {
+                $tCourses[] = $sCourse;
+            }
+        }
+
+        usort($tCourses, function($a, $b)
+        {
+            return strcmp($a->fullname, $b->fullname);
+        });
+
+        return $tCourses;
+    }
+
+    private function is_course_unique($uniques, $course) : bool 
+    {
+        foreach($uniques as $unique)
+        {
+            if($unique->id == $course->id)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     private function init_courses()
     {
         if($this->selectedTeacherId == mg::ALL_COURSES)
         {
-
+            $courses = $this->get_courses_from_coursework_teachers();
         }
         else 
         {
@@ -51,10 +119,40 @@ class CoursesGetter
         $this->courses = $courses;
     }
 
-    private function get_all_coursework_courses()
+    private function get_courses_from_coursework_teachers()
     {
-        // from conf leaders
-        // from students works
+        $courses = $this->get_courses_from_coursework_teachers_from_database();
+        $courses = $this->courses_unique_from_coursework_teachers($courses);
+
+        return $courses;
+    }
+
+    private function get_courses_from_coursework_teachers_from_database()
+    {
+        global $DB;
+        $sql = 'SELECT ct.id as cid, c.id, c.fullname 
+                FROM {coursework_teachers} AS ct
+                INNER JOIN {course} AS c
+                ON ct.course = c.id 
+                WHERE ct.coursework = ?
+                ORDER BY c.fullname';
+        $params = array($this->cm->instance);
+        return $DB->get_records_sql($sql, $params);
+    }
+
+    private function courses_unique_from_coursework_teachers($courses)
+    {
+        $unique = array();
+
+        foreach($courses as $course)
+        {
+            if($this->is_course_unique($unique, $course))
+            {
+                $unique[] = $course;
+            }
+        }
+
+        return $unique;
     }
 
     private function get_teacher_courses()
@@ -89,13 +187,9 @@ class CoursesGetter
         {
             $this->selectedCourseId = reset($this->courses)->id;
         }
-        else if(tg::is_this_course_is_teacher_course($this->cm->instance, $this->selectedTeacherId, $course))
+        else
         {
             $this->selectedCourseId = $course;
-        }
-        else 
-        {
-            $this->selectedCourseId = reset($this->courses)->id;
         }
     }
 

@@ -37,6 +37,7 @@ class MainGetter
         $this->init_teachers_params();
         $this->init_courses_params();
         $this->init_students();
+        $this->add_student_courses();
     }
 
     public function get_course() : \stdClass
@@ -131,6 +132,17 @@ class MainGetter
         );
 
         $this->students = $st->get_students();
+    }
+
+    private function add_student_courses()
+    {
+        $courseGetter = new CoursesGetter(
+            $this->course, 
+            $this->cm, 
+            $this->selectedTeacherId
+        );
+        $courseGetter->add_student_courses($this->students);
+        $this->courses = $courseGetter->get_courses();
     }
 
 
