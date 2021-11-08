@@ -47,15 +47,23 @@ class CoursesGetter
     {
         global $DB;
         $in = $this->get_coursework_students_in_clause($students);
-        $sql = "SELECT cs.id as cid, c.id, c.fullname 
-                FROM {coursework_students} AS cs
-                INNER JOIN {course} AS c
-                ON cs.course = c.id
-                WHERE cs.coursework = ?
-                AND cs.student IN($in)
-                ORDER BY c.fullname";
-        $params = array($this->cm->instance);
-        return $DB->get_records_sql($sql, $params);
+
+        if($in)
+        {
+            $sql = "SELECT cs.id as cid, c.id, c.fullname 
+                    FROM {coursework_students} AS cs
+                    INNER JOIN {course} AS c
+                    ON cs.course = c.id
+                    WHERE cs.coursework = ?
+                    AND cs.student IN($in)
+                    ORDER BY c.fullname";
+            $params = array($this->cm->instance);
+            return $DB->get_records_sql($sql, $params);
+        }
+        else
+        {
+            return array();
+        }
     }
 
     private function get_coursework_students_in_clause($students)
