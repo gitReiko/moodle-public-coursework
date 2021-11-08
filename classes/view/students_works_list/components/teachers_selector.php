@@ -4,6 +4,7 @@ namespace Coursework\View\StudentsWorksList;
 
 use Coursework\Lib\Enums as enum;
 use Coursework\View\StudentsWorksList\Page as p;
+use Coursework\View\StudentsWorksList\MainGetter as mg;
 
 class TeachersSelector 
 {
@@ -72,8 +73,13 @@ class TeachersSelector
     private function get_selector_end() : string 
     {
         $selector = \html_writer::end_tag('select');
-        $selector.= ' '.$this->get_selected_teacher_email();
-        $selector.= $this->get_selected_teacher_phones();
+
+        if($this->d->get_selected_teacher_id() != mg::ALL_TEACHERS)
+        {
+            $selector.= ' '.$this->get_selected_teacher_email();
+            $selector.= $this->get_selected_teacher_phones();
+        }
+
         $selector.= \html_writer::end_tag('p'); 
         return $selector;
     }
