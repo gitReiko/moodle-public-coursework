@@ -35,49 +35,59 @@ class CoursesGetter
         return $this->selectedCourseId;
     }
 
-    public function add_student_courses($students)
+    public function add_courses_from_student_works($students)
     {
-        $this->courses = $this->merge_courses(
-            $this->courses,
-            $this->get_courses_from_coursework_students($students)
-        );
-    }
-
-    private function get_courses_from_coursework_students($students)
-    {
-        global $DB;
-        $in = $this->get_coursework_students_in_clause($students);
-
-        if($in)
-        {
-            $sql = "SELECT cs.id as cid, c.id, c.fullname 
-                    FROM {coursework_students} AS cs
-                    INNER JOIN {course} AS c
-                    ON cs.course = c.id
-                    WHERE cs.coursework = ?
-                    AND cs.student IN($in)
-                    ORDER BY c.fullname";
-            $params = array($this->cm->instance);
-            return $DB->get_records_sql($sql, $params);
-        }
-        else
-        {
-            return array();
-        }
-    }
-
-    private function get_coursework_students_in_clause($students)
-    {
-        $in = '';
-
         foreach($students as $student)
         {
-            $in.= $student->id.',';
+            if(!empty($student->course))
+            {
+                if($this->is_course_not_exist_in_course_array($student->course))
+                {
+                    $newCourse = new \stdClass;
+                    $newCourse->id = $student->course;
+                    $newCourse->fullname = $this->get_course_fullname($newCourse->id);
+    
+                    $this->courses[] = $newCourse;
+                }
+            }
         }
 
-        $in = mb_substr($in,0,-1);
+        $this->sort_courses();
 
-        return $in;
+        return $this->courses;
+    }
+
+    private function is_course_not_exist_in_course_array($courseId) : bool 
+    {
+        foreach($this->courses as $course)
+        {
+            if($course->id == $courseId)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private function get_course_fullname(int $id)
+    {
+        global $DB;
+        return $DB->get_field('course', 'fullname', array('id' => $id));
+    }
+
+    private function sort_courses()
+    {
+        $firstItem = array($this->courses[0]);
+
+        unset($this->courses[0]);
+
+        usort($this->courses, function($a, $b)
+        {
+            return strcmp($a->fullname, $b->fullname);
+        });
+
+        $this->courses = array_merge($firstItem, $this->courses);
     }
 
     private function merge_courses($tCourses, $sCourses)

@@ -174,8 +174,7 @@ class MainGetter
 
     private function add_student_courses_to_courses($coursesGtr)
     {
-        $coursesGtr->add_student_courses($this->students);
-        $this->courses = $coursesGtr->get_courses();
+        $this->courses = $coursesGtr->add_courses_from_student_works($this->students);
     }
 
     private function init_hide_students()
