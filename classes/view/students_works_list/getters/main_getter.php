@@ -49,8 +49,10 @@ class MainGetter
         $studentsGtr = $this->get_students_getter();
         $this->init_students($studentsGtr);
 
+        $this->filter_out_not_student_teachers($teachersGtr, $this->students);
+
         $this->add_student_courses_to_courses($coursesGtr);
-        
+
         $this->init_hide_students();
     }
 
@@ -163,6 +165,11 @@ class MainGetter
     private function init_students($studentsGtr) 
     {
         $this->students = $studentsGtr->get_students();
+    }
+
+    private function filter_out_not_student_teachers($teachersGtr, $students)
+    {
+        $this->teachers = $teachersGtr->filter_out_not_student_teachers($students);
     }
 
     private function add_student_courses_to_courses($coursesGtr)

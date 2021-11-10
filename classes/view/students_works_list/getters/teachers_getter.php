@@ -33,6 +33,47 @@ class TeachersGetter
         return $this->selectedTeacherId;
     }
 
+    public function filter_out_not_student_teachers($students)
+    {
+        $filtered = array();
+
+        foreach($this->teachers as $teacher)
+        {
+            if($this->is_teacher_is_student_leader($teacher, $students)
+                || $this->is_teachers_is_all_teachers($teacher))
+            {
+                $filtered[] = $teacher;
+            }
+        }
+
+        return $filtered;
+    }
+
+    private function is_teachers_is_all_teachers($teacher) : bool 
+    {
+        if($teacher->id == mg::ALL_TEACHERS)
+        {
+            return true;
+        }
+        else 
+        {
+            return false;
+        }
+    }
+
+    private function is_teacher_is_student_leader($teacher, $students) : bool 
+    {
+        foreach($students as $student)
+        {
+            if($student->teacher == $teacher->id)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     private function init_teachers() 
     {
         $teachers = tg::get_coursework_teachers($this->cm->instance);
