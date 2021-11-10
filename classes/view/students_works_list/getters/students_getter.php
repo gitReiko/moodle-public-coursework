@@ -20,13 +20,16 @@ class StudentsGetter
 
     private $students;
 
+    private $hideStudentsWithoutTheme;
+
     function __construct(
         \stdClass $course, 
         \stdClass $cm,
         int $groupMode,
         int $selectedGroupId,
         $selectedTeacherId,
-        $selectedCourseId
+        $selectedCourseId,
+        $hideStudentsWithoutTheme
     ) 
     {
         $this->course = $course;
@@ -36,6 +39,7 @@ class StudentsGetter
         $this->selectedGroupId = $selectedGroupId;
         $this->selectedTeacherId = $selectedTeacherId;
         $this->selectedCourseId = $selectedCourseId;
+        $this->hideStudentsWithoutTheme = $hideStudentsWithoutTheme;
         $this->init_students();
     }
 
@@ -63,6 +67,11 @@ class StudentsGetter
 
         $students = sg::add_works_to_students($this->cm->instance, $students);
 
+        if($this->hideStudentsWithoutTheme)
+        {
+            $students = $this->filter_out_all_students_without_theme($students);
+        }
+
         if($this->is_selected_course_is_not_all_courses())
         {
             $students = $this->filter_out_all_unnecessary_courses($students);
@@ -79,6 +88,21 @@ class StudentsGetter
         }
 
         $this->students = $students;
+    }
+
+    private function filter_out_all_students_without_theme($students)
+    {
+        $filtered = array();
+
+        foreach($students as $student)
+        {
+            if(!empty($student->theme))
+            {
+                $filtered[] = $student;
+            }
+        }
+
+        return $filtered;
     }
 
     private function is_selected_course_is_not_all_courses() : bool 

@@ -25,14 +25,7 @@ class Tbody
 
         foreach($this->d->get_students() as $student)
         {
-            if(!$this->d->is_hide_students_without_theme())
-            {
-                $body.= $this->get_row($student);
-            }
-            else if(!empty($student->theme))
-            {
-                $body.= $this->get_row($student);
-            }
+            $body.= $this->get_row($student);
         }
 
         $body.= \html_writer::end_tag('tbody');

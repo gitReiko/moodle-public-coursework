@@ -36,6 +36,8 @@ class MainGetter
     {
         $this->course = $course;
         $this->cm = $cm;
+
+        $this->init_hide_students_without_theme();
         
         $groupsGtr = $this->get_groups_getter();
         $this->init_group_params($groupsGtr);
@@ -52,8 +54,6 @@ class MainGetter
         $this->filter_out_not_student_teachers($teachersGtr, $this->students);
 
         $this->add_student_courses_to_courses($coursesGtr);
-
-        $this->init_hide_students();
     }
 
     public function get_course() : \stdClass
@@ -108,7 +108,7 @@ class MainGetter
 
     public function is_hide_students_without_theme()
     {
-        return $this->hideStudents;
+        return $this->hideStudentsWithoutTheme;
     }
 
     private function get_groups_getter()
@@ -158,7 +158,8 @@ class MainGetter
             $this->groupMode,
             $this->selectedGroupId,
             $this->selectedTeacherId,
-            $this->selectedCourseId
+            $this->selectedCourseId,
+            $this->hideStudentsWithoutTheme
         );
     }
 
@@ -177,17 +178,17 @@ class MainGetter
         $this->courses = $coursesGtr->add_courses_from_student_works($this->students);
     }
 
-    private function init_hide_students()
+    private function init_hide_students_without_theme()
     {
-        $hider = optional_param(sh::HIDE_STUDENTS, null, PARAM_INT);
+        $hider = optional_param(sh::HIDE_STUDENTS_WITHOUT_THEME, null, PARAM_INT);
 
         if($hider)
         {
-            $this->hideStudents = true;
+            $this->hideStudentsWithoutTheme = true;
         }
         else 
         {
-            $this->hideStudents = false;
+            $this->hideStudentsWithoutTheme = false;
         }
     }
 

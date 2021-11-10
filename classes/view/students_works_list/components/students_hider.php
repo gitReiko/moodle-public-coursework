@@ -8,7 +8,7 @@ use Coursework\View\StudentsWorksList\Page as p;
 class StudentsHider 
 {
     const HIDER_ID = 'students_hider_id';
-    const HIDE_STUDENTS = 'hide_students';
+    const HIDE_STUDENTS_WITHOUT_THEME = 'hide_students_without_theme';
 
     private $d;
 
@@ -32,7 +32,7 @@ class StudentsHider
         $attr = array(
             'id' => self::HIDER_ID,
             'type' => 'checkbox',
-            'name' => self::HIDE_STUDENTS,
+            'name' => self::HIDE_STUDENTS_WITHOUT_THEME,
             'value' => 1,
             'onchange' => 'submit_form(`'.Page::FORM_ID.'`)',
             'autocomplete' => 'off'
