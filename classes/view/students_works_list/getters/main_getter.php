@@ -37,11 +37,20 @@ class MainGetter
         $this->course = $course;
         $this->cm = $cm;
         
-        $this->init_group_params();
-        $this->init_teachers_params();
-        $this->init_courses_params();
-        $this->init_students();
-        $this->add_student_courses();
+        $groupsGtr = $this->get_groups_getter();
+        $this->init_group_params($groupsGtr);
+
+        $teachersGtr = $this->get_teachers_getter();
+        $this->init_teachers_params($teachersGtr);
+
+        $coursesGtr = $this->get_courses_getter();
+        $this->init_courses_params($coursesGtr);
+
+        $studentsGtr = $this->get_students_getter();
+        $this->init_students($studentsGtr);
+
+        $this->add_student_courses_to_courses($coursesGtr);
+        
         $this->init_hide_students();
     }
 
@@ -100,39 +109,48 @@ class MainGetter
         return $this->hideStudents;
     }
 
-    private function init_group_params() 
+    private function get_groups_getter()
     {
-        $grp = new GroupsGetter($this->course, $this->cm);
-
-        $this->groupMode = $grp->get_group_mode();
-        $this->groups = $grp->get_groups();
-        $this->selectedGroupId = $grp->get_selected_group_id();
-        $this->availableGroups = $grp->get_available_groups();
+        return new GroupsGetter($this->course, $this->cm);
     }
 
-    private function init_teachers_params() 
+    private function init_group_params($groupGetter) 
     {
-        $teachGetter = new TeachersGetter($this->course, $this->cm);
-
-        $this->teachers = $teachGetter->get_teachers();
-        $this->selectedTeacherId = $teachGetter->get_selected_teacher_id();
+        $this->groupMode = $groupGetter->get_group_mode();
+        $this->groups = $groupGetter->get_groups();
+        $this->selectedGroupId = $groupGetter->get_selected_group_id();
+        $this->availableGroups = $groupGetter->get_available_groups();
     }
 
-    private function init_courses_params()
+    private function get_teachers_getter()
     {
-        $courseGetter = new CoursesGetter(
+        return new TeachersGetter($this->course, $this->cm);
+    }
+
+    private function init_teachers_params($teacherGetter) 
+    {
+        $this->teachers = $teacherGetter->get_teachers();
+        $this->selectedTeacherId = $teacherGetter->get_selected_teacher_id();
+    }
+
+    private function get_courses_getter()
+    {
+        return new CoursesGetter(
             $this->course, 
             $this->cm, 
             $this->selectedTeacherId
         );
-
-        $this->courses = $courseGetter->get_courses();
-        $this->selectedCourseId = $courseGetter->get_selected_course_id();
     }
 
-    private function init_students() 
+    private function init_courses_params($coursesGtr)
     {
-        $st = new StudentsGetter(
+        $this->courses = $coursesGtr->get_courses();
+        $this->selectedCourseId = $coursesGtr->get_selected_course_id();
+    }
+
+    private function get_students_getter()
+    {
+        return new StudentsGetter(
             $this->course, 
             $this->cm,
             $this->groupMode,
@@ -140,19 +158,17 @@ class MainGetter
             $this->selectedTeacherId,
             $this->selectedCourseId
         );
-
-        $this->students = $st->get_students();
     }
 
-    private function add_student_courses()
+    private function init_students($studentsGtr) 
     {
-        $courseGetter = new CoursesGetter(
-            $this->course, 
-            $this->cm, 
-            $this->selectedTeacherId
-        );
-        $courseGetter->add_student_courses($this->students);
-        $this->courses = $courseGetter->get_courses();
+        $this->students = $studentsGtr->get_students();
+    }
+
+    private function add_student_courses_to_courses($coursesGtr)
+    {
+        $coursesGtr->add_student_courses($this->students);
+        $this->courses = $coursesGtr->get_courses();
     }
 
     private function init_hide_students()
