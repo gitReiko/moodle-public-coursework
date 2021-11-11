@@ -373,3 +373,5 @@ $string['all_teachers'] = 'All teachers';
 $string['all_courses'] = 'All courses';
 $string['student_not_chosen_theme'] = 'Student hasn\'t chosen theme';
 $string['hide_students_without_theme'] = 'Hide students who have not chosen a topic';
+$string['configuration'] = 'Configuration';
+$string['config_list'] = 'Configuration list';

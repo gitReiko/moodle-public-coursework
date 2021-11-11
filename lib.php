@@ -55,51 +55,82 @@ function coursework_extend_settings_navigation($settings, $navref)
     $keys = $navref->get_children_key_list();
     $beforekey = null;
     $i = array_search('modedit', $keys);
-    if ($i === false and array_key_exists(0, $keys)) {
+    if($i === false and array_key_exists(0, $keys))
+    {
         $beforekey = $keys[0];
-    } else if (array_key_exists($i + 1, $keys)) {
+    } 
+    else if(array_key_exists($i + 1, $keys)) 
+    {
         $beforekey = $keys[$i + 1];
     }
 
     $cm = $PAGE->cm;
-    if (!$cm) {
+    if(!$cm) 
+    {
         return;
     }
 
     $context = $cm->context;
     $course = $PAGE->course;
 
-    if (!$course) {
+    if(!$course)
+    {
         return;
     }
 
-    if (has_capability('mod/coursework:enrollmembers', $PAGE->cm->context))
+    if(is_user_can_view_configuration_category())
     {
-        $link = new moodle_url('/mod/coursework/configuration.php', array('id' => $cm->id));
-        $linkname = get_string('configurate_coursework', 'coursework');
-        $node = $navref->add($linkname, $link, navigation_node::TYPE_SETTING);
+        $link = new moodle_url('/mod/coursework/pages/config_list.php', array('id' => $cm->id));
+        $linkname = get_string('configuration', 'coursework');
+        $confCategory = $navref->add($linkname, $link, navigation_node::TYPE_CONTAINER);
+
+        if(has_capability('mod/coursework:settingleaders', $PAGE->cm->context))
+        {
+            $link = new moodle_url('/mod/coursework/pages/leader_setting.php', array('id' => $cm->id));
+            $linkname = get_string('leaders_setting', 'coursework');
+            $confCategory->add($linkname, $link, navigation_node::TYPE_SETTING);
+        }
+
+        if(has_capability('mod/coursework:enrollmembers', $PAGE->cm->context))
+        {
+            $link = new moodle_url('/mod/coursework/configuration.php', array('id' => $cm->id));
+            $linkname = get_string('configurate_coursework', 'coursework');
+            $confCategory->add($linkname, $link, navigation_node::TYPE_SETTING);
+        }
     }
 
-    if (has_capability('mod/coursework:enrollmembers', $PAGE->cm->context))
+    if(has_capability('mod/coursework:enrollmembers', $PAGE->cm->context))
     {
         $link = new moodle_url('/mod/coursework/quota_overview.php', array('id' => $cm->id));
         $linkname = get_string('quota_overview', 'coursework');
-        $node = $navref->add($linkname, $link, navigation_node::TYPE_SETTING);
+        $navref->add($linkname, $link, navigation_node::TYPE_SETTING);
     }
 
-    if (has_capability('mod/coursework:back_to_work_state', $PAGE->cm->context))
+    if(has_capability('mod/coursework:back_to_work_state', $PAGE->cm->context))
     {
         $link = new moodle_url('/mod/coursework/back_to_work_state.php', array('id' => $cm->id));
         $linkname = get_string('back_to_work_state', 'coursework');
-        $node = $navref->add($linkname, $link, navigation_node::TYPE_SETTING);
+        $navref->add($linkname, $link, navigation_node::TYPE_SETTING);
     }
 
-    if (has_capability('mod/coursework:manage_own_old_files_area', $PAGE->cm->context))
+    if(has_capability('mod/coursework:manage_own_old_files_area', $PAGE->cm->context))
     {
         $link = new moodle_url('/mod/coursework/manage_old_files_area.php', array('id' => $cm->id));
         $linkname = get_string('manage_old_files_area', 'coursework');
-        $node = $navref->add($linkname, $link, navigation_node::TYPE_SETTING);
+        $navref->add($linkname, $link, navigation_node::TYPE_SETTING);
     }
+}
+
+function is_user_can_view_configuration_category() : bool
+{
+    global $PAGE;
+
+    if(has_capability('mod/coursework:settingleaders', $PAGE->cm->context))
+    {
+        return true;
+    }
+
+    return false;
 }
 
 /**
