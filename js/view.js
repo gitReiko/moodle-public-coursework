@@ -457,5 +457,22 @@ function scroll_page_to_last_chat_message()
     anchor.scrollIntoView({block: "center", behavior: "smooth"});
 }
 
+class ViewStudentsWorks 
+{
+    static toggle_students_hider()
+    {
+        let checkbox = document.getElementById('students_hider_id');
 
+        if(checkbox.checked)
+        {
+            checkbox.checked = false;
+        }
+        else 
+        {
+            checkbox.checked = true;
+        }
+    }
+
+
+}
 

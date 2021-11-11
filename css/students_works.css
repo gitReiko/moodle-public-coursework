@@ -74,3 +74,8 @@ p.large_text
 {
     font-size: large;
 }
+
+p.students-hider
+{
+    cursor: pointer;
+}
