@@ -17,19 +17,19 @@ class LeadersAddGUI extends LeadersActionGUI
 
     protected function get_leader_select() : string 
     {
-        return $this->get_select($this->courseTeachers, TEACHER, null, true);
+        return $this->get_select($this->courseTeachers, Main::LEADER_ID, null, true);
     }
 
     protected function get_course_select() : string 
     {
-        return $this->get_select($this->siteCourses, COURSE);
+        return $this->get_select($this->siteCourses, Main::COURSE_ID);
     }
 
     protected function get_quota_input() : string 
     {
         $attr = array(
             'type' => 'number',
-            'name' => QUOTA,
+            'name' => Main::QUOTA,
             'autocomplete' => 'off',
             'required' => 'required',
             'min' => 1

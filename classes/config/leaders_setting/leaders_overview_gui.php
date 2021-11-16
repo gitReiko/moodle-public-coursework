@@ -135,21 +135,21 @@ class LeadersOverviewGUI
 
         $attr = array(
             'type' => 'hidden',
-            'name' => TEACHER.ID,
+            'name' => Main::LEADER_ID,
             'value' => $leader->teacher
         );
         $btn.= \html_writer::empty_tag('input', $attr);
 
         $attr = array(
             'type' => 'hidden',
-            'name' => COURSE.ID,
+            'name' => Main::COURSE_ID,
             'value' => $leader->course
         );
         $btn.= \html_writer::empty_tag('input', $attr);
 
         $attr = array(
             'type' => 'hidden',
-            'name' => QUOTA.ID,
+            'name' => Main::QUOTA,
             'value' => $leader->quota
         );
         $btn.= \html_writer::empty_tag('input', $attr);

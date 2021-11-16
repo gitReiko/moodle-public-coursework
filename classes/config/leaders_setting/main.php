@@ -18,7 +18,11 @@ class Main extends \Coursework\Config\AddEditTemplate
     const DELETE_LEADER = 'delete_leader';
     const LEADER_ROW_ID = 'leader_row_id';
 
+    // post consts
     const COURSE_MODULE_ID = 'id';
+    const LEADER_ID = 'leader_id';
+    const COURSE_ID = 'course_id';
+    const QUOTA = 'quota';
 
     function __construct(\stdClass $course, \stdClass $cm)
     {

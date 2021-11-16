@@ -14,9 +14,9 @@ class LeadersEditGUI extends LeadersActionGUI
         parent::__construct($course, $cm);
 
         $this->id = optional_param(Main::LEADER_ROW_ID, null, PARAM_INT);
-        $this->leader = optional_param(TEACHER.ID, null, PARAM_INT);
-        $this->course_ = optional_param(COURSE.ID, null, PARAM_INT);
-        $this->quota = optional_param(QUOTA.ID, null, PARAM_INT);
+        $this->leader = optional_param(Main::LEADER_ID, null, PARAM_INT);
+        $this->course_ = optional_param(Main::COURSE_ID, null, PARAM_INT);
+        $this->quota = optional_param(Main::QUOTA, null, PARAM_INT);
     }
 
     protected function get_action_header() : string
@@ -26,19 +26,19 @@ class LeadersEditGUI extends LeadersActionGUI
 
     protected function get_leader_select() : string 
     {
-        return $this->get_select($this->courseTeachers, TEACHER, $this->leader, true);
+        return $this->get_select($this->courseTeachers, Main::LEADER_ID, $this->leader, true);
     }
 
     protected function get_course_select() : string 
     {
-        return $this->get_select($this->siteCourses, COURSE, $this->course_);
+        return $this->get_select($this->siteCourses, Main::COURSE_ID, $this->course_);
     }
 
     protected function get_quota_input() : string 
     {
         $attr = array(
             'type' => 'number',
-            'name' => QUOTA,
+            'name' => Main::QUOTA,
             'value' => $this->quota,
             'autocomplete' => 'off',
             'required' => 'required',

@@ -107,7 +107,7 @@ class LeadersEventsHandler
 
     private function get_leader_teacher() : int 
     {
-        $teacher = optional_param(TEACHER, null, PARAM_INT);
+        $teacher = optional_param(Main::LEADER_ID, null, PARAM_INT);
 
         if(isset($teacher)) return $teacher;
         else throw new Exception(get_string('e-le-ev:missing_teacher', 'coursework'));
@@ -115,7 +115,7 @@ class LeadersEventsHandler
 
     private function get_leader_course() : int 
     {
-        $course = optional_param(COURSE, null, PARAM_INT);
+        $course = optional_param(Main::COURSE_ID, null, PARAM_INT);
 
         if(isset($course)) return $course;
         else throw new Exception(get_string('e-le-ev:missing_course', 'coursework'));
@@ -123,7 +123,7 @@ class LeadersEventsHandler
 
     private function get_leader_quota() : int 
     {
-        $quota = optional_param(QUOTA, null, PARAM_INT);
+        $quota = optional_param(Main::QUOTA, null, PARAM_INT);
 
         if(isset($quota)) return $quota;
         else throw new Exception(get_string('e-le-ev:missing_quota', 'coursework'));

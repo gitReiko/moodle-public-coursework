@@ -184,13 +184,6 @@ abstract class LeadersActionGUI
 
         $attr = array(
             'type' => 'hidden',
-            'name' => CONFIG_MODULE,
-            'value' => LEADERS_SETTING
-        );
-        $btn.= \html_writer::empty_tag('input', $attr);
-
-        $attr = array(
-            'type' => 'hidden',
             'name' => Main::GUI_TYPE,
             'value' => Main::OVERVIEW
         );
