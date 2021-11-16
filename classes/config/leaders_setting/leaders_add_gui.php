@@ -51,6 +51,7 @@ class LeadersAddGUI extends LeadersActionGUI
             'name' => Main::GUI_TYPE,
             'value' => Main::OVERVIEW
         );
+        $params.= \html_writer::empty_tag('input', $attr);
 
         return $params;
     }
