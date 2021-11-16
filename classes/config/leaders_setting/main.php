@@ -18,6 +18,8 @@ class Main extends \Coursework\Config\AddEditTemplate
     const DELETE_LEADER = 'delete_leader';
     const LEADER_ROW_ID = 'leader_row_id';
 
+    const COURSE_MODULE_ID = 'id';
+
     function __construct(\stdClass $course, \stdClass $cm)
     {
         parent::__construct($course, $cm);

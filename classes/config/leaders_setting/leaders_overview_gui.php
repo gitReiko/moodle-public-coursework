@@ -14,7 +14,7 @@ class LeadersOverviewGUI
         $this->course = $course;
         $this->cm = $cm;
 
-        $this->cwLeaders = $this->get_coursework_leaders();
+        $this->cwLeaders = $this->get_configured_leaders();
     }
 
     public function get_gui() : string 
@@ -30,11 +30,18 @@ class LeadersOverviewGUI
         return $gui;
     }
 
-    private function get_coursework_leaders()
+    private function get_configured_leaders()
     {
-        $leaders = cw_get_coursework_teachers($this->cm->instance);
-        cw_add_fullnames_to_users_array($leaders);
-        return $leaders;
+        global $DB;
+        $sql = 'SELECT ct.id, ct.teacher, ct.course, c.fullname as coursename, 
+                    ct.quota, u.firstname, u.lastname
+                FROM {coursework_teachers} as ct, {user} as u, {course} as c
+                WHERE ct.teacher = u.id AND ct.course = c.id
+                AND u.suspended = 0 AND ct.coursework = ?
+                ORDER BY u.lastname';
+        $conditions = array($this->cm->instance);
+
+        return $DB->get_records_sql($sql, $conditions);
     }
 
     private function is_coursework_has_leaders() : bool
@@ -45,23 +52,29 @@ class LeadersOverviewGUI
 
     private function get_coursework_leaders_table() : string 
     {
-        $table = '<h3>'.get_string('leaders_overview_table_header', 'coursework').'</h3>';
-        $table.= '<table class="leaders_overview">';
-        $table.= $this->get_coursework_leaders_table_header();
-        $table.= $this->get_coursework_leaders_table_body();
-        $table.= '</table>';
-        return $table;
+        $text = get_string('leaders_overview_table_header', 'coursework');
+        $tbl = \html_writer::tag('h3', $text);
+
+        $attr = array('class' => 'leaders_overview');
+        $tbl.= \html_writer::start_tag('table', $attr);
+        $tbl.= $this->get_coursework_leaders_table_header();
+        $tbl.= $this->get_coursework_leaders_table_body();
+        $tbl.= \html_writer::end_tag('table');
+
+        return $tbl;
     }
 
     private function get_coursework_leaders_table_header() : string 
     {
-        $header = '<tr class="header">';
-        $header.= '<td>'.get_string('leader', 'coursework').'</td>';
-        $header.= '<td>'.get_string('course', 'coursework').'</td>';
-        $header.= '<td>'.get_string('quota', 'coursework'). '</td>';
-        $header.= '<td></td>';
-        $header.= '<td></td>';
-        $header.= '</tr>';
+        $attr = array('class' => 'header');
+        $header = \html_writer::start_tag('tr', $attr);
+        $header.= \html_writer::tag('td', get_string('leader', 'coursework'));
+        $header.= \html_writer::tag('td', get_string('course', 'coursework'));
+        $header.= \html_writer::tag('td', get_string('quota', 'coursework'));
+        $header.= \html_writer::tag('td', '');
+        $header.= \html_writer::tag('td', '');
+        $header.= \html_writer::end_tag('tr');
+
         return $header;
     }
 
@@ -71,12 +84,25 @@ class LeadersOverviewGUI
 
         foreach($this->cwLeaders as $leader)
         {
-            $body.= '<tr>';
-            $body.= '<td>'.$leader->fullname.'</td>';
-            $body.= '<td>'.$leader->coursename.'</td>';
-            $body.= '<td align="center">'.$leader->quota.'</td>';
-            $body.= '<td>'.$this->get_edit_button($leader).'</td>';
-            $body.= '<td>'.$this->get_delete_button($leader->id).'</td>';
+            $body.= \html_writer::start_tag('tr');
+
+            $text = $leader->lastname.' '.$leader->firstname;
+            $body.= \html_writer::tag('td', $text);
+
+            $text = $leader->coursename;
+            $body.= \html_writer::tag('td', $text);
+
+            $attr = array('align' => 'center');
+            $text = $leader->quota;
+            $body.= \html_writer::tag('td', $text, $attr);
+
+            $text = $this->get_edit_button($leader);
+            $body.= \html_writer::tag('td', $text);
+
+            $text = $this->get_delete_button($leader->id);
+            $body.= \html_writer::tag('td', $text);
+
+            $body.= \html_writer::end_tag('tr');
         }
 
         return $body;
@@ -84,41 +110,134 @@ class LeadersOverviewGUI
 
     private function get_edit_button(\stdClass $leader) : string 
     {
-        $button = '<form method="post">';
-        $button.= '<input type="submit" value="'.get_string('edit', 'coursework').'">';
-        $button.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
-        $button.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.LEADERS_SETTING.'">';
-        $button.= '<input type="hidden" name="'.Main::GUI_TYPE.'" value="'.Main::EDIT_LEADER.'">';
-        $button.= '<input type="hidden" name="'.TEACHER.ID.'" value="'.$leader->teacher.'">';
-        $button.= '<input type="hidden" name="'.COURSE.ID.'" value="'.$leader->course.'">';
-        $button.= '<input type="hidden" name="'.QUOTA.ID.'" value="'.$leader->quota.'">';
-        $button.= '<input type="hidden" name="'.Main::LEADER_ROW_ID.'" value="'.$leader->id.'">';
-        $button.= '</form>';
-        return $button;
+        $attr = array('method' => 'post');
+        $btn = \html_writer::start_tag('form', $attr);
+
+        $attr = array(
+            'type' => 'submit',
+            'value' => get_string('edit', 'coursework')
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::COURSE_MODULE_ID,
+            'value' => $this->cm->id
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::GUI_TYPE,
+            'value' => Main::EDIT_LEADER
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => TEACHER.ID,
+            'value' => $leader->teacher
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => COURSE.ID,
+            'value' => $leader->course
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => QUOTA.ID,
+            'value' => $leader->quota
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::LEADER_ROW_ID,
+            'value' => $leader->id
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $btn.= \html_writer::end_tag('form');
+
+        return $btn;
     }
 
     private function get_delete_button(int $id) : string 
-    {
-        $button = '<form method="post">';
-        $button.= '<input type="submit" value="'.get_string('delete', 'coursework').'">';
-        $button.= '<input type="hidden" name="'.ID.'" value="'.$this->cm->id.'" >';
-        $button.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.LEADERS_SETTING.'">';
-        $button.= '<input type="hidden" name="'.Main::GUI_TYPE.'" value="'.Main::OVERVIEW.'">';
-        $button.= '<input type="hidden" name="'.Main::DATABASE_EVENT.'" value="'.Main::DELETE_LEADER.'">';
-        $button.= '<input type="hidden" name="'.Main::LEADER_ROW_ID.'" value="'.$id.'">';
-        $button.= '</form>';
-        return $button;
+    {        
+        $attr = array('method' => 'post');
+        $btn = \html_writer::start_tag('form', $attr);
+
+        $attr = array(
+            'type' => 'submit',
+            'value' => get_string('delete', 'coursework')
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::COURSE_MODULE_ID,
+            'value' => $this->cm->id
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::GUI_TYPE,
+            'value' => Main::OVERVIEW
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::DATABASE_EVENT,
+            'value' => Main::DELETE_LEADER
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::LEADER_ROW_ID,
+            'value' => $id
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $btn.= \html_writer::end_tag('form');
+
+        return $btn;
     }
 
     private function get_add_leader_button() : string 
     {
-        $button = '<form method="post">';
-        $button.= '<input type="submit" value="'.get_string('add_teacher', 'coursework').'" autofocus>';
-        $button.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
-        $button.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.LEADERS_SETTING.'">';
-        $button.= '<input type="hidden" name="'.Main::GUI_TYPE.'" value="'.Main::ADD_LEADER.'">';
-        $button.= '</form>';
-        return $button;
+        $attr = array('method' => 'post');
+        $btn = \html_writer::start_tag('form', $attr);
+
+        $attr = array(
+            'type' => 'submit',
+            'value' => get_string('add_teacher', 'coursework')
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::COURSE_MODULE_ID,
+            'value' => $this->cm->id
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::GUI_TYPE,
+            'value' => Main::ADD_LEADER
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $btn.= \html_writer::end_tag('form');
+
+        return $btn;
     }
 
 }

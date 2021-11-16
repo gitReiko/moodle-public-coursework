@@ -142,13 +142,6 @@ abstract class LeadersActionGUI
         );
         $params = \html_writer::empty_tag('input', $attr);
 
-        $attr = array(
-            'type' => 'hidden',
-            'name' => CONFIG_MODULE,
-            'value' => LEADERS_SETTING
-        );
-        $params.= \html_writer::empty_tag('input', $attr);
-
         return $params;
     }
 
