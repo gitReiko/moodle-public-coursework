@@ -27,23 +27,42 @@ class LeadersAddGUI extends LeadersActionGUI
 
     protected function get_quota_input() : string 
     {
-        $quota = '<input type="number" name="'.QUOTA.'"';
-        $quota.= 'autocomplete="off" required min="1">';
-        return $quota;
+        $attr = array(
+            'type' => 'number',
+            'name' => QUOTA,
+            'autocomplete' => 'off',
+            'required' => 'required',
+            'min' => 1
+        );
+        return \html_writer::empty_tag('input', $attr);
     }
 
     protected function get_form_special_params() : string
     {
-        $params = '<input type="hidden" name="'.Main::DATABASE_EVENT.'" value="'.Main::ADD_LEADER.'">';
-        $params.= '<input type="hidden" name="'.Main::GUI_TYPE.'" value="'.Main::OVERVIEW.'">';
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::DATABASE_EVENT,
+            'value' => Main::ADD_LEADER
+        );
+        $params = \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::GUI_TYPE,
+            'value' => Main::OVERVIEW
+        );
+
         return $params;
     }
 
     protected function get_action_button() : string
     {
-        $btn = '<input type="submit" form="'.LeadersActionGUI::ACTION_FORM.'" ';
-        $btn.= 'value="'.get_string('add_leader', 'coursework').'" >';
-        return $btn;
+        $attr = array(
+            'type' => 'submit',
+            'form' => LeadersActionGUI::ACTION_FORM,
+            'value' => get_string('add_leader', 'coursework')
+        );
+        return \html_writer::empty_tag('input', $attr);
     }
 
 
