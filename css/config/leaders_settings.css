@@ -1,0 +1,10 @@
+
+table.leaders_overview tr td
+{
+    padding: 3px 5px;
+}
+
+table.leaders_overview tr.header td
+{
+    font-weight: bold;
+}

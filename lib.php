@@ -86,7 +86,7 @@ function coursework_extend_settings_navigation($settings, $navref)
 
         if(has_capability('mod/coursework:settingleaders', $PAGE->cm->context))
         {
-            $link = new moodle_url('/mod/coursework/pages/leader_setting.php', array('id' => $cm->id));
+            $link = new moodle_url('/mod/coursework/pages/leaders_setting.php', array('id' => $cm->id));
             $linkname = get_string('leaders_setting', 'coursework');
             $confCategory->add($linkname, $link, navigation_node::TYPE_SETTING);
         }
