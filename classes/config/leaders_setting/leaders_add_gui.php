@@ -12,7 +12,7 @@ class LeadersAddGUI extends LeadersActionGUI
 
     protected function get_action_header() : string
     {
-        return '<h3>'.get_string('add_leader_header', 'coursework').'</h3>';
+        return \html_writer::tag('h3', get_string('add_leader_header', 'coursework'));
     }
 
     protected function get_leader_select() : string 
