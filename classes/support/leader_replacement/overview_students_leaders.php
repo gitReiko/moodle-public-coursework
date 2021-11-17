@@ -58,23 +58,37 @@ class OverviewStudentsLeaders
 
     private function get_html_form() : string 
     {
-        $form = '<form id="'.self::LEADER_REPLACEMENT_FORM.'" method="post">';
-        $form.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.LEADER_REPLACEMENT.'"/>';
-        $form.= '<input type="hidden" name="'.ID.'" value="'.$this->cm->id.'"/>';
-        $form.= '</form>';
+        $attr = array(
+            'id' => self::LEADER_REPLACEMENT_FORM,
+            'method' => 'post'
+        );
+        $form = \html_writer::start_tag('form');
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => ID,
+            'value' => $this->cm->id
+        );
+        $form.= \html_writer::empty_tag('input', $attr);
+
+        $form.= \html_writer::end_tag('form');
 
         return $form;
     }
 
     private function get_overview_header() : string 
     {
-        return '<h3>'.get_string('lc_overview_header', 'coursework').'</h3>';
+        return \html_writer::tag('h3', get_string('lc_overview_header', 'coursework'));
     }
 
     private function get_distribute_button() : string 
     {
-        $jsfunc = "onclick='return validate_students_mass_action()'";
-        return "<button form='".self::LEADER_REPLACEMENT_FORM."' $jsfunc>".get_string('change_leader_for_selected_students', 'coursework').'</button>';
+        $attr = array(
+            'form' => self::LEADER_REPLACEMENT_FORM,
+            'onclick' => 'return validate_students_mass_action()'
+        );
+        $text = get_string('change_leader_for_selected_students', 'coursework');
+        return \html_writer::tag('button', $text, $attr);
     }
 
 
