@@ -1,11 +1,11 @@
 <?php
 
 require_once '../../../../config.php';
-require_once '../../classes/maintenance/leader_replacement/main.php';
+require_once '../../classes/support/leader_replacement/main.php';
 require_once '../../enums.php';
 require_once '../../newlib.php';
 
-use Coursework\Maintenance\LeaderReplacement as leaderReplacement;
+use Coursework\Support\LeaderReplacement as leaderReplacement;
  
 $id = required_param('id', PARAM_INT);    // Course Module ID
  
@@ -16,7 +16,7 @@ if (!$course = $DB->get_record('course', array('id'=> $cm->course))) {
     print_error('course is misconfigured');  // NOTE As above
 }
 
-$url = new moodle_url('/mod/coursework/pages/maintenance/leader_replacement.php', array('id'=>$id));
+$url = new moodle_url('/mod/coursework/pages/support/leader_replacement.php', array('id'=>$id));
 $PAGE->set_url($url);
 
 $PAGE->set_context(context_module::instance($cm->id));

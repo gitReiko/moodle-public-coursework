@@ -1,6 +1,6 @@
 <?php
 
-namespace Coursework\Maintenance\LeaderReplacement;
+namespace Coursework\Support\LeaderReplacement;
 
 require_once '../../classes/classes_lib/add_edit_template.php';
 require_once '../../classes/classes_lib/students_mass_actions_gui_templates.php';

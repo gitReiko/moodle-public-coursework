@@ -1,6 +1,6 @@
 <?php
 
-namespace Coursework\Maintenance\LeaderReplacement;
+namespace Coursework\Support\LeaderReplacement;
 
 use coursework_lib as lib;
 

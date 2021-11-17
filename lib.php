@@ -92,15 +92,15 @@ function coursework_extend_settings_navigation($settings, $navref)
         }
     }
 
-    if(is_user_can_view_maintenance_category())
+    if(is_user_can_view_support_category())
     {
-        $link = new moodle_url('/mod/coursework/pages/maintenance/list.php', array('id' => $cm->id));
-        $linkname = get_string('maintenance', 'coursework');
+        $link = new moodle_url('/mod/coursework/pages/support/list.php', array('id' => $cm->id));
+        $linkname = get_string('support', 'coursework');
         $mainCategory = $navref->add($linkname, $link, navigation_node::TYPE_CONTAINER);
 
         if(has_capability('mod/coursework:leaderreplacement', $PAGE->cm->context))
         {
-            $link = new moodle_url('/mod/coursework/pages/maintenance/leader_replacement.php', array('id' => $cm->id));
+            $link = new moodle_url('/mod/coursework/pages/support/leader_replacement.php', array('id' => $cm->id));
             $linkname = get_string('leader_replacement', 'coursework');
             $mainCategory->add($linkname, $link, navigation_node::TYPE_SETTING);
         }
@@ -147,7 +147,7 @@ function is_user_can_view_configuration_category() : bool
     return false;
 }
 
-function is_user_can_view_maintenance_category() : bool
+function is_user_can_view_support_category() : bool
 {
     global $PAGE;
 
