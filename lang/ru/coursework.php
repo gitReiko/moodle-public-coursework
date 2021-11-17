@@ -385,3 +385,4 @@ $string['configuration'] = 'Настройка';
 $string['config_list'] = 'Список настроек';
 $string['leader_replacement'] = 'Замена руководителя';
 $string['maintenance'] = 'Сопровождение';
+$string['leader_settings_overview'] = 'Обзор руководителей курсовой работы';

@@ -27,6 +27,8 @@ class LeadersOverviewGUI
 
         $gui.= $this->get_add_leader_button();
 
+        $this->log_leader_settings_overview();
+
         return $gui;
     }
 
@@ -238,6 +240,17 @@ class LeadersOverviewGUI
         $btn.= \html_writer::end_tag('form');
 
         return $btn;
+    }
+
+    private function log_leader_settings_overview() : void 
+    {
+        $params = array
+        (
+            'context' => \context_module::instance($this->cm->id)
+        );
+        
+        $event = \mod_coursework\event\leader_settings_overview::create($params);
+        $event->trigger();
     }
 
 }

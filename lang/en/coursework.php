@@ -377,3 +377,4 @@ $string['configuration'] = 'Configuration';
 $string['config_list'] = 'Configuration list';
 $string['leader_replacement'] = 'Leader replacement';
 $string['maintenance'] = 'Maintenance';
+$string['leader_settings_overview'] = 'Coursework leader overview';
