@@ -31,12 +31,12 @@ class DatabaseEventsHandler
 
     private function get_students() : array 
     {
-        return optional_param_array(STUDENTS, array(), PARAM_INT);
+        return optional_param_array(Main::STUDENTS, array(), PARAM_INT);
     }
 
     private function get_leader() : int 
     {
-        return optional_param(TEACHER, null, PARAM_INT);
+        return optional_param(Main::TEACHER, null, PARAM_INT);
     }
 
     private function update_student_leader(int $studentId) : void 

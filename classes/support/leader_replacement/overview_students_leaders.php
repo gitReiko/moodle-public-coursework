@@ -66,7 +66,7 @@ class OverviewStudentsLeaders
 
         $attr = array(
             'type' => 'hidden',
-            'name' => ID,
+            'name' => Main::ID,
             'value' => $this->cm->id
         );
         $form.= \html_writer::empty_tag('input', $attr);

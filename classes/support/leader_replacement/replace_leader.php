@@ -2,7 +2,6 @@
 
 namespace Coursework\Support\LeaderReplacement;
 
-use \Coursework\ClassesLib\AddEditTemplate as aet;
 use coursework_lib as lib;
 
 /**
@@ -64,7 +63,7 @@ class ReplaceLeader
         {
             $attr = array(
                 'type' => 'hidden',
-                'name' => STUDENTS.'[]',
+                'name' => Main::STUDENTS.'[]',
                 'value' => $student->id,
                 'form' => self::FORM_NAME
             );
@@ -86,7 +85,7 @@ class ReplaceLeader
 
         $select = \html_writer::start_tag('p');
         $attr = array(
-            'name' => TEACHER,
+            'name' => Main::TEACHER,
             'autocomplete' => 'off',
             'form' => self::FORM_NAME,
             'autofocus' => 'autofocus'
@@ -139,7 +138,7 @@ class ReplaceLeader
 
         $attr = array(
             'type' => 'hidden',
-            'name' => aet::GUI_TYPE,
+            'name' => Main::GUI_TYPE,
             'value' => Main::OVERVIEW
         );
         $btn.= \html_writer::empty_tag('input', $attr);
@@ -161,21 +160,21 @@ class ReplaceLeader
 
         $attr = array(
             'type' => 'hidden',
-            'name' => ID,
+            'name' => Main::ID,
             'value' => $this->cm->id
         );
         $form.= \html_writer::empty_tag('input', $attr);
 
         $attr = array(
             'type' => 'hidden',
-            'name' => aet::GUI_TYPE,
+            'name' => Main::GUI_TYPE,
             'value' => Main::OVERVIEW
         );
         $form.= \html_writer::empty_tag('input', $attr);
 
         $attr = array(
             'type' => 'hidden',
-            'name' => aet::DATABASE_EVENT,
+            'name' => Main::DATABASE_EVENT,
             'value' => Main::OVERVIEW
         );
         $form.= \html_writer::empty_tag('input', $attr);

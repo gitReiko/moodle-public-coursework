@@ -13,6 +13,9 @@ class Main extends \Coursework\ClassesLib\AddEditTemplate
     // Types of events
     const OVERVIEW = 'overview';
     const LEADER_REPLACEMENT = 'leader_replacement';
+    const STUDENTS = 'students';
+    const TEACHER = 'teacher';
+    const ID = 'id';
 
     function __construct(\stdClass $course, \stdClass $cm)
     {
