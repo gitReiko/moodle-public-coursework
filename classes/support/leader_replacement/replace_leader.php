@@ -2,6 +2,7 @@
 
 namespace Coursework\Support\LeaderReplacement;
 
+use \Coursework\ClassesLib\AddEditTemplate as aet;
 use coursework_lib as lib;
 
 /**
@@ -40,18 +41,18 @@ class ReplaceLeader
 
     private function get_change_leader_for_students_header() : string
     {
-        return'<h3>'.get_string('change_leader_for_students_header', 'coursework').'</h3>';
+        return \html_writer::tag('h3', get_string('change_leader_for_students_header', 'coursework'));
     }
 
     private function get_list_of_the_students() : string 
     {
-        $names = '<p>';
+        $names = \html_writer::start_tag('p');
         foreach($this->students as $student)
         {
             $names.= $student->fullname.', ';
         }
         $names = mb_substr($names, 0, (mb_strlen($names) - 2));
-        $names.= '.</p>';
+        $names.= '.'.\html_writer::end_tag('p');;
 
         return $names;
     }
@@ -61,7 +62,14 @@ class ReplaceLeader
         $inputs = '';
         foreach($this->students as $student)
         {
-            $inputs.= '<input type="hidden" name="'.STUDENTS.'[]" value="'.$student->id.'" form="'.self::FORM_NAME.'">';
+            $attr = array(
+                'type' => 'hidden',
+                'name' => STUDENTS.'[]',
+                'value' => $student->id,
+                'form' => self::FORM_NAME
+            );
+
+            $inputs.= \html_writer::empty_tag('input', $attr);
         }
 
         return $inputs;
@@ -69,56 +77,110 @@ class ReplaceLeader
 
     private function get_leader_header() : string 
     {
-        return '<h3>'.get_string('leader', 'coursework').'</h3>';
+        return \html_writer::tag('h3', get_string('leader', 'coursework'));
     }
 
     private function get_leader_select() : string
     {
         $leaders = lib\get_all_course_teachers($this->cm);
 
-        $select = '<p><select name="'.TEACHER.'" autocomplete="off" form="'.self::FORM_NAME.'" autofocus>';
+        $select = \html_writer::start_tag('p');
+        $attr = array(
+            'name' => TEACHER,
+            'autocomplete' => 'off',
+            'form' => self::FORM_NAME,
+            'autofocus' => 'autofocus'
+        );
+        $select.= \html_writer::start_tag('select', $attr);
+
         foreach($leaders as $leader)
         {
-            $select.= "<option value='{$leader->id}'>{$leader->fullname}</option>";
+            $attr = array('value' => $leader->id);
+            $text = $leader->fullname;
+            $select.= \html_writer::tag('option', $text, $attr);;
         }
-        $select.= '</select></p>';
+
+        $select.= \html_writer::end_tag('p');
+        $select.= \html_writer::end_tag('select');
 
         return $select;
     }
 
     private function get_buttons_panel() : string 
     {
-        $panel = '<table><tr>';
-        $panel.= '<td>'.$this->get_distribute_button().'</td>';
-        $panel.= '<td>'.$this->get_back_button().'</td>';
-        $panel.= '</tr></table>';
+        $panel = \html_writer::start_tag('table');
+        $panel.= \html_writer::start_tag('tr');
+        $panel.= \html_writer::tag('td', $this->get_distribute_button());
+        $panel.= \html_writer::tag('td', $this->get_back_button());
+        $panel.= \html_writer::end_tag('tr');
+        $panel.= \html_writer::end_tag('table');
+
         return $panel;
     }
 
     private function get_distribute_button() : string 
     {
-        return '<button form="'.self::FORM_NAME.'">'.get_string('change', 'coursework').'</button>';
+        $attr = array('form' => self::FORM_NAME);
+        $text = get_string('change', 'coursework');
+        return \html_writer::tag('button', $text, $attr);
     }
 
     private function get_back_button() : string 
     {
-        $btn = '<form method="post">';
-        $btn.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.LEADER_REPLACEMENT.'"/>';
-        $btn.= '<input type="hidden" name="'.ID.'" value="'.$this->cm->id.'"/>';
-        $btn.= '<input type="hidden" name="'.ConfigurationManager::GUI_TYPE.'" value="'.Main::OVERVIEW.'"/>';
-        $btn.= '<button>'.get_string('back', 'coursework').'</button>';
-        $btn.= '</form>';
+        $attr = array('method' => 'post');
+        $btn = \html_writer::start_tag('form');
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::ID,
+            'value' => $this->cm->id
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => aet::GUI_TYPE,
+            'value' => Main::OVERVIEW
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $btn.= \html_writer::tag('button', get_string('back', 'coursework'));
+
+        $btn.= \html_writer::end_tag('form');
+
         return $btn;
     }
 
     private function get_html_form() : string 
     {
-        $form = '<form id="'.self::FORM_NAME.'" method="post">';
-        $form.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.LEADER_REPLACEMENT.'"/>';
-        $form.= '<input type="hidden" name="'.ID.'" value="'.$this->cm->id.'"/>';
-        $form.= '<input type="hidden" name="'.ConfigurationManager::GUI_TYPE.'" value="'.Main::OVERVIEW.'"/>';
-        $form.= '<input type="hidden" name="'.ConfigurationManager::DATABASE_EVENT.'" value="'.Main::OVERVIEW.'"/>';
-        $form.= '</form>';
+        $attr = array(
+            'id' => self::FORM_NAME,
+            'method' => 'post'
+        );
+        $form = \html_writer::start_tag('form');
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => ID,
+            'value' => $this->cm->id
+        );
+        $form.= \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => aet::GUI_TYPE,
+            'value' => Main::OVERVIEW
+        );
+        $form.= \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => aet::DATABASE_EVENT,
+            'value' => Main::OVERVIEW
+        );
+        $form.= \html_writer::empty_tag('input', $attr);
+
+        $form.= \html_writer::end_tag('form');
 
         return $form;
     }
