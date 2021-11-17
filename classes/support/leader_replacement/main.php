@@ -12,7 +12,7 @@ class Main extends \Coursework\ClassesLib\AddEditTemplate
 {
     // Types of events
     const OVERVIEW = 'overview';
-    const LEADER_CHANGE = 'leader_change';
+    const LEADER_REPLACEMENT = 'leader_replacement';
 
     function __construct(\stdClass $course, \stdClass $cm)
     {
@@ -33,7 +33,7 @@ class Main extends \Coursework\ClassesLib\AddEditTemplate
         $gui = '';
         $guiType = optional_param(self::GUI_TYPE, null, PARAM_TEXT);
 
-        if($guiType === self::LEADER_CHANGE)
+        if($guiType === self::LEADER_REPLACEMENT)
         {
             $gui.= $this->get_action_gui();
         }

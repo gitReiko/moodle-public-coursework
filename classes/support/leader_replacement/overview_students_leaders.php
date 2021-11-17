@@ -13,7 +13,7 @@ class OverviewStudentsLeaders
     private $groups;
     private $students;
 
-    const CHANGE_LEADER_FORM = 'change_leader_form';
+    const LEADER_REPLACEMENT_FORM = 'leader_replacement_form';
 
     function __construct(\stdClass $course, \stdClass $cm)
     {
@@ -29,7 +29,7 @@ class OverviewStudentsLeaders
         $gui = $this->get_html_form();
         $gui.= $this->get_overview_header();
         $gui.= massActions\get_mass_choice_selector($this->groups);
-        $gui.= massActions\get_students_list($this->students, self::CHANGE_LEADER_FORM);
+        $gui.= massActions\get_students_list($this->students, self::LEADER_REPLACEMENT_FORM);
         $gui.= $this->get_distribute_button();
         
         return $gui;
@@ -58,8 +58,8 @@ class OverviewStudentsLeaders
 
     private function get_html_form() : string 
     {
-        $form = '<form id="'.self::CHANGE_LEADER_FORM.'" method="post">';
-        $form.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.LEADER_CHANGE.'"/>';
+        $form = '<form id="'.self::LEADER_REPLACEMENT_FORM.'" method="post">';
+        $form.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.LEADER_REPLACEMENT.'"/>';
         $form.= '<input type="hidden" name="'.ID.'" value="'.$this->cm->id.'"/>';
         $form.= '</form>';
 
@@ -74,7 +74,7 @@ class OverviewStudentsLeaders
     private function get_distribute_button() : string 
     {
         $jsfunc = "onclick='return validate_students_mass_action()'";
-        return "<button form='".self::CHANGE_LEADER_FORM."' $jsfunc>".get_string('change_leader_for_selected_students', 'coursework').'</button>';
+        return "<button form='".self::LEADER_REPLACEMENT_FORM."' $jsfunc>".get_string('change_leader_for_selected_students', 'coursework').'</button>';
     }
 
 
