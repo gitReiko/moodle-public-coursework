@@ -383,3 +383,5 @@ $string['student_not_chosen_theme'] = 'Студент не выбрал тему
 $string['hide_students_without_theme'] = 'Спрятать студентов, не выбравших тему';
 $string['configuration'] = 'Настройка';
 $string['config_list'] = 'Список настроек';
+$string['leader_replacement'] = 'Замена руководителя';
+$string['maintenance'] = 'Сопровождение';

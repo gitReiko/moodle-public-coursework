@@ -2,7 +2,7 @@
 
 namespace Coursework\Config\LeadersSetting;
 
-require_once '../classes/config/add_edit_template.php';
+require_once '../../classes/config/add_edit_template.php';
 require_once 'leaders_overview_gui.php';
 require_once 'leaders_action_gui.php';
 require_once 'leaders_add_gui.php';

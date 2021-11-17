@@ -80,23 +80,37 @@ function coursework_extend_settings_navigation($settings, $navref)
 
     if(is_user_can_view_configuration_category())
     {
-        $link = new moodle_url('/mod/coursework/pages/config_list.php', array('id' => $cm->id));
+        $link = new moodle_url('/mod/coursework/pages/config/list.php', array('id' => $cm->id));
         $linkname = get_string('configuration', 'coursework');
         $confCategory = $navref->add($linkname, $link, navigation_node::TYPE_CONTAINER);
 
         if(has_capability('mod/coursework:settingleaders', $PAGE->cm->context))
         {
-            $link = new moodle_url('/mod/coursework/pages/leaders_setting.php', array('id' => $cm->id));
+            $link = new moodle_url('/mod/coursework/pages/config/leaders_setting.php', array('id' => $cm->id));
             $linkname = get_string('leaders_setting', 'coursework');
             $confCategory->add($linkname, $link, navigation_node::TYPE_SETTING);
         }
+    }
 
-        if(has_capability('mod/coursework:enrollmembers', $PAGE->cm->context))
+    if(is_user_can_view_maintenance_category())
+    {
+        $link = new moodle_url('/mod/coursework/pages/maintenance/list.php', array('id' => $cm->id));
+        $linkname = get_string('maintenance', 'coursework');
+        $mainCategory = $navref->add($linkname, $link, navigation_node::TYPE_CONTAINER);
+
+        if(has_capability('mod/coursework:leaderreplacement', $PAGE->cm->context))
         {
-            $link = new moodle_url('/mod/coursework/configuration.php', array('id' => $cm->id));
-            $linkname = get_string('configurate_coursework', 'coursework');
-            $confCategory->add($linkname, $link, navigation_node::TYPE_SETTING);
+            $link = new moodle_url('/mod/coursework/pages/maintenance/leader_replacement.php', array('id' => $cm->id));
+            $linkname = get_string('leader_replacement', 'coursework');
+            $mainCategory->add($linkname, $link, navigation_node::TYPE_SETTING);
         }
+    }
+
+    if(has_capability('mod/coursework:enrollmembers', $PAGE->cm->context))
+    {
+        $link = new moodle_url('/mod/coursework/configuration.php', array('id' => $cm->id));
+        $linkname = get_string('configurate_coursework', 'coursework');
+        $navref->add($linkname, $link, navigation_node::TYPE_SETTING);
     }
 
     if(has_capability('mod/coursework:enrollmembers', $PAGE->cm->context))
@@ -126,6 +140,18 @@ function is_user_can_view_configuration_category() : bool
     global $PAGE;
 
     if(has_capability('mod/coursework:settingleaders', $PAGE->cm->context))
+    {
+        return true;
+    }
+
+    return false;
+}
+
+function is_user_can_view_maintenance_category() : bool
+{
+    global $PAGE;
+
+    if(has_capability('mod/coursework:leaderreplacement', $PAGE->cm->context))
     {
         return true;
     }

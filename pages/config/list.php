@@ -1,11 +1,7 @@
 <?php
 
-require_once '../../../config.php';
-require_once '../classes/config/leaders_setting/main.php';
-require_once '../enums.php';
-require_once '../newlib.php';
-
-use Coursework\Config\LeadersSetting as leadersSetting;
+require_once '../../../../config.php';
+require_once '../../newlib.php';
  
 $id = required_param('id', PARAM_INT);    // Course Module ID
  
@@ -16,24 +12,27 @@ if (!$course = $DB->get_record('course', array('id'=> $cm->course))) {
     print_error('course is misconfigured');  // NOTE As above
 }
 
-$url = new moodle_url('/mod/coursework/pages/leaders_setting.php', array('id'=>$id));
+$url = new moodle_url('/mod/coursework/pages/config/list.php', array('id'=>$id));
 $PAGE->set_url($url);
 
 $PAGE->set_context(context_module::instance($cm->id));
 $PAGE->set_pagelayout('incourse');
 $PAGE->set_cm($cm);
 
-$PAGE->set_title(get_string('leaders_setting', 'coursework'));
-$PAGE->set_heading(get_string('leaders_setting', 'coursework'));
-
-$PAGE->requires->css('/mod/coursework/css/config/leaders_settings.css');
+$PAGE->set_title(get_string('config_list', 'coursework'));
+$PAGE->set_heading(get_string('config_list', 'coursework'));
 
 require_login();
   
 echo $OUTPUT->header();
 
-$leadersSetting = new leadersSetting\Main($course, $cm);
-echo $leadersSetting->execute();
+$text = get_string('config_list', 'coursework');
+echo \html_writer::tag('h2', $text);
+
+$attr = array('href' => '/mod/coursework/pages/config/leaders_setting.php?id='.$id);
+$text = \html_writer::tag('p', get_string('leaders_setting', 'coursework'));
+echo \html_writer::tag('a', $text, $attr);
+
 
 echo $OUTPUT->footer();
 
