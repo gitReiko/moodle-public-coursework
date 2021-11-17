@@ -51,6 +51,7 @@ class LeadersEventsHandler
         else
         {
             $DB->insert_record('coursework_teachers', $leader, false);
+            $this->log_added_coursework_leader();
         }
     }
 
@@ -68,6 +69,7 @@ class LeadersEventsHandler
         else
         {
             $DB->update_record('coursework_teachers', $leader);
+            $this->log_coursework_leader_changed();
         }
     }
 
@@ -76,6 +78,7 @@ class LeadersEventsHandler
         global $DB;
         $id = $this->get_leader_row_id();
         $DB->delete_records('coursework_teachers', array('id'=>$id));
+        $this->log_coursework_leader_deleted();
     }
 
     private function get_leader(bool $update = false) : \stdClass 
@@ -165,6 +168,39 @@ class LeadersEventsHandler
         $leaders = $DB->get_records('coursework_teachers', $conditions);
 
         return $leaders;
+    }
+
+    private function log_added_coursework_leader() : void 
+    {
+        $params = array
+        (
+            'context' => \context_module::instance($this->cm->id)
+        );
+        
+        $event = \mod_coursework\event\coursework_leader_added::create($params);
+        $event->trigger();
+    }
+
+    private function log_coursework_leader_changed() : void 
+    {
+        $params = array
+        (
+            'context' => \context_module::instance($this->cm->id)
+        );
+        
+        $event = \mod_coursework\event\coursework_leader_changed::create($params);
+        $event->trigger();
+    }
+
+    private function log_coursework_leader_deleted() : void 
+    {
+        $params = array
+        (
+            'context' => \context_module::instance($this->cm->id)
+        );
+        
+        $event = \mod_coursework\event\coursework_leader_deleted::create($params);
+        $event->trigger();
     }
 
 

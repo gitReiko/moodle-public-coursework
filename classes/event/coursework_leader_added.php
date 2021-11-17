@@ -37,20 +37,20 @@ defined('MOODLE_INTERNAL') || die();
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  **/
 
-class leader_settings_overview extends \core\event\base {
+class coursework_leader_added extends \core\event\base {
     protected function init() {
-        $this->data['crud'] = 'r'; // c(reate), r(ead), u(pdate), d(elete)
+        $this->data['crud'] = 'c'; // c(reate), r(ead), u(pdate), d(elete)
         $this->data['edulevel'] = self::LEVEL_PARTICIPATING;
     }
  
     public static function get_name() {
     
-        return get_string('leader_settings_overview', 'coursework');
+        return get_string('coursework_leader_added', 'coursework');
     }
  
     public function get_description() 
     {
-        return "The user with id '$this->userid' views coursework leaders settings.";
+        return "The user with id '$this->userid' added coursework leader.";
     }
  
     public function get_url() {

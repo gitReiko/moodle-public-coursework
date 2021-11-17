@@ -27,7 +27,7 @@ class LeadersOverviewGUI
 
         $gui.= $this->get_add_leader_button();
 
-        $this->log_leader_settings_overview();
+        $this->log_coursework_leaders_overview();
 
         return $gui;
     }
@@ -242,14 +242,14 @@ class LeadersOverviewGUI
         return $btn;
     }
 
-    private function log_leader_settings_overview() : void 
+    private function log_coursework_leaders_overview() : void 
     {
         $params = array
         (
             'context' => \context_module::instance($this->cm->id)
         );
         
-        $event = \mod_coursework\event\leader_settings_overview::create($params);
+        $event = \mod_coursework\event\coursework_leaders_overview::create($params);
         $event->trigger();
     }
 
