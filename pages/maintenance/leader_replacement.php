@@ -1,11 +1,11 @@
 <?php
 
 require_once '../../../../config.php';
-//require_once '../classes/config/leader_change/main.php';
+require_once '../../classes/maintenance/leader_replacement/main.php';
 require_once '../../enums.php';
 require_once '../../newlib.php';
 
-//use Coursework\Config\LeadersSetting as leadersSetting;
+use Coursework\Maintenance\LeaderReplacement as leaderReplacement;
  
 $id = required_param('id', PARAM_INT);    // Course Module ID
  
@@ -32,8 +32,8 @@ require_login();
   
 echo $OUTPUT->header();
 
-//$leadersSetting = new leadersSetting\Main($course, $cm);
-//echo $leadersSetting->execute();
+$leaderReplacement = new leaderReplacement\Main($course, $cm);
+echo $leaderReplacement->execute();
 
 echo $OUTPUT->footer();
 

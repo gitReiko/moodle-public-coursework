@@ -2,14 +2,14 @@
 
 namespace Coursework\Config\LeadersSetting;
 
-require_once '../../classes/config/add_edit_template.php';
+require_once '../../classes/classes_lib/add_edit_template.php';
 require_once 'leaders_overview_gui.php';
 require_once 'leaders_action_gui.php';
 require_once 'leaders_add_gui.php';
 require_once 'leaders_edit_gui.php';
 require_once 'leaders_events_handler.php';
 
-class Main extends \Coursework\Config\AddEditTemplate
+class Main extends \Coursework\ClassesLib\AddEditTemplate
 {
     // Types of events
     const OVERVIEW = 'overview';
