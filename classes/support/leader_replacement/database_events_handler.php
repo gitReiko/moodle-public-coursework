@@ -2,6 +2,8 @@
 
 namespace Coursework\Support\LeaderReplacement;
 
+use Coursework\Lib\Getters\CommonGetter as cg;
+use Coursework\Lib\Notification;
 use coursework_lib as lib;
 
 class DatabaseEventsHandler 
@@ -70,20 +72,27 @@ class DatabaseEventsHandler
         return $DB->get_field('coursework_students', 'id', $conditions);
     }
 
-    private function send_notification_to_student(int $studentId) : void
+    private function send_notification_to_student(int $studentId) : void 
     {
-        try
-        {
-            $userto = lib\get_user_record($studentId);
-            $headerMessage = get_string('leader_changed_for_student','coursework');
-            $htmlMessage = $this->get_student_html_message();
+        global $USER;
 
-            $this->send_notification($userto, $headerMessage, $htmlMessage);
-        }
-        catch(Exception $e)
-        {
-            cw_print_error_message($e->getMessage());
-        }
+        $cm = $this->cm;
+        $course = $this->course;
+        $userFrom = $USER;
+        $userTo = cg::get_user($studentId); 
+        $messageName = 'leaderreplaced';
+        $messageText = $this->get_student_html_message();
+
+        $notification = new Notification(
+            $cm,
+            $course,
+            $userFrom,
+            $userTo,
+            $messageName,
+            $messageText
+        );
+
+        $notification->send();
     }
 
     private function get_student_html_message() : string 
@@ -93,28 +102,6 @@ class DatabaseEventsHandler
         $notification = get_string('answer_not_require', 'coursework');
 
         return cw_get_html_message($this->cm, $this->course->id, $message, $notification);
-    }
-
-    private function send_notification(\stdClass $userto, string $headerMessage, string $htmlMessage) : void 
-    {
-        global $CFG, $USER;
-
-        $message = new \core\message\message();
-        $message->component = 'mod_coursework';
-        $message->name = 'leader_changed';
-        $message->userfrom = $USER;
-        $message->userto = $userto;
-        $message->subject = $headerMessage;
-        $message->fullmessage = $headerMessage;
-        $message->fullmessageformat = FORMAT_MARKDOWN;
-        $message->fullmessagehtml = $htmlMessage;
-        $message->smallmessage = $headerMessage;
-        $message->notification = '1';
-        $message->contexturl = $CFG->wwwroot.'/coursework/view.php?id='.$this->cm->id;
-        $message->contexturlname = cw_get_coursework_name($this->cm->instance);
-        $message->courseid = $this->course->id;
-
-        message_send($message);
     }
 
     private function log_student_leader_replaced($studentId) : void 

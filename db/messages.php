@@ -64,6 +64,10 @@ $messageproviders = array(
     'back_to_work_state' => array(
         'capability' => 'mod/coursework:is_student'
     ),
+
+    'leaderreplaced' => array(
+        'capability' => 'mod/coursework:leaderreplacement'
+    ),
 );
 
 

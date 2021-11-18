@@ -2,6 +2,8 @@
 
 require_once '../../../../config.php';
 require_once '../../classes/support/leader_replacement/main.php';
+require_once '../../lib/notification.php'; 
+require_once '../../lib/common.php';
 require_once '../../enums.php';
 require_once '../../newlib.php';
 
