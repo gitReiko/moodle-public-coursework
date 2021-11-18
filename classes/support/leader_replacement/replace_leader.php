@@ -120,14 +120,14 @@ class ReplaceLeader
     private function get_distribute_button() : string 
     {
         $attr = array('form' => self::FORM_NAME);
-        $text = get_string('change', 'coursework');
+        $text = get_string('replace', 'coursework');
         return \html_writer::tag('button', $text, $attr);
     }
 
     private function get_back_button() : string 
     {
-        $attr = array('method' => 'post');
-        $btn = \html_writer::start_tag('form');
+        $attr = array('method' => 'post', 'class' => 'back_button_form');
+        $btn = \html_writer::start_tag('form', $attr);
 
         $attr = array(
             'type' => 'hidden',
@@ -156,7 +156,7 @@ class ReplaceLeader
             'id' => self::FORM_NAME,
             'method' => 'post'
         );
-        $form = \html_writer::start_tag('form');
+        $form = \html_writer::start_tag('form', $attr);
 
         $attr = array(
             'type' => 'hidden',

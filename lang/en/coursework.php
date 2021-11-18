@@ -381,3 +381,4 @@ $string['coursework_leaders_overview'] = 'Coursework leader overview';
 $string['coursework_leader_added'] = 'Added coursework leader';
 $string['coursework_leader_changed'] = 'Coursework leader changed';
 $string['coursework_leader_deleted'] = 'Coursework leader deleted';
+$string['replace'] = 'Replace';

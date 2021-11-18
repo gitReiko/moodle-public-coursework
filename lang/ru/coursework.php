@@ -389,3 +389,4 @@ $string['coursework_leaders_overview'] = 'Обзор руководителей 
 $string['coursework_leader_added'] = 'Добавлен руководитель курсовой работы';
 $string['coursework_leader_changed'] = 'Изменён руководитель курсовой работы';
 $string['coursework_leader_deleted'] = 'Удалён руководитель курсовой работы';
+$string['replace'] = 'Заменить';
