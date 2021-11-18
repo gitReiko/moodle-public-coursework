@@ -27,6 +27,7 @@ $PAGE->set_title(get_string('leader_replacement', 'coursework'));
 $PAGE->set_heading(get_string('leader_replacement', 'coursework'));
 
 //$PAGE->requires->css('/mod/coursework/css/config/leaders_settings.css');
+$PAGE->requires->js('/mod/coursework/js/lib/mass_actions_on_students.js');
 
 require_login();
   

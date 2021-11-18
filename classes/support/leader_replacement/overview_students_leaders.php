@@ -62,7 +62,7 @@ class OverviewStudentsLeaders
             'id' => self::LEADER_REPLACEMENT_FORM,
             'method' => 'post'
         );
-        $form = \html_writer::start_tag('form');
+        $form = \html_writer::start_tag('form', $attr);
 
         $attr = array(
             'type' => 'hidden',
