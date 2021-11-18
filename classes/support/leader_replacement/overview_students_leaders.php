@@ -71,6 +71,13 @@ class OverviewStudentsLeaders
         );
         $form.= \html_writer::empty_tag('input', $attr);
 
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::GUI_TYPE,
+            'value' => Main::LEADER_REPLACEMENT
+        );
+        $form.= \html_writer::empty_tag('input', $attr);
+
         $form.= \html_writer::end_tag('form');
 
         return $form;
