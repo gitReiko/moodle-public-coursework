@@ -46,6 +46,7 @@ class DatabaseEventsHandler
         global $DB;
         if($DB->update_record('coursework_students', $record))
         {
+            $this->log_student_leader_replaced($studentId);
             $this->send_notification_to_student($studentId);
         }
         else throw new Exception(get_string('e-tc:leader_not_changed', 'coursework'));
@@ -114,6 +115,18 @@ class DatabaseEventsHandler
         $message->courseid = $this->course->id;
 
         message_send($message);
+    }
+
+    private function log_student_leader_replaced($studentId) : void 
+    {
+        $params = array
+        (
+            'relateduserid' => $studentId,
+            'context' => \context_module::instance($this->cm->id)
+        );
+        
+        $event = \mod_coursework\event\student_leader_replaced::create($params);
+        $event->trigger();
     }
 
 
