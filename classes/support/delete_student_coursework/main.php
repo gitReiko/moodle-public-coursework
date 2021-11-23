@@ -2,6 +2,7 @@
 
 namespace Coursework\Support\DeleteStudentCoursework;
 
+require_once 'page.php';
 require_once 'database.php';
 
 use coursework_lib as cw;
@@ -31,7 +32,8 @@ class Main
 
     public function execute() : string 
     {
-        return $this->get_gui();
+        $page = new Page($this->course, $this->cm);
+        return $page->get_page();
     }
 
     private function is_database_event_isset() : bool 
@@ -75,136 +77,6 @@ class Main
         $conditions = array('coursework'=>$this->cm->instance);
         return $DB->get_records('coursework_students', $conditions);
     }
-
-    private function get_gui() : string
-    {
-        $gui = '';
-
-        if(count($this->students))
-        {
-            $gui.= $this->get_html_form_begin();
-            $gui.= $this->get_remove_distribution_header();
-            $gui.= $this->get_remove_distribution_table();
-            $gui.= $this->get_remove_distribution_button();
-            $gui.= $this->get_hidden_input_params();
-            $gui.= $this->get_html_form_end();
-        }
-        else
-        {
-            $gui.= cw\get_red_message(get_string('no_distributed_students', 'coursework'));
-        }
-
-        return $gui;
-    }
-
-    private function get_html_form_begin() : string 
-    {
-        return '<form onsubmit="return validate_students_removing()" method="post">';
-    }
-
-    private function get_remove_distribution_header() : string 
-    {
-        return '<h3>'.get_string('remove_distribution_header', 'coursework').'</h3>';
-    }
-
-    private function get_remove_distribution_table() : string 
-    {
-        $table = '<table>';
-        $table.= $this->get_remove_distribution_table_header();
-        $table.= $this->get_remove_distribution_table_body();
-        $table.= '</table>';
-        return $table;
-    }
-
-    private function get_remove_distribution_table_header() : string 
-    {
-        $header = '<tr>';
-        $header.= '<td></td>';
-        $header.= '<td>'.get_string('student', 'coursework').'</td>';
-        $header.= '<td>'.get_string('leader', 'coursework').'</td>';
-        $header.= '<td>'.get_string('course', 'coursework').'</td>';
-        $header.= '<td>'.get_string('theme', 'coursework').'</td>';
-        $header.= '</tr>';
-        return $header;
-    }
-
-    private function get_remove_distribution_table_body() : string 
-    {
-        $body = '';
-
-        foreach($this->students as $value)
-        {
-            $body.= '<tr>';
-            $body.= '<td>'.$this->get_remove_distribution_checkbox($value).'</td>';
-            $body.= '<td>'.$this->get_student_name($value).'</td>';
-            $body.= '<td>'.$this->get_teacher_name($value).'</td>';
-            $body.= '<td>'.$this->get_course_name($value).'</td>';
-            $body.= '<td>'.$this->get_theme($value).'</td>';
-            $body.= '</tr>';
-        }
-
-        return $body;
-    }
-
-    private function get_remove_distribution_checkbox(\stdClass $student) : string 
-    {
-        $str = "<input class='removeCheckbox' type='checkbox'";
-        $str.= " name='".STUDENT.ROW.ID."[]' value='{$student->id}' ";
-        if($this->autofocus)
-        {
-            $str.= ' autofocus ';
-        }
-        $str.= '>';
-
-        return $str;
-    }
-
-    private function get_student_name(\stdClass $student) : string 
-    {
-        return cw_get_user_name($student->student);
-    }
-
-    private function get_teacher_name(\stdClass $student) : string 
-    {
-        return cw_get_user_name($student->teacher);
-    }
-
-    private function get_course_name(\stdClass $student) : string 
-    {
-        return cw\get_course_fullname($student->course);
-    }
-
-    private function get_theme(\stdClass $student) 
-    {
-        if(!empty($student->theme))
-        {
-            return cw_get_theme_name($student->theme);
-        }
-        else
-        {
-            return $student->owntheme;
-        }
-    }
-
-    private function get_remove_distribution_button() : string
-    {
-        return '<button>'.get_string('remove_distribution', 'coursework').'</button>';
-    }
-
-    private function get_hidden_input_params() : string 
-    {
-        $params = '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.REMOVE_DISTRIBUTION.'"/>';
-        $params.= '<input type="hidden" name="'.ID.'" value="'.$this->cm->id.'"/>';
-        $params.= '<input type="hidden" name="'.DB_EVENT.'" value="'.REMOVE_DISTRIBUTION.'"/>';
-
-        return $params;
-    }
-
-    private function get_html_form_end() : string
-    {
-        return '</form>';
-    }
-
 
 }
 

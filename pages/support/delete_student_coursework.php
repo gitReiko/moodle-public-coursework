@@ -2,6 +2,9 @@
 
 require_once '../../../../config.php';
 require_once '../../classes/support/delete_student_coursework/main.php';
+require_once '../../lib/getters/students_getter.php';
+require_once '../../lib/getters/common_getter.php';
+require_once '../../lib/enums.php';
 require_once '../../enums.php';
 require_once '../../newlib.php';
 
