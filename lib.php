@@ -104,6 +104,13 @@ function coursework_extend_settings_navigation($settings, $navref)
             $linkname = get_string('leader_replacement', 'coursework');
             $mainCategory->add($linkname, $link, navigation_node::TYPE_SETTING);
         }
+
+        if(has_capability('mod/coursework:deletestudentcoursework', $PAGE->cm->context))
+        {
+            $link = new moodle_url('/mod/coursework/pages/support/delete_student_coursework.php', array('id' => $cm->id));
+            $linkname = get_string('delete_student_coursework', 'coursework');
+            $mainCategory->add($linkname, $link, navigation_node::TYPE_SETTING);
+        }
     }
 
     if(has_capability('mod/coursework:enrollmembers', $PAGE->cm->context))
@@ -152,6 +159,10 @@ function is_user_can_view_support_category() : bool
     global $PAGE;
 
     if(has_capability('mod/coursework:leaderreplacement', $PAGE->cm->context))
+    {
+        return true;
+    }
+    else if(has_capability('mod/coursework:deletestudentcoursework', $PAGE->cm->context))
     {
         return true;
     }
