@@ -77,6 +77,7 @@ class Page
         $header = \html_writer::start_tag('tr');
         $header.= \html_writer::tag('td', '');
         $header.= \html_writer::tag('td', get_string('student', 'coursework'));
+        $header.= \html_writer::tag('td', get_string('state', 'coursework'));
         $header.= \html_writer::tag('td', get_string('leader', 'coursework'));
         $header.= \html_writer::tag('td', get_string('course', 'coursework'));
         $header.= \html_writer::tag('td', get_string('theme', 'coursework'));
@@ -94,6 +95,7 @@ class Page
             $body.= \html_writer::start_tag('tr');
             $body.= \html_writer::tag('td', $this->get_delete_coursework_checkbox($value));
             $body.= \html_writer::tag('td', $this->get_student_name($value));
+            $body.= \html_writer::tag('td', $this->get_state($value));
             $body.= \html_writer::tag('td', $this->get_teacher_name($value));
             $body.= \html_writer::tag('td', $this->get_course_name($value));
             $body.= \html_writer::tag('td', $this->get_theme($value));
@@ -123,6 +125,22 @@ class Page
     private function get_student_name(\stdClass $student) : string 
     {
         return $student->lastname.' '.$student->firstname;
+    }
+
+    private function get_state(\stdClass $student) : string 
+    {
+        if(empty($student->course))
+        {
+            return get_string('leader_not_selected', 'coursework');
+        }
+        else if(empty($student->theme))
+        {
+            return get_string('theme_no_selected', 'coursework');
+        }
+        else 
+        {
+            return get_string('coursework_'.$student->status, 'coursework');
+        }
     }
 
     private function get_teacher_name(\stdClass $student) : string 
