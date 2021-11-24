@@ -76,7 +76,7 @@ $string['not_enough_quota_for_distribution'] = 'Not enough quota for student {$a
 
 // Remove distribution
 $string['remove_distribution'] = 'Remove distribution';
-$string['no_distributed_students'] = 'No one student is distributed, therefore it is impossible to remove the distribution.';
+$string['no_students_who_started_courseworks'] = 'There are no students who have started coursework.';
 $string['remove_distribution_header'] = 'Remove students distribution';
 $string['student'] = 'Student';
 

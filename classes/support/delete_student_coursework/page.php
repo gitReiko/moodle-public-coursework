@@ -28,15 +28,15 @@ class Page
         if(count($this->students))
         {
             $gui.= $this->get_html_form_begin();
-            $gui.= $this->get_remove_distribution_header();
-            $gui.= $this->get_remove_distribution_table();
-            $gui.= $this->get_remove_distribution_button();
+            $gui.= $this->get_page_header();
+            $gui.= $this->get_students_table();
+            $gui.= $this->get_delete_students_courseworks_button();
             $gui.= $this->get_hidden_input_params();
             $gui.= $this->get_html_form_end();
         }
         else
         {
-            $gui.= $this->get_no_distributed_students_message();
+            $gui.= $this->get_students_not_exists();
         }
 
         return $gui;
@@ -57,22 +57,22 @@ class Page
         return \html_writer::start_tag('form', $attr);
     }
 
-    private function get_remove_distribution_header() : string 
+    private function get_page_header() : string 
     {
-        $text = get_string('remove_distribution_header', 'coursework');
+        $text = get_string('delete_student_coursework', 'coursework');
         return \html_writer::tag('h3', $text);
     }
 
-    private function get_remove_distribution_table() : string 
+    private function get_students_table() : string 
     {
         $table = \html_writer::start_tag('table');
-        $table.= $this->get_remove_distribution_table_header();
-        $table.= $this->get_remove_distribution_table_body();
+        $table.= $this->get_students_table_header();
+        $table.= $this->get_students_table_body();
         $table.= \html_writer::end_tag('table');
         return $table;
     }
 
-    private function get_remove_distribution_table_header() : string 
+    private function get_students_table_header() : string 
     {
         $header = \html_writer::start_tag('tr');
         $header.= \html_writer::tag('td', '');
@@ -85,14 +85,14 @@ class Page
         return $header;
     }
 
-    private function get_remove_distribution_table_body() : string 
+    private function get_students_table_body() : string 
     {
         $body = '';
 
         foreach($this->students as $value)
         {
             $body.= \html_writer::start_tag('tr');
-            $body.= \html_writer::tag('td', $this->get_remove_distribution_checkbox($value));
+            $body.= \html_writer::tag('td', $this->get_delete_coursework_checkbox($value));
             $body.= \html_writer::tag('td', $this->get_student_name($value));
             $body.= \html_writer::tag('td', $this->get_teacher_name($value));
             $body.= \html_writer::tag('td', $this->get_course_name($value));
@@ -103,7 +103,7 @@ class Page
         return $body;
     }
 
-    private function get_remove_distribution_checkbox(\stdClass $student) : string 
+    private function get_delete_coursework_checkbox(\stdClass $student) : string 
     {
         $attr = array(
             'class' => 'removeCheckbox',
@@ -154,7 +154,7 @@ class Page
         return $student->theme;
     }
 
-    private function get_remove_distribution_button() : string
+    private function get_delete_students_courseworks_button() : string
     {
         $text = get_string('remove_distribution', 'coursework');
         return \html_writer::tag('button', $text);
@@ -185,10 +185,10 @@ class Page
         return \html_writer::end_tag('form');
     }
 
-    private function get_no_distributed_students_message()
+    private function get_students_not_exists()
     {
         $attr = array('class' => 'red-message');
-        $text = get_string('no_distributed_students', 'coursework');
+        $text = get_string('no_students_who_started_courseworks', 'coursework');
         return \html_writer::tag('span', $text, $attr);
     }
 

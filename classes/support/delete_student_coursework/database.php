@@ -20,15 +20,15 @@ class Database
 
     public function execute()
     {
-        $this->remove_students_distribution();
+        $this->delete_students_courseworks();
     }
 
-    private function remove_students_distribution()
+    private function delete_students_courseworks()
     {
         foreach($this->studentsId as $studentId)
         {
             $rowid = $this->get_student_row_id($studentId);
-            $this->remove_student($rowid, $studentId);
+            $this->delete_student_coursework($rowid, $studentId);
         }
     }
 
@@ -42,7 +42,7 @@ class Database
         return $DB->get_field('coursework_students', 'id', $where);
     }
 
-    private function remove_student(int $rowid, int $studentId)
+    private function delete_student_coursework(int $rowid, int $studentId)
     {
         global $DB;
         if($DB->delete_records('coursework_students', array('id'=>$rowid)))

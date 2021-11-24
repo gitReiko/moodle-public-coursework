@@ -81,7 +81,7 @@ $string['not_enough_quota_for_distribution'] = 'Не достаточно кво
 
 // Remove distribution
 $string['remove_distribution'] = 'Отменить распределение';
-$string['no_distributed_students'] = 'Ни один студент не распределён, поэтому отменить распределение невозможно.';
+$string['no_students_who_started_courseworks'] = 'Нет студентов, которые начали курсовую работу.';
 $string['remove_distribution_header'] = 'Отменить распределение студентов';
 $string['student'] = 'Студент';
 
