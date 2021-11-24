@@ -54,6 +54,16 @@ class Notification
         message_send($message);
     }
 
+    public static function get_sender_data() : stdClass 
+    {
+        global $USER;
+        $data = new stdClass;
+        $data->teacher = cg::get_user_name($USER->id);
+        $data->date = date('d-m-Y');
+        $data->time = date('G:i');
+        return $data;
+    }
+
     private function get_full_html_message() : string 
     {
         $htmlMessage = $this->get_links_tree();

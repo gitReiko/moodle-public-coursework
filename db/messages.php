@@ -68,6 +68,11 @@ $messageproviders = array(
     'leaderreplaced' => array(
         'capability' => 'mod/coursework:leaderreplacement'
     ),
+
+    'studentworkdeleted' => array(
+        'capability' => 'mod/coursework:deletestudentcoursework'
+    ),
+
 );
 
 

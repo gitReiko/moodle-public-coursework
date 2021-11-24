@@ -4,7 +4,6 @@ namespace Coursework\Support\LeaderReplacement;
 
 use Coursework\Lib\Getters\CommonGetter as cg;
 use Coursework\Lib\Notification;
-use coursework_lib as lib;
 
 class DatabaseEventsHandler 
 {
@@ -81,7 +80,7 @@ class DatabaseEventsHandler
         $userFrom = $USER;
         $userTo = cg::get_user($studentId); 
         $messageName = 'leaderreplaced';
-        $messageText = $this->get_student_html_message();
+        $messageText = $this->get_message_text();
 
         $notification = new Notification(
             $cm,
@@ -95,13 +94,12 @@ class DatabaseEventsHandler
         $notification->send();
     }
 
-    private function get_student_html_message() : string 
+    private function get_message_text() : string 
     {
-        $params = cw_prepare_data_for_message();
-        $message = get_string('leader_changed_for_student','coursework');
-        $notification = get_string('answer_not_require', 'coursework');
-
-        return cw_get_html_message($this->cm, $this->course->id, $message, $notification);
+        $params = Notification::get_sender_data();
+        $message = get_string('leader_changed_for_student','coursework', $params);
+        $message.= get_string('answer_not_require', 'coursework');
+        return $message;
     }
 
     private function log_student_leader_replaced($studentId) : void 
