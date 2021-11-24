@@ -108,7 +108,7 @@ class Page
         $attr = array(
             'class' => 'removeCheckbox',
             'type' => 'checkbox',
-            'name' => Main::STUDENT_ROW_ID.'[]',
+            'name' => Main::STUDENT_ID.'[]',
             'value' => $student->id
         );
 

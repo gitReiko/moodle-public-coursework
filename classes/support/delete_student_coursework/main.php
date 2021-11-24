@@ -8,7 +8,7 @@ require_once 'database.php';
 class Main 
 {
     const DB_EVENT = 'db_event';
-    const STUDENT_ROW_ID = 'student_row_id';
+    const STUDENT_ID = 'student_id';
 
     private $course;
     private $cm;

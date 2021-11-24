@@ -12,15 +12,13 @@ class Database
 {
     private $course;
     private $cm;
-    private $studentsRowId;
+    private $studentsId;
 
     function __construct($course, $cm)
     {
         $this->course = $course;
         $this->cm = $cm;
-        $this->studentsRowId = optional_param_array(Main::STUDENT_ROW_ID, null, PARAM_TEXT);
-
-        print_r($this->studentsRowId);
+        $this->studentsId = optional_param_array(Main::STUDENT_ID, null, PARAM_TEXT);
     }
 
     public function execute()
@@ -30,18 +28,21 @@ class Database
 
     private function remove_students_distribution()
     {
-        foreach($this->studentsRowId as $rowid)
+        foreach($this->studentsId as $studentId)
         {
-            $studentId = $this->get_student_id($rowid);
+            $rowid = $this->get_student_row_id($studentId);
             $this->remove_student($rowid, $studentId);
         }
     }
 
-    private function get_student_id(int $rowid)
+    private function get_student_row_id(int $studentId)
     {
         global $DB;
-        $where = array('id'=> $rowid);
-        return $DB->get_field('coursework_students', 'student', $where);
+        $where = array(
+            'coursework'=> $this->cm->instance,
+            'student' => $studentId
+        );
+        return $DB->get_field('coursework_students', 'id', $where);
     }
 
     private function remove_student(int $rowid, int $studentId)
