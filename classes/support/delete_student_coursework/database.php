@@ -19,6 +19,8 @@ class Database
         $this->course = $course;
         $this->cm = $cm;
         $this->studentsRowId = optional_param_array(Main::STUDENT_ROW_ID, null, PARAM_TEXT);
+
+        print_r($this->studentsRowId);
     }
 
     public function execute()
@@ -38,8 +40,8 @@ class Database
     private function get_student_id(int $rowid)
     {
         global $DB;
-        $query = $DB->get_record('coursework_students', array('id'=> $rowid));
-        return $query->student;
+        $where = array('id'=> $rowid);
+        return $DB->get_field('coursework_students', 'student', $where);
     }
 
     private function remove_student(int $rowid, int $studentId)

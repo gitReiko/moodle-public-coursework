@@ -33,6 +33,10 @@ $attr = array('href' => '/mod/coursework/pages/support/leader_replacement.php?id
 $text = \html_writer::tag('p', get_string('leader_replacement', 'coursework'));
 echo \html_writer::tag('a', $text, $attr);
 
+$attr = array('href' => '/mod/coursework/pages/support/delete_student_coursework.php?id='.$id);
+$text = \html_writer::tag('p', get_string('delete_student_coursework', 'coursework'));
+echo \html_writer::tag('a', $text, $attr);
+
 
 echo $OUTPUT->footer();
 
