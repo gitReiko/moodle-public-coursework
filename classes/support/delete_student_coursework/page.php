@@ -3,6 +3,7 @@
 namespace Coursework\Support\DeleteStudentCoursework;
 
 use Coursework\Lib\Getters\StudentsGetter as sg;
+use Coursework\Lib\Getters\CommonGetter as cg;
 
 class Page 
 {
@@ -17,7 +18,7 @@ class Page
     {
         $this->course = $course;
         $this->cm = $cm;
-        $this->students = sg::get_all_students($this->cm);
+        $this->students = $this->get_students();
     }
 
     public function get_page() : string
@@ -39,6 +40,12 @@ class Page
         }
 
         return $gui;
+    }
+
+    private function get_students() 
+    {
+        $students = sg::get_all_students($this->cm);
+        return sg::add_works_to_students($this->cm->instance, $students);
     }
 
     private function get_html_form_begin() : string 
@@ -115,29 +122,36 @@ class Page
 
     private function get_student_name(\stdClass $student) : string 
     {
-        return cw_get_user_name($student->student);
+        return $student->lastname.' '.$student->firstname;
     }
 
     private function get_teacher_name(\stdClass $student) : string 
     {
-        return cw_get_user_name($student->teacher);
+        if(empty($student->teacher))
+        {
+            return '';
+        }
+        else 
+        {
+            return cg::get_user_name($student->teacher);
+        }
     }
 
     private function get_course_name(\stdClass $student) : string 
     {
-        return cw\get_course_fullname($student->course);
+        if(empty($student->course))
+        {
+            return '';
+        }
+        else 
+        {
+            return cg::get_course_name($student->course);
+        }
     }
 
     private function get_theme(\stdClass $student) 
     {
-        if(!empty($student->theme))
-        {
-            return cw_get_theme_name($student->theme);
-        }
-        else
-        {
-            return $student->owntheme;
-        }
+        return $student->theme;
     }
 
     private function get_remove_distribution_button() : string
