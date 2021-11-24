@@ -29,7 +29,7 @@ $PAGE->set_cm($cm);
 $PAGE->set_title(get_string('delete_student_coursework', 'coursework'));
 $PAGE->set_heading(get_string('delete_student_coursework', 'coursework'));
 
-//$PAGE->requires->css('/mod/coursework/css/support/leader_replacement.css');
+$PAGE->requires->css('/mod/coursework/css/common.css');
 //$PAGE->requires->js('/mod/coursework/js/lib/mass_actions_on_students.js');
 
 require_login();

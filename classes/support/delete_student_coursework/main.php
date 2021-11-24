@@ -5,8 +5,6 @@ namespace Coursework\Support\DeleteStudentCoursework;
 require_once 'page.php';
 require_once 'database.php';
 
-use coursework_lib as cw;
-
 class Main 
 {
     const DB_EVENT = 'db_event';

@@ -36,7 +36,7 @@ class Page
         }
         else
         {
-            $gui.= cw\get_red_message(get_string('no_distributed_students', 'coursework'));
+            $gui.= $this->get_no_distributed_students_message();
         }
 
         return $gui;
@@ -183,6 +183,13 @@ class Page
     private function get_html_form_end() : string
     {
         return \html_writer::end_tag('form');
+    }
+
+    private function get_no_distributed_students_message()
+    {
+        $attr = array('class' => 'red-message');
+        $text = get_string('no_distributed_students', 'coursework');
+        return \html_writer::tag('span', $text, $attr);
     }
 
 
