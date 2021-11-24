@@ -5,9 +5,6 @@ namespace Coursework\Support\DeleteStudentCoursework;
 use Coursework\Lib\Getters\CommonGetter as cg;
 use Coursework\Lib\Notification;
 
-/**
- * @todo Test notification send
- */
 class Database  
 {
     private $course;
