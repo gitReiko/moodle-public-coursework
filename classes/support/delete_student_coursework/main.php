@@ -9,6 +9,9 @@ use coursework_lib as cw;
 
 class Main 
 {
+    const DB_EVENT = 'db_event';
+    const STUDENT_ROW_ID = 'student_row_id';
+
     private $course;
     private $cm;
 
@@ -38,7 +41,7 @@ class Main
 
     private function is_database_event_isset() : bool 
     {
-        $dbEvent = optional_param(DB_EVENT, null, PARAM_TEXT);
+        $dbEvent = optional_param(Main::DB_EVENT, null, PARAM_TEXT);
 
         if(isset($dbEvent)) return true;
         else return false;

@@ -17,7 +17,7 @@ class Database
     {
         $this->course = $course;
         $this->cm = $cm;
-        $this->studentsRowId = optional_param_array(STUDENT.ROW.ID, null, PARAM_TEXT);
+        $this->studentsRowId = optional_param_array(Main::STUDENT_ROW_ID, null, PARAM_TEXT);
     }
 
     public function execute()

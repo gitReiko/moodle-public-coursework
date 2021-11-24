@@ -108,7 +108,7 @@ class Page
         $attr = array(
             'class' => 'removeCheckbox',
             'type' => 'checkbox',
-            'name' => STUDENT.ROW.ID.'[]',
+            'name' => Main::STUDENT_ROW_ID.'[]',
             'value' => $student->id
         );
 
@@ -162,24 +162,18 @@ class Page
 
     private function get_hidden_input_params() : string 
     {
-        $attr = array(
-            'type' => 'hidden',
-            'name' => CONFIG_MODULE,
-            'value' => REMOVE_DISTRIBUTION
-        );
-        $params = \html_writer::empty_tag('input', $attr);
 
         $attr = array(
             'type' => 'hidden',
             'name' => ID,
             'value' => $this->cm->id
         );
-        $params.= \html_writer::empty_tag('input', $attr);
+        $params = \html_writer::empty_tag('input', $attr);
 
         $attr = array(
             'type' => 'hidden',
-            'name' => DB_EVENT,
-            'value' => REMOVE_DISTRIBUTION
+            'name' => Main::DB_EVENT,
+            'value' => Main::DB_EVENT
         );
         $params.= \html_writer::empty_tag('input', $attr);
 
