@@ -12,8 +12,6 @@ class Page
 
     private $students;
 
-    private $autofocus = true;
-
     function __construct($course, $cm)
     {
         $this->course = $course;
@@ -65,7 +63,8 @@ class Page
 
     private function get_students_table() : string 
     {
-        $table = \html_writer::start_tag('table');
+        $attr = array('class' => 'delete_student_coursework');
+        $table = \html_writer::start_tag('table', $attr);
         $table.= $this->get_students_table_header();
         $table.= $this->get_students_table_body();
         $table.= \html_writer::end_tag('table');
@@ -74,7 +73,8 @@ class Page
 
     private function get_students_table_header() : string 
     {
-        $header = \html_writer::start_tag('tr');
+        $header = \html_writer::start_tag('thead');
+        $header.= \html_writer::start_tag('tr');
         $header.= \html_writer::tag('td', '');
         $header.= \html_writer::tag('td', get_string('student', 'coursework'));
         $header.= \html_writer::tag('td', get_string('state', 'coursework'));
@@ -82,42 +82,77 @@ class Page
         $header.= \html_writer::tag('td', get_string('course', 'coursework'));
         $header.= \html_writer::tag('td', get_string('theme', 'coursework'));
         $header.= \html_writer::end_tag('tr');
+        $header.= \html_writer::end_tag('thead');
 
         return $header;
     }
 
     private function get_students_table_body() : string 
     {
-        $body = '';
+        $i = 1;
+        $body = \html_writer::start_tag('tbody');;
 
-        foreach($this->students as $value)
+        foreach($this->students as $student)
         {
-            $body.= \html_writer::start_tag('tr');
-            $body.= \html_writer::tag('td', $this->get_delete_coursework_checkbox($value));
-            $body.= \html_writer::tag('td', $this->get_student_name($value));
-            $body.= \html_writer::tag('td', $this->get_state($value));
-            $body.= \html_writer::tag('td', $this->get_teacher_name($value));
-            $body.= \html_writer::tag('td', $this->get_course_name($value));
-            $body.= \html_writer::tag('td', $this->get_theme($value));
-            $body.= \html_writer::end_tag('tr');
+            if($this->is_students_select_course($student))
+            {
+                $body.= $this->get_action_table_row($student, $i);
+            }
+            else
+            {
+                $body.= $this->get_empty_table_row($student);
+            }
+
+            $i++;
         }
+
+        $body.= \html_writer::end_tag('tbody');
 
         return $body;
     }
 
-    private function get_delete_coursework_checkbox(\stdClass $student) : string 
+    private function get_action_table_row(\stdClass $student, int $i)
     {
         $attr = array(
+            'id' => 'student-row-'.$i,
+            'onclick' => 'toggle_student_checkbox(`'.$i.'`)'
+        );
+        $row = \html_writer::start_tag('tr', $attr);
+        $row.= \html_writer::tag('td', $this->get_delete_coursework_checkbox($student, $i));
+        $row.= \html_writer::tag('td', $this->get_student_name($student));
+        $row.= \html_writer::tag('td', $this->get_state($student));
+        $row.= \html_writer::tag('td', $this->get_teacher_name($student));
+        $row.= \html_writer::tag('td', $this->get_course_name($student));
+        $row.= \html_writer::tag('td', $this->get_theme($student));
+        $row.= \html_writer::end_tag('tr');
+
+        return $row;
+    }
+
+    private function get_empty_table_row(\stdClass $student)
+    {
+        $attr = array('class' => 'empty_row');
+        $row = \html_writer::start_tag('tr', $attr);
+        $row.= \html_writer::tag('td', '');
+        $row.= \html_writer::tag('td', $this->get_student_name($student));
+        $attr = array('colspan' => 4);
+        $row.= \html_writer::tag('td', $this->get_state($student), $attr);
+        $row.= \html_writer::end_tag('tr');
+
+        return $row;
+    }
+
+    private function get_delete_coursework_checkbox(\stdClass $student, int $i) : string 
+    {
+        $attr = array(
+            'id' => 'checkbox-row-'.$i,
             'class' => 'removeCheckbox',
             'type' => 'checkbox',
             'name' => Main::STUDENT_ID.'[]',
-            'value' => $student->id
+            'value' => $student->id,
+            'autocomplete' => 'off',
+            'onclick' => 'change_row_color(`'.$i.'`)'
         );
-
-        if($this->autofocus)
-        {
-            $attr = array_merge($attr, array('autofocus' => 'autofocus'));
-        }
 
         return \html_writer::empty_tag('input', $attr);
     }
@@ -129,17 +164,41 @@ class Page
 
     private function get_state(\stdClass $student) : string 
     {
-        if(empty($student->course))
+        if(!$this->is_students_select_course($student))
         {
             return get_string('leader_not_selected', 'coursework');
         }
-        else if(empty($student->theme))
+        else if(!$this->is_students_select_theme($student))
         {
             return get_string('theme_no_selected', 'coursework');
         }
         else 
         {
             return get_string('coursework_'.$student->status, 'coursework');
+        }
+    }
+
+    private function is_students_select_course(\stdClass $student) : bool 
+    {
+        if(empty($student->course))
+        {
+            return false;
+        }
+        else 
+        {
+            return true;
+        }
+    }
+
+    private function is_students_select_theme(\stdClass $student) : bool 
+    {
+        if(empty($student->theme))
+        {
+            return false;
+        }
+        else 
+        {
+            return true;
         }
     }
 

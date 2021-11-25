@@ -1,0 +1,48 @@
+
+table.delete_student_coursework
+{
+    border-collapse: collapse;
+    cursor: default;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+table.delete_student_coursework tbody tr:hover 
+{
+    background: #f5f5dc;
+}
+
+table.delete_student_coursework thead tr td 
+{
+    font-weight: bold;
+    text-align: center;
+}
+
+table.delete_student_coursework tbody tr.checked  
+{
+    color: #1b463a;
+    background: #ace0c6;
+}
+
+table.delete_student_coursework tbody tr.checked:hover 
+{
+    color: #1b463a;
+    background: #9ac9b2;
+}
+
+table.delete_student_coursework tr td 
+{
+    cursor: pointer;
+    padding: 3px 5px;
+    vertical-align: top;
+    text-align: left;
+    font-size: small;
+    border: 1px solid dimgray;
+}
+
+table.delete_student_coursework tr.empty_row td 
+{
+    color: #777 !important;
+    background: #eee !important;
+}
+

@@ -32,7 +32,8 @@ $PAGE->set_title(get_string('delete_student_coursework', 'coursework'));
 $PAGE->set_heading(get_string('delete_student_coursework', 'coursework'));
 
 $PAGE->requires->css('/mod/coursework/css/common.css');
-//$PAGE->requires->js('/mod/coursework/js/lib/mass_actions_on_students.js');
+$PAGE->requires->css('/mod/coursework/css/support/delete_student_coursework.css');
+$PAGE->requires->js('/mod/coursework/js/support/delete_student_coursework.js');
 
 require_login();
   
