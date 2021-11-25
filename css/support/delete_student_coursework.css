@@ -14,6 +14,7 @@ table.delete_student_coursework tbody tr:hover
 
 table.delete_student_coursework thead tr td 
 {
+    cursor: default;
     font-weight: bold;
     text-align: center;
 }
@@ -42,7 +43,12 @@ table.delete_student_coursework tr td
 
 table.delete_student_coursework tr.empty_row td 
 {
+    cursor: default;
     color: #777 !important;
     background: #eee !important;
 }
 
+button[disabled]
+{
+    cursor: not-allowed;
+}

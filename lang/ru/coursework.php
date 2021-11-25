@@ -397,3 +397,4 @@ $string['coursework_not_ready'] = 'Курсовая работа не готов
 $string['coursework_ready'] = 'Курсовая работа готова';
 $string['coursework_need_to_fix'] = 'Курсовую работу необходимо исправить';
 $string['coursework_sent_to_check'] = 'Курсовая работа отправлена на проверку';
+$string['delete_selected_courseworks'] = 'Удалить выбранные курсовые работы';

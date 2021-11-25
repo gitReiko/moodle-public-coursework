@@ -146,12 +146,13 @@ class Page
     {
         $attr = array(
             'id' => 'checkbox-row-'.$i,
-            'class' => 'removeCheckbox',
+            'class' => 'delete_checkboxes',
             'type' => 'checkbox',
             'name' => Main::STUDENT_ID.'[]',
             'value' => $student->id,
             'autocomplete' => 'off',
-            'onclick' => 'change_row_color(`'.$i.'`)'
+            'onclick' => 'toggle_student_checkbox(`'.$i.'`);'
+            .'change_row_color(`'.$i.'`);'
         );
 
         return \html_writer::empty_tag('input', $attr);
@@ -233,8 +234,12 @@ class Page
 
     private function get_delete_students_courseworks_button() : string
     {
-        $text = get_string('remove_distribution', 'coursework');
-        return \html_writer::tag('button', $text);
+        $attr = array(
+            'id' => 'delete_button',
+            'disabled' => 'disabled'
+        );
+        $text = get_string('delete_selected_courseworks', 'coursework');
+        return \html_writer::tag('button', $text, $attr);
     }
 
     private function get_hidden_input_params() : string 

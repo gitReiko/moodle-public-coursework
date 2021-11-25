@@ -389,3 +389,4 @@ $string['coursework_not_ready'] = 'Coursework not ready';
 $string['coursework_ready'] = 'Coursework ready';
 $string['coursework_need_to_fix'] = 'Coursework need to be fixed';
 $string['coursework_sent_to_check'] = 'Coursework sent to check';
+$string['delete_selected_courseworks'] = 'Delete selected coursework';
