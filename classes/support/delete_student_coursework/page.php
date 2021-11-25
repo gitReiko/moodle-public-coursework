@@ -22,11 +22,11 @@ class Page
     public function get_page() : string
     {
         $gui = '';
+        $gui.= $this->get_page_header();
 
         if(count($this->students))
         {
             $gui.= $this->get_html_form_begin();
-            $gui.= $this->get_page_header();
             $gui.= $this->get_students_table();
             $gui.= $this->get_delete_students_courseworks_button();
             $gui.= $this->get_hidden_input_params();
