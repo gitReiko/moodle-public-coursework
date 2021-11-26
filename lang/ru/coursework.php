@@ -398,3 +398,5 @@ $string['coursework_ready'] = 'Курсовая работа готова';
 $string['coursework_need_to_fix'] = 'Курсовую работу необходимо исправить';
 $string['coursework_sent_to_check'] = 'Курсовая работа отправлена на проверку';
 $string['delete_selected_courseworks'] = 'Удалить выбранные курсовые работы';
+$string['select_student_to_activate_btn'] = 'Чтобы активировать кнопку, выберите не менее 1-го студента.';
+$string['alert_delete_student_courseworks'] = 'Вы уверены, что хотите удалить работы выбранных студентов?\nЭто действие необратимо. Вся информация связанная с работами студентов будет удалена.';

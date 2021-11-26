@@ -1,4 +1,11 @@
 
+require(['jquery'], function($)
+{
+    $(document).ready(function() {
+        document.getElementById('delete_button').setAttribute('disabled', 'disabled');
+    });
+});
+
 function toggle_student_checkbox(i)
 {
     change_row_color(i);
@@ -8,13 +15,16 @@ function toggle_student_checkbox(i)
 
 function toggle_checkbox(i)
 {
-    require(['jquery'], function($)
+    let checkbox = document.getElementById('checkbox-row-'+i);
+
+    if(checkbox.checked)
     {
-        $('#checkbox-row-'+i).prop('checked', function(index, attr)
-        {
-            return attr == true ? false : true;
-        });
-    });
+        checkbox.removeAttribute('checked');
+    }
+    else 
+    {
+        checkbox.setAttribute('checked', 'checked');
+    }
 }
 
 function change_row_color(i)
@@ -42,3 +52,10 @@ function show_hide_delete_button()
     }
 }
 
+function confirm_students_removing(removeText)
+{
+    let isConfirm = confirm(removeText);
+
+    if(isConfirm) return true;
+    else return false;
+}

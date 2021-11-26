@@ -48,8 +48,9 @@ class Page
 
     private function get_html_form_begin() : string 
     {
+        $removeConf = get_string('alert_delete_student_courseworks', 'coursework');
         $attr = array(
-            'onsubmit' => 'return validate_students_removing()',
+            'onsubmit' => 'return confirm_students_removing(`'.$removeConf.'`)',
             'method' => 'post'
         );
         return \html_writer::start_tag('form', $attr);
@@ -236,7 +237,7 @@ class Page
     {
         $attr = array(
             'id' => 'delete_button',
-            'disabled' => 'disabled'
+            'title' => get_string('select_student_to_activate_btn', 'coursework')
         );
         $text = get_string('delete_selected_courseworks', 'coursework');
         return \html_writer::tag('button', $text, $attr);
