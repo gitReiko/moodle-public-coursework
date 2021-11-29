@@ -78,7 +78,7 @@ function coursework_extend_settings_navigation($settings, $navref)
         return;
     }
 
-    if(has_capability('mod/coursework:enrollmembers', $PAGE->cm->context))
+    if(has_capability('mod/coursework:overviewquota', $PAGE->cm->context))
     {
         $link = new moodle_url('/mod/coursework/quota_overview.php', array('id' => $cm->id));
         $linkname = get_string('quota_overview', 'coursework');
