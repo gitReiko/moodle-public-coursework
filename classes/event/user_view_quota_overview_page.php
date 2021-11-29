@@ -45,7 +45,7 @@ class user_view_quota_overview_page extends \core\event\base {
  
     public static function get_name() {
     
-        return get_string('user_view_quota_overview_page', 'coursework');
+        return get_string('quota_viewed', 'coursework');
     }
  
     public function get_description() 
@@ -54,7 +54,7 @@ class user_view_quota_overview_page extends \core\event\base {
     }
  
     public function get_url() {
-        return new \moodle_url('/mod/coursework/view.php', array('id' => $this->contextinstanceid));
+        return new \moodle_url('/mod/coursework/pages/quota_overview.php', array('id' => $this->contextinstanceid));
     }
  
     public function get_legacy_logdata() {

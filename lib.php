@@ -80,7 +80,7 @@ function coursework_extend_settings_navigation($settings, $navref)
 
     if(has_capability('mod/coursework:overviewquota', $PAGE->cm->context))
     {
-        $link = new moodle_url('/mod/coursework/quota_overview.php', array('id' => $cm->id));
+        $link = new moodle_url('/mod/coursework/pages/quota_overview.php', array('id' => $cm->id));
         $linkname = get_string('quota_overview', 'coursework');
         $navref->add($linkname, $link, navigation_node::TYPE_SETTING);
     }
