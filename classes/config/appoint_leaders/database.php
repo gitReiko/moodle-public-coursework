@@ -34,7 +34,9 @@ class Database
         }
         catch(Exception $e)
         {
-            cw_print_error_message($e->getMessage());
+            $attr = array('class' => 'red-message-box');
+            $text = $e->getMessage();
+            echo \html_writer::tag('p', $text, $attr);
         }
     }
 

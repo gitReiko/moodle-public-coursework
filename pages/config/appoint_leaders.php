@@ -26,6 +26,7 @@ $PAGE->set_cm($cm);
 $PAGE->set_title(get_string('appoint_leaders', 'coursework'));
 $PAGE->set_heading(get_string('appoint_leaders', 'coursework'));
 
+$PAGE->requires->css('/mod/coursework/css/common.css');
 $PAGE->requires->css('/mod/coursework/css/config/appoint_leaders.css');
 
 require_login();
