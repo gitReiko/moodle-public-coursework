@@ -51,6 +51,7 @@ class Database
             $this->delete_student_files($studentId);
             $this->delete_teacher_files($studentId);
             $this->send_message_to_student($studentId);
+            $this->log_student_coursework_deleted($studentId);
         }
         else throw new Exception(get_string('e:student-not-deleted', 'coursework'));
     }
@@ -108,6 +109,18 @@ class Database
                 $file->delete();
             }
         }
+    }
+
+    private function log_student_coursework_deleted($studentId) : void 
+    {
+        $params = array
+        (
+            'relateduserid' => $studentId,
+            'context' => \context_module::instance($this->cm->id)
+        );
+        
+        $event = \mod_coursework\event\student_coursework_deleted::create($params);
+        $event->trigger();
     }
 
 }
