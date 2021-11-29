@@ -29,7 +29,7 @@ echo $OUTPUT->header();
 $text = get_string('config_list', 'coursework');
 echo \html_writer::tag('h2', $text);
 
-$attr = array('href' => '/mod/coursework/pages/config/leaders_setting.php?id='.$id);
+$attr = array('href' => '/mod/coursework/pages/config/appoint_leaders.php?id='.$id);
 $text = \html_writer::tag('p', get_string('leaders_setting', 'coursework'));
 echo \html_writer::tag('a', $text, $attr);
 

@@ -1,37 +1,28 @@
 <?php
 
-namespace Coursework\Config\LeadersSetting;
+namespace Coursework\Config\AppointLeaders;
 
-class LeadersEditGUI extends LeadersActionGUI 
+class AddLeader extends LeaderAction 
 {
-    private $id;
-    private $leader;
-    private $course_;
-    private $quota;
 
     function __construct($course, $cm)
     {
         parent::__construct($course, $cm);
-
-        $this->id = optional_param(Main::LEADER_ROW_ID, null, PARAM_INT);
-        $this->leader = optional_param(Main::LEADER_ID, null, PARAM_INT);
-        $this->course_ = optional_param(Main::COURSE_ID, null, PARAM_INT);
-        $this->quota = optional_param(Main::QUOTA, null, PARAM_INT);
     }
 
     protected function get_action_header() : string
     {
-        return \html_writer::tag('h3', get_string('edit_leader_header', 'coursework'));
+        return \html_writer::tag('h3', get_string('add_leader_header', 'coursework'));
     }
 
     protected function get_leader_select() : string 
     {
-        return $this->get_select($this->courseTeachers, Main::LEADER_ID, $this->leader, true);
+        return $this->get_select($this->courseTeachers, Main::LEADER_ID, null, true);
     }
 
     protected function get_course_select() : string 
     {
-        return $this->get_select($this->siteCourses, Main::COURSE_ID, $this->course_);
+        return $this->get_select($this->siteCourses, Main::COURSE_ID);
     }
 
     protected function get_quota_input() : string 
@@ -39,7 +30,6 @@ class LeadersEditGUI extends LeadersActionGUI
         $attr = array(
             'type' => 'number',
             'name' => Main::QUOTA,
-            'value' => $this->quota,
             'autocomplete' => 'off',
             'required' => 'required',
             'min' => 1
@@ -52,7 +42,7 @@ class LeadersEditGUI extends LeadersActionGUI
         $attr = array(
             'type' => 'hidden',
             'name' => Main::DATABASE_EVENT,
-            'value' => Main::EDIT_LEADER
+            'value' => Main::ADD_LEADER
         );
         $params = \html_writer::empty_tag('input', $attr);
 
@@ -63,13 +53,6 @@ class LeadersEditGUI extends LeadersActionGUI
         );
         $params.= \html_writer::empty_tag('input', $attr);
 
-        $attr = array(
-            'type' => 'hidden',
-            'name' => Main::LEADER_ROW_ID,
-            'value' => $this->id
-        );
-        $params.= \html_writer::empty_tag('input', $attr);
-
         return $params;
     }
 
@@ -77,8 +60,8 @@ class LeadersEditGUI extends LeadersActionGUI
     {
         $attr = array(
             'type' => 'submit',
-            'form' => LeadersActionGUI::ACTION_FORM,
-            'value' => get_string('save_changes', 'coursework')
+            'form' => LeaderAction::ACTION_FORM,
+            'value' => get_string('add_leader', 'coursework')
         );
         return \html_writer::empty_tag('input', $attr);
     }
@@ -86,4 +69,5 @@ class LeadersEditGUI extends LeadersActionGUI
 
 
 }
+
 

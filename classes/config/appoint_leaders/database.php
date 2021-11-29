@@ -1,8 +1,8 @@
 <?php
 
-namespace Coursework\Config\LeadersSetting;
+namespace Coursework\Config\AppointLeaders;
 
-class LeadersEventsHandler
+class Database
 {
     private $course;
     private $cm;

@@ -1,10 +1,10 @@
 <?php
 
-namespace Coursework\Config\LeadersSetting;
+namespace Coursework\Config\AppointLeaders;
 
 use coursework_lib as lib;
 
-abstract class LeadersActionGUI 
+abstract class LeaderAction
 {
     protected $course;
     protected $cm;

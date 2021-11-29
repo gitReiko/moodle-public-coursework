@@ -1,8 +1,8 @@
 <?php
 
-namespace Coursework\Config\LeadersSetting;
+namespace Coursework\Config\AppointLeaders;
 
-class LeadersOverviewGUI
+class OverviewLeaders
 {
     private $course;
     private $cm;
@@ -219,7 +219,7 @@ class LeadersOverviewGUI
 
         $attr = array(
             'type' => 'submit',
-            'value' => get_string('add_teacher', 'coursework')
+            'value' => get_string('add_leader', 'coursework')
         );
         $btn.= \html_writer::empty_tag('input', $attr);
 

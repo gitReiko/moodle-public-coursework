@@ -393,3 +393,4 @@ $string['delete_selected_courseworks'] = 'Delete selected coursework';
 $string['select_student_to_activate_btn'] = 'Select at least 1 student to activate the button.';
 $string['alert_delete_student_courseworks'] = 'Are you sure you want to delete the work of the selected students?\nThis action is irreversible. All information related to the work of students will be deleted.';
 $string['student_coursework_deleted'] = 'Student coursework deleted';
+$string['appoint_leaders'] = 'Appoint leaders';

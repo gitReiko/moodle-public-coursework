@@ -54,7 +54,7 @@ class coursework_leader_changed extends \core\event\base {
     }
  
     public function get_url() {
-        return new \moodle_url('/mod/coursework/pages/config/leaders_setting.php', array('id' => $this->contextinstanceid));
+        return new \moodle_url('/mod/coursework/pages/config/appoint_leaders.php', array('id' => $this->contextinstanceid));
     }
  
     public function get_legacy_logdata() {
