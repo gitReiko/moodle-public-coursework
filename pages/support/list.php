@@ -29,6 +29,10 @@ echo $OUTPUT->header();
 $text = get_string('config_list', 'coursework');
 echo \html_writer::tag('h2', $text);
 
+$attr = array('href' => '/mod/coursework/pages/support/back_to_work_state.php?id='.$id);
+$text = \html_writer::tag('p', get_string('back_to_work_state', 'coursework'));
+echo \html_writer::tag('a', $text, $attr);
+
 $attr = array('href' => '/mod/coursework/pages/support/leader_replacement.php?id='.$id);
 $text = \html_writer::tag('p', get_string('leader_replacement', 'coursework'));
 echo \html_writer::tag('a', $text, $attr);

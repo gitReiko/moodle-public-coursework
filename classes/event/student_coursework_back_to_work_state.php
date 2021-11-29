@@ -54,7 +54,7 @@ class student_coursework_back_to_work_state extends \core\event\base {
     }
  
     public function get_url() {
-        return new \moodle_url('/mod/coursework/back_to_work_state.php', array('id' => $this->relateduserid));
+        return new \moodle_url('/mod/coursework/pages/support/back_to_work_state.php', array('id' => $this->relateduserid));
     }
  
     public function get_legacy_logdata() {

@@ -1,18 +1,14 @@
 <?php
 
-require_once '../../config.php';
-
-require_once 'lib/getters/common_getter.php';
-require_once 'lib/getters/students_getter.php';
-require_once 'lib/common.php';
-require_once 'lib/enums.php';
-
-
-
-require_once 'classes/view/back_to_work_state/main.php';
-require_once 'newlib.php';
-require_once 'enums.php';
-require_once 'lib.php';
+require_once '../../../../config.php';
+require_once '../../lib/getters/common_getter.php';
+require_once '../../lib/getters/students_getter.php';
+require_once '../../lib/common.php';
+require_once '../../lib/enums.php';
+require_once '../../classes/view/back_to_work_state/main.php';
+require_once '../../newlib.php';
+require_once '../../enums.php';
+require_once '../../lib.php';
  
 $id = required_param('id', PARAM_INT);    // Course Module ID
  
@@ -23,7 +19,7 @@ if (!$course = $DB->get_record('course', array('id'=> $cm->course))) {
     print_error('course is misconfigured');  // NOTE As above
 }
 
-$url = new moodle_url("/mod/coursework/back_to_work_state.php", array('id'=>$id));
+$url = new moodle_url("/mod/coursework/pages/support/back_to_work_state.php", array('id'=>$id));
 $PAGE->set_url($url);
 
 $PAGE->set_context(context_module::instance($cm->id));
