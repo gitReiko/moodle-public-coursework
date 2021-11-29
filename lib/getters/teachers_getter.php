@@ -10,6 +10,24 @@ use Coursework\Lib\Enums as enum;
 class TeachersGetter
 {
 
+    public static function get_users_with_teacher_role(\stdClass $cm) : array 
+    {
+        // This method returns list of users with given capability, 
+        // it ignores enrolment status and should be used only above the course contex.
+        $teachers = get_users_by_capability(
+            \context_module::instance($cm->id), 
+            'mod/coursework:is_teacher', 
+            'u.id,u.firstname,u.lastname', 
+            'u.lastname');
+        
+        foreach($teachers as $teacher)
+        {
+            $teacher->fullname = $teacher->lastname.' '.$teacher->firstname;
+        }
+
+        return $teachers;
+    }
+
     public static function get_configured_teachers(int $courseworkId)
     {
         global $DB;

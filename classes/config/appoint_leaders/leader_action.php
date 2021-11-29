@@ -2,7 +2,7 @@
 
 namespace Coursework\Config\AppointLeaders;
 
-use coursework_lib as lib;
+use Coursework\Lib\Getters\TeachersGetter as tg;
 
 abstract class LeaderAction
 {
@@ -19,7 +19,7 @@ abstract class LeaderAction
         $this->course = $course;
         $this->cm = $cm;
 
-        $this->courseTeachers = lib\get_all_course_teachers($this->cm);
+        $this->courseTeachers = tg::get_users_with_teacher_role($this->cm);
         $this->siteCourses = $this->get_all_site_courses();
     }
 

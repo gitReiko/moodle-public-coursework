@@ -2,8 +2,7 @@
 
 require_once '../../../../config.php';
 require_once '../../classes/config/appoint_leaders/main.php';
-require_once '../../enums.php';
-require_once '../../newlib.php';
+require_once '../../lib/getters/teachers_getter.php';
 
 use Coursework\Config\AppointLeaders as appointLeaders;
  
