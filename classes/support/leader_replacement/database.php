@@ -5,7 +5,7 @@ namespace Coursework\Support\LeaderReplacement;
 use Coursework\Lib\Getters\CommonGetter as cg;
 use Coursework\Lib\Notification;
 
-class DatabaseEventsHandler 
+class Database 
 {
     private $course;
     private $cm;

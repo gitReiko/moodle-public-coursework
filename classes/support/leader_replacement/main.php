@@ -4,9 +4,9 @@ namespace Coursework\Support\LeaderReplacement;
 
 require_once '../../classes/classes_lib/add_edit_template.php';
 require_once '../../classes/classes_lib/students_mass_actions_gui_templates.php';
-require_once 'overview_students_leaders.php';
+require_once 'overview_leaders.php';
 require_once 'replace_leader.php';
-require_once 'database_events_handler.php';
+require_once 'database.php';
 
 class Main extends \Coursework\ClassesLib\AddEditTemplate
 {
@@ -26,7 +26,7 @@ class Main extends \Coursework\ClassesLib\AddEditTemplate
     {
         if($this->is_database_event_exist())
         {
-            $handler = new DatabaseEventsHandler($this->course, $this->cm);
+            $handler = new Database($this->course, $this->cm);
             $handler->execute();
         }
     }
@@ -50,7 +50,7 @@ class Main extends \Coursework\ClassesLib\AddEditTemplate
 
     private function get_overview_gui() : string 
     {
-        $overview = new OverviewStudentsLeaders($this->course, $this->cm);
+        $overview = new OverviewLeaders($this->course, $this->cm);
         return $overview->get_gui();
     }
 

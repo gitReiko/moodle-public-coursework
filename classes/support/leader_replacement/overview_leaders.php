@@ -5,7 +5,7 @@ namespace Coursework\Support\LeaderReplacement;
 use coursework_lib as lib;
 use Coursework\ClassesLib\Students\Mass\Actions\GUI\Template as massActions;
 
-class OverviewStudentsLeaders 
+class OverviewLeaders 
 {
     private $course;
     private $cm;
