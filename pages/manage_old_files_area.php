@@ -1,10 +1,10 @@
 <?php
 
-require_once '../../config.php';
-require_once 'classes/view/manage_old_files_area/main.php';
-require_once 'lib/getters/common_getter.php';
-require_once 'lib/getters/teachers_getter.php';
-require_once 'lib/enums.php';
+require_once '../../../config.php';
+require_once '../classes/view/manage_old_files_area/main.php';
+require_once '../lib/getters/common_getter.php';
+require_once '../lib/getters/teachers_getter.php';
+require_once '../lib/enums.php';
 
 use Coursework\View\ManageOldFilesArea\Main;
  
@@ -17,7 +17,7 @@ if (!$course = $DB->get_record('course', array('id'=> $cm->course))) {
     print_error('course is misconfigured');  // NOTE As above
 }
 
-$url = new moodle_url("/mod/coursework/manage_old_files_area.php", array('id'=>$id));
+$url = new moodle_url("/mod/coursework/pages/manage_old_files_area.php", array('id'=>$id));
 $PAGE->set_url($url);
 
 $PAGE->set_context(context_module::instance($cm->id));
