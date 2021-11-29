@@ -2,6 +2,7 @@
 
 namespace Coursework\Support\DeleteStudentCoursework;
 
+use Coursework\View\StudentWork\SaveFiles\StudentFileManager;
 use Coursework\Lib\Getters\CommonGetter as cg;
 use Coursework\Lib\Notification;
 
@@ -47,6 +48,8 @@ class Database
         global $DB;
         if($DB->delete_records('coursework_students', array('id'=>$rowid)))
         {
+            $this->delete_student_files($studentId);
+            $this->delete_teacher_files($studentId);
             $this->send_message_to_student($studentId);
         }
         else throw new Exception(get_string('e:student-not-deleted', 'coursework'));
@@ -81,6 +84,30 @@ class Database
         $message = get_string('manager_message','coursework', $params);
         $message.= get_string('answer_not_require', 'coursework');
         return $message;
+    }
+
+    private function delete_student_files(int $studentId)
+    {
+        $this->delete_files_from_area('student', $studentId);
+    }
+
+    private function delete_teacher_files(int $studentId)
+    {
+        $this->delete_files_from_area('teacher', $studentId);
+    }
+
+    private function delete_files_from_area(string $area, int $itemid)
+    { 
+        $fs = get_file_storage();
+        $context = \context_module::instance($this->cm->id);
+        $files = $fs->get_area_files($context->id, 'mod_coursework', $area, $itemid);
+        foreach($files as $file) 
+        {
+            if($file)
+            {
+                $file->delete();
+            }
+        }
     }
 
 }
