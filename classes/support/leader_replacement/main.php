@@ -3,7 +3,7 @@
 namespace Coursework\Support\LeaderReplacement;
 
 require_once '../../classes/classes_lib/add_edit_template.php';
-require_once '../../classes/classes_lib/students_mass_actions_gui_templates.php';
+require_once '../../classes/classes_lib/students_mass_actions.php';
 require_once 'overview_leaders.php';
 require_once 'replace_leader.php';
 require_once 'database.php';

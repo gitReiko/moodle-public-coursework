@@ -3,7 +3,9 @@
 namespace Coursework\Support\LeaderReplacement;
 
 use coursework_lib as lib;
-use Coursework\ClassesLib\Students\Mass\Actions\GUI\Template as massActions;
+use Coursework\ClassesLib\StudentsMassActions;
+use Coursework\Lib\Getters\StudentsGetter as sg;
+use Coursework\Lib\Getters\CommonGetter as cg;
 
 class OverviewLeaders 
 {
@@ -28,8 +30,16 @@ class OverviewLeaders
     {
         $gui = $this->get_html_form();
         $gui.= $this->get_overview_header();
-        $gui.= massActions\get_mass_choice_selector($this->groups);
-        $gui.= massActions\get_students_list($this->students, self::LEADER_REPLACEMENT_FORM);
+
+        $studentsSelector = new StudentsMassActions\StudentsSelector($this->groups);
+        $gui.= $studentsSelector->get();
+
+        $studentsTable = new StudentsMassActions\StudentsTable(
+            $this->students, 
+            self::LEADER_REPLACEMENT_FORM
+        );
+        $gui.= $studentsTable->get();
+
         $gui.= $this->get_distribute_button();
         
         return $gui;
@@ -37,8 +47,31 @@ class OverviewLeaders
 
     private function get_students()
     {
-        $students = lib\get_coursework_students_with_groups_leaders_courses($this->cm, $this->groups);
+        $students = sg::get_all_students($this->cm);
+        $students = sg::add_works_to_students($this->cm->instance, $students);
+        $students = $this->add_groups_to_students($students);
         $students = $this->remove_all_students_without_leader($students);
+
+        return $students;
+    }
+
+    private function add_groups_to_students(array $students) : array 
+    {
+        foreach($students as $student)
+        {
+            foreach($this->groups as $group)
+            {
+                if(groups_is_member($group->id, $student->id))
+                {
+                    $temp = new \stdClass;
+                    $temp->id = $group->id;
+                    $temp->name = $group->name;
+
+                    $student->groups[] = $temp;
+                }
+            }
+        }
+
         return $students;
     }
 
@@ -47,7 +80,7 @@ class OverviewLeaders
         $studentsWithLeader = array();
         foreach($allStudents as $student)
         {
-            if(!empty($student->leader))
+            if(!empty($student->teacher))
             {
                 $studentsWithLeader[] = $student;
             }
