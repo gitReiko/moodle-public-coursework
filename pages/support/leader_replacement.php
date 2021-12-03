@@ -3,6 +3,7 @@
 require_once '../../../../config.php';
 require_once '../../classes/support/leader_replacement/main.php';
 require_once '../../lib/getters/students_getter.php';
+require_once '../../lib/getters/teachers_getter.php';
 require_once '../../lib/getters/common_getter.php';
 require_once '../../lib/notification.php'; 
 require_once '../../lib/common.php';

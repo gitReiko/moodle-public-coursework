@@ -69,6 +69,9 @@ class StudentsSelector
 
 class StudentsTable 
 {
+    const SEPARATOR = '+';
+    const STUDENTS = 'students';
+
     private $formName;
     private $students;
 
@@ -121,12 +124,15 @@ class StudentsTable
 
     private function get_select_student_checkbox_cell(\stdClass $student) : string 
     {
+        $value = $student->id.self::SEPARATOR.$student->lastname;
+        $value.= ' '.$student->firstname.self::SEPARATOR;
+
         $attr = array(
             'type' => 'checkbox',
             'form' => $this->formName,
             'class' => 'students '.$this->get_group_classes($student->groups),
-            'name' => STUDENT.'[]',
-            'value' => $student->id.SEPARATOR.$student->fullname.SEPARATOR,
+            'name' => self::STUDENTS.'[]',
+            'value' => $value,
             'autocomplete' => 'off'
 
         );

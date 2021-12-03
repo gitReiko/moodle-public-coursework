@@ -2,10 +2,11 @@
 
 namespace Coursework\Support\LeaderReplacement;
 
-use coursework_lib as lib;
+use Coursework\ClassesLib\StudentsMassActions\StudentsTable as st;
+use Coursework\Lib\Getters\TeachersGetter as teachGetter;
 
 /**
- * @todo создать общего родителя для LeaderReplacementAction и DistributeStudents
+ * @todo создать общего родителя для ReplaceLeader и DistributeStudents
  */
 class ReplaceLeader 
 {
@@ -21,7 +22,7 @@ class ReplaceLeader
         $this->course = $course;
         $this->cm = $cm;
         
-        $this->students = lib\get_distribute_students();
+        $this->students = $this->get_distribute_students();
     }
 
     public function get_gui() : string 
@@ -36,6 +37,25 @@ class ReplaceLeader
         $gui.= $this->get_html_form();
 
         return $gui;
+    }
+
+    private function get_distribute_students() : array 
+    {
+        $students = array();
+        $strings = optional_param_array(st::STUDENTS, null, PARAM_TEXT);
+
+        foreach($strings as $string) 
+        {
+            $str = explode(st::SEPARATOR, $string);
+
+            $student = new \stdClass;
+            $student->id = $str[0];
+            $student->fullname = $str[1];
+
+            $students[] = $student;
+        }
+
+        return $students;
     }
 
     private function get_change_leader_for_students_header() : string
@@ -81,7 +101,7 @@ class ReplaceLeader
 
     private function get_leader_select() : string
     {
-        $leaders = lib\get_all_course_teachers($this->cm);
+        $leaders = teachGetter::get_users_with_teacher_role($this->cm);
 
         $select = \html_writer::start_tag('p');
         $attr = array(
