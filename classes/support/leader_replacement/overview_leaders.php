@@ -2,7 +2,8 @@
 
 namespace Coursework\Support\LeaderReplacement;
 
-use coursework_lib as lib;
+require_once 'getter.php';
+
 use Coursework\ClassesLib\StudentsMassActions;
 use Coursework\Lib\Getters\StudentsGetter as sg;
 use Coursework\Lib\Getters\CommonGetter as cg;
@@ -22,8 +23,9 @@ class OverviewLeaders
         $this->course = $course;
         $this->cm = $cm;
 
-        $this->groups = groups_get_activity_allowed_groups($cm);
-        $this->students = $this->get_students();
+        $getter = new Getter($this->course, $this->cm);
+        $this->groups = $getter->get_groups();
+        $this->students = $getter->get_students();
     }
 
     public function get_gui() : string 
@@ -43,50 +45,6 @@ class OverviewLeaders
         $gui.= $this->get_distribute_button();
         
         return $gui;
-    }
-
-    private function get_students()
-    {
-        $students = sg::get_all_students($this->cm);
-        $students = sg::add_works_to_students($this->cm->instance, $students);
-        $students = $this->add_groups_to_students($students);
-        $students = $this->remove_all_students_without_leader($students);
-
-        return $students;
-    }
-
-    private function add_groups_to_students(array $students) : array 
-    {
-        foreach($students as $student)
-        {
-            foreach($this->groups as $group)
-            {
-                if(groups_is_member($group->id, $student->id))
-                {
-                    $temp = new \stdClass;
-                    $temp->id = $group->id;
-                    $temp->name = $group->name;
-
-                    $student->groups[] = $temp;
-                }
-            }
-        }
-
-        return $students;
-    }
-
-    private function remove_all_students_without_leader(array $allStudents)
-    {
-        $studentsWithLeader = array();
-        foreach($allStudents as $student)
-        {
-            if(!empty($student->teacher))
-            {
-                $studentsWithLeader[] = $student;
-            }
-        }
-
-        return $studentsWithLeader;
     }
 
     private function get_html_form() : string 
