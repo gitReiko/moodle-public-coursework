@@ -9,7 +9,7 @@ require_once '../../lib/notification.php';
 require_once '../../lib/common.php';
 require_once '../../lib/enums.php';
 
-use Coursework\Support\LeaderReplacement as leaderReplacement;
+use Coursework\Config\DistributeToLeaders as distributeToLeaders;
  
 $id = required_param('id', PARAM_INT);    // Course Module ID
  
@@ -37,11 +37,8 @@ require_login();
   
 echo $OUTPUT->header();
 
-echo 'dsvdsvdsdsvs';
-/*
-$leaderReplacement = new leaderReplacement\Main($course, $cm);
-echo $leaderReplacement->execute();
-*/
+$distributeToLeaders = new distributeToLeaders\Main($course, $cm);
+echo $distributeToLeaders->execute();
 
 echo $OUTPUT->footer();
 

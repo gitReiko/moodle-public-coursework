@@ -402,4 +402,4 @@ $string['select_student_to_activate_btn'] = 'Чтобы активировать
 $string['alert_delete_student_courseworks'] = 'Вы уверены, что хотите удалить работы выбранных студентов?\nЭто действие необратимо. Вся информация связанная с работами студентов будет удалена.';
 $string['student_coursework_deleted'] = 'Курсовая работа студента удалена';
 $string['appoint_leaders'] = 'Назначить руководителей';
-$string['distribute_to_leaders'] = 'Распределить к лидерам';
+$string['distribute_to_leaders'] = 'Распределить к руководителям';

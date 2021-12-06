@@ -2,10 +2,11 @@
 
 namespace Coursework\Config\DistributeToLeaders;
 
-use coursework_lib as cw;
-use coursework_students_mass_actions_gui_templates as gui;
+require_once 'getter.php';
 
-class StudentsDistributionOverview 
+use Coursework\ClassesLib\StudentsMassActions;
+
+class OverviewStudents 
 {
     private $course;
     private $cm;
@@ -15,21 +16,30 @@ class StudentsDistributionOverview
 
     const DISTRIBUTE_FORM = 'distribute_form';
 
-    function __construct(stdClass $course, stdClass $cm)
+    function __construct(\stdClass $course, \stdClass $cm)
     {
         $this->course = $course;
         $this->cm = $cm;
 
-        $this->groups = groups_get_activity_allowed_groups($cm);
-        $this->students = cw\get_coursework_students_with_groups_leaders_courses($this->cm, $this->groups);
+        $getter = new Getter($this->course, $this->cm);
+        $this->groups = $getter->get_groups();
+        $this->students = $getter->get_students();
     }
 
     public function get_gui() : string 
     {
         $gui = $this->get_html_form();
         $gui.= $this->get_overview_header();
-        $gui.= gui\get_mass_choice_selector($this->groups);
-        $gui.= gui\get_students_list($this->students, self::DISTRIBUTE_FORM);
+
+        $studentsSelector = new StudentsMassActions\StudentsSelector($this->groups);
+        $gui.= $studentsSelector->get();
+
+        $studentsTable = new StudentsMassActions\StudentsTable(
+            $this->students, 
+            self::DISTRIBUTE_FORM
+        );
+        $gui.= $studentsTable->get();
+
         $gui.= $this->get_distribute_button();
         
         return $gui;
@@ -37,24 +47,45 @@ class StudentsDistributionOverview
 
     private function get_html_form() : string 
     {
-        $form = '<form id="'.self::DISTRIBUTE_FORM.'" method="post">';
-        $form.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.STUDENTS_DISTRIBUTION.'"/>';
-        $form.= '<input type="hidden" name="'.ID.'" value="'.$this->cm->id.'"/>';
-        $form.= '<input type="hidden" name="'.ConfigurationManager::GUI_TYPE.'" value="'.StudentsDistribution::DISTRIBUTION.'"/>';
-        $form.= '</form>';
+        $attr = array(
+            'id' => self::DISTRIBUTE_FORM,
+            'method' => 'post'
+        );
+        $form = \html_writer::start_tag('form', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::ID,
+            'value' => $this->cm->id
+        );
+        $form.= \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::GUI_TYPE,
+            'value' => Main::DISTRIBUTION
+        );
+        $form.= \html_writer::empty_tag('input', $attr);
+
+        $form.= \html_writer::end_tag('form');
 
         return $form;
     }
 
     private function get_overview_header() : string 
     {
-        return '<h3>'.get_string('sd_overview_header', 'coursework').'</h3>';
+        $text = get_string('sd_overview_header', 'coursework');
+        return \html_writer::tag('h3', $text);
     }
 
     private function get_distribute_button() : string 
     {
-        $jsfunc = "onclick='return validate_students_mass_action()'";
-        return "<button form='".self::DISTRIBUTE_FORM."' $jsfunc>".get_string('distribute', 'coursework').'</button>';
+        $attr = array(
+            'form' => self::DISTRIBUTE_FORM,
+            'onclick' => 'return validate_students_mass_action()'
+        );
+        $text = get_string('distribute', 'coursework');
+        return \html_writer::tag('button', $text, $attr);
     }
 
 

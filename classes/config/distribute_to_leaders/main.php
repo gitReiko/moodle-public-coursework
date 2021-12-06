@@ -14,6 +14,7 @@ class Main extends \Coursework\ClassesLib\AddEditTemplate
     const OVERVIEW = 'overview';
     const DISTRIBUTION = 'distribute';
     const EXPAND_QUOTA = 'expand_quota';
+    const ID = 'id';
 
     function __construct(\stdClass $course, \stdClass $cm)
     {
@@ -50,7 +51,7 @@ class Main extends \Coursework\ClassesLib\AddEditTemplate
 
     private function get_overview_gui() : string 
     {
-        $overview = new StudentsDistributionOverview($this->course, $this->cm);
+        $overview = new OverviewStudents($this->course, $this->cm);
         return $overview->get_gui();
     }
 
