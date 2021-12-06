@@ -224,6 +224,17 @@ $capabilities = array(
             'manager' => CAP_ALLOW
         )
     ),
+
+    'mod/coursework:distributetoleaders' => array
+    (
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_MODULE,
+        'archetypes' => array(
+            'teacher' => CAP_ALLOW,
+            'editingteacher' => CAP_ALLOW,
+            'manager' => CAP_ALLOW
+        )
+    ),
     
 
 );

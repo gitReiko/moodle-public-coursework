@@ -1,7 +1,7 @@
 <?php
 
 require_once '../../../../config.php';
-require_once '../../classes/support/leader_replacement/main.php';
+require_once '../../classes/config/distribute_to_leaders/main.php';
 require_once '../../lib/getters/students_getter.php';
 require_once '../../lib/getters/teachers_getter.php';
 require_once '../../lib/getters/common_getter.php';
@@ -20,17 +20,16 @@ if (!$course = $DB->get_record('course', array('id'=> $cm->course))) {
     print_error('course is misconfigured');  // NOTE As above
 }
 
-$url = new moodle_url('/mod/coursework/pages/support/leader_replacement.php', array('id'=>$id));
+$url = new moodle_url('/mod/coursework/pages/config/distribute_to_leaders.php', array('id'=>$id));
 $PAGE->set_url($url);
 
 $PAGE->set_context(context_module::instance($cm->id));
 $PAGE->set_pagelayout('incourse');
 $PAGE->set_cm($cm);
 
-$PAGE->set_title(get_string('leader_replacement', 'coursework'));
-$PAGE->set_heading(get_string('leader_replacement', 'coursework'));
+$PAGE->set_title(get_string('distribute_to_leaders', 'coursework'));
+$PAGE->set_heading(get_string('distribute_to_leaders', 'coursework'));
 
-$PAGE->requires->css('/mod/coursework/css/support/leader_replacement.css');
 $PAGE->requires->css('/mod/coursework/css/lib/students_mass_actions.css');
 $PAGE->requires->js('/mod/coursework/js/lib/mass_actions_on_students.js');
 
@@ -38,8 +37,11 @@ require_login();
   
 echo $OUTPUT->header();
 
+echo 'dsvdsvdsdsvs';
+/*
 $leaderReplacement = new leaderReplacement\Main($course, $cm);
 echo $leaderReplacement->execute();
+*/
 
 echo $OUTPUT->footer();
 
