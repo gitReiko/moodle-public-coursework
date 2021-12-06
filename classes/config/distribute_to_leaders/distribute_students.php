@@ -15,7 +15,7 @@ class DistributeStudents
     private $leaders;
 
     private $selectedLeaderId = 0;
-    private $leaderQuota = 0;
+    private $selectedLeaderQuota = 0;
 
     function __construct(\stdClass $course, \stdClass $cm) 
     {
@@ -24,6 +24,8 @@ class DistributeStudents
         
         $this->students = $this->get_distribute_students();
         $this->leaders = $this->get_teachers();
+        $this->selectedLeaderId = reset($this->leaders)->id;
+        $this->selectedLeaderQuota = $this->get_leader_quota(reset($this->leaders));
     }
 
     public function get_gui() : string 
@@ -76,65 +78,6 @@ class DistributeStudents
         return $teachers;
     }
 
-    private function get_html_form_start() : string 
-    {
-        return '<form method="post">';
-    }
-
-    private function get_students_distribution_header() : string
-    {
-        return'<h3>'.get_string('distribute_students_header', 'coursework').'</h3>';
-    }
-
-    private function get_list_of_the_students_being_distributed() : string 
-    {
-        $names = '<p>';
-        foreach($this->students as $student)
-        {
-            $names.= $student->fullname.', ';
-        }
-        $names = mb_substr($names, 0, (mb_strlen($names) - 2));
-        $names.= '.</p>';
-
-        return $names;
-    }
-
-    private function get_hidden_students_inputs() : string 
-    {
-        $inputs = '';
-        foreach($this->students as $student)
-        {
-            $inputs.= '<input type="hidden" name="'.STUDENT.'[]" ';
-            $inputs.= 'value="'.$student->id.SEPARATOR.$student->fullname.'">';
-        }
-
-        return $inputs;
-    }
-
-    private function get_leader_header() : string 
-    {
-        return '<h3>'.get_string('leader', 'coursework').'</h3>';
-    }
-
-    private function get_leader_select() : string
-    {
-        $select = '<select id="leaderselect" name="'.TEACHER.'" onchange="change_leader_courses()" autocomplete="off" autofocus>';
-        foreach($this->leaders as $leader)
-        {
-            if(empty($this->selectedLeaderId))
-            {
-                $this->selectedLeaderId = $leader->id;
-
-                $this->leaderQuota = $this->get_leader_quota($leader);
-            }
-
-            $select.= "<option value='{$leader->teacherid}'>".$leader->lastname.' '.$leader->firstname.'</option>';
-        }
-        $select.= '</select>';
-
-        return $select;
-    }
-
     private function get_leader_quota(\stdClass $leader)
     {
         $quota = 0;
@@ -147,26 +90,109 @@ class DistributeStudents
         return $quota;
     }
 
+    private function get_html_form_start() : string 
+    {
+        $attr = array('method' => 'post');
+        return \html_writer::start_tag('form', $attr);
+    }
+
+    private function get_students_distribution_header() : string
+    {
+        $text = get_string('distribute_students_header', 'coursework');
+        return \html_writer::tag('h3', $text);
+    }
+
+    private function get_list_of_the_students_being_distributed() : string 
+    {
+        $text = '';
+
+        foreach($this->students as $student)
+        {
+            $text.= $student->fullname.', ';
+        }
+        $text = mb_substr($text, 0, (mb_strlen($text) - 2));
+
+        return \html_writer::tag('p', $text);
+    }
+
+    private function get_hidden_students_inputs() : string 
+    {
+        $inputs = '';
+        foreach($this->students as $student)
+        {
+            $attr = array(
+                'type' => 'hidden',
+                'name' => STUDENT.'[]',
+                'value' => $student->id.SEPARATOR.$student->fullname
+            );
+            $inputs = \html_writer::empty_tag('input', $attr);
+        }
+
+        return $inputs;
+    }
+
+    private function get_leader_header() : string 
+    {
+        $text = get_string('leader', 'coursework');
+        return \html_writer::tag('h3', $text);
+    }
+
+    private function get_leader_select() : string
+    {
+        $attr = array(
+            'id' => 'leaderselect',
+            'name' => TEACHER,
+            'onchange' => 'change_leader_courses()',
+            'autocomplete' => 'off',
+            'autofocus' => 'autofocus'
+        );
+        $select = \html_writer::start_tag('select', $attr);
+
+        foreach($this->leaders as $leader)
+        {
+            $attr = array(
+                'value' => $leader->id
+            );
+            $text = $leader->lastname.' '.$leader->firstname;
+            $select = \html_writer::tag('option', $text, $attr);
+        }
+
+        $select.= \html_writer::end_tag('select');
+
+        return $select;
+    }
+
     private function get_course_header() : string 
     {
-        return '<h3>'.get_string('course', 'coursework').'</h3>';
+        $text = get_string('course', 'coursework');
+        return \html_writer::tag('h3', $text);
     }
 
     private function get_course_select() : string
     {
-        $select = '<select id="coursesselect" name="'.COURSE.'" autocomplete="off"';
-        $select.= ' onchange="display_or_hide_expand_quota_panel_when_course_changes()">';
+        $attr = array(
+            'id' => 'coursesselect',
+            'name' => COURSE,
+            'autocomplete' => 'off',
+            'onchange' => 'display_or_hide_expand_quota_panel_when_course_changes()'
+        );
+        $select = \html_writer::start_tag('select', $attr);
         foreach($this->leaders as $leader)
         {
             foreach($leader->courses as $course)
             {
                 if($this->selectedLeaderId == $leader->id)
                 {
-                    $select.= "<option class='leadercourse' value='{$course->id}'>".$course->fullname.'</option>';
+                    $attr = array(
+                        'class' => 'leadercourse',
+                        'value' => $course->id
+                    );
+                    $text = $course->fullname;
+                    $select.= \html_writer::tag('option', $text, $attr);
                 }
             }
         }
-        $select.= '</select>';
+        $select.= \html_writer::end_tag('select');
 
         return $select;
     }
@@ -174,7 +200,7 @@ class DistributeStudents
     private function get_expand_quota_panel() : string 
     {
         $panel = '<div id="expandquotapanel" style="';
-        if(count($this->students) > $this->leaderQuota) $panel.= 'display: block;';
+        if(count($this->students) > $this->selectedLeaderQuota) $panel.= 'display: block;';
         else $panel.= 'display: none;';
         $panel.= '">';
 
