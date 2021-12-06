@@ -1,0 +1,19 @@
+
+table.studentsSelector
+{
+    border: none;
+    margin-top: 20px;
+}
+
+table.studentsMassAction
+{
+    margin-top: 6px;
+    margin-bottom: 20px;
+    border-collapse: collapse;
+    cursor: default;
+}
+
+table.studentsMassAction tbody tr:hover
+{
+    background: #eee !important;
+}

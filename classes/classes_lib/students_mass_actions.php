@@ -17,7 +17,8 @@ class StudentsSelector
 
     public function get() : string 
     {
-        $s = \html_writer::start_tag('table');
+        $attr = array('class' => 'studentsSelector');
+        $s = \html_writer::start_tag('table', $attr);
         $s.= \html_writer::start_tag('tr');
         $s.= \html_writer::tag('td', get_string('select', 'coursework'));
         $s.= \html_writer::tag('td', $this->get_groups_selector());
@@ -83,7 +84,8 @@ class StudentsTable
 
     public function get() : string 
     {
-        $t = \html_writer::start_tag('table');
+        $attr = array('class' => 'studentsMassAction');
+        $t = \html_writer::start_tag('table', $attr);
         $t.= $this->table_header();
         $t.= $this->table_body();
         $t.= \html_writer::end_tag('table');
