@@ -49,7 +49,17 @@ class TeachersGetter
             $teachers = array();
         }
 
+        $teachers = self::get_not_configured_teachers($courseworkId, $teachers);
+        $teachers = self::sort_teachers_array($teachers);
+        $teachers = self::get_unique_items($teachers);
+
+        return $teachers;
+    }
+
+    private static function get_not_configured_teachers(int $courseworkId, $teachers)
+    {
         $studentsWorks = sg::get_all_coursework_students_works($courseworkId);
+
         foreach($studentsWorks as $work)
         {
             if(self::is_teacher_not_exist_in_teachers_array($work->teacher, $teachers))
@@ -57,9 +67,6 @@ class TeachersGetter
                 $teachers[] = self::get_teacher($work->teacher);
             }
         }
-
-        $teachers = self::sort_teachers_array($teachers);
-        $teachers = self::get_unique_items($teachers);
 
         return $teachers;
     }

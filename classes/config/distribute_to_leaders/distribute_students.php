@@ -2,7 +2,8 @@
 
 namespace Coursework\Config\DistributeToLeaders;
 
-use coursework_lib as cw;
+use Coursework\ClassesLib\StudentsMassActions\StudentsTable as st;
+use Coursework\Lib\Getters\TeachersGetter as tg;
 
 class DistributeStudents 
 {
@@ -16,13 +17,13 @@ class DistributeStudents
     private $selectedLeaderId = 0;
     private $leaderQuota = 0;
 
-    function __construct(stdClass $course, stdClass $cm) 
+    function __construct(\stdClass $course, \stdClass $cm) 
     {
         $this->course = $course;
         $this->cm = $cm;
         
-        $this->students = cw\get_distribute_students();
-        $this->leaders = cw\get_teachers($this->cm->instance);
+        $this->students = $this->get_distribute_students();
+        $this->leaders = $this->get_teachers();
     }
 
     public function get_gui() : string 
@@ -41,6 +42,38 @@ class DistributeStudents
         $gui.= $this->get_data_for_javascript();
 
         return $gui;
+    }
+
+    private function get_distribute_students() : array 
+    {
+        $students = array();
+        $strings = optional_param_array(st::STUDENTS, null, PARAM_TEXT);
+
+        foreach($strings as $string) 
+        {
+            $str = explode(st::SEPARATOR, $string);
+
+            $student = new \stdClass;
+            $student->id = $str[0];
+            $student->fullname = $str[1];
+
+            $students[] = $student;
+        }
+
+        return $students;
+    }
+
+    private function get_teachers()
+    {
+        $teachers = tg::get_configured_teachers($this->cm->instance);
+
+        foreach($teachers as $teacher)
+        {
+            $courses = tg::get_teacher_courses($this->cm->instance, $teacher->id);
+            $teacher->courses = tg::get_courses_with_quotas($this->cm, $teacher->id, $courses);
+        }
+
+        return $teachers;
     }
 
     private function get_html_form_start() : string 
@@ -85,45 +118,33 @@ class DistributeStudents
 
     private function get_leader_select() : string
     {
-        $leaders = $this->get_unique_leaders();
-
         $select = '<select id="leaderselect" name="'.TEACHER.'" onchange="change_leader_courses()" autocomplete="off" autofocus>';
-        foreach($leaders as $leader)
+        foreach($this->leaders as $leader)
         {
             if(empty($this->selectedLeaderId))
             {
-                $this->selectedLeaderId = $leader->teacherid;
-                $this->leaderQuota = cw\get_leader_available_quota($this->cm, $leader->teacherid, $leader->courseid);
+                $this->selectedLeaderId = $leader->id;
+
+                $this->leaderQuota = $this->get_leader_quota($leader);
             }
 
-            $select.= "<option value='{$leader->teacherid}'>".$leader->fullname.'</option>';
+            $select.= "<option value='{$leader->teacherid}'>".$leader->lastname.' '.$leader->firstname.'</option>';
         }
         $select.= '</select>';
 
         return $select;
     }
 
-    private function get_unique_leaders() : array 
+    private function get_leader_quota(\stdClass $leader)
     {
-        $uniqueLeaders = array();
+        $quota = 0;
 
-        foreach($this->leaders as $leader)
+        foreach($leader->courses as $course)
         {
-            $unique = true;
-
-            foreach($uniqueLeaders as $uniqueLeader)
-            {
-                if($uniqueLeader->teacherid == $leader->teacherid)
-                {
-                    $unique = false;
-                    break;
-                }
-            }
-
-            if($unique) $uniqueLeaders[] = $leader;
+            $quota += $course->available_quota;
         }
 
-        return $uniqueLeaders;
+        return $quota;
     }
 
     private function get_course_header() : string 
@@ -137,9 +158,12 @@ class DistributeStudents
         $select.= ' onchange="display_or_hide_expand_quota_panel_when_course_changes()">';
         foreach($this->leaders as $leader)
         {
-            if($this->selectedLeaderId == $leader->teacherid)
+            foreach($leader->courses as $course)
             {
-                $select.= "<option class='leadercourse' value='{$leader->courseid}'>".$leader->coursename.'</option>';
+                if($this->selectedLeaderId == $leader->id)
+                {
+                    $select.= "<option class='leadercourse' value='{$course->id}'>".$course->fullname.'</option>';
+                }
             }
         }
         $select.= '</select>';
@@ -155,9 +179,9 @@ class DistributeStudents
         $panel.= '">';
 
         $panel.= '<p><b>'.get_string('quota_exceeded', 'coursework').'</b></p>';
-        $panel.= '<p><input type="radio" name="'.StudentsDistribution::EXPAND_QUOTA.'" value="'.true.'"> ';
+        $panel.= '<p><input type="radio" name="'.Main::EXPAND_QUOTA.'" value="'.true.'"> ';
         $panel.= get_string('expand_quota', 'coursework').'</p>';
-        $panel.= '<p><input type="radio" name="'.StudentsDistribution::EXPAND_QUOTA.'" value="'.false.'" checked> ';
+        $panel.= '<p><input type="radio" name="'.Main::EXPAND_QUOTA.'" value="'.false.'" checked> ';
         $panel.= get_string('dont_change_quota', 'coursework').'</p>';
 
         $panel.= '</div>';
@@ -184,7 +208,7 @@ class DistributeStudents
         $btn = '<form method="post">';
         $btn.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.STUDENTS_DISTRIBUTION.'"/>';
         $btn.= '<input type="hidden" name="'.ID.'" value="'.$this->cm->id.'"/>';
-        $btn.= '<input type="hidden" name="'.ConfigurationManager::GUI_TYPE.'" value="'.StudentsDistribution::OVERVIEW.'"/>';
+        $btn.= '<input type="hidden" name="'.Main::GUI_TYPE.'" value="'.Main::OVERVIEW.'"/>';
         $btn.= '<button>'.get_string('back', 'coursework').'</button>';
         $btn.= '</form>';
         return $btn;
@@ -194,8 +218,8 @@ class DistributeStudents
     {
         $form = '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.STUDENTS_DISTRIBUTION.'"/>';
         $form.= '<input type="hidden" name="'.ID.'" value="'.$this->cm->id.'"/>';
-        $form.= '<input type="hidden" name="'.ConfigurationManager::GUI_TYPE.'" value="'.StudentsDistribution::OVERVIEW.'"/>';
-        $form.= '<input type="hidden" name="'.ConfigurationManager::DATABASE_EVENT.'" value="'.StudentsDistribution::OVERVIEW.'"/>';
+        $form.= '<input type="hidden" name="'.Main::GUI_TYPE.'" value="'.Main::OVERVIEW.'"/>';
+        $form.= '<input type="hidden" name="'.Main::DATABASE_EVENT.'" value="'.Main::OVERVIEW.'"/>';
         foreach($this->students as $student)
         {
             $form.= '<input type="hidden" name="'.STUDENTS.'" value="'.$student->id.'[]"/>';
@@ -210,12 +234,15 @@ class DistributeStudents
         $jsdata = '';
         foreach($this->leaders as $leader) 
         {
-            $jsdata.= "<p class='jsleaders' style='display: hidden' ";
-            $jsdata.= "data-leaderid='{$leader->teacherid}' ";
-            $jsdata.= "data-courseid='{$leader->courseid}' ";
-            $jsdata.= "data-coursename='{$leader->coursename}' ";
-            $jsdata.= "data-quota='{$leader->quota}' ";
-            $jsdata.= "></p>";
+            foreach($leader->courses as $course)
+            {
+                $jsdata.= "<p class='jsleaders' style='display: hidden' ";
+                $jsdata.= "data-leaderid='{$leader->id}' ";
+                $jsdata.= "data-courseid='{$course->id}' ";
+                $jsdata.= "data-coursename='{$course->fullname}' ";
+                $jsdata.= "data-quota='{$course->available_quota}' ";
+                $jsdata.= "></p>";
+            }
         }
         $jsdata.= '<p id="studentscount" style="display: hidden" data-count="'.count($this->students).'"></p>';
 
