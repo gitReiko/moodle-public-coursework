@@ -203,3 +203,24 @@ class StudentsTable
 
 }
 
+class Lib 
+{
+    public static function get_distribute_students() : array 
+    {
+        $students = array();
+        $strings = optional_param_array(StudentsTable::STUDENTS, null, PARAM_TEXT);
+
+        foreach($strings as $string) 
+        {
+            $str = explode(StudentsTable::SEPARATOR, $string);
+
+            $student = new \stdClass;
+            $student->id = $str[0];
+            $student->fullname = $str[1];
+
+            $students[] = $student;
+        }
+
+        return $students;
+    }
+}

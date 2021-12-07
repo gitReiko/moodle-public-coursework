@@ -3,6 +3,7 @@
 namespace Coursework\Config\DistributeToLeaders;
 
 use Coursework\ClassesLib\StudentsMassActions\StudentsTable as st;
+use Coursework\ClassesLib\StudentsMassActions\Lib as massLib;
 use Coursework\Lib\Getters\TeachersGetter as tg;
 
 class Distribute 
@@ -21,7 +22,7 @@ class Distribute
         $this->course = $course;
         $this->cm = $cm;
         
-        $this->students = $this->get_distribute_students();
+        $this->students = massLib::get_distribute_students();
         $this->leaders = $this->get_teachers();
         $this->selectedLeaderId = reset($this->leaders)->id;
         $this->selectedLeaderQuota = $this->get_leader_quota(reset($this->leaders));
@@ -43,25 +44,6 @@ class Distribute
         $gui.= $this->get_data_for_javascript();
 
         return $gui;
-    }
-
-    private function get_distribute_students() : array 
-    {
-        $students = array();
-        $strings = optional_param_array(st::STUDENTS, null, PARAM_TEXT);
-
-        foreach($strings as $string) 
-        {
-            $str = explode(st::SEPARATOR, $string);
-
-            $student = new \stdClass;
-            $student->id = $str[0];
-            $student->fullname = $str[1];
-
-            $students[] = $student;
-        }
-
-        return $students;
     }
 
     private function get_teachers()
@@ -121,7 +103,7 @@ class Distribute
         {
             $attr = array(
                 'type' => 'hidden',
-                'name' => STUDENT.'[]',
+                'name' => Main::STUDENT.'[]',
                 'value' => $student->id.SEPARATOR.$student->fullname
             );
             $inputs = \html_writer::empty_tag('input', $attr);
@@ -153,7 +135,7 @@ class Distribute
                 'value' => $leader->id
             );
             $text = $leader->lastname.' '.$leader->firstname;
-            $select = \html_writer::tag('option', $text, $attr);
+            $select.= \html_writer::tag('option', $text, $attr);
         }
 
         $select.= \html_writer::end_tag('select');

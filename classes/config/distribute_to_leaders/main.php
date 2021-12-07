@@ -10,11 +10,12 @@ require_once 'overview.php';
 
 class Main extends \Coursework\ClassesLib\AddEditTemplate
 {
-    // Types of events
     const OVERVIEW = 'overview';
     const DISTRIBUTION = 'distribute';
     const EXPAND_QUOTA = 'expand_quota';
+
     const ID = 'id';
+    const STUDENT = 'student';
 
     function __construct(\stdClass $course, \stdClass $cm)
     {

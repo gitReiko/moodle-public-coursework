@@ -2,7 +2,8 @@
 
 namespace Coursework\Config\DistributeToLeaders;
 
-use coursework_lib as cw;
+use Coursework\ClassesLib\StudentsMassActions\Lib as massLib;
+use Coursework\Lib\Getters\TeachersGetter as tg;
 
 class Database 
 {
@@ -13,12 +14,12 @@ class Database
     private $leader;
     private $expandQuota;
 
-    function __construct(stdClass $course, stdClass $cm) 
+    function __construct(\stdClass $course, \stdClass $cm) 
     {
         $this->course = $course;
         $this->cm = $cm;
 
-        $this->students = cw\get_distribute_students();
+        $this->students = massLib::get_distribute_students();
         $this->leader = $this->get_leader();
         $this->expandQuota = $this->get_expand_quota();
     }
@@ -39,21 +40,25 @@ class Database
         else return false;
     }
 
-    private function get_leader() : stdClass 
+    private function get_leader() : \stdClass 
     {
-        $leader = new stdClass;
+        $leader = new \stdClass;
         $leader->id = optional_param(TEACHER, null, PARAM_INT);
         $leader->course = optional_param(COURSE, null, PARAM_INT);
 
-        if(empty($leader->id)) throw new Exception(get_string('e-sd-ev:missing_leader_id', 'coursework'));
-        if(empty($leader->course)) throw new Exception(get_string('e-sd-ev:missing_course_id', 'coursework'));
+        if(empty($leader->id)) throw new \Exception(get_string('e-sd-ev:missing_leader_id', 'coursework'));
+        if(empty($leader->course)) throw new \Exception(get_string('e-sd-ev:missing_course_id', 'coursework'));
 
-        $leader->remainingQuota = cw\get_leader_available_quota($this->cm, $leader->id, $leader->course);
+        $leader->remainingQuota = tg::get_available_leader_quota_in_course(
+            $this->cm, 
+            $leader->id, 
+            $leader->course
+        );
 
         return $leader;
     }
 
-    private function distribute_student(stdClass $student) : void
+    private function distribute_student(\stdClass $student) : void
     {
         global $DB;
 
@@ -68,19 +73,26 @@ class Database
             {
                 $dbStudent = $this->get_student($student->id);
                 $DB->insert_record('coursework_students', $dbStudent, false);
-                echo cw\get_green_message(get_string('student_successfully_distributed', 'coursework', $student));
+
+                $attr = array('class' => 'green-message');
+                $text = get_string('student_successfully_distributed', 'coursework', $student);
+                echo \html_writer::tag('span', $text, $attr);
     
                 $this->leader->remainingQuota--;
             }
             else
             {
-                echo cw\get_red_message(get_string('not_enough_quota_for_distribution', 'coursework', $student));
+                $attr = array('class' => 'red-message');
+                $text = get_string('not_enough_quota_for_distribution', 'coursework', $student);
+                echo \html_writer::tag('span', $text, $attr);
             }
 
         }
         else 
         {
-            echo cw\get_red_message(get_string('student_redistribution_impossible', 'coursework', $student));
+            $attr = array('class' => 'red-message');
+            $text = get_string('student_redistribution_impossible', 'coursework', $student);
+            echo \html_writer::tag('span', $text, $attr);
         }
     }
 
@@ -104,9 +116,9 @@ class Database
         $this->leader->remainingQuota++;
     }
 
-    private function get_student(int $studentid) : stdClass 
+    private function get_student(int $studentid) : \stdClass 
     {
-        $student = new stdClass;
+        $student = new \stdClass;
         $student->coursework = $this->cm->instance;
         $student->student = $studentid;
         $student->teacher = $this->leader->id;

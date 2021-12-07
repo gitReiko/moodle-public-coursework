@@ -124,6 +124,15 @@ class TeachersGetter
         return $courses;
     }
 
+    public static function get_available_leader_quota_in_course(\stdClass $cm, int $teacherId, int $courseId)
+    {
+        $totalQuota = self::get_course_configured_quota($cm, $teacherId, $courseId);
+        $usedQuota = self::get_course_used_quota($cm, $teacherId, $courseId); 
+        $availableQuota = $course->total_quota - $course->used_quota;
+
+        return $availableQuota;
+    }
+
     private static function get_course_configured_quota(\stdClass $cm, int $teacherId, int $courseId)
     {
         global $DB;
