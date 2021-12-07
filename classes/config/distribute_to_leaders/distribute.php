@@ -105,7 +105,7 @@ class Distribute
     {
         $attr = array(
             'id' => 'leaderselect',
-            'name' => TEACHER,
+            'name' => Main::TEACHER,
             'onchange' => 'change_leader_courses()',
             'autocomplete' => 'off',
             'autofocus' => 'autofocus'
@@ -138,7 +138,7 @@ class Distribute
     {
         $attr = array(
             'id' => 'coursesselect',
-            'name' => COURSE,
+            'name' => Main::COURSE,
             'autocomplete' => 'off',
             'onchange' => 'display_or_hide_expand_quota_panel_when_course_changes()'
         );
@@ -233,7 +233,7 @@ class Distribute
 
         $attr = array(
             'type' => 'hidden',
-            'name' => ID,
+            'name' => Main::ID,
             'value' => $this->cm->id
         );
         $btn.= \html_writer::empty_tag('input', $attr);
@@ -256,7 +256,7 @@ class Distribute
     {
         $attr = array(
             'type' => 'hidden',
-            'name' => ID,
+            'name' => Main::ID,
             'value' => $this->cm->id
         );
         $end = \html_writer::empty_tag('input', $attr);

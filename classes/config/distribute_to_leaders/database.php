@@ -34,7 +34,7 @@ class Database
 
     private function get_expand_quota() : bool 
     {
-        $expandQuota = optional_param(StudentsDistribution::EXPAND_QUOTA, false, PARAM_TEXT);
+        $expandQuota = optional_param(Main::EXPAND_QUOTA, false, PARAM_TEXT);
 
         if($expandQuota) return true;
         else return false;
@@ -43,8 +43,8 @@ class Database
     private function get_leader() : \stdClass 
     {
         $leader = new \stdClass;
-        $leader->id = optional_param(TEACHER, null, PARAM_INT);
-        $leader->course = optional_param(COURSE, null, PARAM_INT);
+        $leader->id = optional_param(Main::TEACHER, null, PARAM_INT);
+        $leader->course = optional_param(Main::COURSE, null, PARAM_INT);
 
         if(empty($leader->id)) throw new \Exception(get_string('e-sd-ev:missing_leader_id', 'coursework'));
         if(empty($leader->course)) throw new \Exception(get_string('e-sd-ev:missing_course_id', 'coursework'));

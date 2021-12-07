@@ -12,9 +12,11 @@ class Main extends \Coursework\ClassesLib\AddEditTemplate
 {
     const OVERVIEW = 'overview';
     const DISTRIBUTION = 'distribute';
-    const EXPAND_QUOTA = 'expand_quota';
 
     const ID = 'id';
+    const TEACHER = 'teacher';
+    const COURSE = 'course';
+    const EXPAND_QUOTA = 'expand_quota';
 
     function __construct(\stdClass $course, \stdClass $cm)
     {
