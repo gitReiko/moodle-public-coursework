@@ -159,6 +159,8 @@ class DistributeStudents
 
         $select.= \html_writer::end_tag('select');
 
+        $select = \html_writer::tag('p', $select);
+
         return $select;
     }
 
@@ -194,85 +196,164 @@ class DistributeStudents
         }
         $select.= \html_writer::end_tag('select');
 
+        $select = \html_writer::tag('p', $select);
+
         return $select;
     }
 
     private function get_expand_quota_panel() : string 
     {
-        $panel = '<div id="expandquotapanel" style="';
-        if(count($this->students) > $this->selectedLeaderQuota) $panel.= 'display: block;';
-        else $panel.= 'display: none;';
-        $panel.= '">';
+        $attr = array('id' => 'expandquotapanel');
 
-        $panel.= '<p><b>'.get_string('quota_exceeded', 'coursework').'</b></p>';
-        $panel.= '<p><input type="radio" name="'.Main::EXPAND_QUOTA.'" value="'.true.'"> ';
-        $panel.= get_string('expand_quota', 'coursework').'</p>';
-        $panel.= '<p><input type="radio" name="'.Main::EXPAND_QUOTA.'" value="'.false.'" checked> ';
-        $panel.= get_string('dont_change_quota', 'coursework').'</p>';
+        if(count($this->students) > $this->selectedLeaderQuota)
+        {
+            $attr = array_merge($attr, array('style' => 'display: block;'));
+        }
+        else 
+        {
+            $attr = array_merge($attr, array('style' => 'display: none;'));
+        }
 
-        $panel.= '</div>';
+        $panel = \html_writer::start_tag('div', $attr);
+
+        $text = get_string('quota_exceeded', 'coursework');
+        $text = \html_writer::tag('b', $text);
+        $panel.= \html_writer::tag('p', $text);
+
+        $attr = array(
+            'type' => 'radio',
+            'name' => Main::EXPAND_QUOTA,
+            'value' => true
+        );
+        $text = \html_writer::empty_tag('input', $attr);
+        $text.= ' '.get_string('expand_quota', 'coursework');
+        $panel.= \html_writer::tag('p', $text);
+
+        $attr = array(
+            'type' => 'radio',
+            'name' => Main::EXPAND_QUOTA,
+            'value' => false,
+            'checked' => 'checked'
+        );
+        $text = \html_writer::empty_tag('input', $attr);
+        $text.= ' '.get_string('dont_change_quota', 'coursework');
+        $panel.= \html_writer::tag('p', $text);
+
+        $panel.= \html_writer::end_tag('div');
 
         return $panel;
     }
 
     private function get_buttons_panel() : string 
     {
-        $panel = '<table><tr>';
-        $panel.= '<td>'.$this->get_distribute_button().'</td>';
-        $panel.= '<td>'.$this->get_back_button().'</td>';
-        $panel.= '</tr></table>';
-        return $panel;
+        $p = \html_writer::start_tag('table');
+        $p.= \html_writer::start_tag('tr');
+        $p.= \html_writer::tag('td', $this->get_distribute_button());
+        $p.= \html_writer::tag('td', $this->get_back_button());
+        $p.= \html_writer::end_tag('tr');
+        $p.= \html_writer::end_tag('table');
+
+        return $p;
     }
 
     private function get_distribute_button() : string 
     {
-        return '<button>'.get_string('distribute', 'coursework').'</button>';
+        $text = get_string('distribute', 'coursework');
+        return \html_writer::tag('button', $text);
     }
 
     private function get_back_button() : string 
     {
-        $btn = '<form method="post">';
-        $btn.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.STUDENTS_DISTRIBUTION.'"/>';
-        $btn.= '<input type="hidden" name="'.ID.'" value="'.$this->cm->id.'"/>';
-        $btn.= '<input type="hidden" name="'.Main::GUI_TYPE.'" value="'.Main::OVERVIEW.'"/>';
-        $btn.= '<button>'.get_string('back', 'coursework').'</button>';
-        $btn.= '</form>';
+        $attr = array('method' => 'post');
+        $btn = \html_writer::start_tag('form');
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => ID,
+            'value' => $this->cm->id
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::GUI_TYPE,
+            'value' => Main::OVERVIEW
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $btn.= \html_writer::tag('button', get_string('back', 'coursework'));
+
+        $btn.= \html_writer::end_tag('form');
+
         return $btn;
     }
 
     private function get_html_form_end() : string 
     {
-        $form = '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.STUDENTS_DISTRIBUTION.'"/>';
-        $form.= '<input type="hidden" name="'.ID.'" value="'.$this->cm->id.'"/>';
-        $form.= '<input type="hidden" name="'.Main::GUI_TYPE.'" value="'.Main::OVERVIEW.'"/>';
-        $form.= '<input type="hidden" name="'.Main::DATABASE_EVENT.'" value="'.Main::OVERVIEW.'"/>';
+        $attr = array(
+            'type' => 'hidden',
+            'name' => ID,
+            'value' => $this->cm->id
+        );
+        $end = \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::GUI_TYPE,
+            'value' => Main::OVERVIEW
+        );
+        $end.= \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::DATABASE_EVENT,
+            'value' => Main::DATABASE_EVENT
+        );
+        $end.= \html_writer::empty_tag('input', $attr);
+
         foreach($this->students as $student)
         {
-            $form.= '<input type="hidden" name="'.STUDENTS.'" value="'.$student->id.'[]"/>';
+            $attr = array(
+                'type' => 'hidden',
+                'name' => STUDENTS.'[]',
+                'value' => $student->id
+            );
+            $end.= \html_writer::empty_tag('input', $attr);
         }
-        $form.= '</form>';
 
-        return $form;
+        $end.= \html_writer::end_tag('form');
+
+        return $end;
     }
 
     private function get_data_for_javascript() : string 
     {
-        $jsdata = '';
+        $js = '';
         foreach($this->leaders as $leader) 
         {
             foreach($leader->courses as $course)
             {
-                $jsdata.= "<p class='jsleaders' style='display: hidden' ";
-                $jsdata.= "data-leaderid='{$leader->id}' ";
-                $jsdata.= "data-courseid='{$course->id}' ";
-                $jsdata.= "data-coursename='{$course->fullname}' ";
-                $jsdata.= "data-quota='{$course->available_quota}' ";
-                $jsdata.= "></p>";
+                $attr = array(
+                    'class' => 'jsleaders',
+                    'style' => 'display: hidden',
+                    'data-leaderid' => $leader->id,
+                    'data-courseid' => $course->id,
+                    'data-coursename' => $course->fullname,
+                    'data-quota' => $course->available_quota
+                );
+
+                $js.= \html_writer::tag('p', '', $attr);
             }
         }
-        $jsdata.= '<p id="studentscount" style="display: hidden" data-count="'.count($this->students).'"></p>';
 
-        return $jsdata;
+        $attr = array(
+            'id' => 'studentscount',
+            'style' => 'display: hidden',
+            'data-count' => count($this->students)
+        );
+        $js.= \html_writer::tag('p', '', $attr);
+
+        return $js;
     }
 
 }
