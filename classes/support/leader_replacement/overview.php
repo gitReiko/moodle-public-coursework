@@ -2,6 +2,7 @@
 
 namespace Coursework\Support\LeaderReplacement;
 
+require_once 'students_mass_actions.php';
 require_once 'getter.php';
 
 use Coursework\ClassesLib\StudentsMassActions;
@@ -36,11 +37,11 @@ class Overview
         $studentsSelector = new StudentsMassActions\StudentsSelector($this->groups);
         $gui.= $studentsSelector->get();
 
-        $studentsTable = new StudentsMassActions\StudentsTable(
+        $table = new ReplaceStudentsTable(
             $this->students, 
             self::LEADER_REPLACEMENT_FORM
         );
-        $gui.= $studentsTable->get();
+        $gui.= $table->get();
 
         $gui.= $this->get_distribute_button();
         

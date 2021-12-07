@@ -188,15 +188,31 @@ class StudentsTable
         return \html_writer::tag('td', $text);
     }
 
-    protected function get_leader_cell(int $leacherId) : string 
+    protected function get_leader_cell($leacherId) : string 
     {
-        $text = cg::get_user_name($leacherId);
+        if(empty($leacherId))
+        {
+            $text = '';
+        }
+        else 
+        {
+            $text = cg::get_user_name($leacherId);
+        }
+        
         return \html_writer::tag('td', $text);
     }
 
-    protected function get_course_cell(int $courseId) : string 
+    protected function get_course_cell($courseId) : string 
     {
-        $text = cg::get_course_name($courseId);
+        if(empty($courseId))
+        {
+            $text = '';
+        }
+        else 
+        {
+            $text = cg::get_course_name($courseId);
+        }
+
         return \html_writer::tag('td', $text);
     }
 

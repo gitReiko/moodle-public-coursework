@@ -37,7 +37,6 @@ class Getter
         $students = sg::get_all_students($this->cm);
         $students = sg::add_works_to_students($this->cm->instance, $students);
         $students = $this->add_groups_to_students($students);
-        $students = $this->remove_all_students_without_leader($students);
 
         return $students;
     }
@@ -60,20 +59,6 @@ class Getter
         }
 
         return $students;
-    }
-
-    private function remove_all_students_without_leader(array $allStudents)
-    {
-        $studentsWithLeader = array();
-        foreach($allStudents as $student)
-        {
-            if(!empty($student->teacher))
-            {
-                $studentsWithLeader[] = $student;
-            }
-        }
-
-        return $studentsWithLeader;
     }
 
 }

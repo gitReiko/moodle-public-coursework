@@ -1,10 +1,10 @@
 <?php
 
-namespace Coursework\Config\DistributeToLeaders;
+namespace Coursework\Support\LeaderReplacement;
 
 use Coursework\ClassesLib\StudentsMassActions as sma;
 
-class DistributeStudentsTable extends sma\StudentsTable 
+class ReplaceStudentsTable extends sma\StudentsTable 
 {
 
     function __construct(array $students, string $formName)
@@ -18,17 +18,17 @@ class DistributeStudentsTable extends sma\StudentsTable
     {
         if(empty($student->teacher))
         {
-            return array();
+            return array('style' => 'color: grey; cursor: not-allowed');
         }
         else 
         {
-            return array('style' => 'color: grey; cursor: not-allowed');
+            return array();
         }
     }
     
     protected function get_select_student_checkbox_cell(\stdClass $student) : string 
     {
-        if(empty($student->teacher))
+        if(!empty($student->teacher))
         {
             $value = $student->id.self::SEPARATOR.$student->lastname;
             $value.= ' '.$student->firstname.self::SEPARATOR;
