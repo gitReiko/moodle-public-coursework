@@ -2,11 +2,12 @@
 
 namespace Coursework\Config\DistributeToLeaders;
 
+require_once 'students_mass_actions.php';
 require_once 'getter.php';
 
 use Coursework\ClassesLib\StudentsMassActions;
 
-class OverviewStudents 
+class Overview 
 {
     private $course;
     private $cm;
@@ -28,17 +29,18 @@ class OverviewStudents
 
     public function get_gui() : string 
     {
-        $gui = $this->get_html_form();
-        $gui.= $this->get_overview_header();
+        $gui = $this->get_overview_header();
+
+        $gui.= $this->get_html_form();
 
         $studentsSelector = new StudentsMassActions\StudentsSelector($this->groups);
         $gui.= $studentsSelector->get();
 
-        $studentsTable = new StudentsMassActions\StudentsTable(
+        $table = new DistributeStudentsTable(
             $this->students, 
             self::DISTRIBUTE_FORM
         );
-        $gui.= $studentsTable->get();
+        $gui.= $table->get();
 
         $gui.= $this->get_distribute_button();
         

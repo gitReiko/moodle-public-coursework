@@ -5,7 +5,7 @@ namespace Coursework\Config\DistributeToLeaders;
 use Coursework\ClassesLib\StudentsMassActions\StudentsTable as st;
 use Coursework\Lib\Getters\TeachersGetter as tg;
 
-class DistributeStudents 
+class Distribute 
 {
     private $course;
     private $cm;

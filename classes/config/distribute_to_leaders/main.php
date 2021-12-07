@@ -4,9 +4,9 @@ namespace Coursework\Config\DistributeToLeaders;
 
 require_once '../../classes/classes_lib/add_edit_template.php';
 require_once '../../classes/classes_lib/students_mass_actions.php';
-require_once 'overview_students.php';
-require_once 'distribute_students.php';
 require_once 'database.php';
+require_once 'distribute.php';
+require_once 'overview.php';
 
 class Main extends \Coursework\ClassesLib\AddEditTemplate
 {
@@ -49,13 +49,13 @@ class Main extends \Coursework\ClassesLib\AddEditTemplate
 
     private function get_overview_gui() : string 
     {
-        $overview = new OverviewStudents($this->course, $this->cm);
+        $overview = new Overview($this->course, $this->cm);
         return $overview->get_gui();
     }
 
     private function get_distribute_student_gui() : string 
     {
-        $distributeStudents = new DistributeStudents($this->course, $this->cm);
+        $distributeStudents = new Distribute($this->course, $this->cm);
         return $distributeStudents->get_gui();
     }
 

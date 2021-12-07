@@ -17,3 +17,8 @@ table.studentsMassAction tbody tr:hover
 {
     background: #eee !important;
 }
+
+table.studentsMassAction tbody tr td 
+{
+    padding-right: 7px;
+}

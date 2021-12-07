@@ -93,7 +93,7 @@ class StudentsTable
         return $t;
     }
 
-    private function table_header() : string 
+    protected function table_header() : string 
     {
         $h = \html_writer::start_tag('tr');
         $h.= \html_writer::tag('td', '');
@@ -106,13 +106,14 @@ class StudentsTable
         return $h;
     }
 
-    private function table_body() : string 
+    protected function table_body() : string 
     {
         $b = '';
 
         foreach($this->students as $student)
         {
-            $b.= \html_writer::start_tag('tr');
+            $attr = $this->get_row_attr($student);
+            $b.= \html_writer::start_tag('tr', $attr);
             $b.= $this->get_select_student_checkbox_cell($student);
             $b.= $this->get_student_fullname_cell($student);
             $b.= $this->get_groups_names_cell($student->groups);
@@ -124,7 +125,12 @@ class StudentsTable
         return $b;
     }
 
-    private function get_select_student_checkbox_cell(\stdClass $student) : string 
+    protected function get_row_attr($student)
+    {
+        return array();
+    }
+
+    protected function get_select_student_checkbox_cell(\stdClass $student) : string 
     {
         $value = $student->id.self::SEPARATOR.$student->lastname;
         $value.= ' '.$student->firstname.self::SEPARATOR;
@@ -143,13 +149,13 @@ class StudentsTable
         return \html_writer::tag('td', $input);
     }
 
-    private function get_student_fullname_cell(\stdClass $student) : string
+    protected function get_student_fullname_cell(\stdClass $student) : string
     {
         $fullname = $student->lastname.' '.$student->firstname;
         return \html_writer::tag('td', $fullname);
     }
 
-    private function get_group_classes(array $groups)
+    protected function get_group_classes(array $groups)
     {
         $grClasses = '';
 
@@ -161,7 +167,7 @@ class StudentsTable
         return $grClasses;
     }
 
-    private function get_groups_names_cell(array $groups) : string 
+    protected function get_groups_names_cell(array $groups) : string 
     {
         if(count($groups) == 1) 
         {
@@ -182,13 +188,13 @@ class StudentsTable
         return \html_writer::tag('td', $text);
     }
 
-    private function get_leader_cell(int $leacherId) : string 
+    protected function get_leader_cell(int $leacherId) : string 
     {
         $text = cg::get_user_name($leacherId);
         return \html_writer::tag('td', $text);
     }
 
-    private function get_course_cell(int $courseId) : string 
+    protected function get_course_cell(int $courseId) : string 
     {
         $text = cg::get_course_name($courseId);
         return \html_writer::tag('td', $text);
