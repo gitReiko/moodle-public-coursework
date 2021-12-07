@@ -15,7 +15,6 @@ class Main extends \Coursework\ClassesLib\AddEditTemplate
     const EXPAND_QUOTA = 'expand_quota';
 
     const ID = 'id';
-    const STUDENT = 'student';
 
     function __construct(\stdClass $course, \stdClass $cm)
     {

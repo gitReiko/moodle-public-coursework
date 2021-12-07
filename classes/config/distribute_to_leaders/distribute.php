@@ -275,15 +275,7 @@ class Distribute
         );
         $end.= \html_writer::empty_tag('input', $attr);
 
-        foreach($this->students as $student)
-        {
-            $attr = array(
-                'type' => 'hidden',
-                'name' => STUDENTS.'[]',
-                'value' => $student->id
-            );
-            $end.= \html_writer::empty_tag('input', $attr);
-        }
+        $end.= massLib::get_action_students_inputs($this->students);
 
         $end.= \html_writer::end_tag('form');
 
