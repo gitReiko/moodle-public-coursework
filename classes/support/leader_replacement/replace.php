@@ -2,13 +2,9 @@
 
 namespace Coursework\Support\LeaderReplacement;
 
-use Coursework\ClassesLib\StudentsMassActions\StudentsTable as st;
 use Coursework\ClassesLib\StudentsMassActions\Lib as massLib;
 use Coursework\Lib\Getters\TeachersGetter as teachGetter;
 
-/**
- * @todo создать общего родителя для ReplaceLeader и DistributeStudents
- */
 class Replace 
 {
     const FORM_NAME = 'leader_replacement';
@@ -31,7 +27,7 @@ class Replace
         
         $gui = $this->get_change_leader_for_students_header();
         $gui.= $this->get_list_of_the_students();
-        $gui.= $this->get_hidden_students_inputs();
+        $gui.= massLib::get_action_students_inputs($this->students, self::FORM_NAME);
         $gui.= $this->get_leader_header();
         $gui.= $this->get_leader_select();
         $gui.= $this->get_buttons_panel();
@@ -56,24 +52,6 @@ class Replace
         $names.= '.'.\html_writer::end_tag('p');;
 
         return $names;
-    }
-
-    private function get_hidden_students_inputs() : string 
-    {
-        $inputs = '';
-        foreach($this->students as $student)
-        {
-            $attr = array(
-                'type' => 'hidden',
-                'name' => Main::STUDENTS.'[]',
-                'value' => $student->id,
-                'form' => self::FORM_NAME
-            );
-
-            $inputs.= \html_writer::empty_tag('input', $attr);
-        }
-
-        return $inputs;
     }
 
     private function get_leader_header() : string 

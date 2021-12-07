@@ -223,4 +223,27 @@ class Lib
 
         return $students;
     }
+
+    public static function get_action_students_inputs($students, $formName = null) : string 
+    {
+        $inputs = '';
+        foreach($students as $student)
+        {
+            $attr = array(
+                'type' => 'hidden',
+                'name' => StudentsTable::STUDENTS.'[]',
+                'value' => $student->id
+            );
+
+            if($formName)
+            {
+                $attr = array_merge($attr, array('form' => $formName));
+            }
+
+            $inputs.= \html_writer::empty_tag('input', $attr);
+        }
+
+        return $inputs;
+    }
+
 }

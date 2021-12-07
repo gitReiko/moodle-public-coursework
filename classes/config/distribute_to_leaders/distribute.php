@@ -2,7 +2,6 @@
 
 namespace Coursework\Config\DistributeToLeaders;
 
-use Coursework\ClassesLib\StudentsMassActions\StudentsTable as st;
 use Coursework\ClassesLib\StudentsMassActions\Lib as massLib;
 use Coursework\Lib\Getters\TeachersGetter as tg;
 
@@ -33,7 +32,7 @@ class Distribute
         $gui = $this->get_html_form_start();
         $gui.= $this->get_students_distribution_header();
         $gui.= $this->get_list_of_the_students_being_distributed();
-        $gui.= $this->get_hidden_students_inputs();
+        $gui.= massLib::get_action_students_inputs($this->students);
         $gui.= $this->get_leader_header();
         $gui.= $this->get_leader_select();
         $gui.= $this->get_course_header();
@@ -94,22 +93,6 @@ class Distribute
         $text = mb_substr($text, 0, (mb_strlen($text) - 2));
 
         return \html_writer::tag('p', $text);
-    }
-
-    private function get_hidden_students_inputs() : string 
-    {
-        $inputs = '';
-        foreach($this->students as $student)
-        {
-            $attr = array(
-                'type' => 'hidden',
-                'name' => Main::STUDENT.'[]',
-                'value' => $student->id.SEPARATOR.$student->fullname
-            );
-            $inputs = \html_writer::empty_tag('input', $attr);
-        }
-
-        return $inputs;
     }
 
     private function get_leader_header() : string 
