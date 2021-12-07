@@ -7,7 +7,6 @@ use Coursework\Lib\Getters\TeachersGetter as tg;
 
 class DistributeStudents 
 {
-    // Выводить предупреждение в случае о уже распределённых студентах
     private $course;
     private $cm;
 

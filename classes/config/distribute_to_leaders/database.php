@@ -4,7 +4,7 @@ namespace Coursework\Config\DistributeToLeaders;
 
 use coursework_lib as cw;
 
-class StudentsDistributionDBEventsHandler 
+class Database 
 {
     private $course;
     private $cm;

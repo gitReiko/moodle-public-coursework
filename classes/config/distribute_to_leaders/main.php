@@ -6,7 +6,7 @@ require_once '../../classes/classes_lib/add_edit_template.php';
 require_once '../../classes/classes_lib/students_mass_actions.php';
 require_once 'overview_students.php';
 require_once 'distribute_students.php';
-require_once 'distribution_events_handler.php';
+require_once 'database.php';
 
 class Main extends \Coursework\ClassesLib\AddEditTemplate
 {
@@ -23,13 +23,11 @@ class Main extends \Coursework\ClassesLib\AddEditTemplate
 
     protected function handle_database_event() : void
     {
-        /*
         if($this->is_database_event_exist())
         {
-            $handler = new StudentsDistributionDBEventsHandler($this->course, $this->cm);
+            $handler = new Database($this->course, $this->cm);
             $handler->execute();
         }
-        */
     }
 
     protected function get_gui() : string 
