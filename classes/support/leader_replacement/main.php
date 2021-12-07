@@ -4,9 +4,9 @@ namespace Coursework\Support\LeaderReplacement;
 
 require_once '../../classes/classes_lib/add_edit_template.php';
 require_once '../../classes/classes_lib/students_mass_actions.php';
-require_once 'overview_leaders.php';
-require_once 'replace_leader.php';
 require_once 'database.php';
+require_once 'overview.php';
+require_once 'replace.php';
 
 class Main extends \Coursework\ClassesLib\AddEditTemplate
 {
@@ -50,13 +50,13 @@ class Main extends \Coursework\ClassesLib\AddEditTemplate
 
     private function get_overview_gui() : string 
     {
-        $overview = new OverviewLeaders($this->course, $this->cm);
+        $overview = new Overview($this->course, $this->cm);
         return $overview->get_gui();
     }
 
     private function get_action_gui() : string 
     {
-        $distributeStudents = new ReplaceLeader($this->course, $this->cm);
+        $distributeStudents = new Replace($this->course, $this->cm);
         return $distributeStudents->get_gui();
     }
 

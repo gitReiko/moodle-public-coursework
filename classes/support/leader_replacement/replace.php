@@ -8,7 +8,7 @@ use Coursework\Lib\Getters\TeachersGetter as teachGetter;
 /**
  * @todo создать общего родителя для ReplaceLeader и DistributeStudents
  */
-class ReplaceLeader 
+class Replace 
 {
     const FORM_NAME = 'leader_replacement';
 
