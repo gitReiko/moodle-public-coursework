@@ -16,6 +16,7 @@ class Distribute
     private $leaders;
 
     private $selectedLeaderId = 0;
+    private $selectedCourseId = 0;
     private $selectedLeaderQuota = 0;
 
     function __construct(\stdClass $course, \stdClass $cm) 
@@ -26,7 +27,7 @@ class Distribute
         $this->students = massLib::get_distribute_students();
         $this->leaders = $this->get_teachers();
         $this->selectedLeaderId = reset($this->leaders)->id;
-        $this->selectedLeaderQuota = $this->get_leader_quota(reset($this->leaders));
+        $this->selectedLeaderQuota = $this->get_leader_quota();
     }
 
     public function get_gui() : string 
@@ -60,16 +61,9 @@ class Distribute
         return $teachers;
     }
 
-    private function get_leader_quota(\stdClass $leader)
+    private function get_leader_quota()
     {
-        $quota = 0;
-
-        foreach($leader->courses as $course)
-        {
-            $quota += $course->available_quota;
-        }
-
-        return $quota;
+        return reset(reset($this->leaders)->courses)->available_quota;
     }
 
     private function get_html_form_start() : string 

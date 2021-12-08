@@ -76,7 +76,7 @@ class Database
 
                 $attr = array('class' => 'green-message');
                 $text = get_string('student_successfully_distributed', 'coursework', $student);
-                echo \html_writer::tag('span', $text, $attr);
+                echo \html_writer::tag('p', $text, $attr);
     
                 $this->leader->remainingQuota--;
             }
@@ -84,7 +84,7 @@ class Database
             {
                 $attr = array('class' => 'red-message');
                 $text = get_string('not_enough_quota_for_distribution', 'coursework', $student);
-                echo \html_writer::tag('span', $text, $attr);
+                echo \html_writer::tag('p', $text, $attr);
             }
 
         }
@@ -92,7 +92,7 @@ class Database
         {
             $attr = array('class' => 'red-message');
             $text = get_string('student_redistribution_impossible', 'coursework', $student);
-            echo \html_writer::tag('span', $text, $attr);
+            echo \html_writer::tag('p', $text, $attr);
         }
     }
 
