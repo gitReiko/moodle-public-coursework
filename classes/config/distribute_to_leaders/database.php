@@ -20,15 +20,103 @@ class Database
         $this->cm = $cm;
 
         $this->students = massLib::get_distribute_students();
-        $this->leader = $this->get_leader();
+        $this->leader = $this->get_leader_from_request();
         $this->expandQuota = $this->get_expand_quota();
     }
 
     public function execute() 
     {
+        if($this->expandQuota)
+        {
+            $this->increase_leader_quota();
+        }
+
+        $this->leader->remainingQuota = $this->get_leader_remaining_quota();
+
         foreach($this->students as $student)
         {
             $this->distribute_student($student);
+        }
+    }
+
+    private function increase_leader_quota()
+    {
+        $leader = $this->get_leader();
+
+        if($this->is_leader_exist())
+        {
+            $this->update_leader_quota($leader);
+        }
+        else 
+        {
+            $this->create_leader_with_quota($leader);
+        }
+    }
+
+    private function get_leader()
+    {
+        $leader = new \stdClass;
+        $leader->coursework = $this->cm->instance;
+        $leader->teacher = $this->leader->id;
+        $leader->course = $this->leader->course;
+
+        return $leader;
+    }
+
+    private function is_leader_exist() : bool 
+    {
+        global $DB;
+        $where = array(
+            'coursework' => $this->cm->instance,
+            'teacher' => $this->leader->id,
+            'course' => $this->leader->course
+        );
+        return $DB->record_exists('coursework_teachers', $where);
+    }
+
+    private function get_leader_from_database() : \stdClass
+    {
+        global $DB;
+        $where = array(
+            'coursework' => $this->cm->instance,
+            'teacher' => $this->leader->id,
+            'course' => $this->leader->course
+        );
+        return $DB->get_record('coursework_teachers', $where);
+    }
+
+    private function get_quota_increase()
+    {
+        $studentsCount = count($this->students);
+        $remainingQuota = $this->get_leader_remaining_quota();
+
+        return abs($remainingQuota - $studentsCount);
+    }
+
+    private function create_leader_with_quota(\stdClass $leader)
+    {
+        global $DB;
+        $leader->quota = $this->get_quota_increase();
+        if($DB->insert_record('coursework_teachers', $leader, false))
+        {
+            $attr = array('class' => 'green-message');
+            $text = get_string('leader_quota_increased', 'coursework', $student);
+            echo \html_writer::tag('p', $text, $attr); 
+        }
+    }
+
+    private function update_leader_quota(\stdClass $leader)
+    {
+        global $DB;
+        $dbLeader = $this->get_leader_from_database();
+        $leader->id = $dbLeader->id;
+        $leader->quota = $dbLeader->quota + $this->get_quota_increase();
+
+        if($DB->update_record('coursework_teachers', $leader))
+        {
+            $attr = array('class' => 'green-message');
+            $text = get_string('leader_quota_increased', 'coursework', $student);
+            echo \html_writer::tag('p', $text, $attr);
         }
     }
 
@@ -40,7 +128,7 @@ class Database
         else return false;
     }
 
-    private function get_leader() : \stdClass 
+    private function get_leader_from_request() : \stdClass 
     {
         $leader = new \stdClass;
         $leader->id = optional_param(Main::TEACHER, null, PARAM_INT);
@@ -49,13 +137,16 @@ class Database
         if(empty($leader->id)) throw new \Exception(get_string('e-sd-ev:missing_leader_id', 'coursework'));
         if(empty($leader->course)) throw new \Exception(get_string('e-sd-ev:missing_course_id', 'coursework'));
 
-        $leader->remainingQuota = tg::get_available_leader_quota_in_course(
-            $this->cm, 
-            $leader->id, 
-            $leader->course
-        );
-
         return $leader;
+    }
+
+    private function get_leader_remaining_quota()
+    {
+        return tg::get_available_leader_quota_in_course(
+            $this->cm, 
+            $this->leader->id, 
+            $this->leader->course
+        );
     }
 
     private function distribute_student(\stdClass $student) : void
@@ -64,11 +155,6 @@ class Database
 
         if($this->is_student_dont_distributed($student->id))
         {
-            if($this->expandQuota && ($this->leader->remainingQuota == 0))
-            {
-                $this->increment_leader_quota();
-            }
-
             if($this->leader->remainingQuota > 0)
             {
                 $dbStudent = $this->get_student($student->id);
@@ -103,17 +189,6 @@ class Database
 
         if($DB->record_exists('coursework_students', $conditions)) return false;
         else return true;
-    }
-
-    private function increment_leader_quota() : void 
-    {
-        global $DB;
-        $sql = "UPDATE {coursework_teachers} SET `quota` = `quota` + 1 WHERE `coursework`= ? AND teacher = ? AND course = ?";
-        $conditions = array($this->cm->instance, $this->leader->id, $this->leader->course);
-
-        $DB->execute($sql, $conditions);
-
-        $this->leader->remainingQuota++;
     }
 
     private function get_student(int $studentid) : \stdClass 

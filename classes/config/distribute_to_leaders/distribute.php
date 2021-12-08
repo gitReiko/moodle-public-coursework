@@ -272,8 +272,6 @@ class Distribute
         );
         $end.= \html_writer::empty_tag('input', $attr);
 
-        $end.= massLib::get_action_students_inputs($this->students);
-
         $end.= \html_writer::end_tag('form');
 
         return $end;

@@ -128,7 +128,7 @@ class TeachersGetter
     {
         $totalQuota = self::get_course_configured_quota($cm, $teacherId, $courseId);
         $usedQuota = self::get_course_used_quota($cm, $teacherId, $courseId); 
-        $availableQuota = $course->total_quota - $course->used_quota;
+        $availableQuota = $totalQuota - $usedQuota;
 
         return $availableQuota;
     }

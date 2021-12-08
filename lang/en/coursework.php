@@ -395,3 +395,4 @@ $string['alert_delete_student_courseworks'] = 'Are you sure you want to delete t
 $string['student_coursework_deleted'] = 'Student coursework deleted';
 $string['appoint_leaders'] = 'Appoint leaders';
 $string['distribute_to_leaders'] = 'Distribute to leaders';
+$string['leader_quota_increased'] = 'Leader quota increased.';
