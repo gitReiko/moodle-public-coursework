@@ -7,6 +7,8 @@ use Coursework\Lib\Getters\TeachersGetter as tg;
 
 class Distribute 
 {
+    const DISTRIBUTE_FORM = 'distribute_form';
+
     private $course;
     private $cm;
 
@@ -38,8 +40,8 @@ class Distribute
         $gui.= $this->get_course_header();
         $gui.= $this->get_course_select();
         $gui.= $this->get_expand_quota_panel();
-        $gui.= $this->get_buttons_panel();
         $gui.= $this->get_html_form_end();
+        $gui.= $this->get_buttons_panel();
         $gui.= $this->get_data_for_javascript();
 
         return $gui;
@@ -72,7 +74,7 @@ class Distribute
 
     private function get_html_form_start() : string 
     {
-        $attr = array('method' => 'post');
+        $attr = array('id' => self::DISTRIBUTE_FORM, 'method' => 'post');
         return \html_writer::start_tag('form', $attr);
     }
 
@@ -222,14 +224,15 @@ class Distribute
 
     private function get_distribute_button() : string 
     {
+        $attr = array('form' => self::DISTRIBUTE_FORM);
         $text = get_string('distribute', 'coursework');
-        return \html_writer::tag('button', $text);
+        return \html_writer::tag('button', $text, $attr);
     }
 
     private function get_back_button() : string 
     {
-        $attr = array('method' => 'post');
-        $btn = \html_writer::start_tag('form');
+        $attr = array('method' => 'post', 'class' => 'back_button_form');
+        $btn = \html_writer::start_tag('form', $attr);
 
         $attr = array(
             'type' => 'hidden',
