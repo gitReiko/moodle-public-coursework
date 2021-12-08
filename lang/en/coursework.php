@@ -396,3 +396,4 @@ $string['student_coursework_deleted'] = 'Student coursework deleted';
 $string['appoint_leaders'] = 'Appoint leaders';
 $string['distribute_to_leaders'] = 'Distribute to leaders';
 $string['leader_quota_increased'] = 'Leader quota increased.';
+$string['student_distributed_to_teacher'] = 'Student distributed to teacher';

@@ -102,6 +102,8 @@ class Database
             $attr = array('class' => 'green-message');
             $text = get_string('leader_quota_increased', 'coursework', $student);
             echo \html_writer::tag('p', $text, $attr); 
+
+            $this->log_event_leader_quota_increased();
         }
     }
 
@@ -117,6 +119,8 @@ class Database
             $attr = array('class' => 'green-message');
             $text = get_string('leader_quota_increased', 'coursework', $student);
             echo \html_writer::tag('p', $text, $attr);
+
+            $this->log_event_leader_quota_increased();
         }
     }
 
@@ -158,13 +162,17 @@ class Database
             if($this->leader->remainingQuota > 0)
             {
                 $dbStudent = $this->get_student($student->id);
-                $DB->insert_record('coursework_students', $dbStudent, false);
 
-                $attr = array('class' => 'green-message');
-                $text = get_string('student_successfully_distributed', 'coursework', $student);
-                echo \html_writer::tag('p', $text, $attr);
-    
-                $this->leader->remainingQuota--;
+                if($DB->insert_record('coursework_students', $dbStudent, false))
+                {
+                    $attr = array('class' => 'green-message');
+                    $text = get_string('student_successfully_distributed', 'coursework', $student);
+                    echo \html_writer::tag('p', $text, $attr);
+
+                    $this->log_event_student_distributed_to_teacher($student->id);
+
+                    $this->leader->remainingQuota--;
+                }
             }
             else
             {
@@ -172,7 +180,6 @@ class Database
                 $text = get_string('not_enough_quota_for_distribution', 'coursework', $student);
                 echo \html_writer::tag('p', $text, $attr);
             }
-
         }
         else 
         {
@@ -200,6 +207,30 @@ class Database
         $student->course = $this->leader->course;
 
         return $student;
+    }
+
+    private function log_event_leader_quota_increased() : void 
+    {
+        $params = array
+        (
+            'relateduserid' => $this->leader->id, 
+            'context' => \context_module::instance($this->cm->id)
+        );
+        
+        $event = \mod_coursework\event\leader_quota_increased::create($params);
+        $event->trigger();
+    }
+
+    private function log_event_student_distributed_to_teacher(int $studentId) : void 
+    {
+        $params = array
+        (
+            'relateduserid' => $studentId, 
+            'context' => \context_module::instance($this->cm->id)
+        );
+        
+        $event = \mod_coursework\event\student_distributed_to_teacher::create($params);
+        $event->trigger();
     }
 
 

@@ -403,4 +403,5 @@ $string['alert_delete_student_courseworks'] = 'Вы уверены, что хо�
 $string['student_coursework_deleted'] = 'Курсовая работа студента удалена';
 $string['appoint_leaders'] = 'Назначить руководителей';
 $string['distribute_to_leaders'] = 'Распределить к руководителям';
-$string['leader_quota_increased'] = 'Квота руководителя увеличена.';
+$string['leader_quota_increased'] = 'Квота руководителя увеличена';
+$string['student_distributed_to_teacher'] = 'Студенту назначен руководитель';
