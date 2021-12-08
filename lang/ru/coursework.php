@@ -405,3 +405,4 @@ $string['appoint_leaders'] = 'Назначить руководителей';
 $string['distribute_to_leaders'] = 'Распределить к руководителям';
 $string['leader_quota_increased'] = 'Квота руководителя увеличена';
 $string['student_distributed_to_teacher'] = 'Студенту назначен руководитель';
+$string['set_used_task_template'] = 'Установить используемый шаблон задания';

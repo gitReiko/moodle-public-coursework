@@ -33,6 +33,13 @@ $attr = array('href' => '/mod/coursework/pages/config/appoint_leaders.php?id='.$
 $text = \html_writer::tag('p', get_string('appoint_leaders', 'coursework'));
 echo \html_writer::tag('a', $text, $attr);
 
+$attr = array('href' => '/mod/coursework/pages/config/distribute_to_leaders.php?id='.$id);
+$text = \html_writer::tag('p', get_string('distribute_to_leaders', 'coursework'));
+echo \html_writer::tag('a', $text, $attr);
+
+$attr = array('href' => '/mod/coursework/pages/config/set_used_task_template.php?id='.$id);
+$text = \html_writer::tag('p', get_string('set_used_task_template', 'coursework'));
+echo \html_writer::tag('a', $text, $attr);
 
 echo $OUTPUT->footer();
 

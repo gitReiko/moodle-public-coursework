@@ -397,3 +397,4 @@ $string['appoint_leaders'] = 'Appoint leaders';
 $string['distribute_to_leaders'] = 'Distribute to leaders';
 $string['leader_quota_increased'] = 'Leader quota increased.';
 $string['student_distributed_to_teacher'] = 'Student distributed to teacher';
+$string['set_used_task_template'] = 'Set used task template';
