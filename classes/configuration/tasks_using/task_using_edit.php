@@ -30,7 +30,7 @@ class TaskUsingEdit extends TaskUsingAction
         if(empty($id)) throw new Exception('Missing using task id.');
 
         global $DB;
-        return $DB->get_record('coursework_tasks_using', array('id' => $id));   
+        return $DB->get_record('coursework_default_task_use', array('id' => $id));   
     }
 
 }

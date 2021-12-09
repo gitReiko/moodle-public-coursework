@@ -130,7 +130,7 @@
       </KEYS>
     </TABLE>
 
-    <TABLE NAME="coursework_tasks_using" COMMENT="Defines coursework tasks.">
+    <TABLE NAME="coursework_default_task_use" COMMENT="Defines default task template used in coursework.">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" />
         <FIELD NAME="coursework" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" />

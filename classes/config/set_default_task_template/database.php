@@ -70,7 +70,7 @@ class Database
     private function add_default_task() : void 
     {
         global $DB;
-        if($DB->insert_record('coursework_tasks_using', $this->defaultTaskTemplate, false))
+        if($DB->insert_record('coursework_default_task_use', $this->defaultTaskTemplate, false))
         {
             $this->log_default_task_template_setted();
         }
@@ -81,7 +81,7 @@ class Database
         if(empty($this->defaultTaskTemplate->id)) throw new \Exception('Missing default task template id.');
 
         global $DB;
-        if($DB->update_record('coursework_tasks_using', $this->defaultTaskTemplate))
+        if($DB->update_record('coursework_default_task_use', $this->defaultTaskTemplate))
         {
             $this->log_default_task_template_setted();
         }

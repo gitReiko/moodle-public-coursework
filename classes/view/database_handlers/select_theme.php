@@ -328,7 +328,7 @@ class ThemeSelect
     {
         global $DB;
         $where = array('coursework' => $this->cm->instance);
-        $task = $DB->get_field('coursework_tasks_using', 'task', $where);
+        $task = $DB->get_field('coursework_default_task_use', 'task', $where);
         if(empty($task)) throw new \Exception('Task template is absent.');
         return $task;
     }

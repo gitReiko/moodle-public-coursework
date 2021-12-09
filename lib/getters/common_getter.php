@@ -31,7 +31,7 @@ class CommonGetter
         global $DB;
         $sql = 'SELECT ct.*, ctu.id as rowid
                 FROM {coursework_tasks} AS ct
-                INNER JOIN {coursework_tasks_using} AS ctu
+                INNER JOIN {coursework_default_task_use} AS ctu
                 ON ct.id = ctu.task
                 WHERE coursework = ?';
         $conditions = array($cm->instance);

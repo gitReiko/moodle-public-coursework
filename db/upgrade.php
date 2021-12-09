@@ -390,5 +390,11 @@ function xmldb_coursework_upgrade($oldversion)
         }
     }
 
+    if($oldversion < 2021120904)
+    {
+        $table = new xmldb_table('coursework_tasks_using');
+        $dbman->rename_table($table, 'coursework_default_task_use');
+    }
+
     return true;
 }

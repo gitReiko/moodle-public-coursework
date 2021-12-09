@@ -70,7 +70,7 @@ class TaskUsingDBEventsHandler
     private function add_task_using() : void 
     {
         global $DB;
-        $DB->insert_record('coursework_tasks_using', $this->usingTaskTemplate, false);
+        $DB->insert_record('coursework_default_task_use', $this->usingTaskTemplate, false);
     }
 
     private function update_task_using() : void 
@@ -78,7 +78,7 @@ class TaskUsingDBEventsHandler
         if(empty($this->usingTaskTemplate->id)) throw new Exception('Missing using task template id.');
 
         global $DB;
-        $DB->update_record('coursework_tasks_using', $this->usingTaskTemplate);
+        $DB->update_record('coursework_default_task_use', $this->usingTaskTemplate);
     }
 
 
