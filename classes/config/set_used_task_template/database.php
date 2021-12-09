@@ -70,7 +70,10 @@ class Database
     private function add_task_using() : void 
     {
         global $DB;
-        $DB->insert_record('coursework_tasks_using', $this->usingTaskTemplate, false);
+        if($DB->insert_record('coursework_tasks_using', $this->usingTaskTemplate, false))
+        {
+            $this->log_task_template_setted();
+        }
     }
 
     private function update_task_using() : void 
@@ -78,10 +81,22 @@ class Database
         if(empty($this->usingTaskTemplate->id)) throw new \Exception('Missing using task template id.');
 
         global $DB;
-        $DB->update_record('coursework_tasks_using', $this->usingTaskTemplate);
+        if($DB->update_record('coursework_tasks_using', $this->usingTaskTemplate))
+        {
+            $this->log_task_template_setted();
+        }
     }
 
-
+    private function log_task_template_setted() : void 
+    {
+        $params = array
+        (
+            'context' => \context_module::instance($this->cm->id)
+        );
+        
+        $event = \mod_coursework\event\task_template_setted::create($params);
+        $event->trigger();
+    }
 
 }
 
