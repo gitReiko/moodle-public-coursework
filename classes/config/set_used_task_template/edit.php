@@ -21,8 +21,20 @@ class Edit extends Action
 
     protected function get_unique_form_hidden_inputs() : string
     {
-        $inputs = '<input type="hidden" name="'.Main::DATABASE_EVENT.'" value="'.Main::EDIT_TASK_USING.'"/>';
-        $inputs.= '<input type="hidden" name="'.TASK.ROW.ID.'" value="'.$this->usedTask->id.'">';
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::DATABASE_EVENT,
+            'value' => Main::EDIT_TASK_USING
+        );
+        $inputs = \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::TASK_ROW_ID,
+            'value' => $this->usedTask->id
+        );
+        $inputs.= \html_writer::empty_tag('input', $attr);
+
         return $inputs;
     }
 

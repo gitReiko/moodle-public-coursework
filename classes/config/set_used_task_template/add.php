@@ -17,7 +17,12 @@ class Add extends Action
 
     protected function get_unique_form_hidden_inputs() : string
     {
-        return '<input type="hidden" name="'.Main::DATABASE_EVENT.'" value="'.Main::ADD_TASK_USING.'"/>';
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::DATABASE_EVENT,
+            'value' => Main::ADD_TASK_USING
+        );
+        return \html_writer::empty_tag('input', $attr);
     }
 
 }
