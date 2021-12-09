@@ -44,6 +44,11 @@ class Overview
                 $gui.= $this->get_sections_not_created();
             }
         }
+        else 
+        {
+            $text = get_string('task_currently_not_in_use', 'coursework');
+            $gui.= \html_writer::tag('p', $text);
+        }
 
         return $gui;
     }
@@ -83,19 +88,20 @@ class Overview
 
     private function get_task_sections_list_header() : string 
     {
-        $attr = array('class' => 'header');
-        $head = \html_writer::start_tag('tr', $attr);
+        $head = \html_writer::start_tag('thead');
+        $head.= \html_writer::start_tag('tr');
         $head.= \html_writer::tag('td', get_string('name', 'coursework'));
         $head.= \html_writer::tag('td', get_string('description', 'coursework'));
         $head.= \html_writer::tag('td', get_string('completion_date', 'coursework'));
-        $head = \html_writer::end_tag('tr');
+        $head.= \html_writer::end_tag('tr');
+        $head.= \html_writer::end_tag('thead');
 
         return $head;
     }
 
     private function get_task_sections_list_body() : string 
     {
-        $body = '';
+        $body = \html_writer::start_tag('tbody');
 
         foreach($this->taskSections as $section)
         {
@@ -116,6 +122,8 @@ class Overview
             
             $body.= \html_writer::end_tag('td');
         }
+
+        $body.= \html_writer::end_tag('tbody');
 
         return $body;
     }

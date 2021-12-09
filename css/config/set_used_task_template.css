@@ -1,0 +1,16 @@
+
+table.leaders_overview
+{
+    border-collapse: collapse;
+}
+
+table.leaders_overview tr td 
+{
+    border: none;
+}
+
+table.leaders_overview thead tr td
+{
+    color: grey;
+}
+

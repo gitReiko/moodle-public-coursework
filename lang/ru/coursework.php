@@ -406,3 +406,4 @@ $string['distribute_to_leaders'] = 'Распределить к руководи
 $string['leader_quota_increased'] = 'Квота руководителя увеличена';
 $string['student_distributed_to_teacher'] = 'Студенту назначен руководитель';
 $string['set_used_task_template'] = 'Установить используемый шаблон задания';
+$string['task_currently_not_in_use'] = 'В данный момент шаблон задания не используется.';

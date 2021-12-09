@@ -25,8 +25,7 @@ $PAGE->set_cm($cm);
 $PAGE->set_title(get_string('set_used_task_template', 'coursework'));
 $PAGE->set_heading(get_string('set_used_task_template', 'coursework'));
 
-//$PAGE->requires->css('/mod/coursework/css/common.css');
-//$PAGE->requires->css('/mod/coursework/css/config/appoint_leaders.css');
+$PAGE->requires->css('/mod/coursework/css/config/set_used_task_template.css');
 
 require_login();
   
