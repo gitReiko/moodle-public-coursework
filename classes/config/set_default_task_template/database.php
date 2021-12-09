@@ -72,7 +72,7 @@ class Database
         global $DB;
         if($DB->insert_record('coursework_tasks_using', $this->defaultTaskTemplate, false))
         {
-            $this->log_task_template_setted();
+            $this->log_default_task_template_setted();
         }
     }
 
@@ -83,18 +83,18 @@ class Database
         global $DB;
         if($DB->update_record('coursework_tasks_using', $this->defaultTaskTemplate))
         {
-            $this->log_task_template_setted();
+            $this->log_default_task_template_setted();
         }
     }
 
-    private function log_task_template_setted() : void 
+    private function log_default_task_template_setted() : void 
     {
         $params = array
         (
             'context' => \context_module::instance($this->cm->id)
         );
         
-        $event = \mod_coursework\event\task_template_setted::create($params);
+        $event = \mod_coursework\event\default_task_template_setted::create($params);
         $event->trigger();
     }
 

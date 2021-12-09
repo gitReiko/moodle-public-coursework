@@ -37,7 +37,7 @@ defined('MOODLE_INTERNAL') || die();
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  **/
 
-class task_template_setted extends \core\event\base {
+class default_task_template_setted extends \core\event\base {
     protected function init() {
         $this->data['crud'] = 'c'; // c(reate), r(ead), u(pdate), d(elete)
         $this->data['edulevel'] = self::LEVEL_PARTICIPATING;
@@ -45,7 +45,7 @@ class task_template_setted extends \core\event\base {
  
     public static function get_name() {
     
-        return get_string('task_template_setted', 'coursework');
+        return get_string('default_task_template_setted', 'coursework');
     }
  
     public function get_description() 
