@@ -15,6 +15,9 @@ class Main extends \Coursework\ClassesLib\AddEditTemplate
     const ADD_TASK_USING = 'add_used_task_template';
     const EDIT_TASK_USING = 'edit_used_task_template';
 
+    const ID = 'id';
+    const TASK_ROW_ID = 'task_row_id';
+
     function __construct(\stdClass $course, \stdClass $cm)
     {
         parent::__construct($course, $cm);
