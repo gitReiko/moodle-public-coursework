@@ -17,6 +17,7 @@ class Main extends \Coursework\ClassesLib\AddEditTemplate
 
     const ID = 'id';
     const TASK_ROW_ID = 'task_row_id';
+    const TASK = 'task';
 
     function __construct(\stdClass $course, \stdClass $cm)
     {
