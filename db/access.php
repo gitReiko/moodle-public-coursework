@@ -236,7 +236,7 @@ $capabilities = array(
         )
     ),
 
-    'mod/coursework:setusedtasktemplate' => array
+    'mod/coursework:setdefaulttasktemplate' => array
     (
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,

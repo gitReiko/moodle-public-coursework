@@ -54,7 +54,7 @@ class task_template_setted extends \core\event\base {
     }
  
     public function get_url() {
-        return new \moodle_url('/mod/coursework/pages/config/set_used_task_template.php', array('id' => $this->contextinstanceid));
+        return new \moodle_url('/mod/coursework/pages/config/set_default_task_template.php', array('id' => $this->contextinstanceid));
     }
  
     public function get_legacy_logdata() {

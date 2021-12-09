@@ -45,7 +45,7 @@ abstract class TaskUsingAction
 
     private function get_action_header() : string
     {
-        return '<h3>'.get_string('used_task_template_selecting', 'coursework').'</h3>';
+        return '<h3>'.get_string('select_default_task_template', 'coursework').'</h3>';
     }
 
     private function get_task_template_field() : string 

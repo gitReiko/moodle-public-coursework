@@ -1,6 +1,6 @@
 <?php
 
-namespace Coursework\Config\SetUsedTaskTemplate;
+namespace Coursework\Config\SetDefaultTaskTemplate;
 
 class Add extends Action 
 {
@@ -20,7 +20,7 @@ class Add extends Action
         $attr = array(
             'type' => 'hidden',
             'name' => Main::DATABASE_EVENT,
-            'value' => Main::ADD_TASK_USING
+            'value' => Main::ADD_DEFAULT_TASK
         );
         return \html_writer::empty_tag('input', $attr);
     }

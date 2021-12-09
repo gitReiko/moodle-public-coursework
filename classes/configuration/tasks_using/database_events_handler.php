@@ -23,7 +23,7 @@ class TaskUsingDBEventsHandler
 
         switch($event)
         {
-            case TasksUsingMain::ADD_TASK_USING: 
+            case TasksUsingMain::ADD_DEFAULT_TASK: 
                 $this->add_task_using();
                 break;
             case TasksUsingMain::EDIT_TASK_USING: 

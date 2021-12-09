@@ -32,7 +32,7 @@ class TasksUsingMain extends ConfigurationManager
         $gui = '';
         $guiType = optional_param(self::GUI_TYPE, null, PARAM_TEXT);
 
-        if($guiType === self::ADD_TASK_USING)
+        if($guiType === self::ADD_DEFAULT_TASK)
         {
             $gui.= $this->get_add_task_using_gui();
         }

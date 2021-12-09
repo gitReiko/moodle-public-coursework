@@ -105,10 +105,10 @@ function coursework_extend_settings_navigation($settings, $navref)
             $confCategory->add($linkname, $link, navigation_node::TYPE_SETTING);
         }
 
-        if(has_capability('mod/coursework:setusedtasktemplate', $PAGE->cm->context))
+        if(has_capability('mod/coursework:setdefaulttasktemplate', $PAGE->cm->context))
         {
-            $link = new moodle_url('/mod/coursework/pages/config/set_used_task_template.php', array('id' => $cm->id));
-            $linkname = get_string('set_used_task_template', 'coursework');
+            $link = new moodle_url('/mod/coursework/pages/config/set_default_task_template.php', array('id' => $cm->id));
+            $linkname = get_string('set_default_task_template', 'coursework');
             $confCategory->add($linkname, $link, navigation_node::TYPE_SETTING);
         }
     }
@@ -168,7 +168,7 @@ function is_user_can_view_configuration_category() : bool
     {
         return true;
     }
-    else if(has_capability('mod/coursework:setusedtasktemplate', $PAGE->cm->context))
+    else if(has_capability('mod/coursework:setdefaulttasktemplate', $PAGE->cm->context))
     {
         return true;
     }

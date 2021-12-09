@@ -1,6 +1,6 @@
 <?php
 
-namespace Coursework\Config\SetUsedTaskTemplate;
+namespace Coursework\Config\SetDefaultTaskTemplate;
 
 require_once '../../classes/classes_lib/add_edit_template.php';
 require_once 'action.php';
@@ -12,11 +12,11 @@ require_once 'overview.php';
 class Main extends \Coursework\ClassesLib\AddEditTemplate
 {
     const OVERVIEW = 'overview';
-    const ADD_TASK_USING = 'add_used_task_template';
-    const EDIT_TASK_USING = 'edit_used_task_template';
+    const ADD_DEFAULT_TASK = 'add_default_task';
+    const EDIT_DEFAULT_TASK = 'edit_default_task';
 
     const ID = 'id';
-    const TASK_ROW_ID = 'task_row_id';
+    const DEFAULT_TASK_ROW_ID = 'default_task_row_id';
     const TASK = 'task';
 
     function __construct(\stdClass $course, \stdClass $cm)
@@ -38,11 +38,11 @@ class Main extends \Coursework\ClassesLib\AddEditTemplate
         $gui = '';
         $guiType = optional_param(self::GUI_TYPE, null, PARAM_TEXT);
 
-        if($guiType === self::ADD_TASK_USING)
+        if($guiType === self::ADD_DEFAULT_TASK)
         {
             $gui.= $this->get_add();
         }
-        else if($guiType === self::EDIT_TASK_USING)
+        else if($guiType === self::EDIT_DEFAULT_TASK)
         {
             $gui.= $this->get_edit();
         }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Coursework\Config\SetUsedTaskTemplate;
+namespace Coursework\Config\SetDefaultTaskTemplate;
 
 use Coursework\Lib\Getters\CommonGetter as cg;
 
@@ -9,7 +9,7 @@ class Overview
     private $course;
     private $cm;
 
-    private $usingTask;
+    private $defaultTask;
     private $taskSections;
 
     function __construct(\stdClass $course, \stdClass $cm)
@@ -17,11 +17,11 @@ class Overview
         $this->course = $course;
         $this->cm = $cm;
 
-        $this->usingTask = cg::get_default_coursework_task($this->cm);
+        $this->defaultTask = cg::get_default_coursework_task($this->cm);
 
-        if(!empty($this->usingTask))
+        if(!empty($this->defaultTask))
         {
-            $this->taskSections = cg::get_task_sections($this->usingTask->id);
+            $this->taskSections = cg::get_task_sections($this->defaultTask->id);
         }
     }
 
@@ -31,9 +31,9 @@ class Overview
 
         $gui.= $this->get_action_button();
 
-        if(!empty($this->usingTask))
+        if(!empty($this->defaultTask))
         {
-            $gui.= $this->get_using_task_info();
+            $gui.= $this->get_default_task_info();
 
             if(count($this->taskSections))
             {
@@ -46,7 +46,7 @@ class Overview
         }
         else 
         {
-            $text = get_string('task_currently_not_in_use', 'coursework');
+            $text = get_string('default_task_not_exists', 'coursework');
             $gui.= \html_writer::tag('p', $text);
         }
 
@@ -55,16 +55,16 @@ class Overview
 
     private function get_overview_header() : string 
     {
-        $text = get_string('used_task_template', 'coursework');
+        $text = get_string('default_task', 'coursework');
         return \html_writer::tag('h3', $text);
     }
 
-    private function get_using_task_info() : string 
+    private function get_default_task_info() : string 
     {
-        $text = \html_writer::tag('b', $this->usingTask->name);
+        $text = \html_writer::tag('b', $this->defaultTask->name);
         $info = \html_writer::tag('h4', $text);
 
-        $text = $this->usingTask->description;
+        $text = $this->defaultTask->description;
         $info.= \html_writer::tag('p', $text);
 
         return $info;
@@ -141,7 +141,7 @@ class Overview
 
         $attr = array(
             'type' => 'submit',
-            'value' => get_string('select_used_task_template', 'coursework'),
+            'value' => get_string('select_default_task', 'coursework'),
             'autofocus' => 'autofocus'
         );
         $btn.= \html_writer::empty_tag('input', $attr);
@@ -153,7 +153,7 @@ class Overview
         );
         $btn.= \html_writer::empty_tag('input', $attr);
 
-        if(empty($this->usingTask))
+        if(empty($this->defaultTask))
         {
             $btn.= $this->get_add_event_input();
         }
@@ -172,7 +172,7 @@ class Overview
         $attr = array(
             'type' => 'hidden',
             'name' => Main::GUI_TYPE,
-            'value' => Main::ADD_TASK_USING
+            'value' => Main::ADD_DEFAULT_TASK
         );
         return \html_writer::empty_tag('input', $attr);
     }
@@ -182,14 +182,14 @@ class Overview
         $attr = array(
             'type' => 'hidden',
             'name' => Main::GUI_TYPE,
-            'value' => Main::EDIT_TASK_USING
+            'value' => Main::EDIT_DEFAULT_TASK
         );
         $btn = \html_writer::empty_tag('input', $attr);
 
         $attr = array(
             'type' => 'hidden',
-            'name' => Main::TASK_ROW_ID,
-            'value' => $this->usingTask->rowid
+            'name' => Main::DEFAULT_TASK_ROW_ID,
+            'value' => $this->defaultTask->rowid
         );
         $btn.= \html_writer::empty_tag('input', $attr);
 

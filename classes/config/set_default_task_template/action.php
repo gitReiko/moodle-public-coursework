@@ -1,6 +1,6 @@
 <?php
 
-namespace Coursework\Config\SetUsedTaskTemplate;
+namespace Coursework\Config\SetDefaultTaskTemplate;
 
 abstract class Action 
 {
@@ -52,7 +52,7 @@ abstract class Action
 
     private function get_action_header() : string
     {
-        $text = get_string('used_task_template_selecting', 'coursework');
+        $text = get_string('select_default_task_template', 'coursework');
         return \html_writer::tag('h3', $text);
     }
 

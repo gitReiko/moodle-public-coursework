@@ -117,9 +117,9 @@ $string['edit_task_section_header'] = 'Task section editing';
 
 // Tasks using
 $string['tasks_using'] = 'Tasks templates using';
-$string['used_task_template'] = 'Used task template';
-$string['select_used_task_template'] = 'Select used task template';
-$string['used_task_template_selecting'] = 'Used task template using';
+$string['default_task'] = 'Default task template';
+$string['select_default_task'] = 'Select default task template';
+$string['select_default_task_template'] = 'Select of default task template';
 $string['task_template'] = 'Task template';
 $string['select_task_template'] = 'Select task template';
 $string['task_sections_not_created'] = 'Task sections not created.';
@@ -397,6 +397,6 @@ $string['appoint_leaders'] = 'Appoint leaders';
 $string['distribute_to_leaders'] = 'Distribute to leaders';
 $string['leader_quota_increased'] = 'Leader quota increased.';
 $string['student_distributed_to_teacher'] = 'Student distributed to teacher';
-$string['set_used_task_template'] = 'Set used task template';
-$string['task_currently_not_in_use'] = 'The task template is not currently in use.';
+$string['set_default_task_template'] = 'Set default task template';
+$string['default_task_not_exists'] = 'The default task template is not using in coursework.';
 $string['task_template_setted'] = 'Setted default task template';

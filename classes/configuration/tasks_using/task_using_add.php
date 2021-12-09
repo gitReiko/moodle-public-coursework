@@ -15,7 +15,7 @@ class TaskUsingAdd extends TaskUsingAction
 
     protected function get_unique_form_hidden_inputs() : string
     {
-        return '<input type="hidden" name="'.ConfigurationManager::DATABASE_EVENT.'" value="'.TasksUsingMain::ADD_TASK_USING.'"/>';
+        return '<input type="hidden" name="'.ConfigurationManager::DATABASE_EVENT.'" value="'.TasksUsingMain::ADD_DEFAULT_TASK.'"/>';
     }
 
 }
