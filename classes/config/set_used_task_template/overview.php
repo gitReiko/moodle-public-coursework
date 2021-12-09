@@ -21,7 +21,7 @@ class Overview
 
         if(!empty($this->usingTask))
         {
-            $this->taskSections = cg::get_task_sections($this->cm);
+            $this->taskSections = cg::get_task_sections($this->usingTask->id);
         }
     }
 
@@ -29,7 +29,7 @@ class Overview
     {
         $gui = $this->get_overview_header();
 
-        $gui = $this->get_action_button();
+        $gui.= $this->get_action_button();
 
         if(!empty($this->usingTask))
         {
@@ -147,21 +147,14 @@ class Overview
 
         if(empty($this->usingTask))
         {
-            $this->get_add_event_input();
+            $btn.= $this->get_add_event_input();
         }
         else 
         {
-            $this->get_edit_event_inputs();
+            $btn.= $this->get_edit_event_inputs();
         }
 
-        $attr = array(
-            'type' => 'hidden',
-            'name' => Main::GUI_TYPE,
-            'value' => Main::ADD_TASK_USING
-        );
-        $btn.= \html_writer::empty_tag('input', $attr);
-
-        $btn = \html_writer::end_tag('form');
+        $btn.= \html_writer::end_tag('form');
 
         return $btn;
     }
@@ -188,7 +181,7 @@ class Overview
         $attr = array(
             'type' => 'hidden',
             'name' => Main::TASK_ROW_ID,
-            'value' => $this->usingTask->usingtaskid
+            'value' => $this->usingTask->rowid
         );
         $btn.= \html_writer::empty_tag('input', $attr);
 

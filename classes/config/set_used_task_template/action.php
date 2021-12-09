@@ -74,7 +74,7 @@ abstract class Action
             'autocomplete' => 'off',
             'autofocus' => 'autofocus'
         );
-        $s = \html_writer::tag('select', $attr);
+        $s = \html_writer::start_tag('select', $attr);
 
         foreach($this->tasks as $task)
         {
@@ -82,7 +82,7 @@ abstract class Action
 
             if($this->is_task_selected($task->id))
             {
-                $attr = array($attr, array('selected' => 'selected'));
+                $attr = array_merge($attr, array('selected' => 'selected'));
             }
 
             $text = $task->name;

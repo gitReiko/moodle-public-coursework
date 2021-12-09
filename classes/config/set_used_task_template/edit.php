@@ -38,10 +38,10 @@ class Edit extends Action
         return $inputs;
     }
 
-    private function get_used_task() : stdClass 
+    private function get_used_task() : \stdClass 
     {
-        $id = optional_param(TASK.ROW.ID, null, PARAM_INT);
-        if(empty($id)) throw new Exception('Missing using task id.');
+        $id = optional_param(Main::TASK_ROW_ID, null, PARAM_INT);
+        if(empty($id)) throw new \Exception('Missing using task id.');
 
         global $DB;
         return $DB->get_record('coursework_tasks_using', array('id' => $id));   

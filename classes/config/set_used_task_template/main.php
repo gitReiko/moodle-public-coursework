@@ -26,13 +26,11 @@ class Main extends \Coursework\ClassesLib\AddEditTemplate
 
     protected function handle_database_event() : void
     {
-        /*
         if($this->is_database_event_exist())
         {
             $handler = new Database($this->course, $this->cm);
             $handler->execute(); 
         }
-        */
     }
 
     protected function get_gui() : string 
