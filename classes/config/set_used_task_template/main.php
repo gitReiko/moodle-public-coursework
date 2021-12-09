@@ -1,30 +1,34 @@
 <?php
 
-require_once 'database_events_handler.php';
-require_once 'task_using_overview.php';
-require_once 'task_using_action.php';
-require_once 'task_using_add.php';
-require_once 'task_using_edit.php';
+namespace Coursework\Config\SetUsedTaskTemplate;
 
-class TasksUsingMain extends ConfigurationManager
+require_once '../../classes/classes_lib/add_edit_template.php';
+require_once 'action.php';
+require_once 'add.php';
+require_once 'database.php';
+require_once 'edit.php';
+require_once 'overview.php';
+
+class Main extends \Coursework\ClassesLib\AddEditTemplate
 {
-    // Types of events
     const OVERVIEW = 'overview';
-    const ADD_TASK_USING = 'add_task_using';
-    const EDIT_TASK_USING = 'edit_task_using';
+    const ADD_TASK_USING = 'add_used_task_template';
+    const EDIT_TASK_USING = 'edit_used_task_template';
 
-    function __construct(stdClass $course, stdClass $cm)
+    function __construct(\stdClass $course, \stdClass $cm)
     {
         parent::__construct($course, $cm);
     }
 
     protected function handle_database_event() : void
     {
+        /*
         if($this->is_database_event_exist())
         {
-            $handler = new TaskUsingDBEventsHandler($this->course, $this->cm);
+            $handler = new Database($this->course, $this->cm);
             $handler->execute(); 
         }
+        */
     }
 
     protected function get_gui() : string 
@@ -34,36 +38,35 @@ class TasksUsingMain extends ConfigurationManager
 
         if($guiType === self::ADD_TASK_USING)
         {
-            $gui.= $this->get_add_task_using_gui();
+            $gui.= $this->get_add();
         }
         else if($guiType === self::EDIT_TASK_USING)
         {
-            $gui.= $this->get_edit_task_using_gui();
+            $gui.= $this->get_edit();
         }
         else
         {
-            $gui.= $this->get_overview_gui();
+            $gui.= $this->get_overview();
         }
 
         return $gui;
     }
-
  
-    private function get_overview_gui() : string 
+    private function get_overview() : string 
     {
-        $overview = new TasksUsingOverview($this->course, $this->cm);
+        $overview = new Overview($this->course, $this->cm);
         return $overview->get_gui();
     }
 
-    private function get_add_task_using_gui() : string 
+    private function get_add() : string 
     {
-        $add = new TaskUsingAdd($this->course, $this->cm);
+        $add = new Add($this->course, $this->cm);
         return $add->get_gui();
     }
 
-    private function get_edit_task_using_gui() : string 
+    private function get_edit() : string 
     {
-        $edit = new TaskUsingEdit($this->course, $this->cm);
+        $edit = new Edit($this->course, $this->cm);
         return $edit->get_gui();
     }
 

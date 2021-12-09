@@ -1,15 +1,15 @@
 <?php 
 
-use coursework_lib as lib;
+namespace Coursework\Config\SetUsedTaskTemplate;
 
-class TaskUsingDBEventsHandler 
+class Database 
 {
     private $course;
     private $cm;
 
     private $usingTaskTemplate;
 
-    function __construct(stdClass $course, stdClass $cm) 
+    function __construct(\stdClass $course, \stdClass $cm) 
     {
         $this->course = $course;
         $this->cm = $cm;
@@ -23,10 +23,10 @@ class TaskUsingDBEventsHandler
 
         switch($event)
         {
-            case TasksUsingMain::ADD_TASK_USING: 
+            case Main::ADD_TASK_USING: 
                 $this->add_task_using();
                 break;
-            case TasksUsingMain::EDIT_TASK_USING: 
+            case Main::EDIT_TASK_USING: 
                 $this->update_task_using();
                 break;
         }

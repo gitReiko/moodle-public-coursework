@@ -1,6 +1,8 @@
 <?php
 
-class TaskUsingAdd extends TaskUsingAction 
+namespace Coursework\Config\SetUsedTaskTemplate;
+
+class Add extends Action 
 {
 
     function __construct($course, $cm)
@@ -15,7 +17,7 @@ class TaskUsingAdd extends TaskUsingAction
 
     protected function get_unique_form_hidden_inputs() : string
     {
-        return '<input type="hidden" name="'.ConfigurationManager::DATABASE_EVENT.'" value="'.TasksUsingMain::ADD_TASK_USING.'"/>';
+        return '<input type="hidden" name="'.Main::DATABASE_EVENT.'" value="'.Main::ADD_TASK_USING.'"/>';
     }
 
 }

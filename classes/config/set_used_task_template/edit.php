@@ -1,6 +1,8 @@
 <?php
 
-class TaskUsingEdit extends TaskUsingAction 
+namespace Coursework\Config\SetUsedTaskTemplate;
+
+class Edit extends Action 
 {
     private $usedTask;
 
@@ -19,7 +21,7 @@ class TaskUsingEdit extends TaskUsingAction
 
     protected function get_unique_form_hidden_inputs() : string
     {
-        $inputs = '<input type="hidden" name="'.ConfigurationManager::DATABASE_EVENT.'" value="'.TasksUsingMain::EDIT_TASK_USING.'"/>';
+        $inputs = '<input type="hidden" name="'.Main::DATABASE_EVENT.'" value="'.Main::EDIT_TASK_USING.'"/>';
         $inputs.= '<input type="hidden" name="'.TASK.ROW.ID.'" value="'.$this->usedTask->id.'">';
         return $inputs;
     }

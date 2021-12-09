@@ -1,17 +1,18 @@
 <?php
 
 require_once '../../../../config.php';
-//require_once '../../classes/config/set_used_task_template/main.php';
+require_once '../../classes/config/set_used_task_template/main.php';
+require_once '../../lib/getters/common_getter.php';
 
-//use Coursework\Config\AppointLeaders as appointLeaders;
+use Coursework\Config\SetUsedTaskTemplate\Main as setUsedTaskTemplate;
  
-$id = required_param('id', PARAM_INT);    // Course Module ID
+$id = required_param('id', PARAM_INT); // Course Module ID
  
 if (!$cm = get_coursemodule_from_id('coursework', $id)) {
     print_error('Course Module ID was incorrect'); // NOTE this is invalid use of print_error, must be a lang string id
 }
 if (!$course = $DB->get_record('course', array('id'=> $cm->course))) {
-    print_error('course is misconfigured');  // NOTE As above
+    print_error('course is misconfigured'); // NOTE As above
 }
 
 $url = new moodle_url('/mod/coursework/pages/config/set_used_task_template.php', array('id'=>$id));
@@ -31,12 +32,8 @@ require_login();
   
 echo $OUTPUT->header();
 
-/*
-$appointLeaders = new appointLeaders\Main($course, $cm);
-echo $appointLeaders->execute();
-*/
-
-echo 'dsvsvdsvdsv';
+$setUsedTaskTemplate = new setUsedTaskTemplate($course, $cm);
+echo $setUsedTaskTemplate->execute();
 
 echo $OUTPUT->footer();
 

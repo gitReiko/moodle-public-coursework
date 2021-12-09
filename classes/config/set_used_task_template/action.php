@@ -1,8 +1,8 @@
 <?php
 
-use coursework_lib as lib;
+namespace Coursework\Config\SetUsedTaskTemplate;
 
-abstract class TaskUsingAction 
+abstract class Action 
 {
     protected $course;
     protected $cm;
@@ -94,8 +94,7 @@ abstract class TaskUsingAction
     private function get_form_hidden_inputs() : string 
     {
         $params = '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
-        $params.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.TASKS_USING.'">';
-        $params.= '<input type="hidden" name="'.LeadersSetting::GUI_TYPE.'" value="'.TasksUsingMain::OVERVIEW.'">';
+        $params.= '<input type="hidden" name="'.Main::GUI_TYPE.'" value="'.Main::OVERVIEW.'">';
         $params.= $this->get_unique_form_hidden_inputs();
         return $params;
     }
@@ -111,8 +110,7 @@ abstract class TaskUsingAction
     {
         $button = "<form id='{$this->backToOverviewFormName}' method='post'>";
         $button.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
-        $button.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.TASKS_USING.'">';
-        $button.= '<input type="hidden" name="'.LeadersSetting::GUI_TYPE.'" value="'.TasksUsingMain::OVERVIEW.'">';
+        $button.= '<input type="hidden" name="'.Main::GUI_TYPE.'" value="'.Main::OVERVIEW.'">';
         $button.= '</form>';
         return $button;
     }

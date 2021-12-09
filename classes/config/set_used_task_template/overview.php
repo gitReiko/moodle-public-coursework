@@ -1,8 +1,10 @@
 <?php
 
-use coursework_lib as lib;
+namespace Coursework\Config\SetUsedTaskTemplate;
 
-class TasksUsingOverview
+use Coursework\Lib\Getters\CommonGetter as cg;
+
+class Overview
 {
     private $course;
     private $cm;
@@ -10,16 +12,16 @@ class TasksUsingOverview
     private $usingTask;
     private $taskSections;
 
-    function __construct(stdClass $course, stdClass $cm)
+    function __construct(\stdClass $course, \stdClass $cm)
     {
         $this->course = $course;
         $this->cm = $cm;
 
-        $this->usingTask = lib\get_using_task($this->cm);
+        $this->usingTask = cg::get_default_coursework_task($this->cm);
 
         if(!empty($this->usingTask))
         {
-            $this->taskSections = lib\get_task_sections($this->usingTask->id);
+            $this->taskSections = cg::get_task_sections($this->cm);
         }
     }
 
@@ -116,8 +118,7 @@ class TasksUsingOverview
         $button = '<form method="post">';
         $button.= '<input type="submit" value="'.get_string('select_used_task_template', 'coursework').'" autofocus>';
         $button.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
-        $button.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.TASKS_USING.'">';
-        $button.= '<input type="hidden" name="'.LeadersSetting::GUI_TYPE.'" value="'.TasksUsingMain::ADD_TASK_USING.'">';
+        $button.= '<input type="hidden" name="'.Main::GUI_TYPE.'" value="'.Main::ADD_TASK_USING.'">';
         $button.= '</form>';
         return $button;
     }
@@ -127,8 +128,7 @@ class TasksUsingOverview
         $button = '<form method="post">';
         $button.= '<input type="submit" value="'.get_string('select_used_task_template', 'coursework').'" autofocus>';
         $button.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
-        $button.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.TASKS_USING.'">';
-        $button.= '<input type="hidden" name="'.LeadersSetting::GUI_TYPE.'" value="'.TasksUsingMain::EDIT_TASK_USING.'">';
+        $button.= '<input type="hidden" name="'.Main::GUI_TYPE.'" value="'.Main::EDIT_TASK_USING.'">';
         $button.= '<input type="hidden" name="'.TASK.ROW.ID.'" value="'.$this->usingTask->usingtaskid.'">';
         $button.= '</form>';
         return $button;
