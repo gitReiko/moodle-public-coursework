@@ -7,78 +7,211 @@ class Overview
     private $course;
     private $cm;
 
-    private $collections;
+    private $courses;
 
     function __construct(\stdClass $course, \stdClass $cm)
     {
         $this->course = $course;
         $this->cm = $cm;
-
-        $this->collections = $this->get_used_collections();
+        $this->courses = $this->get_coursework_courses();
     }
 
     public function get_gui() : string 
     {
-        $gui = $this->get_using_themes_collections_header();
-        if(count($this->collections))
+        $gui = $this->get_header();
+
+        if(count($this->courses))
         {
-            $gui.= $this->get_used_collections_list();
+            $gui.= $this->get_themes_collections_setting();
         }
-        $gui.= $this->get_use_new_theme_collection_button();
+        else 
+        {
+            // dsdvs
+        }
+
+        //$gui.= $this->get_use_new_theme_collection_button();
         return $gui;
     }
 
-    private function get_used_collections()
+    private function get_coursework_courses()
     {
-        $sql = 'SELECT ctc.* , cuc.id AS using_id
-                FROM {coursework_used_collections} AS cuc 
-                INNER JOIN {coursework_theme_collections} AS ctc 
-                ON cuc.collection = ctc.id 
-                WHERE cuc.coursework = ?
-                ORDER BY ctc.name';
-        $conditions = array($this->cm->instance);
+        $courses = $this->get_coursework_courses_from_database();
+        $courses = $this->add_themes_collections_courses($courses);
+        $courses = $this->add_themes_list_to_courses($courses);
+
+        return $courses;
+    }
+
+    private function get_coursework_courses_from_database()
+    {
         global $DB;
-        return $DB->get_records_sql($sql, $conditions);
+        $sql = 'SELECT DISTINCT ct.course AS id, c.fullname AS name
+                FROM {coursework_teachers} AS ct 
+                INNER JOIN {course} AS c 
+                ON ct.course = c.id 
+                WHERE ct.coursework = ?';
+        $params = array($this->cm->instance);
+        return $DB->get_records_sql($sql, $params);
     }
 
-    private function get_using_themes_collections_header() : string 
+    private function add_themes_collections_courses($courses)
     {
-        return '<h3>'.get_string('using_themes_collections_list', 'coursework').'</h3>';
-    }
-
-    private function get_used_collections_list() : string 
-    {
-        $table = '<table class="leaders_overview">';
-        $table.= $this->get_collection_list_header();
-        $table.= $this->get_collection_list_body();
-        $table.= '</table>';
-        return $table;
-    }
-
-    private function get_collection_list_header() : string 
-    {
-        $header = '<tr class="header">';
-        $header.= '<td>'.get_string('name', 'coursework').'</td>';
-        $header.= '<td>'.get_string('description', 'coursework'). '</td>';
-        $header.= '<td></td>';
-        $header.= '</tr>';
-        return $header;
-    }
-
-    private function get_collection_list_body() : string 
-    {
-        $body = '';
-
-        foreach($this->collections as $collection)
+        foreach($courses as $course)
         {
-            $body.= '<tr>';
-            $body.= '<td>'.$collection->name.'</td>';
-            $body.= '<td style="max-width: 450px;">'.$collection->description.'</td>';
-            $body.= '<td>'.$this->get_delete_button($collection).'</td>';
-            $body.= '</tr>';
+            $course->collection = $this->get_course_themes_collection($course->id);
         }
 
-        return $body;
+        return $courses;
+    }
+
+    private function get_course_themes_collection(int $courseId)
+    {
+        global $DB;
+        $sql = 'SELECT ctc.id, ctc.name, ctc.description 
+                FROM {coursework_used_collections} AS cuc
+                INNER JOIN {coursework_theme_collections} AS ctc
+                ON cuc.collection = ctc.id
+                WHERE cuc.coursework = ?
+                AND ctc.course = ?';
+        $params = array($this->cm->instance, $courseId);
+        return $DB->get_record_sql($sql, $params);
+    }
+
+    private function add_themes_list_to_courses($courses)
+    {
+        foreach($courses as $course)
+        {
+            if(!empty($course->collection->id))
+            {
+                $course->themes = $this->get_collection_themes($course->collection->id);
+            }
+        }
+
+        return $courses;
+    }
+
+    private function get_collection_themes(int $collectionId)
+    {
+        global $DB;
+        $where = array('collection' => $collectionId);
+        return $DB->get_records('coursework_themes', $where, 'name', 'name');
+    }
+
+    private function get_header() : string 
+    {
+        $text = get_string('set_suggested_themes', 'coursework');
+        return \html_writer::tag('h2', $text);
+    }
+
+    private function get_themes_collections_setting() : string 
+    {
+        $stc = '';
+
+        foreach($this->courses as $course)
+        {
+            $tsc.= $this->get_theme_collection_setting($course);
+        }
+
+        return $tsc;
+    }
+
+    private function get_theme_collection_setting(\stdClass $course) : string 
+    {
+        $str = $this->get_course_header($course->name);
+
+        if(empty($course->collection))
+        {
+            // add
+        }
+        else 
+        {
+            // change delete
+            $str.= $this->get_collection_overview($course);
+        }
+        
+        return $str;
+    }
+
+    private function get_course_header(string $courseName) : string 
+    {
+        return \html_writer::tag('h4', $courseName);
+    }
+
+    private function get_collection_overview(\stdClass $course) : string 
+    {
+        $view = $this->get_collection_name($course->collection);
+        $view.= $this->get_collection_description($course->collection);
+        $view.= $this->get_collection_themes_list($course);
+
+        return $view;
+    }
+
+    private function get_collection_name(\stdClass $collection) : string 
+    {
+        $text = get_string('themes_collection_name', 'coursework').': ';
+        $text = \html_writer::tag('b', $text);
+        $text.= $collection->name;
+        return \html_writer::tag('p', $text);
+    }
+
+    private function get_collection_description(\stdClass $collection) : string 
+    {
+        $text = get_string('description', 'coursework').':';
+        $text = \html_writer::tag('b', $text);
+        $desc = \html_writer::tag('p', $text);
+
+        if(empty($collection->description))
+        {
+            $text = get_string('absent', 'coursework');
+            $desc.= \html_writer::tag('p', $text);
+        }
+        else 
+        {
+            $desc.= \html_writer::tag('p', $collection->description);
+        }
+
+        return $desc;
+    }
+
+    private function get_collection_themes_list($course) : string 
+    {
+        $id = 'themes_toggler'.$course->collection->id;
+
+        $attr = array(
+            'class' => 'themes_toggler',
+            'onclick' => 'toggle_themes_list(`'.$id.'`)'
+        );
+        $text = get_string('themes_list_toggle', 'coursework');
+        $list = \html_writer::tag('p', $text, $attr);
+        
+        if(count($course->themes))
+        {
+            $themesList = $this->get_themes_list($course->themes);
+        }
+        else 
+        {
+            $text = get_string('absent', 'coursework');
+            $themesList = \html_writer::tag('p', $text);
+        }
+
+        $attr = array('id' => $id, 'class' => 'themes_list');
+        $list.= \html_writer::tag('div', $themesList, $attr);
+
+        return $list;
+    }
+
+    private function get_themes_list($themes) : string 
+    {
+        $list = \html_writer::start_tag('ol');
+
+        foreach($themes as $theme)
+        {
+            $list.= \html_writer::tag('li', $theme->name);
+        }
+
+        $list.= \html_writer::end_tag('ol');
+
+        return $list;
     }
 
     private function get_delete_button(\stdClass $collection) : string

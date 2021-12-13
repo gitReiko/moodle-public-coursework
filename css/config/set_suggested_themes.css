@@ -1,0 +1,21 @@
+
+.themes_toggler
+{
+    cursor: pointer;
+    font-weight: bold;
+}
+
+p, h2, h4 
+{
+    cursor: default;
+}
+
+p
+{
+    color: #333;
+}
+
+div.themes_list
+{
+    display: none;
+}

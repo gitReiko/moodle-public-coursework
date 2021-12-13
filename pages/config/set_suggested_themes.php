@@ -24,7 +24,8 @@ $PAGE->set_cm($cm);
 $PAGE->set_title(get_string('set_suggested_themes', 'coursework'));
 $PAGE->set_heading(get_string('set_suggested_themes', 'coursework'));
 
-//$PAGE->requires->css('/mod/coursework/css/config/set_default_task_template.css');
+$PAGE->requires->css('/mod/coursework/css/config/set_suggested_themes.css');
+$PAGE->requires->js('/mod/coursework/js/config/set_suggested_themes.js');
 
 require_login();
   

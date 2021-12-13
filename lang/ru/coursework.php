@@ -416,3 +416,5 @@ $string['set_default_task_template'] = 'Установить шаблон зад
 $string['default_task_not_exists'] = 'В данный момент шаблон задания по умолчанию не используется.';
 $string['default_task_template_setted'] = 'Установлен шаблон задания по умолчанию';
 $string['set_suggested_themes'] = 'Установить предлагаемые темы';
+$string['themes_collection_name'] = 'Название коллекции тем';
+$string['themes_list_toggle'] = 'Список тем (нажмите, чтобы открыть/закрыть)';
