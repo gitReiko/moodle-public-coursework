@@ -400,3 +400,4 @@ $string['student_distributed_to_teacher'] = 'Student distributed to teacher';
 $string['set_default_task_template'] = 'Set default task template';
 $string['default_task_not_exists'] = 'The default task template is not using in coursework.';
 $string['default_task_template_setted'] = 'Default task template setted';
+$string['set_suggested_themes'] = 'Set suggested themes';

@@ -41,5 +41,9 @@ $attr = array('href' => '/mod/coursework/pages/config/set_default_task_template.
 $text = \html_writer::tag('p', get_string('set_default_task_template', 'coursework'));
 echo \html_writer::tag('a', $text, $attr);
 
+$attr = array('href' => '/mod/coursework/pages/config/set_suggested_themes.php?id='.$id);
+$text = \html_writer::tag('p', get_string('set_suggested_themes', 'coursework'));
+echo \html_writer::tag('a', $text, $attr);
+
 echo $OUTPUT->footer();
 
