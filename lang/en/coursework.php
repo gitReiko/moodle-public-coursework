@@ -308,6 +308,13 @@ $string['coursework:view'] = 'View project';
 $string['coursework:viewfulltable'] = 'View list of projects';
 $string['coursework:manage_own_old_files_area'] = 'Manage own old teacher files area';
 $string['coursework:manage_global_old_files_area'] = 'Manage global old teacher files area';
+$string['coursework:deletestudentcoursework'] = 'Delete student coursework';
+$string['coursework:distributetoleaders'] = 'Distribute student to leader';
+$string['coursework:leaderreplacement'] = 'Leader replacement';
+$string['coursework:overviewquota'] = 'Quota overview';
+$string['coursework:setdefaulttasktemplate'] = 'Setting the default task template';
+$string['coursework:setsuggestedthemes'] = 'Setting of suggested themes';
+$string['coursework:settingleaders'] = 'Setting leaders';
 
 // List of students works
 $string['view_participants'] = 'View participants';

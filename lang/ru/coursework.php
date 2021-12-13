@@ -316,6 +316,13 @@ $string['coursework:view'] = 'Просмотр курсовой работы';
 $string['coursework:viewfulltable'] = 'Просмотр списка курсовых работ';
 $string['coursework:manage_own_old_files_area'] = 'Управление собственной старой областью файлов преподавателя';
 $string['coursework:manage_global_old_files_area'] = 'Глобальное управление старой областью файлов преподавателя';
+$string['coursework:deletestudentcoursework'] = 'Удаление курсовой работы студента';
+$string['coursework:distributetoleaders'] = 'Распределение студента к руководителю';
+$string['coursework:leaderreplacement'] = 'Замена руководителя';
+$string['coursework:overviewquota'] = 'Обзор квоты';
+$string['coursework:setdefaulttasktemplate'] = 'Установка шаблона задания по умолчанию';
+$string['coursework:setsuggestedthemes'] = 'Установка предлагаемых тем';
+$string['coursework:settingleaders'] = 'Установка руководителей';
 
 // List of students works
 $string['view_participants'] = 'Просмотреть участников';
