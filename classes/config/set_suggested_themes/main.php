@@ -13,6 +13,9 @@ class Main extends \Coursework\ClassesLib\AddEditTemplate
     const ADD_THEME_USING = 'add_theme_using';
     const DELETE_THEME_USING = 'delete_theme_using';
 
+    const ID = 'id';
+    const THEMES_USING_ID = 'themes_using_id';
+
     function __construct(\stdClass $course, \stdClass $cm)
     {
         parent::__construct($course, $cm);
@@ -20,13 +23,11 @@ class Main extends \Coursework\ClassesLib\AddEditTemplate
 
     protected function handle_database_event() : void
     {
-        /*
         if($this->is_database_event_exist())
         {
             $handler = new Database($this->course, $this->cm);
             $handler->execute();
         }
-        */
     }
 
     protected function get_gui() : string 

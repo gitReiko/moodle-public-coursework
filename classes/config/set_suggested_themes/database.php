@@ -59,8 +59,8 @@ class Database
 
     private function get_using_row_id() : int 
     {
-        $id = optional_param(COLLECTION.ROW.ID, null, PARAM_INT);
-        if(empty($id)) throw new \Exception('Missing collection id.');
+        $id = optional_param(Main::THEMES_USING_ID, null, PARAM_INT);
+        if(empty($id)) throw new \Exception('Missing themes collection using id.');
         return $id;
     }
 

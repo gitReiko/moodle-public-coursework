@@ -67,7 +67,7 @@ class Overview
     private function get_course_themes_collection(int $courseId)
     {
         global $DB;
-        $sql = 'SELECT ctc.id, ctc.name, ctc.description 
+        $sql = 'SELECT ctc.id, ctc.name, ctc.description, cuc.id AS rowid 
                 FROM {coursework_used_collections} AS cuc
                 INNER JOIN {coursework_theme_collections} AS ctc
                 ON cuc.collection = ctc.id
@@ -121,11 +121,11 @@ class Overview
 
         if(empty($course->collection))
         {
-            // add
+            $str.= 'add';
         }
         else 
         {
-            // change delete
+            $str.= $this->get_action_buttons($course);
             $str.= $this->get_collection_overview($course);
         }
         
@@ -214,16 +214,58 @@ class Overview
         return $list;
     }
 
+    private function get_action_buttons(\stdClass $course) : string 
+    {
+        $btns = \html_writer::start_tag('p');
+        //$btns.= $this->get_delete_button($course->collection); change
+        $btns.= $this->get_delete_button($course->collection);
+        $btns.= \html_writer::end_tag('p');
+
+        return $btns;
+    }
+
     private function get_delete_button(\stdClass $collection) : string
     {
-        $str = '<form style="display:inline;" method="post">';
-        $str.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
-        $str.= '<input type="hidden" name="'.DB_EVENT.'" value="'.Main::DELETE_THEME_USING.'">';
-        $str.= '<input type="hidden" name="'.Main::GUI_TYPE.'" value="'.Main::OVERVIEW.'">';
-        $str.= '<input type="hidden" name="'.COLLECTION.ROW.ID.'" value="'.$collection->using_id.'">';
-        $str.= '<input type="submit" value="'.get_string('delete', 'coursework').'">';
-        $str.= '</form>';
-        return $str;
+        $attr = array('method' => 'post');
+        $btn = \html_writer::start_tag('form', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::ID,
+            'value' => $this->cm->id
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::DATABASE_EVENT,
+            'value' => Main::DELETE_THEME_USING
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::GUI_TYPE,
+            'value' => Main::OVERVIEW
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::THEMES_USING_ID,
+            'value' => $collection->rowid
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'submit',
+            'value' => get_string('delete', 'coursework')
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $btn.= \html_writer::end_tag('form');
+
+        return $btn;
     }
 
     private function get_use_new_theme_collection_button() : string 
