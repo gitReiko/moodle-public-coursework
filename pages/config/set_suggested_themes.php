@@ -1,10 +1,9 @@
 <?php
 
 require_once '../../../../config.php';
-//require_once '../../classes/config/set_default_task_template/main.php';
-//require_once '../../lib/getters/common_getter.php';
+require_once '../../classes/config/set_suggested_themes/main.php';
 
-//use Coursework\Config\SetDefaultTaskTemplate\Main as setUsedTaskTemplate;
+use Coursework\Config\SetSuggestedThemes\Main as setSuggestedThemes;
  
 $id = required_param('id', PARAM_INT); // Course Module ID
  
@@ -31,11 +30,8 @@ require_login();
   
 echo $OUTPUT->header();
 
-echo 'fdjinsvs';
-/*
-$setUsedTaskTemplate = new setUsedTaskTemplate($course, $cm);
-echo $setUsedTaskTemplate->execute();
-*/
+$setSuggestedThemes = new setSuggestedThemes($course, $cm);
+echo $setSuggestedThemes->execute();
 
 echo $OUTPUT->footer();
 
