@@ -54,11 +54,13 @@ class Add
 
         if(count($this->collections))
         {
-            $field.= '<p>'.$this->get_collections_select().'</p>';
+            $text = $this->get_collections_select();
+            $field.= \html_writer::tag('p', $text);
         }
         else 
         {
-            $field.= '<p>'.get_string('not_suitable_for_use', 'coursework').'</p>';
+            $text = get_string('not_suitable_for_use', 'coursework');
+            $field.= \html_writer::tag('p', $text);
         }
         
         return $field;
@@ -66,58 +68,118 @@ class Add
 
     private function get_collections_select() : string 
     {
-        $select = '<select name="'.COLLECTION.'" form="'.$this->formName.'" autocomplete="off" autofocus>';
+        $attr = array(
+            'name' => Main::COLLECTION_ID,
+            'form' => $this->formName,
+            'autocomplete' => 'off',
+            'autofocus' => 'autofocus'
+        );
+        $select = \html_writer::start_tag('select', $attr);
+
         foreach($this->collections as $collection)
         {
-            $select.= '<option ';
+            $attr = array('value' => $collection->id);
+
             if(!empty($collection->description))
             {
-                $select.= " title='{$collection->description}' ";
+                $attr = array_merge(
+                    $attr, 
+                    array('title' => $collection->description)
+                );
             }
-            $select.= " value='{$collection->id}' >";
-            $select.= $collection->name;
-            $select.= '</option>';
+
+            $text = $collection->name;
+
+            $select.= \html_writer::tag('option', $text, $attr);
         }
-        $select.= '</select>';
+
+        $select.= \html_writer::end_tag('select');
+
         return $select;
     }
 
     private function get_buttons_panel() : string 
     {
-        $btns = '<table class="btns_panel"><tr>';
-        $btns.= '<td>'.$this->get_create_button().'</td>';
-        $btns.= '<td>'.$this->get_back_to_overview_button().'</td>';
-        $btns.= '</tr></table>';
+        $attr = array('class' => 'btns_panel');
+        $btns = \html_writer::start_tag('table', $attr);
+        $btns.= \html_writer::start_tag('tr');
+        $btns.= \html_writer::tag('td', $this->get_create_button());
+        $btns.= \html_writer::tag('td', $this->get_back_to_overview_button());
+        $btns.= \html_writer::end_tag('tr');
+        $btns.= \html_writer::end_tag('table');
+
         return $btns;
     }
 
     private function get_create_button() : string 
     {
-        return '<input type="submit" value="'.get_string('create', 'coursework').'" form="'.$this->formName.'">';
+        $attr = array(
+            'type' => 'submit',
+            'value' => get_string('create', 'coursework'),
+            'form' => $this->formName
+        );
+        return \html_writer::empty_tag('input', $attr);
     }
 
     private function get_back_to_overview_button() : string 
     {
-        $button = '<form method="post">';
-        $button.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
-        $button.= '<input type="hidden" name="'.Main::GUI_TYPE.'" value="'.Main::OVERVIEW.'">';
-        $button.= '<input type="submit" value="'.get_string('back', 'coursework').'" >';
-        $button.= '</form>';
-        return $button;
+        $attr = array('method' => 'post');
+        $btn = \html_writer::start_tag('form', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::ID,
+            'value' => $this->cm->id
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::GUI_TYPE,
+            'value' => Main::OVERVIEW
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'submit',
+            'value' => get_string('back', 'coursework')
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $btn.= \html_writer::end_tag('form');
+
+        return $btn;
     }
 
     private function get_add_form() : string 
     {
-        $btn = '<form id="'.$this->formName.'" method="post">';
-        $btn.= '<input type="hidden" name="'.ID.'" value="'.$this->cm->id.'"/>';
-        $btn.= '<input type="hidden" name="'.Main::GUI_TYPE.'" value="'.Main::OVERVIEW.'"/>';
-        $btn.= '<input type="hidden" name="'.Main::DATABASE_EVENT.'" value="'.Main::ADD_THEME_USING.'"/>';
-        $btn.= '</form>';
+        $attr = array('id' => $this->formName, 'method' => 'post');
+        $btn = \html_writer::start_tag('form', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::ID,
+            'value' => $this->cm->id
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::GUI_TYPE,
+            'value' => Main::OVERVIEW
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::DATABASE_EVENT,
+            'value' => Main::ADD_THEME_USING
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $btn.= \html_writer::end_tag('form');
+
         return $btn;
     }
-
-
-
-
 
 }

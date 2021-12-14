@@ -104,7 +104,7 @@ $string['using_themes_collections_list'] = 'Список используемы�
 $string['use_new_theme_collection'] = 'Использовать новую коллекцию тем';
 $string['add_suggested_themes_collection'] = 'Добавить предлагаемую коллекцию тем';
 $string['themes_collection'] = 'Коллекция тем';
-$string['not_suitable_for_use'] = 'Нет подходящих для использования.';
+$string['not_suitable_for_use'] = 'Нет подходящих коллекций тем для использования.';
 
 // Tasks templates management
 $string['tasks_templates_management'] = 'Управление шаблонами заданий';
