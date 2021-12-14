@@ -21,10 +21,10 @@ class Database
         {
             case Main::ADD_THEME_USING: 
                 $using = $this->get_collection_using();
-                $this->add_collection_using($using);
+                $this->add_suggested_collection_using($using);
                 break;
             case Main::DELETE_THEME_USING: 
-                $this->delete_collection_using();
+                $this->delete_suggested_collection_using();
                 break;
         }
     }
@@ -39,18 +39,18 @@ class Database
 
     private function get_collection() : int 
     {
-        $collection = optional_param(COLLECTION, null, PARAM_INT);
+        $collection = optional_param(Main::COLLECTION_ID, null, PARAM_INT);
         if(empty($collection)) throw new \Exception('Missing collection id.');
         return $collection;
     }
 
-    private function add_collection_using(\stdClass $using) : void 
+    private function add_suggested_collection_using(\stdClass $using) : void 
     {
         global $DB;
         $DB->insert_record('coursework_used_collections', $using, false);
     }
 
-    private function delete_collection_using() : void 
+    private function delete_suggested_collection_using() : void 
     {
         global $DB;
         $id = $this->get_using_row_id();
