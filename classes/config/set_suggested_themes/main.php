@@ -14,6 +14,7 @@ class Main extends \Coursework\ClassesLib\AddEditTemplate
     const DELETE_THEME_USING = 'delete_theme_using';
 
     const ID = 'id';
+    const COURSE_ID = 'course_id';
     const THEMES_USING_ID = 'themes_using_id';
 
     function __construct(\stdClass $course, \stdClass $cm)

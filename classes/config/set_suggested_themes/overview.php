@@ -121,7 +121,7 @@ class Overview
 
         if(empty($course->collection))
         {
-            $str.= $this->get_add_button();
+            $str.= $this->get_add_button($course);
             $str.= $this->get_no_suggested_themes();
         }
         else 
@@ -288,7 +288,7 @@ class Overview
         return \html_writer::tag('p', $text);
     }
 
-    private function get_add_button() : string
+    private function get_add_button(\stdClass $course) : string
     {
         $attr = array('method' => 'post');
         $btn = \html_writer::start_tag('form', $attr);
@@ -297,6 +297,13 @@ class Overview
             'type' => 'hidden',
             'name' => Main::ID,
             'value' => $this->cm->id
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::COURSE_ID,
+            'value' => $course->id
         );
         $btn.= \html_writer::empty_tag('input', $attr);
 

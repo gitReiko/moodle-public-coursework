@@ -102,7 +102,7 @@ $string['edit_collection_header'] = 'Редактирование коллекц
 $string['theme_collections_using'] = 'Использование коллекций тем';
 $string['using_themes_collections_list'] = 'Список используемых коллекций тем';
 $string['use_new_theme_collection'] = 'Использовать новую коллекцию тем';
-$string['add_new_collection_using_header'] = 'Создание нового использования коллекции тем';
+$string['add_suggested_themes_collection'] = 'Добавить предлагаемую коллекцию тем';
 $string['themes_collection'] = 'Коллекция тем';
 $string['not_suitable_for_use'] = 'Нет подходящих для использования.';
 

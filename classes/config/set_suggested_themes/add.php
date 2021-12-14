@@ -15,7 +15,7 @@ class Add
         $this->course = $course;
         $this->cm = $cm;
 
-        $this->collections = $this->get_not_used_collections();
+        $this->collections = $this->get_collections();
     }
 
     public function get_gui() : string 
@@ -27,31 +27,30 @@ class Add
         return $gui;
     }
 
-    // Only one collection can be used per course (in context of activity instance).
-    private function get_not_used_collections()
+    private function get_collection_course() : int 
     {
-        $sql = 'SELECT *
-                FROM {coursework_theme_collections}
-                WHERE course NOT IN (
-                    SELECT ctc.course 
-                    FROM {coursework_used_collections} AS cuc
-                    INNER JOIN {coursework_theme_collections} AS ctc
-                    ON cuc.collection = ctc.id
-                    WHERE cuc.coursework = ?)
-                ORDER BY name';
-        $conditions = array($this->cm->instance);
+        $id = optional_param(Main::COURSE_ID, null, PARAM_INT);
+        if(empty($id)) throw \Exception('Missing course id.');
+        return $id;
+    }
+
+    private function get_collections()
+    {
         global $DB;
-        return $DB->get_records_sql($sql, $conditions);
+        $where = array('course' => $this->get_collection_course());
+        return $DB->get_records('coursework_theme_collections', $where, 'name');
     }
 
     private function add_new_collection_header() : string 
     {
-        return '<h3>'.get_string('add_new_collection_using_header', 'coursework').'</h3>';
+        $text = get_string('add_suggested_themes_collection', 'coursework');
+        return \html_writer::tag('h3', $text);
     }
 
     private function get_collection_field() : string 
     {
-        $field = '<h4>'.get_string('themes_collection', 'coursework').'</h4>';
+        $text = get_string('name', 'coursework');
+        $field = \html_writer::tag('h4', $text);
 
         if(count($this->collections))
         {
