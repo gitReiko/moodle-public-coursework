@@ -121,7 +121,8 @@ class Overview
 
         if(empty($course->collection))
         {
-            $str.= 'add';
+            $str.= $this->get_add_button();
+            $str.= $this->get_no_suggested_themes();
         }
         else 
         {
@@ -134,21 +135,34 @@ class Overview
 
     private function get_course_header(string $courseName) : string 
     {
-        return \html_writer::tag('h4', $courseName);
+        $header = get_string('course', 'coursework').': ';
+
+        $attr = array('class' => 'courseName');
+        $header.= \html_writer::tag('span', $courseName, $attr);
+
+        return \html_writer::tag('h4', $header);
     }
 
     private function get_collection_overview(\stdClass $course) : string 
     {
-        $view = $this->get_collection_name($course->collection);
+        $view = $this->get_suggested_collection_header();
+        $view.= $this->get_collection_name($course->collection);
         $view.= $this->get_collection_description($course->collection);
         $view.= $this->get_collection_themes_list($course);
 
         return $view;
     }
 
+    private function get_suggested_collection_header() : string
+    {
+        $text = get_string('suggested_themes_collection', 'coursework');
+        $text = \html_writer::tag('b', $text);
+        return \html_writer::tag('p', $text);
+    }
+
     private function get_collection_name(\stdClass $collection) : string 
     {
-        $text = get_string('themes_collection_name', 'coursework').': ';
+        $text = get_string('name', 'coursework').': ';
         $text = \html_writer::tag('b', $text);
         $text.= $collection->name;
         return \html_writer::tag('p', $text);
@@ -268,13 +282,39 @@ class Overview
         return $btn;
     }
 
-    private function get_use_new_theme_collection_button() : string 
+    private function get_no_suggested_themes() : string 
     {
-        $btn = '<form method="post">';
-        $btn.= '<input type="hidden" name="'.ID.'" value="'.$this->cm->id.'"/>';
-        $btn.= '<input type="hidden" name="'.Main::GUI_TYPE.'" value="'.Main::ADD_THEME_USING.'" >';
-        $btn.= '<input type="submit" value="'.get_string('use_new_theme_collection', 'coursework').'" autofocus>';
-        $btn.= '</form>';
+        $text = get_string('no_suggested_themes', 'coursework');
+        return \html_writer::tag('p', $text);
+    }
+
+    private function get_add_button() : string
+    {
+        $attr = array('method' => 'post');
+        $btn = \html_writer::start_tag('form', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::ID,
+            'value' => $this->cm->id
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::GUI_TYPE,
+            'value' => Main::ADD_THEME_USING
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'submit',
+            'value' => get_string('add_suggested_themes', 'coursework')
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $btn.= \html_writer::end_tag('form');
+
         return $btn;
     }
 

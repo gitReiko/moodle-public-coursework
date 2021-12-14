@@ -12,10 +12,15 @@ p, h2, h4
 
 p
 {
-    color: #333;
+    color: #444;
 }
 
 div.themes_list
 {
     display: none;
+}
+
+span.courseName
+{
+    color: #444;
 }
