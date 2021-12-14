@@ -3,14 +3,17 @@
 namespace Coursework\Config\SetSuggestedThemes;
 
 require_once '../../classes/classes_lib/add_edit_template.php';
+require_once 'action.php';
 require_once 'add.php';
 require_once 'database.php';
+require_once 'edit.php';
 require_once 'overview.php';
 
 class Main extends \Coursework\ClassesLib\AddEditTemplate
 {
     const OVERVIEW = 'overview';
     const ADD_THEME_USING = 'add_theme_using';
+    const CHANGE_USING_THEMES = 'change_using_themes';
     const DELETE_THEME_USING = 'delete_theme_using';
 
     const ID = 'id';
@@ -41,6 +44,10 @@ class Main extends \Coursework\ClassesLib\AddEditTemplate
         {
             $gui.= $this->get_add_theme_using_gui();
         }
+        else if($guiType === self::CHANGE_USING_THEMES)
+        {
+            $gui.= $this->get_change_theme_using_gui();
+        }
         else
         {
             $gui.= $this->get_overview_gui();
@@ -59,6 +66,12 @@ class Main extends \Coursework\ClassesLib\AddEditTemplate
     {
         $add = new Add($this->course, $this->cm);
         return $add->get_gui();
+    }
+
+    private function get_change_theme_using_gui() : string 
+    {
+        $change = new Edit($this->course, $this->cm);
+        return $change->get_gui();
     }
 
 }

@@ -231,16 +231,67 @@ class Overview
     private function get_action_buttons(\stdClass $course) : string 
     {
         $btns = \html_writer::start_tag('p');
-        //$btns.= $this->get_delete_button($course->collection); change
+        $btns.= $this->get_change_button($course).' ';
         $btns.= $this->get_delete_button($course->collection);
         $btns.= \html_writer::end_tag('p');
 
         return $btns;
     }
 
+    private function get_change_button(\stdClass $course) : string
+    {
+        $attr = array('method' => 'post', 'style' => 'display: inline');
+        $btn = \html_writer::start_tag('form', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::ID,
+            'value' => $this->cm->id
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::GUI_TYPE,
+            'value' => Main::CHANGE_USING_THEMES
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::COLLECTION_ID,
+            'value' => $course->collection->id
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::THEMES_USING_ID,
+            'value' => $course->collection->rowid
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::COURSE_ID,
+            'value' => $course->id
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'submit',
+            'value' => get_string('change', 'coursework')
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $btn.= \html_writer::end_tag('form');
+
+        return $btn;
+    }
+
     private function get_delete_button(\stdClass $collection) : string
     {
-        $attr = array('method' => 'post');
+        $attr = array('method' => 'post', 'style' => 'display: inline');
         $btn = \html_writer::start_tag('form', $attr);
 
         $attr = array(

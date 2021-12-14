@@ -98,6 +98,7 @@ $string['theme_collections_using'] = 'Theme collections using';
 $string['using_themes_collections_list'] = 'List of using themes collections';
 $string['use_new_theme_collection'] = 'Use new theme collection';
 $string['add_suggested_themes_collection'] = 'Adding of new theme collection using';
+$string['change_suggested_themes_collection'] = 'Change theme collection using';
 $string['themes_collection'] = 'Themes collection';
 $string['not_suitable_for_use'] = 'Not suitable for use themes collections.';
 

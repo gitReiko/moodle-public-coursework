@@ -23,6 +23,11 @@ class Database
                 $using = $this->get_collection_using();
                 $this->add_suggested_collection_using($using);
                 break;
+            case Main::CHANGE_USING_THEMES: 
+                $using = $this->get_collection_using();
+                $using->id = $this->get_using_row_id();
+                $this->change_suggested_collection_using($using);
+                break;
             case Main::DELETE_THEME_USING: 
                 $this->delete_suggested_collection_using();
                 break;
@@ -48,6 +53,12 @@ class Database
     {
         global $DB;
         $DB->insert_record('coursework_used_collections', $using, false);
+    }
+
+    private function change_suggested_collection_using(\stdClass $using) : void 
+    {
+        global $DB;
+        $DB->update_record('coursework_used_collections', $using);
     }
 
     private function delete_suggested_collection_using() : void 
