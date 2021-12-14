@@ -413,3 +413,6 @@ $string['suggested_themes_collection'] = 'Suggested themes collection';
 $string['themes_list_toggle'] = 'Themes list (click to open/close)';
 $string['add_suggested_themes'] = 'Add suggested themes';
 $string['no_suggested_themes'] = 'There are currently no suggested themes.';
+$string['themes_using_added'] = 'Used suggested themes added';
+$string['themes_using_changed'] = 'Used suggested themes changed';
+$string['themes_using_deleted'] = 'Used suggested themes deleted';

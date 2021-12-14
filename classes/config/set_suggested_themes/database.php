@@ -52,20 +52,29 @@ class Database
     private function add_suggested_collection_using(\stdClass $using) : void 
     {
         global $DB;
-        $DB->insert_record('coursework_used_collections', $using, false);
+        if($DB->insert_record('coursework_used_collections', $using, false))
+        {
+            $this->log_themes_using_added();
+        }
     }
 
     private function change_suggested_collection_using(\stdClass $using) : void 
     {
         global $DB;
-        $DB->update_record('coursework_used_collections', $using);
+        if($DB->update_record('coursework_used_collections', $using))
+        {
+            $this->log_themes_using_changed();
+        }
     }
 
     private function delete_suggested_collection_using() : void 
     {
         global $DB;
         $id = $this->get_using_row_id();
-        $DB->delete_records('coursework_used_collections', array('id'=>$id));
+        if($DB->delete_records('coursework_used_collections', array('id'=>$id)))
+        {
+            $this->log_themes_using_deleted();
+        }
     }
 
     private function get_using_row_id() : int 
@@ -75,7 +84,38 @@ class Database
         return $id;
     }
 
+    private function log_themes_using_added() : void 
+    {
+        $params = array
+        (
+            'context' => \context_module::instance($this->cm->id)
+        );
+        
+        $event = \mod_coursework\event\themes_using_added::create($params);
+        $event->trigger();
+    }
 
+    private function log_themes_using_changed() : void 
+    {
+        $params = array
+        (
+            'context' => \context_module::instance($this->cm->id)
+        );
+        
+        $event = \mod_coursework\event\themes_using_changed::create($params);
+        $event->trigger();
+    }
+
+    private function log_themes_using_deleted() : void 
+    {
+        $params = array
+        (
+            'context' => \context_module::instance($this->cm->id)
+        );
+        
+        $event = \mod_coursework\event\themes_using_deleted::create($params);
+        $event->trigger();
+    }
 
 }
 
