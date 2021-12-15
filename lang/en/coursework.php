@@ -420,3 +420,4 @@ $string['go_to_work'] = 'Go to work';
 $string['return_to_theme_selection'] = 'Back to theme selection';
 $string['theme_reselect_header'] = 'Select students who need to reselect themes again';
 $string['cancel_theme_select'] = 'Cancel theme select';
+$string['confirm_theme_reselect'] = 'Are you sure you want to delete students themes selection? \nThis action cannot be undone. After deleting themes selections, students need to select a theme again.';

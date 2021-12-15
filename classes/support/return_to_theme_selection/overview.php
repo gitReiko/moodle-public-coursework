@@ -50,9 +50,12 @@ class Overview
 
     private function get_html_form() : string 
     {
+        $confText = get_string('confirm_theme_reselect', 'coursework');
+
         $attr = array(
             'id' => self::RETURN_TO_FORM,
-            'method' => 'post'
+            'method' => 'post',
+            'onsubmit' => 'return confirm_theme_reselect(`'.$confText.'`)',
         );
         $form = \html_writer::start_tag('form', $attr);
 
