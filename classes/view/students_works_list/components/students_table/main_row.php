@@ -84,7 +84,7 @@ class MainRow
             'href' => $this->get_go_to_work_url($this->student),
             'title' => get_string('go_to_student_work', 'coursework')
         );
-        $text = get_string('work', 'coursework');
+        $text = get_string('go_to_student_work', 'coursework');
         $a = \html_writer::tag('a', $text, $attr);
         return \html_writer::tag('td', $a);
     }
