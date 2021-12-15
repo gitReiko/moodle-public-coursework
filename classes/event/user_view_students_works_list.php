@@ -17,8 +17,8 @@
 /**
  * The user_view_students_works_list event.
  *
- * @package    quiz_attempt_back_to_work_state
- * @copyright  2014 YOUR NAME
+ * @package    mod_coursework
+ * @copyright  2021 Denis Makouski (Reiko)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 namespace mod_coursework\event;
