@@ -93,20 +93,27 @@ class StudentsTable
         return $t;
     }
 
-    protected function table_header() : string 
+    private function table_header() : string 
     {
         $h = \html_writer::start_tag('tr');
         $h.= \html_writer::tag('td', '');
         $h.= \html_writer::tag('td', get_string('fullname', 'coursework'));
         $h.= \html_writer::tag('td', get_string('group', 'coursework'));
-        $h.= \html_writer::tag('td', get_string('leader', 'coursework'));
-        $h.= \html_writer::tag('td', get_string('course', 'coursework'));
+        $h.= $this->get_custom_header_cells();
         $h.= \html_writer::end_tag('tr');
 
         return $h;
     }
 
-    protected function table_body() : string 
+    protected function get_custom_header_cells() : string 
+    {
+        $h.= \html_writer::tag('td', get_string('leader', 'coursework'));
+        $h.= \html_writer::tag('td', get_string('course', 'coursework'));
+
+        return $h;
+    }
+
+    private function table_body() : string 
     {
         $b = '';
 
@@ -117,12 +124,19 @@ class StudentsTable
             $b.= $this->get_select_student_checkbox_cell($student);
             $b.= $this->get_student_fullname_cell($student);
             $b.= $this->get_groups_names_cell($student->groups);
-            $b.= $this->get_leader_cell($student->teacher);
-            $b.= $this->get_course_cell($student->course);
+            $b.= $this->get_custom_row_cells($student);
             $b.= \html_writer::end_tag('tr');
         }
 
         return $b;
+    }
+
+    protected function get_custom_row_cells(\stdClass $student) : string 
+    {
+        $cells.= $this->get_leader_cell($student->teacher);
+        $cells.= $this->get_course_cell($student->course);
+
+        return $cells;
     }
 
     protected function get_row_attr($student)
@@ -149,7 +163,7 @@ class StudentsTable
         return \html_writer::tag('td', $input);
     }
 
-    protected function get_student_fullname_cell(\stdClass $student) : string
+    private function get_student_fullname_cell(\stdClass $student) : string
     {
         $fullname = $student->lastname.' '.$student->firstname;
         return \html_writer::tag('td', $fullname);
@@ -167,7 +181,7 @@ class StudentsTable
         return $grClasses;
     }
 
-    protected function get_groups_names_cell(array $groups) : string 
+    private function get_groups_names_cell(array $groups) : string 
     {
         if(count($groups) == 1) 
         {
@@ -188,7 +202,7 @@ class StudentsTable
         return \html_writer::tag('td', $text);
     }
 
-    protected function get_leader_cell($leacherId) : string 
+    private function get_leader_cell($leacherId) : string 
     {
         if(empty($leacherId))
         {
@@ -202,7 +216,7 @@ class StudentsTable
         return \html_writer::tag('td', $text);
     }
 
-    protected function get_course_cell($courseId) : string 
+    private function get_course_cell($courseId) : string 
     {
         if(empty($courseId))
         {

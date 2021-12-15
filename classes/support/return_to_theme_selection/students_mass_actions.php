@@ -4,7 +4,7 @@ namespace Coursework\Support\ReturnToThemeSelection;
 
 use Coursework\ClassesLib\StudentsMassActions as sma;
 
-class ReplaceStudentsTable extends sma\StudentsTable 
+class ReselectStudentsTable extends sma\StudentsTable 
 {
 
     function __construct(array $students, string $formName)
@@ -14,9 +14,35 @@ class ReplaceStudentsTable extends sma\StudentsTable
         parent::__construct($students, $formName);
     }
 
+    protected function get_custom_header_cells() : string 
+    {
+        return \html_writer::tag('td', get_string('theme', 'coursework'));
+    }
+
+    protected function get_custom_row_cells(\stdClass $student) : string 
+    {
+        $cells.= $this->get_theme_cell($student->theme);
+
+        return $cells;
+    }
+
+    private function get_theme_cell($theme) : string 
+    {
+        if(empty($theme))
+        {
+            $text = '';
+        }
+        else 
+        {
+            $text = $theme;
+        }
+
+        return \html_writer::tag('td', $text);
+    }
+
     protected function get_row_attr($student)
     {
-        if(empty($student->teacher))
+        if(empty($student->theme))
         {
             return array('style' => 'color: grey; cursor: not-allowed');
         }

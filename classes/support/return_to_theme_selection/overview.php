@@ -37,7 +37,7 @@ class Overview
         $studentsSelector = new StudentsMassActions\StudentsSelector($this->groups);
         $gui.= $studentsSelector->get();
 
-        $table = new ReplaceStudentsTable(
+        $table = new ReselectStudentsTable(
             $this->students, 
             self::RETURN_TO_FORM
         );
