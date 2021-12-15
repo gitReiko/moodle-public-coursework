@@ -6,6 +6,8 @@ abstract class AddEditTemplate
 {
     const DATABASE_EVENT = 'database_event';
     const GUI_TYPE = 'gui_type';
+    
+    const ID = 'id';
 
     protected $course;
     protected $cm;

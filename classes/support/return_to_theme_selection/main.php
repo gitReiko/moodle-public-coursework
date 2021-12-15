@@ -2,59 +2,44 @@
 
 namespace Coursework\Support\ReturnToThemeSelection;
 
+require_once '../../classes/classes_lib/add_edit_template.php';
+require_once '../../classes/classes_lib/students_mass_actions.php';
 //require_once 'database.php';
-//require_once 'page.php';
+require_once 'overview.php';
 
-class Main 
+class Main extends \Coursework\ClassesLib\AddEditTemplate
 {
     const RETURN_TO_THEME_SELECTION = 'return_to_theme_selection';
 
-    private $cm;
-    private $course;
+    protected $cm;
+    protected $course;
 
-    function __construct(\stdClass $cm, \stdClass $course) 
+    function __construct(\stdClass $course, \stdClass $cm)
     {
-        $this->cm = $cm;
-        $this->course = $course;
+        parent::__construct($course, $cm);
     }
 
-    public function get_page() : string  
+    protected function handle_database_event() : void
     {
         /*
-        if($this->is_neccessary_back_to_work_state())
+        if($this->is_database_event_exist())
         {
-            $this->change_state_to_work();
+            $handler = new Database($this->course, $this->cm);
+            $handler->execute();
         }
         */
-
-        //return $this->get_page_();
-
-        echo 'dvsvsvsddvs';
     }
 
-    private function is_neccessary_back_to_work_state() : bool
+    protected function get_gui() : string 
     {
-        $back = optional_param(self::RETURN_TO_THEME_SELECTION, null, PARAM_TEXT);
-
-        if($back) return true;
-        else return false;
+        return $this->get_overview_gui();
     }
 
-    /*
-    private function get_page_() : string 
+    private function get_overview_gui() : string 
     {
-        $p = new Page($this->cm);
-        return $p->get_page();
+        $overview = new Overview($this->course, $this->cm);
+        return $overview->get_gui();
     }
-    */
-
-    /*
-    private function change_state_to_work() : void 
-    {
-        $database = new Database($this->cm, $this->course);
-        $database->change_state_to_work();
-    }
-    */
 
 
 }

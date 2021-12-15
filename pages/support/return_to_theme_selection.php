@@ -2,6 +2,12 @@
 
 require_once '../../../../config.php';
 require_once '../../classes/support/return_to_theme_selection/main.php';
+require_once '../../lib/getters/students_getter.php';
+require_once '../../lib/getters/teachers_getter.php';
+require_once '../../lib/getters/common_getter.php';
+require_once '../../lib/notification.php'; 
+require_once '../../lib/common.php';
+require_once '../../lib/enums.php';
 
 $id = required_param('id', PARAM_INT);    // Course Module ID
  
@@ -22,11 +28,14 @@ $PAGE->set_cm($cm);
 $PAGE->set_title(get_string('return_to_theme_selection', 'coursework'));
 $PAGE->set_heading(get_string('return_to_theme_selection', 'coursework'));
 
+$PAGE->requires->css('/mod/coursework/css/lib/students_mass_actions.css');
+$PAGE->requires->js('/mod/coursework/js/lib/mass_actions_on_students.js');
+
 require_login();
   
 echo $OUTPUT->header();
 
-$page = new Coursework\Support\ReturnToThemeSelection\Main($cm, $course);
-echo $page->get_page();
+$page = new Coursework\Support\ReturnToThemeSelection\Main($course, $cm);
+echo $page->execute();
 
 echo $OUTPUT->footer();

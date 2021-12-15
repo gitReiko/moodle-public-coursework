@@ -426,3 +426,5 @@ $string['themes_using_changed'] = 'Используемые предлагаем
 $string['themes_using_deleted'] = 'Используемые предлагаемые темы удалены';
 $string['go_to_work'] = 'Перейти к работе';
 $string['return_to_theme_selection'] = 'Вернуть к выбору темы';
+$string['theme_reselect_header'] = 'Выберите студентов, которым нужно перевыбрать тему';
+$string['cancel_theme_select'] = 'Отменить выбор темы';
