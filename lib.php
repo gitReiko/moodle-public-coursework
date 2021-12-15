@@ -126,6 +126,13 @@ function coursework_extend_settings_navigation($settings, $navref)
         $linkname = get_string('support', 'coursework');
         $mainCategory = $navref->add($linkname, $link, navigation_node::TYPE_CONTAINER);
 
+        if(has_capability('mod/coursework:returntothemeselection', $PAGE->cm->context))
+        {
+            $link = new moodle_url('/mod/coursework/pages/support/return_to_theme_selection.php', array('id' => $cm->id));
+            $linkname = get_string('return_to_theme_selection', 'coursework');
+            $mainCategory->add($linkname, $link, navigation_node::TYPE_SETTING);
+        }
+
         if(has_capability('mod/coursework:back_to_work_state', $PAGE->cm->context))
         {
             $link = new moodle_url('/mod/coursework/pages/support/back_to_work_state.php', array('id' => $cm->id));
@@ -200,6 +207,10 @@ function is_user_can_view_support_category() : bool
         return true;
     }
     else if(has_capability('mod/coursework:back_to_work_state', $PAGE->cm->context))
+    {
+        return true;
+    }
+    else if(has_capability('mod/coursework:returntothemeselection', $PAGE->cm->context))
     {
         return true;
     }

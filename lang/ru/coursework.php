@@ -425,3 +425,4 @@ $string['themes_using_added'] = 'Используемые предлагаемы
 $string['themes_using_changed'] = 'Используемые предлагаемые темы изменены';
 $string['themes_using_deleted'] = 'Используемые предлагаемые темы удалены';
 $string['go_to_work'] = 'Перейти к работе';
+$string['return_to_theme_selection'] = 'Вернуть к выбору темы';
