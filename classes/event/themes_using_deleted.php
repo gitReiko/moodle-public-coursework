@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
  
 /**
- * The EVENTNAME event.
+ * The themes_using_deleted event.
  *
  * @package    quiz_attempt_back_to_work_state
  * @copyright  2014 YOUR NAME
@@ -24,16 +24,17 @@
 namespace mod_coursework\event;
 defined('MOODLE_INTERNAL') || die();
 /**
- * The EVENTNAME event class.
+ * The themes_using_deleted event class.
  *
  * @property-read array $other {
  *      Extra information about event.
  *
- *      - PUT INFO HERE
+ *      Deleted coursework themes collection
+ *      from which themes are offered to students.
  * }
  *
- * @since     Moodle MOODLEVERSION
- * @copyright 2014 YOUR NAME
+ * @since     Moodle 20190725
+ * @copyright 2021 Denis Makouski (Reiko)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  **/
 
