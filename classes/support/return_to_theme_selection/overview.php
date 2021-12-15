@@ -66,6 +66,13 @@ class Overview
         );
         $form.= \html_writer::empty_tag('input', $attr);
 
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::DATABASE_EVENT,
+            'value' => Main::RETURN_TO_THEME_SELECTION
+        );
+        $form.= \html_writer::empty_tag('input', $attr);
+
         $form.= \html_writer::end_tag('form');
 
         return $form;

@@ -4,7 +4,7 @@ namespace Coursework\Support\ReturnToThemeSelection;
 
 require_once '../../classes/classes_lib/add_edit_template.php';
 require_once '../../classes/classes_lib/students_mass_actions.php';
-//require_once 'database.php';
+require_once 'database.php';
 require_once 'overview.php';
 
 class Main extends \Coursework\ClassesLib\AddEditTemplate
@@ -21,13 +21,11 @@ class Main extends \Coursework\ClassesLib\AddEditTemplate
 
     protected function handle_database_event() : void
     {
-        /*
         if($this->is_database_event_exist())
         {
             $handler = new Database($this->course, $this->cm);
             $handler->execute();
         }
-        */
     }
 
     protected function get_gui() : string 

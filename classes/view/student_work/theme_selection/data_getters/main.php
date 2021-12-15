@@ -80,6 +80,11 @@ class MainGetter
 
     private function init_available_themes() : void 
     {
+        if(empty($this->availableCourses))
+        {
+            throw new \Exception(get_string('e:quota_is_over', 'coursework'));
+        }
+
         $getter = new ThemesGetter(
             $this->course, 
             $this->cm, 

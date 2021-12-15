@@ -222,7 +222,7 @@ $string['e:students_not_enrolled'] = 'Error: Students are not enrolled in this c
 $string['e:teachers_not_enrolled'] = 'Error: Leaders are not enrolled in this coursework.';
 $string['no_one_has_chosen_you_as_leader'] = 'At the moment, no one has chosen you as leader.';
 $string['e-sv:quota_ended'] = 'There are no free course leaders left. Contact your administrator or teacher to resolve this issue.';
-$string['e:quota_is_over'] = 'Ошибка: закончились свободные руководители курсовой работы. Свяжитесь с администратором для увеличения квоты.';
+$string['e:quota_is_over'] = 'Error: run out of free leaders. Contact teacher to increase your leader\'s quota.';
 
 // new errors
 // e - error
@@ -420,4 +420,4 @@ $string['go_to_work'] = 'Go to work';
 $string['return_to_theme_selection'] = 'Back to theme selection';
 $string['theme_reselect_header'] = 'Select students who need to reselect themes again';
 $string['cancel_theme_select'] = 'Cancel theme select';
-$string['confirm_theme_reselect'] = 'Are you sure you want to delete students themes selection? \nThis action cannot be undone. After deleting themes selections, students need to select a theme again.';
+$string['confirm_theme_reselect'] = 'Are you sure you want to delete students themes selection? \n\nThis action cannot be undone. \n\nAfter deleting themes selections, students need to select a theme again.';
