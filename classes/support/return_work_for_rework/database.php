@@ -93,7 +93,7 @@ class Database
         {
             $this->send_notification_to_student($studentWork->student);
             $this->log_event($studentWork->student);
-            $this->display_coursework_back_to_work_state_message();
+            $this->display_coursework_back_return_work_for_rework_message();
         }
         else 
         {
@@ -109,7 +109,7 @@ class Database
         $course = $this->course;
         $userFrom = $USER;
         $userTo = cg::get_user($studentId); 
-        $messageName = 'back_to_work_state';
+        $messageName = 'return_work_for_rework';
         $messageText = $this->get_message_text();
 
         $notification = new Notification(
@@ -140,11 +140,11 @@ class Database
             'context' => \context_module::instance($this->cm->id)
         );
 
-        $event = \mod_coursework\event\student_coursework_back_to_work_state::create($params);
+        $event = \mod_coursework\event\return_student_work_for_rework::create($params);
         $event->trigger();
     }
 
-    private function display_coursework_back_to_work_state_message() : void  
+    private function display_coursework_back_return_work_for_rework_message() : void  
     {
         $attr = array
         (
@@ -152,7 +152,7 @@ class Database
                         background: #cbecc8;
                         padding: 10px;'
         );
-        $text = get_string('student_coursework_back_to_work_state', 'coursework');
+        $text = get_string('return_student_work_for_rework', 'coursework');
         echo \html_writer::tag('p', $text, $attr);
     }
 

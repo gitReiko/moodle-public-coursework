@@ -1,7 +1,7 @@
 <?php
 
 require_once '../../../../config.php';
-require_once '../../classes/support/back_to_work_state/main.php';
+require_once '../../classes/support/return_work_for_rework/main.php';
 require_once '../../lib/getters/students_getter.php';
 require_once '../../lib/getters/common_getter.php';
 require_once '../../lib/notification.php'; 
@@ -17,15 +17,15 @@ if (!$course = $DB->get_record('course', array('id'=> $cm->course))) {
     print_error('course is misconfigured');  // NOTE As above
 }
 
-$url = new moodle_url("/mod/coursework/pages/support/back_to_work_state.php", array('id'=>$id));
+$url = new moodle_url("/mod/coursework/pages/support/return_work_for_rework.php", array('id'=>$id));
 $PAGE->set_url($url);
 
 $PAGE->set_context(context_module::instance($cm->id));
 $PAGE->set_pagelayout('incourse');
 $PAGE->set_cm($cm);
 
-$PAGE->set_title(get_string('return_work_to_rework', 'coursework'));
-$PAGE->set_heading(get_string('return_work_to_rework', 'coursework'));
+$PAGE->set_title(get_string('return_work_for_rework', 'coursework'));
+$PAGE->set_heading(get_string('return_work_for_rework', 'coursework'));
 
 $PAGE->requires->css('/mod/coursework/css/common.css');
 

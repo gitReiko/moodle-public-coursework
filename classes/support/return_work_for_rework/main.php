@@ -7,7 +7,7 @@ require_once 'page.php';
 
 class Main 
 {
-    const BACK_TO_WORK_STATE = 'back_to_work_state';
+    const RETURN_WORK_FOR_REWORK = 'return_work_for_rework';
     const STUDENT_ID = 'student_id';
     const COURSEWORK_ID = 'coursework_id';
  
@@ -19,12 +19,12 @@ class Main
         $this->cm = $cm;
         $this->course = $course;
 
-        $this->log_event_user_view_back_to_work_state_page();
+        $this->log_user_view_return_work_for_rework_page();
     }
 
     public function get_page() : string  
     {
-        if($this->is_neccessary_back_to_work_state())
+        if($this->is_neccessary_return_work_for_rework())
         {
             $this->change_state_to_work();
         }
@@ -32,20 +32,20 @@ class Main
         return $this->get_page_();
     }
 
-    private function log_event_user_view_back_to_work_state_page()
+    private function log_user_view_return_work_for_rework_page()
     {
         $params = array
         (
             'context' => \context_module::instance($this->cm->id)
         );
 
-        $event = \mod_coursework\event\user_view_back_to_work_state_page::create($params);
+        $event = \mod_coursework\event\user_view_return_work_for_rework_page::create($params);
         $event->trigger();
     }
 
-    private function is_neccessary_back_to_work_state() : bool
+    private function is_neccessary_return_work_for_rework() : bool
     {
-        $back = optional_param(self::BACK_TO_WORK_STATE, null, PARAM_TEXT);
+        $back = optional_param(self::RETURN_WORK_FOR_REWORK, null, PARAM_TEXT);
 
         if($back) return true;
         else return false;

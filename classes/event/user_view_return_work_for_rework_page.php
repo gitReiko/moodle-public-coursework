@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
  
 /**
- * The student_coursework_back_to_work_state event.
+ * The user_view_return_work_for_rework_page event.
  *
  * @package    mod_coursework
  * @copyright  2021 Denis Makouski (Reiko)
@@ -24,12 +24,12 @@
 namespace mod_coursework\event;
 defined('MOODLE_INTERNAL') || die();
 /**
- * The student_coursework_back_to_work_state event class.
+ * The user_view_return_work_for_rework_page event class.
  *
  * @property-read array $other {
  *      Extra information about event.
  *
- *      Student work returned to rework.
+ *      User viewed back to work state page.
  * }
  *
  * @since     Moodle 20190725
@@ -37,24 +37,24 @@ defined('MOODLE_INTERNAL') || die();
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  **/
 
-class student_coursework_back_to_work_state extends \core\event\base {
+class user_view_return_work_for_rework_page extends \core\event\base {
     protected function init() {
-        $this->data['crud'] = 'u'; // c(reate), r(ead), u(pdate), d(elete)
-        $this->data['edulevel'] = self::LEVEL_TEACHING;
+        $this->data['crud'] = 'r'; // c(reate), r(ead), u(pdate), d(elete)
+        $this->data['edulevel'] = self::LEVEL_PARTICIPATING;
     }
  
     public static function get_name() {
     
-        return get_string('student_coursework_back_to_work_state', 'coursework');
+        return get_string('user_view_return_work_for_rework_page', 'coursework');
     }
  
     public function get_description() 
     {
-        return "The user with id '$this->userid' has back coursework of student with id '$this->relateduserid' to work state. Course module id is '$this->contextinstanceid'.";
+        return "The user with id '$this->userid' views back to work state page.";
     }
  
     public function get_url() {
-        return new \moodle_url('/mod/coursework/pages/support/back_to_work_state.php', array('id' => $this->relateduserid));
+        return new \moodle_url('/mod/coursework/view.php', array('id' => $this->contextinstanceid));
     }
  
     public function get_legacy_logdata() {

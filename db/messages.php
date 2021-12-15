@@ -61,7 +61,7 @@ $messageproviders = array(
         'capability' => 'mod/coursework:is_teacher'
     ),
 
-    'back_to_work_state' => array(
+    'return_work_for_rework' => array(
         'capability' => 'mod/coursework:is_student'
     ),
 

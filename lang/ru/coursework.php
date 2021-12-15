@@ -295,14 +295,14 @@ $string['load'] = 'Нагрузка';
 $string['divergence'] = 'Расхождение';
 
 // back to work state
-$string['return_work_to_rework'] = 'Вернуть работу студента на доработку';
+$string['return_work_for_rework'] = 'Вернуть работу студента на доработку';
 $string['impossible_return_to_work_state'] = 'Невозможно вернуть к рабочему статусу, потому что работы студента не существует.';
 $string['coursework_returned_to_work_state'] = 'Ваша курсовая работа была возвращена к рабочему статусу.';
-$string['student_coursework_back_to_work_state'] = 'Курсовая работа студента возвращена к рабочему статусу.';
+$string['return_student_work_for_rework'] = 'Курсовая работа студента возвращена к рабочему статусу.';
 
 // Access API
 $string['coursework:addinstance'] = 'Добавить курсовую работу';
-$string['coursework:back_to_work_state'] = 'Вернуть курсовую работу к черновику';
+$string['coursework:return_work_for_rework'] = 'Вернуть курсовую работу к черновику';
 $string['coursework:enrollmembers'] = 'Зачисление пользователей в курсовую работу';
 $string['coursework:givetask'] = 'Выдача заданий студентам';
 $string['coursework:gradestudent'] = 'Оценка работ студентов'; 
@@ -369,7 +369,7 @@ $string['back_to_coursework_without_save_changes'] = 'Вернуться к ку
 $string['student_view_own_work'] = 'Студент просмотрел собственную работу';
 $string['user_view_student_work'] = 'Пользователь просмотрел работу студента';
 $string['user_view_students_works_list'] = 'Пользователь просмотрел список работ студентов';
-$string['user_view_back_to_work_state_page'] = 'Пользователь просмотрел страницу возвращения попытки к рабочему статусу.';
+$string['user_view_return_work_for_rework_page'] = 'Пользователь просмотрел страницу возвращения работы на доработку.';
 $string['user_view_manage_old_files_page'] = 'Пользователь просмотрел страницу управления старой областью файлов';
 $string['quota_viewed'] = 'Квота просмотрена';
 $string['user_sent_message'] = 'Пользователь отправил сообщение';

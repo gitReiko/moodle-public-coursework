@@ -30,7 +30,7 @@ class Page
 
     private function get_page_header() : string  
     {
-        $text = get_string('return_work_to_rework', 'coursework');
+        $text = get_string('return_work_for_rework', 'coursework');
         return \html_writer::tag('h3', $text);
     }
 
@@ -69,7 +69,7 @@ class Page
 
     private function get_back_to_work_button() : string  
     {
-        $text = get_string('return_work_to_rework', 'coursework');
+        $text = get_string('return_work_for_rework', 'coursework');
         $button = \html_writer::tag('button', $text);
         return \html_writer::tag('p', $button);
     }
@@ -87,8 +87,8 @@ class Page
         $attr = array
         (
             'type' => 'hidden',
-            'name' => Main::BACK_TO_WORK_STATE,
-            'value' => Main::BACK_TO_WORK_STATE
+            'name' => Main::RETURN_WORK_FOR_REWORK,
+            'value' => Main::RETURN_WORK_FOR_REWORK
         );
         $p.= \html_writer::empty_tag('input', $attr);
 

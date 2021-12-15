@@ -287,14 +287,14 @@ $string['load'] = 'Load';
 $string['divergence'] = 'Divergence';
 
 // back to work state
-$string['return_work_to_rework'] = 'Return student work for rework';
+$string['return_work_for_rework'] = 'Return student work for rework';
 $string['impossible_return_to_work_state'] = 'Impossible return to work state, because student work doesn\'t exist.';
 $string['coursework_returned_to_work_state'] = 'Your coursework has been returned to working status.';
-$string['student_coursework_back_to_work_state'] = 'Student coursework back to work state.';
+$string['return_student_work_for_rework'] = 'Student coursework back to work state.';
 
 // Access API
 $string['coursework:addinstance'] = 'Add project';
-$string['coursework:back_to_work_state'] = 'Back project to draft';
+$string['coursework:return_work_for_rework'] = 'Back project to draft';
 $string['coursework:enrollmembers'] = 'Enroll users to project';
 $string['coursework:givetask'] = 'Issue students tasks';
 $string['coursework:gradestudent'] = 'Grade student projects'; 
@@ -361,7 +361,7 @@ $string['back_to_coursework_without_save_changes'] = 'Back to coursework without
 $string['student_view_own_work'] = 'Student view own coursework';
 $string['user_view_student_work'] = 'User view student work';
 $string['user_view_students_works_list'] = 'User view list of students works';
-$string['user_view_back_to_work_state_page'] = 'User view back to work state page';
+$string['user_view_return_work_for_rework_page'] = 'User view return work for rework page';
 $string['user_view_manage_old_files_page'] = 'User view manage old files page';
 $string['quota_viewed'] = 'Quota viewed';
 $string['user_sent_message'] = 'User sent a message';

@@ -148,7 +148,7 @@ $capabilities = array(
         ),
     ),
 
-    'mod/coursework:back_to_work_state' => array(
+    'mod/coursework:return_work_for_rework' => array(
 
         'captype' => 'read',
         'contextlevel' => CONTEXT_MODULE,

@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
  
 /**
- * The user_view_back_to_work_state_page event.
+ * The return_student_work_for_rework event.
  *
  * @package    mod_coursework
  * @copyright  2021 Denis Makouski (Reiko)
@@ -24,12 +24,12 @@
 namespace mod_coursework\event;
 defined('MOODLE_INTERNAL') || die();
 /**
- * The user_view_back_to_work_state_page event class.
+ * The return_student_work_for_rework event class.
  *
  * @property-read array $other {
  *      Extra information about event.
  *
- *      User viewed back to work state page.
+ *      Student work returned to rework.
  * }
  *
  * @since     Moodle 20190725
@@ -37,24 +37,24 @@ defined('MOODLE_INTERNAL') || die();
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  **/
 
-class user_view_back_to_work_state_page extends \core\event\base {
+class return_student_work_for_rework extends \core\event\base {
     protected function init() {
-        $this->data['crud'] = 'r'; // c(reate), r(ead), u(pdate), d(elete)
-        $this->data['edulevel'] = self::LEVEL_PARTICIPATING;
+        $this->data['crud'] = 'u'; // c(reate), r(ead), u(pdate), d(elete)
+        $this->data['edulevel'] = self::LEVEL_TEACHING;
     }
  
     public static function get_name() {
     
-        return get_string('user_view_back_to_work_state_page', 'coursework');
+        return get_string('return_student_work_for_rework', 'coursework');
     }
  
     public function get_description() 
     {
-        return "The user with id '$this->userid' views back to work state page.";
+        return "The user with id '$this->userid' has back coursework of student with id '$this->relateduserid' to work state. Course module id is '$this->contextinstanceid'.";
     }
  
     public function get_url() {
-        return new \moodle_url('/mod/coursework/view.php', array('id' => $this->contextinstanceid));
+        return new \moodle_url('/mod/coursework/pages/support/return_work_for_rework.php', array('id' => $this->relateduserid));
     }
  
     public function get_legacy_logdata() {

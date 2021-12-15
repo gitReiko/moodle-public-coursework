@@ -33,8 +33,8 @@ $attr = array('href' => '/mod/coursework/pages/support/return_to_theme_selection
 $text = \html_writer::tag('p', get_string('return_to_theme_selection', 'coursework'));
 echo \html_writer::tag('a', $text, $attr);
 
-$attr = array('href' => '/mod/coursework/pages/support/back_to_work_state.php?id='.$id);
-$text = \html_writer::tag('p', get_string('return_work_to_rework', 'coursework'));
+$attr = array('href' => '/mod/coursework/pages/support/return_work_for_rework.php?id='.$id);
+$text = \html_writer::tag('p', get_string('return_work_for_rework', 'coursework'));
 echo \html_writer::tag('a', $text, $attr);
 
 $attr = array('href' => '/mod/coursework/pages/support/leader_replacement.php?id='.$id);
