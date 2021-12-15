@@ -45,16 +45,21 @@ class Database
         global $DB;
         if($DB->update_record('coursework_students', $student))
         {
-            /*
-            // print success message in top of page
-            $this->log_student_leader_replaced($studentId);
+            $this->print_success_message($studentId);
             $this->send_notification_to_student($studentId);
-            */
+            $this->log_theme_selection_deleted($studentId);
         }
         else throw new Exception('Student theme selection not removed.');
     }
 
-    /*
+    private function print_success_message($studentId) : void 
+    {
+        $attr = array('class' => 'green-message');
+        $studentName = cg::get_user_name($studentId);
+        $text = get_string('theme_selection_successfully_deleted', 'coursework', $studentName);
+        echo \html_writer::tag('p', $text, $attr);
+    }
+
     private function send_notification_to_student(int $studentId) : void 
     {
         global $USER;
@@ -63,7 +68,7 @@ class Database
         $course = $this->course;
         $userFrom = $USER;
         $userTo = cg::get_user($studentId); 
-        $messageName = 'leaderreplaced';
+        $messageName = 'themeselectiondeleted';
         $messageText = $this->get_message_text();
 
         $notification = new Notification(
@@ -81,12 +86,12 @@ class Database
     private function get_message_text() : string 
     {
         $params = Notification::get_sender_data();
-        $message = get_string('leader_changed_for_student','coursework', $params);
+        $message = get_string('theme_selection_deleted_reselect','coursework', $params);
         $message.= get_string('answer_not_require', 'coursework');
         return $message;
     }
 
-    private function log_student_leader_replaced($studentId) : void 
+    private function log_theme_selection_deleted($studentId) : void 
     {
         $params = array
         (
@@ -94,11 +99,9 @@ class Database
             'context' => \context_module::instance($this->cm->id)
         );
         
-        $event = \mod_coursework\event\student_leader_replaced::create($params);
+        $event = \mod_coursework\event\theme_selection_deleted::create($params);
         $event->trigger();
     }
-
-    */
 
 
 }

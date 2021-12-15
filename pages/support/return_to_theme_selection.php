@@ -31,6 +31,7 @@ $PAGE->set_heading(get_string('return_to_theme_selection', 'coursework'));
 $PAGE->requires->js('/mod/coursework/js/support/return_to_theme_selection.js');
 $PAGE->requires->css('/mod/coursework/css/lib/students_mass_actions.css');
 $PAGE->requires->js('/mod/coursework/js/lib/mass_actions_on_students.js');
+$PAGE->requires->css('/mod/coursework/css/common.css');
 
 require_login();
   

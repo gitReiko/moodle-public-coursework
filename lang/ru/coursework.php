@@ -429,3 +429,6 @@ $string['return_to_theme_selection'] = 'Вернуть к выбору темы'
 $string['theme_reselect_header'] = 'Выберите студентов, которым нужно перевыбрать тему';
 $string['cancel_theme_select'] = 'Отменить выбор темы';
 $string['confirm_theme_reselect'] = 'Вы уверены, что хотите удалить выбор тем студентов? \n\nДанное действие нельзя отменить. \n\nПосле удаления выбора тем, студентам нужно будет снова выбрать тему.';
+$string['theme_selection_deleted_reselect'] = 'Выбор темы курсовой работы удалён. Вам необходимо перевыбрать тему курсовой работы.';
+$string['theme_selection_successfully_deleted'] = 'Выбор темы успешно удалён ({$a}).';
+$string['theme_selection_deleted'] = 'Удалена выбранная студентом тема';

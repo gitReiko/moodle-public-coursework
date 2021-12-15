@@ -73,6 +73,10 @@ $messageproviders = array(
         'capability' => 'mod/coursework:deletestudentcoursework'
     ),
 
+    'themeselectiondeleted' => array(
+        'capability' => 'mod/coursework:returntothemeselection'
+    ),
+
 );
 
 

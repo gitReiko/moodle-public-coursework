@@ -421,3 +421,6 @@ $string['return_to_theme_selection'] = 'Back to theme selection';
 $string['theme_reselect_header'] = 'Select students who need to reselect themes again';
 $string['cancel_theme_select'] = 'Cancel theme select';
 $string['confirm_theme_reselect'] = 'Are you sure you want to delete students themes selection? \n\nThis action cannot be undone. \n\nAfter deleting themes selections, students need to select a theme again.';
+$string['theme_selection_deleted_reselect'] = 'Coursework theme selection deleted. You need reselect coursework theme.';
+$string['theme_selection_successfully_deleted'] = 'Theme selection successfully deleted ({$a}).';
+$string['theme_selection_deleted'] = 'Deleted theme selection by the student';
