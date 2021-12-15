@@ -416,3 +416,4 @@ $string['no_suggested_themes'] = 'There are currently no suggested themes.';
 $string['themes_using_added'] = 'Used suggested themes added';
 $string['themes_using_changed'] = 'Used suggested themes changed';
 $string['themes_using_deleted'] = 'Used suggested themes deleted';
+$string['go_to_work'] = 'Go to work';

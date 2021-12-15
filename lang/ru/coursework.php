@@ -424,3 +424,4 @@ $string['no_suggested_themes'] = 'В данный момент нет предл
 $string['themes_using_added'] = 'Используемые предлагаемые темы добавлены';
 $string['themes_using_changed'] = 'Используемые предлагаемые темы изменены';
 $string['themes_using_deleted'] = 'Используемые предлагаемые темы удалены';
+$string['go_to_work'] = 'Перейти к работе';
