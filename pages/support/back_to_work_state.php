@@ -24,8 +24,8 @@ $PAGE->set_context(context_module::instance($cm->id));
 $PAGE->set_pagelayout('incourse');
 $PAGE->set_cm($cm);
 
-$PAGE->set_title(get_string('back_to_work_state', 'coursework'));
-$PAGE->set_heading(get_string('back_to_work_state', 'coursework'));
+$PAGE->set_title(get_string('return_work_to_rework', 'coursework'));
+$PAGE->set_heading(get_string('return_work_to_rework', 'coursework'));
 
 $PAGE->requires->css('/mod/coursework/css/common.css');
 

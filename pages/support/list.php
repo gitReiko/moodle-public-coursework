@@ -34,7 +34,7 @@ $text = \html_writer::tag('p', get_string('return_to_theme_selection', 'coursewo
 echo \html_writer::tag('a', $text, $attr);
 
 $attr = array('href' => '/mod/coursework/pages/support/back_to_work_state.php?id='.$id);
-$text = \html_writer::tag('p', get_string('back_to_work_state', 'coursework'));
+$text = \html_writer::tag('p', get_string('return_work_to_rework', 'coursework'));
 echo \html_writer::tag('a', $text, $attr);
 
 $attr = array('href' => '/mod/coursework/pages/support/leader_replacement.php?id='.$id);

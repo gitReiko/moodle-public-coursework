@@ -136,7 +136,7 @@ function coursework_extend_settings_navigation($settings, $navref)
         if(has_capability('mod/coursework:back_to_work_state', $PAGE->cm->context))
         {
             $link = new moodle_url('/mod/coursework/pages/support/back_to_work_state.php', array('id' => $cm->id));
-            $linkname = get_string('back_to_work_state', 'coursework');
+            $linkname = get_string('return_work_to_rework', 'coursework');
             $mainCategory->add($linkname, $link, navigation_node::TYPE_SETTING);
         }
 
