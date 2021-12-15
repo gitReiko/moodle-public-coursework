@@ -1,6 +1,6 @@
 <?php
 
-namespace Coursework\View\BackToWorkState;
+namespace Coursework\Support\BackToWorkState;
 
 require_once 'database.php';
 require_once 'page.php';
@@ -12,10 +12,13 @@ class Main
     const COURSEWORK_ID = 'coursework_id';
  
     private $cm;
+    private $course;
 
-    function __construct(\stdClass $cm) 
+    function __construct(\stdClass $cm, \stdClass $course) 
     {
         $this->cm = $cm;
+        $this->course = $course;
+
         $this->log_event_user_view_back_to_work_state_page();
     }
 
@@ -56,12 +59,9 @@ class Main
 
     private function change_state_to_work() : void 
     {
-        $database = new Database($this->cm);
+        $database = new Database($this->cm, $this->course);
         $database->change_state_to_work();
     }
-
-
-
 
 
 }

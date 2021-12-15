@@ -1,15 +1,13 @@
 <?php
 
 require_once '../../../../config.php';
-require_once '../../lib/getters/common_getter.php';
+require_once '../../classes/support/back_to_work_state/main.php';
 require_once '../../lib/getters/students_getter.php';
+require_once '../../lib/getters/common_getter.php';
+require_once '../../lib/notification.php'; 
 require_once '../../lib/common.php';
 require_once '../../lib/enums.php';
-require_once '../../classes/view/back_to_work_state/main.php';
-require_once '../../newlib.php';
-require_once '../../enums.php';
-require_once '../../lib.php';
- 
+
 $id = required_param('id', PARAM_INT);    // Course Module ID
  
 if (!$cm = get_coursemodule_from_id('coursework', $id)) {
@@ -29,11 +27,13 @@ $PAGE->set_cm($cm);
 $PAGE->set_title(get_string('back_to_work_state', 'coursework'));
 $PAGE->set_heading(get_string('back_to_work_state', 'coursework'));
 
+$PAGE->requires->css('/mod/coursework/css/common.css');
+
 require_login();
   
 echo $OUTPUT->header();
 
-$page = new Coursework\View\BackToWorkState\Main($cm);
+$page = new Coursework\Support\BackToWorkState\Main($cm, $course);
 echo $page->get_page();
 
 echo $OUTPUT->footer();

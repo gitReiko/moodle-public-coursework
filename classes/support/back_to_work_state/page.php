@@ -1,6 +1,6 @@
 <?php
 
-namespace Coursework\View\BackToWorkState;
+namespace Coursework\Support\BackToWorkState;
 
 use Coursework\Lib\Getters\StudentsGetter as sg;
 
