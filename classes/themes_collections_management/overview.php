@@ -44,28 +44,33 @@ class Overview
 
     private function get_overview_header() : string 
     {
-        return '<h3>'.get_string('collections_list', 'coursework').'</h3>';
+        $text = get_string('collections_list', 'coursework');
+        return \html_writer::tag('h3', $text);
     }
 
     private function get_collections_table() : string 
     {
-        $table = '<table class="leaders_overview">';
-        $table.= $this->get_collections_table_header();
-        $table.= $this->get_collections_table_body();
-        $table.= '</table>';
-        return $table;
+        $attr = array('class' => 'leaders_overview');
+        $tbl = \html_writer::start_tag('table', $attr);
+        $tbl.= $this->get_collections_table_header();
+        $tbl.= $this->get_collections_table_body();
+        $tbl.= \html_writer::end_tag('table');
+
+        return $tbl;
     }
 
     private function get_collections_table_header() : string 
     {
-        $header = '<tr class="header">';
-        $header.= '<td>'.get_string('name', 'coursework').'</td>';
-        $header.= '<td>'.get_string('course', 'coursework').'</td>';
-        $header.= '<td>'.get_string('description', 'coursework'). '</td>';
-        $header.= '<td></td>';
-        $header.= '<td></td>';
-        $header.= '</tr>';
-        return $header;
+        $attr = array('class' => 'header');
+        $head = \html_writer::start_tag('tr', $attr);
+        $head.= \html_writer::tag('td', get_string('name', 'coursework'));
+        $head.= \html_writer::tag('td', get_string('course', 'coursework'));
+        $head.= \html_writer::tag('td', get_string('description', 'coursework'));
+        $head.= \html_writer::tag('td', '');
+        $head.= \html_writer::tag('td', '');
+        $head.= \html_writer::end_tag('tr');
+
+        return $head;
     }
 
     private function get_collections_table_body() : string 
