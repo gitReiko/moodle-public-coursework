@@ -51,8 +51,6 @@ class MainGetter
         $studentsGtr = $this->get_students_getter();
         $this->init_students($studentsGtr);
 
-        $this->filter_out_not_student_teachers($teachersGtr, $this->students);
-
         $this->add_student_courses_to_courses($coursesGtr);
     }
 

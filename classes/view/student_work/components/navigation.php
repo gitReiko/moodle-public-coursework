@@ -30,7 +30,16 @@ class Navigation extends Base
     {
         if(empty($this->work))
         {
-            return $this->get_back_to_course_button();
+            global $PAGE;
+
+            if(has_capability('mod/coursework:is_student', $PAGE->cm->context))
+            {
+                return $this->get_back_to_course_button();
+            }
+            else 
+            {
+                return $this->get_back_to_works_list_button();
+            }            
         }
         else if(locallib::is_user_student($this->work))
         {
