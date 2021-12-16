@@ -21,6 +21,8 @@ class Main extends \Coursework\Classes\Lib\MainTemplate
     const EDIT_THEME = 'edit_theme';
     const DELETE_THEME = 'delete_theme';
 
+    const COLLECTION_ID = 'collection_id';
+
     function __construct(\stdClass $course, \stdClass $cm)
     {
         parent::__construct($course, $cm);

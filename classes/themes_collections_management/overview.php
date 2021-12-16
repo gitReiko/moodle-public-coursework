@@ -79,13 +79,18 @@ class Overview
 
         foreach($this->collections as $collection)
         {
-            $body.= '<tr>';
-            $body.= '<td>'.$collection->name.'</td>';
-            $body.= '<td>'.$collection->coursename.'</td>';
-            $body.= '<td style="max-width: 450px;">'.$collection->description.'</td>';
-            $body.= '<td>'.$this->get_edit_button($collection).'</td>';
-            $body.= '<td>'.$this->get_themes_management_button($collection).'</td>';
-            $body.= '</tr>';
+            $body.= \html_writer::start_tag('tr');
+
+            $body.= \html_writer::tag('td', $collection->name);
+            $body.= \html_writer::tag('td', $collection->coursename);
+
+            $attr = array('style' => 'max-width: 450px;');
+            $body.= \html_writer::tag('td', $collection->description, $attr);
+
+            $body.= \html_writer::tag('td', $this->get_edit_button($collection));
+            $body.= \html_writer::tag('td', $this->get_themes_management_button($collection));
+
+            $body.= \html_writer::end_tag('tr');
         }
 
         return $body;
@@ -93,37 +98,106 @@ class Overview
 
     private function get_edit_button(\stdClass $collection) : string 
     {
-        $button = '<form method="post">';
-        $button.= '<input type="submit" value="'.get_string('edit', 'coursework').'">';
-        $button.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
-        $button.= '<input type="hidden" name="'.Main::GUI_TYPE.'" value="'.Main::EDIT_COLLECTION.'">';
-        $button.= '<input type="hidden" name="'.COLLECTION.ID.'" value="'.$collection->id.'">';
-        $button.= '</form>';
-        return $button;
+        $attr = array('method' => 'post');
+        $btn = \html_writer::start_tag('form', $attr);
+
+        $attr = array(
+            'type' => 'submit',
+            'value' => get_string('edit', 'coursework')
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::ID,
+            'value' => $this->cm->id
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::GUI_TYPE,
+            'value' => Main::EDIT_COLLECTION
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::COLLECTION_ID,
+            'value' => $collection->id
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $btn.= \html_writer::end_tag('form');
+
+        return $btn;
     }
 
     private function get_themes_management_button(\stdClass $collection) : string 
     {
-        $button = '<form method="post">';
-        $button.= '<input type="submit" value="'.get_string('coursework_themes_management', 'coursework').'">';
-        $button.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
-        $button.= '<input type="hidden" name="'.Main::GUI_TYPE.'" value="'.Main::THEMES_MANAGEMENT.'">';
-        $button.= '<input type="hidden" name="'.COLLECTION.ID.'" value="'.$collection->id.'">';
-        $button.= '</form>';
-        return $button;
+        $attr = array('method' => 'post');
+        $btn = \html_writer::start_tag('form', $attr);
+
+        $attr = array(
+            'type' => 'submit',
+            'value' => get_string('coursework_themes_management', 'coursework')
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::ID,
+            'value' => $this->cm->id
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::GUI_TYPE,
+            'value' => Main::THEMES_MANAGEMENT
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::COLLECTION_ID,
+            'value' => $collection->id
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $btn.= \html_writer::end_tag('form');
+
+        return $btn;
     }
 
     private function get_add_leader_button() : string 
     {
-        $button = '<form method="post">';
-        $button.= '<input type="submit" value="'.get_string('add_collection', 'coursework').'" autofocus>';
-        $button.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
-        $button.= '<input type="hidden" name="'.Main::GUI_TYPE.'" value="'.Main::ADD_COLLECTION.'">';
-        $button.= '</form>';
-        return $button;
+        $attr = array('method' => 'post');
+        $btn = \html_writer::start_tag('form', $attr);
+
+        $attr = array(
+            'type' => 'submit',
+            'value' => get_string('add_collection', 'coursework')
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::ID,
+            'value' => $this->cm->id
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::GUI_TYPE,
+            'value' => Main::ADD_COLLECTION
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $btn.= \html_writer::end_tag('form');
+
+        return $btn;
     }
-    
 
 }
-
-
