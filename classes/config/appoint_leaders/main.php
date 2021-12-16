@@ -29,13 +29,17 @@ class Main extends \Coursework\ClassesLib\AddEditTemplate
         parent::__construct($course, $cm);
     }
 
-    protected function handle_database_event() : void
+    protected function execute_database_handler() : void
     {
-        if($this->is_database_event_exist())
-        {
-            $handler = new Database($this->course, $this->cm);
-            $handler->execute();
-        }
+        $handler = new Database($this->course, $this->cm);
+        $handler->execute();
+    }
+
+    protected function redirect_to_prevent_page_update() : void
+    {
+        $path = '/mod/coursework/pages/config/appoint_leaders.php';
+        $params = array('id'=>$this->cm->id);
+        redirect(new \moodle_url($path, $params));
     }
 
     protected function get_gui() : string 

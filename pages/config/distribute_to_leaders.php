@@ -37,11 +37,12 @@ $PAGE->requires->js('/mod/coursework/js/lib/mass_actions_on_students.js');
 $PAGE->requires->js('/mod/coursework/js/config/distribute_to_leaders.js');
 
 require_login();
-  
-echo $OUTPUT->header();
 
 $distributeToLeaders = new distributeToLeaders\Main($course, $cm);
-echo $distributeToLeaders->execute();
+  
+$distributeToLeaders->handle_database_event();
 
+echo $OUTPUT->header();
+echo $distributeToLeaders->get_page();
 echo $OUTPUT->footer();
 

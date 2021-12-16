@@ -28,11 +28,12 @@ $PAGE->requires->css('/mod/coursework/css/config/set_suggested_themes.css');
 $PAGE->requires->js('/mod/coursework/js/config/set_suggested_themes.js');
 
 require_login();
-  
-echo $OUTPUT->header();
 
 $setSuggestedThemes = new setSuggestedThemes($course, $cm);
-echo $setSuggestedThemes->execute();
+  
+$setSuggestedThemes->handle_database_event();
 
+echo $OUTPUT->header();
+echo $setSuggestedThemes->get_page();
 echo $OUTPUT->footer();
 

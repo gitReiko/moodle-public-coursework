@@ -28,11 +28,12 @@ $PAGE->set_heading(get_string('set_default_task_template', 'coursework'));
 $PAGE->requires->css('/mod/coursework/css/config/set_default_task_template.css');
 
 require_login();
-  
-echo $OUTPUT->header();
 
 $setUsedTaskTemplate = new setUsedTaskTemplate($course, $cm);
-echo $setUsedTaskTemplate->execute();
+  
+$setUsedTaskTemplate->handle_database_event();
 
+echo $OUTPUT->header();
+echo $setUsedTaskTemplate->get_page();
 echo $OUTPUT->footer();
 

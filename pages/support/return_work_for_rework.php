@@ -30,12 +30,12 @@ $PAGE->set_heading(get_string('return_work_for_rework', 'coursework'));
 $PAGE->requires->css('/mod/coursework/css/common.css');
 
 require_login();
-  
-echo $OUTPUT->header();
 
 $page = new Coursework\Support\BackToWorkState\Main($cm, $course);
+  
+$page->handle_database_event();
+
+echo $OUTPUT->header();
 echo $page->get_page();
-
 echo $OUTPUT->footer();
-
 

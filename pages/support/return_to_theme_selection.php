@@ -34,10 +34,12 @@ $PAGE->requires->js('/mod/coursework/js/lib/mass_actions_on_students.js');
 $PAGE->requires->css('/mod/coursework/css/common.css');
 
 require_login();
-  
-echo $OUTPUT->header();
 
 $page = new Coursework\Support\ReturnToThemeSelection\Main($course, $cm);
-echo $page->execute();
+  
+$page->handle_database_event();
 
+echo $OUTPUT->header();
+echo $page->get_page();
 echo $OUTPUT->footer();
+

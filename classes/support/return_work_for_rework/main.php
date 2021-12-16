@@ -22,14 +22,25 @@ class Main
         $this->log_user_view_return_work_for_rework_page();
     }
 
+    public function handle_database_event()
+    {
+        if($this->is_database_event_exists())
+        {
+            $this->execute_database_handler();
+            $this->redirect_to_prevent_page_update();
+        }
+    }
+
     public function get_page() : string  
     {
-        if($this->is_neccessary_return_work_for_rework())
-        {
-            $this->change_state_to_work();
-        }
-
         return $this->get_page_();
+    }
+
+    private function redirect_to_prevent_page_update() : void
+    {
+        $path = '/mod/coursework/pages/support/return_work_for_rework.php';
+        $params = array('id'=>$this->cm->id);
+        redirect(new \moodle_url($path, $params));
     }
 
     private function log_user_view_return_work_for_rework_page()
@@ -43,7 +54,7 @@ class Main
         $event->trigger();
     }
 
-    private function is_neccessary_return_work_for_rework() : bool
+    private function is_database_event_exists() : bool
     {
         $back = optional_param(self::RETURN_WORK_FOR_REWORK, null, PARAM_TEXT);
 
@@ -57,7 +68,7 @@ class Main
         return $p->get_page();
     }
 
-    private function change_state_to_work() : void 
+    private function execute_database_handler() : void 
     {
         $database = new Database($this->cm, $this->course);
         $database->change_state_to_work();

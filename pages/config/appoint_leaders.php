@@ -29,11 +29,12 @@ $PAGE->requires->css('/mod/coursework/css/common.css');
 $PAGE->requires->css('/mod/coursework/css/config/appoint_leaders.css');
 
 require_login();
-  
-echo $OUTPUT->header();
 
 $appointLeaders = new appointLeaders\Main($course, $cm);
-echo $appointLeaders->execute();
+  
+$appointLeaders->handle_database_event();
 
+echo $OUTPUT->header();
+echo $appointLeaders->get_page();
 echo $OUTPUT->footer();
 

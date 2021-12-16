@@ -18,13 +18,23 @@ abstract class AddEditTemplate
         $this->cm = $cm;
     }
 
-    public function execute() : string 
+    public function get_page() : string 
     {
-        $this->handle_database_event();
         return $this->get_gui();
     }
 
-    abstract protected function handle_database_event() : void;
+    public function handle_database_event()
+    {
+        if($this->is_database_event_exist())
+        {
+            $this->execute_database_handler();
+            $this->redirect_to_prevent_page_update();
+        }
+    }
+
+    abstract protected function execute_database_handler() : void;
+
+    abstract protected function redirect_to_prevent_page_update() : void;
 
     protected function is_database_event_exist() : bool 
     {

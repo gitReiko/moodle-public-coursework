@@ -34,11 +34,12 @@ $PAGE->requires->css('/mod/coursework/css/support/delete_student_coursework.css'
 $PAGE->requires->js('/mod/coursework/js/support/delete_student_coursework.js');
 
 require_login();
-  
-echo $OUTPUT->header();
 
 $deleteStudentCoursework = new deleteStudentCoursework\Main($course, $cm);
-echo $deleteStudentCoursework->execute();
+  
+$deleteStudentCoursework->handle_database_event();
 
+echo $OUTPUT->header();
+echo $deleteStudentCoursework->get_page();
 echo $OUTPUT->footer();
 

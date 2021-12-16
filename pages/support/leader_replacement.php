@@ -35,11 +35,12 @@ $PAGE->requires->css('/mod/coursework/css/lib/students_mass_actions.css');
 $PAGE->requires->js('/mod/coursework/js/lib/mass_actions_on_students.js');
 
 require_login();
-  
-echo $OUTPUT->header();
 
 $leaderReplacement = new leaderReplacement\Main($course, $cm);
-echo $leaderReplacement->execute();
+  
+$leaderReplacement->handle_database_event();
 
+echo $OUTPUT->header();
+echo $leaderReplacement->get_page();
 echo $OUTPUT->footer();
 

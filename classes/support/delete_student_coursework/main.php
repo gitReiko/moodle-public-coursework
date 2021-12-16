@@ -21,17 +21,34 @@ class Main
     {
         $this->course = $course;
         $this->cm = $cm;
+    }
 
+    public function handle_database_event()
+    {
         if($this->is_database_event_exists())
         {
-            $this->execute_database_event();
+            $this->execute_database_handler();
+            $this->redirect_to_prevent_page_update();
         }
     }
 
-    public function execute() : string 
+    public function get_page() : string 
     {
         $page = new Page($this->course, $this->cm);
         return $page->get_page();
+    }
+
+    private function execute_database_handler() : void
+    {
+        $handler = new Database($this->course, $this->cm);
+        $handler->execute();
+    }
+
+    private function redirect_to_prevent_page_update() : void
+    {
+        $path = '/mod/coursework/pages/support/delete_student_coursework.php';
+        $params = array('id'=>$this->cm->id);
+        redirect(new \moodle_url($path, $params));
     }
 
     private function is_database_event_exists() : bool 
@@ -40,12 +57,6 @@ class Main
 
         if(isset($dbEvent)) return true;
         else return false;
-    }
-
-    private function execute_database_event()
-    {
-        $handler = new Database($this->course, $this->cm);
-        $handler->execute();  
     }
 
 }
