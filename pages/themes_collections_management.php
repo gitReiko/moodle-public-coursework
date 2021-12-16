@@ -1,8 +1,11 @@
 <?php
 
 require_once '../../../config.php';
+require_once '../classes/themes_collections_management/main.php';
+
+use Coursework\View\ThemesCollectionsManagement\Main as themesCollectionsManagement;
+
 /*
-require_once '../classes/support/leader_replacement/main.php';
 require_once '../lib/getters/students_getter.php';
 require_once '../lib/getters/teachers_getter.php';
 require_once '../lib/getters/common_getter.php';
@@ -10,8 +13,6 @@ require_once '../lib/notification.php';
 require_once '../lib/common.php';
 require_once '../lib/enums.php';
 */
-
-//use Coursework\Support\LeaderReplacement as leaderReplacement;
  
 $id = required_param('id', PARAM_INT);    // Course Module ID
  
@@ -40,14 +41,11 @@ $PAGE->requires->js('/mod/coursework/js/lib/mass_actions_on_students.js');
 
 require_login();
 
-/*
-$leaderReplacement = new leaderReplacement\Main($course, $cm);
+$themesCollectionsManagement = new themesCollectionsManagement($course, $cm);
   
-$leaderReplacement->handle_database_event();
-*/
+$themesCollectionsManagement->handle_database_event();
 
 echo $OUTPUT->header();
-//echo $leaderReplacement->get_page();
-echo 'vunisvipsojrpe';
+echo $themesCollectionsManagement->get_page();
 echo $OUTPUT->footer();
 
