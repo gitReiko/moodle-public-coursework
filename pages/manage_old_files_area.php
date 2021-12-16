@@ -1,7 +1,7 @@
 <?php
 
 require_once '../../../config.php';
-require_once '../classes/view/manage_old_files_area/main.php';
+require_once '../classes/manage_old_files_area/main.php';
 require_once '../lib/getters/common_getter.php';
 require_once '../lib/getters/teachers_getter.php';
 require_once '../lib/enums.php';
