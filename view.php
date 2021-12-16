@@ -44,12 +44,13 @@ $PAGE->requires->js('/mod/coursework/js/chat.js');
 $PAGE->requires->js('/mod/coursework/js/select_theme.js');
 
 require_login();
-  
-echo $OUTPUT->header();
 
 $view = new Main($course, $cm);
-echo $view->get_gui();
+  
+$view->handle_database_event();
 
+echo $OUTPUT->header();
+echo $view->get_gui();
 echo $OUTPUT->footer();
 
 

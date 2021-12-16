@@ -27,10 +27,14 @@ class Main
     {
         $this->course = $course;
         $this->cm = $cm;
+    }
 
+    public function handle_database_event()
+    {
         if($this->is_database_event_exist())
         {
-            $this->handle_database_event();
+            $this->handle_database_event_();
+            $this->redirect_to_prevent_page_update();
         }
     }
 
@@ -59,6 +63,55 @@ class Main
         }
     }
 
+    private function redirect_to_prevent_page_update()
+    {
+        global $USER;
+
+        if(cl::is_user_student($this->cm, $USER->id))
+        {
+            $this->redirect_student_to_student_work();
+        }
+        else 
+        {
+            $event = $this->get_gui_event();
+
+            if($event == self::USER_WORK)
+            {
+                $studentId = $this->get_student_id();
+                return $this->redirect_user_to_student_work($studentId);
+            }
+            else 
+            {
+                return $this->redirect_user_to_student_works_list();
+            }
+        }
+    }
+
+    private function redirect_student_to_student_work()
+    {
+        $path = '/mod/coursework/view.php';
+        $params = array('id'=>$this->cm->id);
+        redirect(new \moodle_url($path, $params));
+    }
+
+    private function redirect_user_to_student_work(int $studentId)
+    {
+        $path = '/mod/coursework/view.php';
+        $params = array(
+            'id'=>$this->cm->id,
+            self::GUI_EVENT => self::USER_WORK,
+            self::STUDENT_ID => $studentId
+        );
+        redirect(new \moodle_url($path, $params));
+    }
+
+    private function redirect_user_to_student_works_list()
+    {
+        $path = '/mod/coursework/view.php';
+        $params = array('id'=>$this->cm->id);
+        redirect(new \moodle_url($path, $params));
+    }
+
     private function is_database_event_exist() : bool 
     {
         $event = optional_param(DB_EVENT, null, PARAM_TEXT);
@@ -67,7 +120,7 @@ class Main
         else return false;
     }
 
-    private function handle_database_event() : void 
+    private function handle_database_event_() : void 
     {
         $database = new MainDatabaseHandler($this->course, $this->cm);
         $database->handle();
