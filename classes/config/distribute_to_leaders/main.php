@@ -2,13 +2,13 @@
 
 namespace Coursework\Config\DistributeToLeaders;
 
-require_once '../../classes/lib/add_edit_template.php';
+require_once '../../classes/lib/main_template.php';
 require_once '../../classes/lib/students_mass_actions.php';
 require_once 'database.php';
 require_once 'distribute.php';
 require_once 'overview.php';
 
-class Main extends \Coursework\Classes\Lib\AddEditTemplate
+class Main extends \Coursework\Classes\Lib\MainTemplate
 {
     const OVERVIEW = 'overview';
     const DISTRIBUTION = 'distribute';

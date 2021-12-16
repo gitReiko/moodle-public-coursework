@@ -2,13 +2,13 @@
 
 namespace Coursework\Support\LeaderReplacement;
 
-require_once '../../classes/lib/add_edit_template.php';
+require_once '../../classes/lib/main_template.php';
 require_once '../../classes/lib/students_mass_actions.php';
 require_once 'database.php';
 require_once 'overview.php';
 require_once 'replace.php';
 
-class Main extends \Coursework\Classes\Lib\AddEditTemplate
+class Main extends \Coursework\Classes\Lib\MainTemplate
 {
     // Types of events
     const OVERVIEW = 'overview';

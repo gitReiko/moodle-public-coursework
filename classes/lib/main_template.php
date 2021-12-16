@@ -2,7 +2,7 @@
 
 namespace Coursework\Classes\Lib;
 
-abstract class AddEditTemplate
+abstract class MainTemplate
 {
     const DATABASE_EVENT = 'database_event';
     const GUI_TYPE = 'gui_type';
