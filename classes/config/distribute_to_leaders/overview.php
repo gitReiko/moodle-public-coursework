@@ -5,7 +5,7 @@ namespace Coursework\Config\DistributeToLeaders;
 require_once 'students_mass_actions.php';
 require_once 'getter.php';
 
-use Coursework\ClassesLib\StudentsMassActions;
+use Coursework\Classes\Lib\StudentsMassActions;
 
 class Overview 
 {

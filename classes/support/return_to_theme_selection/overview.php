@@ -5,7 +5,7 @@ namespace Coursework\Support\ReturnToThemeSelection;
 require_once 'students_mass_actions.php';
 require_once 'getter.php';
 
-use Coursework\ClassesLib\StudentsMassActions;
+use Coursework\Classes\Lib\StudentsMassActions;
 use Coursework\Lib\Getters\StudentsGetter as sg;
 use Coursework\Lib\Getters\CommonGetter as cg;
 

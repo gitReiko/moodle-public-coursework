@@ -2,7 +2,7 @@
 
 namespace Coursework\Config\DistributeToLeaders;
 
-use Coursework\ClassesLib\StudentsMassActions as sma;
+use Coursework\Classes\Lib\StudentsMassActions as sma;
 
 class DistributeStudentsTable extends sma\StudentsTable 
 {

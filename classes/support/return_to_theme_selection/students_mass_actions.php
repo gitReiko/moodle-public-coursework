@@ -2,7 +2,7 @@
 
 namespace Coursework\Support\ReturnToThemeSelection;
 
-use Coursework\ClassesLib\StudentsMassActions as sma;
+use Coursework\Classes\Lib\StudentsMassActions as sma;
 
 class ReselectStudentsTable extends sma\StudentsTable 
 {

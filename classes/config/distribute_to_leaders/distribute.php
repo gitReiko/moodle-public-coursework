@@ -2,7 +2,7 @@
 
 namespace Coursework\Config\DistributeToLeaders;
 
-use Coursework\ClassesLib\StudentsMassActions\Lib as massLib;
+use Coursework\Classes\Lib\StudentsMassActions\Lib as massLib;
 use Coursework\Lib\Getters\TeachersGetter as tg;
 
 class Distribute 

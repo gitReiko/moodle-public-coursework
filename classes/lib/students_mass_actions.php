@@ -1,6 +1,6 @@
 <?php 
 
-namespace Coursework\ClassesLib\StudentsMassActions;
+namespace Coursework\Classes\Lib\StudentsMassActions;
 
 require_once '../../lib/getters/common_getter.php';
 

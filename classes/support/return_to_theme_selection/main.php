@@ -2,12 +2,12 @@
 
 namespace Coursework\Support\ReturnToThemeSelection;
 
-require_once '../../classes/classes_lib/add_edit_template.php';
-require_once '../../classes/classes_lib/students_mass_actions.php';
+require_once '../../classes/lib/add_edit_template.php';
+require_once '../../classes/lib/students_mass_actions.php';
 require_once 'database.php';
 require_once 'overview.php';
 
-class Main extends \Coursework\ClassesLib\AddEditTemplate
+class Main extends \Coursework\Classes\Lib\AddEditTemplate
 {
     const RETURN_TO_THEME_SELECTION = 'return_to_theme_selection';
 

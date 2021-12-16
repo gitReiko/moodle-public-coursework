@@ -2,7 +2,7 @@
 
 namespace Coursework\Support\LeaderReplacement;
 
-use Coursework\ClassesLib\StudentsMassActions as sma;
+use Coursework\Classes\Lib\StudentsMassActions as sma;
 
 class ReplaceStudentsTable extends sma\StudentsTable 
 {

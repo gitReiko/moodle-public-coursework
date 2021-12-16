@@ -1,6 +1,6 @@
 <?php
 
-namespace Coursework\ClassesLib;
+namespace Coursework\Classes\Lib;
 
 abstract class AddEditTemplate
 {

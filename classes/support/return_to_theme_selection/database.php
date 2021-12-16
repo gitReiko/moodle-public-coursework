@@ -2,7 +2,7 @@
 
 namespace Coursework\Support\ReturnToThemeSelection;
 
-use Coursework\ClassesLib\StudentsMassActions\StudentsTable as sma;
+use Coursework\Classes\Lib\StudentsMassActions\StudentsTable as sma;
 use Coursework\Lib\Getters\StudentsGetter as sg;
 use Coursework\Lib\Getters\CommonGetter as cg;
 use Coursework\Lib\Notification;

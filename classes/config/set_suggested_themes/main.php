@@ -2,14 +2,14 @@
 
 namespace Coursework\Config\SetSuggestedThemes;
 
-require_once '../../classes/classes_lib/add_edit_template.php';
+require_once '../../classes/lib/add_edit_template.php';
 require_once 'action.php';
 require_once 'add.php';
 require_once 'database.php';
 require_once 'edit.php';
 require_once 'overview.php';
 
-class Main extends \Coursework\ClassesLib\AddEditTemplate
+class Main extends \Coursework\Classes\Lib\AddEditTemplate
 {
     const OVERVIEW = 'overview';
     const ADD_THEME_USING = 'add_theme_using';
