@@ -33,7 +33,7 @@ class Main
     {
         if($this->is_database_event_exist())
         {
-            $this->handle_database_event_();
+            $this->execute_database_handler();
             $this->redirect_to_prevent_page_update();
         }
     }
@@ -120,7 +120,7 @@ class Main
         else return false;
     }
 
-    private function handle_database_event_() : void 
+    private function execute_database_handler() : void 
     {
         $database = new MainDatabaseHandler($this->course, $this->cm);
         $database->handle();
