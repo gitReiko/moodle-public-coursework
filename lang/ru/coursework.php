@@ -324,6 +324,8 @@ $string['coursework:overviewquota'] = 'Обзор квоты';
 $string['coursework:setdefaulttasktemplate'] = 'Установка шаблона задания по умолчанию';
 $string['coursework:setsuggestedthemes'] = 'Установка предлагаемых тем';
 $string['coursework:settingleaders'] = 'Установка руководителей';
+$string['coursework:returntothemeselection'] = 'Возвращение работы студента к этапу выбора темы';
+$string['coursework:themescollectionsmanagement'] = 'Управление коллекцией тем';
 
 // List of students works
 $string['view_participants'] = 'Просмотреть участников';

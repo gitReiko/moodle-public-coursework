@@ -316,6 +316,8 @@ $string['coursework:overviewquota'] = 'Quota overview';
 $string['coursework:setdefaulttasktemplate'] = 'Setting the default task template';
 $string['coursework:setsuggestedthemes'] = 'Setting of suggested themes';
 $string['coursework:settingleaders'] = 'Setting leaders';
+$string['coursework:returntothemeselection'] = 'Return student work to theme selection stage';
+$string['coursework:themescollectionsmanagement'] = 'Themes collections management';
 
 // List of students works
 $string['view_participants'] = 'View participants';
