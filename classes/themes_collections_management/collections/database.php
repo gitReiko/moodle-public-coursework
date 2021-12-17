@@ -75,17 +75,49 @@ class Database
     private function add_collection() : void 
     {
         global $DB;
-        $DB->insert_record('coursework_theme_collections', $this->collection, false);
+        
+        if($DB->insert_record('coursework_theme_collections', $this->collection, false))
+        {
+            $this->log_theme_collections_added();
+        }
     }
 
     private function update_collection() : void 
     {
-        if(empty($this->collection->id)) throw new \Exception('Missing collection id.');
-
         global $DB;
-        $DB->update_record('coursework_theme_collections', $this->collection);
+
+        if(empty($this->collection->id))
+        {
+            throw new \Exception('Missing collection id.');
+        }
+
+        if($DB->update_record('coursework_theme_collections', $this->collection))
+        {
+            $this->log_theme_collections_changed();
+        }
     }
 
+    private function log_theme_collections_added() : void 
+    {
+        $params = array
+        (
+            'context' => \context_module::instance($this->cm->id)
+        );
+        
+        $event = \mod_coursework\event\theme_collections_added::create($params);
+        $event->trigger();
+    }
+
+    private function log_theme_collections_changed() : void 
+    {
+        $params = array
+        (
+            'context' => \context_module::instance($this->cm->id)
+        );
+        
+        $event = \mod_coursework\event\theme_collections_changed::create($params);
+        $event->trigger();
+    }
 
 
 }

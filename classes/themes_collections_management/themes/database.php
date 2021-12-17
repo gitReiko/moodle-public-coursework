@@ -68,19 +68,61 @@ class Database
     private function add_theme(\stdClass $theme) : void 
     {
         global $DB;
-        $DB->insert_record('coursework_themes', $theme, false);
+        if($DB->insert_record('coursework_themes', $theme, false))
+        {
+            $this->log_theme_added();
+        }
     }
 
     private function update_theme(\stdClass $theme) : void 
     {
         global $DB;
-        $DB->update_record('coursework_themes', $theme);
+        if($DB->update_record('coursework_themes', $theme))
+        {
+            $this->log_theme_changed();
+        }
     }
 
     private function delete_theme() : void 
     {
         global $DB;
-        $DB->delete_records('coursework_themes', array('id'=>$this->get_theme_id()));
+        if($DB->delete_records('coursework_themes', array('id'=>$this->get_theme_id())))
+        {
+            $this->log_theme_deleted();
+        }
+    }
+
+    private function log_theme_added() : void 
+    {
+        $params = array
+        (
+            'context' => \context_module::instance($this->cm->id)
+        );
+        
+        $event = \mod_coursework\event\theme_added::create($params);
+        $event->trigger();
+    }
+
+    private function log_theme_changed() : void 
+    {
+        $params = array
+        (
+            'context' => \context_module::instance($this->cm->id)
+        );
+        
+        $event = \mod_coursework\event\theme_changed::create($params);
+        $event->trigger();
+    }
+
+    private function log_theme_deleted() : void 
+    {
+        $params = array
+        (
+            'context' => \context_module::instance($this->cm->id)
+        );
+        
+        $event = \mod_coursework\event\theme_deleted::create($params);
+        $event->trigger();
     }
 
 }
