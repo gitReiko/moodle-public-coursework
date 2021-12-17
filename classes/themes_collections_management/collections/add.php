@@ -2,6 +2,8 @@
 
 namespace Coursework\View\ThemesCollectionsManagement\Collections;
 
+use Coursework\View\ThemesCollectionsManagement\Main;
+
 class Add extends Action 
 {
 

@@ -2,6 +2,8 @@
 
 namespace Coursework\View\ThemesCollectionsManagement\Collections;
 
+use Coursework\View\ThemesCollectionsManagement\Main;
+
 class Edit extends Action 
 {
     private $collection;
@@ -60,7 +62,7 @@ class Edit extends Action
 
     private function get_collection_id()
     {
-        $collectionId = optional_param(COLLECTION.ID, null, PARAM_INT);
+        $collectionId = optional_param(Main::COLLECTION_ID, null, PARAM_INT);
         if(empty($collectionId)) throw new \Exception('Missing collection row id.');
         return $collectionId;
     }

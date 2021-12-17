@@ -121,6 +121,12 @@ class CommonGetter
         return $user->lastname.' '.$user->firstname;
     }
 
+    public static function get_all_site_courses() : array
+    {
+        global $DB;
+        return $DB->get_records('course', array(), 'fullname', 'id, fullname');
+    }
+
     public static function get_course_name(int $id) : string 
     {
         global $DB;
