@@ -2,6 +2,8 @@
 
 namespace Coursework\View\ThemesCollectionsManagement\Themes;
 
+use Coursework\View\ThemesCollectionsManagement\Main;
+
 class Database 
 {
     private $course;
@@ -44,21 +46,21 @@ class Database
 
     private function get_theme_id() : int 
     {
-        $id = optional_param(THEME.ID, null, PARAM_INT);
+        $id = optional_param(Main::THEME_ID, null, PARAM_INT);
         if(empty($id)) throw new \Exception('Missing theme id.');
         return $id;
     }
 
     private function get_theme_name() : string 
     {
-        $name = optional_param(NAME, null, PARAM_TEXT);
+        $name = optional_param(Main::NAME, null, PARAM_TEXT);
         if(empty($name)) throw new \Exception('Missing theme name.');
         return $name;
     }
 
     private function get_theme_collection() : int 
     {
-        $collectionId = optional_param(COLLECTION.ID, null, PARAM_INT);
+        $collectionId = optional_param(Main::COLLECTION_ID, null, PARAM_INT);
         if(empty($collectionId)) throw new \Exception('Missing theme collection id.');
         return $collectionId;
     }
