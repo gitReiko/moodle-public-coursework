@@ -2,13 +2,13 @@
 
 require_once '../../../config.php';
 require_once '../classes/themes_collections_management/main.php';
+require_once '../lib/getters/common_getter.php';
 
 use Coursework\View\ThemesCollectionsManagement\Main as themesCollectionsManagement;
 
 /*
 require_once '../lib/getters/students_getter.php';
 require_once '../lib/getters/teachers_getter.php';
-require_once '../lib/getters/common_getter.php';
 require_once '../lib/notification.php'; 
 require_once '../lib/common.php';
 require_once '../lib/enums.php';
