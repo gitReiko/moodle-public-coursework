@@ -50,26 +50,26 @@ class Database
 
     private function get_collection_id() 
     {
-        return optional_param(COLLECTION.ID, null, PARAM_INT);
+        return optional_param(Main::COLLECTION_ID, null, PARAM_INT);
     }
 
     private function get_collection_course() : int 
     {
-        $course = optional_param(COURSE, null, PARAM_INT);
+        $course = optional_param(Main::COURSE, null, PARAM_INT);
         if(empty($course)) throw new \Exception('Missing course id.');
         return $course;
     }
 
     private function get_collection_name() : string 
     {
-        $name = optional_param(NAME, null, PARAM_TEXT);
+        $name = optional_param(Main::NAME, null, PARAM_TEXT);
         if(empty($name)) throw new \Exception('Missing themes collection name.');
         return $name;
     }
 
     private function get_collection_description() 
     {
-        return optional_param(DESCRIPTION, '', PARAM_TEXT);
+        return optional_param(Main::DESCRIPTION, '', PARAM_TEXT);
     }
 
     private function add_collection() : void 
