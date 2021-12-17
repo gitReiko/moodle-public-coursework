@@ -14,7 +14,8 @@ class Add extends Action
 
     protected function get_action_header() : string
     {
-        return '<h3>'.get_string('add_collection_header', 'coursework').'</h3>';
+        $text = get_string('add_collection_header', 'coursework');
+        return \html_writer::tag('h3', $text);
     }
 
     protected function get_name_input_value() : string
@@ -34,12 +35,22 @@ class Add extends Action
 
     protected function get_action_button() : string
     {
-        return '<p><input type="submit" value="'.get_string('add_collection', 'coursework').'" ></p>';
+        $attr = array(
+            'type' => 'submit',
+            'value' => get_string('add_collection', 'coursework')
+        );
+        $btn = \html_writer::empty_tag('input', $attr);
+        return \html_writer::tag('p', $btn);
     }
 
     protected function get_unique_form_hidden_inputs() : string
     {
-        return '<input type="hidden" name="'.Main::DATABASE_EVENT.'" value="'.Main::ADD_COLLECTION.'"/>';
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::DATABASE_EVENT,
+            'value' => Main::ADD_COLLECTION
+        );
+        return \html_writer::empty_tag('input', $attr);
     }
 
 }
