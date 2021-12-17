@@ -441,3 +441,4 @@ $string['theme_collections_changed'] = 'Изменена коллекция те
 $string['theme_added'] = 'Тема добавлена';
 $string['theme_changed'] = 'Тема изменена';
 $string['theme_deleted'] = 'Тема удалена';
+$string['themes_viewed'] = 'Темы коллекции просмотрены';

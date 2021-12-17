@@ -28,6 +28,9 @@ class Management
         $gui.= $this->get_course_header();
         $gui.= $this->get_themes_list();
         $gui.= $this->get_back_to_overview_button();
+
+        $this->log_themes_viewed();
+
         return $gui;
     }
 
@@ -284,6 +287,17 @@ class Management
         $btn.= \html_writer::end_tag('p');
 
         return $btn;
+    }
+
+    private function log_themes_viewed() : void 
+    {
+        $params = array
+        (
+            'context' => \context_module::instance($this->cm->id)
+        );
+        
+        $event = \mod_coursework\event\themes_viewed::create($params);
+        $event->trigger();
     }
 
 }

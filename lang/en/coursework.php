@@ -433,3 +433,4 @@ $string['theme_collections_changed'] = 'Changed themes collection';
 $string['theme_added'] = 'Theme added';
 $string['theme_changed'] = 'Theme changed';
 $string['theme_deleted'] = 'Theme deleted';
+$string['themes_viewed'] = 'Viewed collection themes';
