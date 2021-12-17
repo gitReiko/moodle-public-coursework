@@ -130,13 +130,24 @@ class Management
         $attr = array(
             'type' => 'submit',
             'value' => get_string('edit', 'coursework'),
-            'onclick' => 'edit_theme('.$theme->id.',`'.$theme->name.'`)'
+            'onclick' => $this->get_edit_theme_js_func($theme)
         );
         $btn.= \html_writer::empty_tag('input', $attr);
 
         $btn.= \html_writer::end_tag('form');
 
         return $btn;
+    }
+
+    private function get_edit_theme_js_func(\stdClass $theme) : string 
+    {
+        $enterText = get_string('enter_new_theme_name', 'coursework');
+        $errorText = get_string('error_theme_not_changed', 'coursework');
+
+        $func = 'edit_theme('.$theme->id.',`'.$theme->name.'`,';
+        $func.= '`'.$enterText.'`, `'.$errorText.'`)';
+
+        return $func;
     }
 
     private function get_common_themes_inputs() : string 

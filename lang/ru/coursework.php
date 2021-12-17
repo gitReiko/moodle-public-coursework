@@ -434,3 +434,5 @@ $string['confirm_theme_reselect'] = 'Вы уверены, что хотите у
 $string['theme_selection_deleted_reselect'] = 'Выбор темы курсовой работы удалён. Вам необходимо перевыбрать тему курсовой работы.';
 $string['theme_selection_successfully_deleted'] = 'Выбор темы успешно удалён ({$a}).';
 $string['theme_selection_deleted'] = 'Удалена выбранная студентом тема';
+$string['enter_new_theme_name'] = 'Введите новое название темы';
+$string['error_theme_not_changed'] = 'Ошибка! Тема не изменена. Название темы должно быть не менее 4 символ и не более 254.';

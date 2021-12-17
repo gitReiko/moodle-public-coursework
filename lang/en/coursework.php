@@ -426,3 +426,5 @@ $string['confirm_theme_reselect'] = 'Are you sure you want to delete students th
 $string['theme_selection_deleted_reselect'] = 'Coursework theme selection deleted. You need reselect coursework theme.';
 $string['theme_selection_successfully_deleted'] = 'Theme selection successfully deleted ({$a}).';
 $string['theme_selection_deleted'] = 'Deleted theme selection by the student';
+$string['enter_new_theme_name'] = 'Enter a new theme name';
+$string['error_theme_not_changed'] = 'Error! Theme hasn\'t been changed. Theme name must be at least 4 characters and no more than 254.';
