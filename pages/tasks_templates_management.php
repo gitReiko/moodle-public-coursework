@@ -1,10 +1,9 @@
 <?php
 
 require_once '../../../config.php';
-//require_once '../classes/tasks_templates_management/main.php';
-//require_once '../lib/getters/common_getter.php';
+require_once '../classes/tasks_templates_management/main.php';
 
-//use Coursework\View\ThemesCollectionsManagement\Main as themesCollectionsManagement;
+use Coursework\View\TasksTemplatesManagement\Main as tasksTemplatesManagement;
  
 $id = required_param('id', PARAM_INT);    // Course Module ID
  
@@ -25,16 +24,13 @@ $PAGE->set_cm($cm);
 $PAGE->set_title(get_string('tasks_templates_management', 'coursework'));
 $PAGE->set_heading(get_string('tasks_templates_management', 'coursework'));
 
-//$PAGE->requires->js('/mod/coursework/js/themes_collections_management.js');
-
 require_login();
 
-//$themesCollectionsManagement = new themesCollectionsManagement($course, $cm);
+$tasksTemplatesManagement = new tasksTemplatesManagement($course, $cm);
   
-//$themesCollectionsManagement->handle_database_event();
+$tasksTemplatesManagement->handle_database_event();
 
 echo $OUTPUT->header();
-echo 'work';
-//echo $themesCollectionsManagement->get_page();
+echo $tasksTemplatesManagement->get_page();
 echo $OUTPUT->footer();
 
