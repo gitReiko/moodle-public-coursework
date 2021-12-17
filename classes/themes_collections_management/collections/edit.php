@@ -17,9 +17,9 @@ class Edit extends Action
 
     protected function get_action_header() : string
     {
-        $header = '<h3>'.get_string('edit_collection_header', 'coursework');
-        $header.= ' <b>'.$this->collection->name.'</b>';
-        return $header;
+        $text = get_string('edit_collection_header', 'coursework').' ';
+        $text.= \html_writer::tag('b', $this->collection->name);
+        return \html_writer::tag('h3', $text);
     }
 
     protected function get_name_input_value() : string
@@ -29,25 +29,54 @@ class Edit extends Action
 
     protected function is_course_selected(int $courseId) : bool
     {
-        if($courseId == $this->collection->course) return true;
-        else return false;
+        if($courseId == $this->collection->course) 
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     protected function get_description_text() : string
     {
-        if(empty($this->collection->description)) return '';
-        else return $this->collection->description;
+        if(empty($this->collection->description))
+        {
+            return '';
+        }
+        else 
+        {
+            return $this->collection->description;
+        }
     }
 
     protected function get_action_button() : string
     {
-        return '<p><input type="submit" value="'.get_string('save_changes', 'coursework').'" ></p>';
+        $attr = array(
+            'type' => 'submit',
+            'value' => get_string('save_changes', 'coursework')
+        );
+        $btn = \html_writer::empty_tag('input', $attr);
+        return \html_writer::tag('p', $btn);
     }
 
     protected function get_unique_form_hidden_inputs() : string
     {
-        $inputs = '<input type="hidden" name="'.Main::DATABASE_EVENT.'" value="'.Main::EDIT_COLLECTION.'"/>';
-        $inputs.= '<input type="hidden" name="'.COLLECTION.ID.'" value="'.$this->collection->id.'"/>';
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::DATABASE_EVENT,
+            'value' => Main::EDIT_COLLECTION
+        );
+        $inputs = \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::COLLECTION_ID,
+            'value' => $this->collection->id
+        );
+        $inputs.= \html_writer::empty_tag('input', $attr);
+
         return $inputs;
     }
 
