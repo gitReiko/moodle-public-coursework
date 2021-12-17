@@ -40,46 +40,75 @@ abstract class Action
         return $gui;
     }
     
-    private function get_html_form_start() : string { return '<form id="'.self::ACTION_FORM.'" method="post">'; }
+    private function get_html_form_start() : string 
+    {
+        $attr = array(
+            'id' => self::ACTION_FORM,
+            'method' => 'post'
+        );
+        return \html_writer::start_tag('form', $attr);
+    }
 
     abstract protected function get_action_header() : string;
 
     private function get_name_field() : string 
     {
-        $field = '<h4>'.get_string('name', 'coursework').'</h4>';
-        $field.= '<p>'.$this->get_name_input().'</p>';
-        return $field;
+        $name = \html_writer::tag('h4', get_string('name', 'coursework'));
+        $name.= \html_writer::tag('p', $this->get_name_input());
+
+        return $name;
     }
 
     private function get_name_input() : string 
     {
-        $input = '<input type="text" name="'.NAME.'" ';
-        $input.= ' value="'.$this->get_name_input_value().'" autocomplete="off" ';
-        $input.= ' minlength="1" maxlength="254" size="80" required autofocus>';
-        return $input;
+        $attr = array(
+            'type' => 'text',
+            'name' => Main::NAME,
+            'value' => $this->get_name_input_value(),
+            'autocomplete' => 'off',
+            'minlength' => 1,
+            'maxlength' => 254,
+            'size' => 80,
+            'required' => 'required',
+            'autofocus' => 'autofocus'
+        );
+        return \html_writer::empty_tag('input', $attr);
     }
 
     abstract protected function get_name_input_value() : string;
 
     private function get_course_field() : string 
     {
-        $field = '<h4>'.get_string('course', 'coursework').'</h4>';
-        $field.= '<p>'.$this->get_course_select().'</p>';
-        return $field;
+        $course = \html_writer::tag('h4', get_string('course', 'coursework'));
+        $course.= \html_writer::tag('p', $this->get_course_select());
+
+        return $course;
     }
 
     private function get_course_select() : string 
     {
-        $select = '<select name="'.COURSE.'" autocomplete="off">';
+        $attr = array(
+            'name' => Main::COURSE,
+            'autocomplete' => 'off'
+        );
+        $select = \html_writer::start_tag('select', $attr);
+
         foreach($this->courses as $course)
         {
-            $select.= "<option value='{$course->id}'";
+            $attr = array('value' => $course->id);
 
-            if($this->is_course_selected($course->id)) $select.= ' selected ';
-            
-            $select.=">{$course->fullname}</option>";
+            if($this->is_course_selected($course->id))
+            {
+                $attr = array_merge($attr, array('selected' => 'selected'));
+            }
+
+            $text = $course->fullname;
+
+            $select.= \html_writer::tag('option', $text, $attr);
         }
-        $select.= '</select>';
+
+        $select.= \html_writer::end_tag('select');
+
         return $select;
     }
 
@@ -87,27 +116,40 @@ abstract class Action
 
     private function get_description_field() : string 
     {
-        $field = '<h4>'.get_string('description', 'coursework').'</h4>';
-        $field.= '<p>'.$this->get_description_textarea().'</p>';
-        return $field; 
+        $desc = \html_writer::tag('h4', get_string('description', 'coursework'));
+        $desc.= \html_writer::tag('p', $this->get_description_textarea());
+
+        return $desc;
     }
 
     private function get_description_textarea() : string 
     {
-        $area = '<textarea name="'.DESCRIPTION.'" cols="80" rows="5" autocomplete="off">';
-        $area.= $this->get_description_text();
-        $area.= '</textarea>';
-        return $area;
+        $attr = array(
+            'name' => Main::DESCRIPTION,
+            'cols' => 80,
+            'rows' => 5,
+            'autocomplete' => 'off'
+        );
+        $text = $this->get_description_text();
+        return \html_writer::tag('textarea', $text, $attr);
     }
 
     abstract protected function get_description_text() : string;
 
     private function get_buttons_panel() : string 
     {
-        $btns = '<table class="btns_panel"><tr>';
-        $btns.= '<td>'.$this->get_action_button().'</td>';
-        $btns.= '<td>'.$this->get_back_to_overview_button().'</td>';
-        $btns.= '</tr></table>';
+        $attr = array('class' => 'btns_panel');
+        $btns = \html_writer::start_tag('table', $attr);
+
+        $btns.= \html_writer::start_tag('table', $attr);
+        $btns.= \html_writer::start_tag('tr');
+
+        $btns.= \html_writer::tag('td', $this->get_action_button());
+        $btns.= \html_writer::tag('td', $this->get_back_to_overview_button());
+
+        $btns.= \html_writer::end_tag('tr');
+        $btns.= \html_writer::end_tag('table');
+
         return $btns;
     }
 
@@ -115,31 +157,68 @@ abstract class Action
 
     private function get_back_to_overview_button() : string 
     {
-        return '<p><input type="submit" value="'.get_string('back', 'coursework').'" form="'.$this->backToOverviewFormName.'"></p>';
+        $attr = array(
+            'type' => 'submit',
+            'value' => get_string('back', 'coursework'),
+            'form' => $this->backToOverviewFormName
+        );
+        $input = \html_writer::empty_tag('input', $attr);
+        return \html_writer::tag('p', $input);
     }
 
     private function get_form_hidden_inputs() : string 
     {
-        $params = '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
-        $params.= '<input type="hidden" name="'.Main::GUI_TYPE.'" value="'.Main::OVERVIEW.'">';
-        $params.= $this->get_unique_form_hidden_inputs();
-        return $params;
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::ID,
+            'value' => $this->cm->id
+        );
+        $inputs = \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::GUI_TYPE,
+            'value' => Main::OVERVIEW
+        );
+        $inputs.= \html_writer::empty_tag('input', $attr);
+
+        $inputs.= $this->get_unique_form_hidden_inputs();
+
+        return $inputs;
     }
 
     abstract protected function get_unique_form_hidden_inputs() : string;
 
     private function get_html_form_end() : string 
     { 
-        return '</form>'; 
+        return \html_writer::end_tag('form'); 
     }
 
     private function get_back_to_overview_form() : string 
     {
-        $button = "<form id='{$this->backToOverviewFormName}' method='post' >";
-        $button.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
-        $button.= '<input type="hidden" name="'.Main::GUI_TYPE.'" value="'.Main::OVERVIEW.'">';
-        $button.= '</form>';
-        return $button;
+        $attr = array(
+            'id' => $this->backToOverviewFormName,
+            'method' => 'post'
+        );
+        $btn = \html_writer::start_tag('form', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::ID,
+            'value' => $this->cm->id
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::GUI_TYPE,
+            'value' => Main::OVERVIEW
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $btn.= \html_writer::end_tag('form');
+
+        return $btn;
     }
 
 

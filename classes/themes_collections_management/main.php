@@ -24,6 +24,8 @@ class Main extends \Coursework\Classes\Lib\MainTemplate
     const COLLECTION_ID = 'collection_id';
     const THEME_ID = 'theme_id';
     const NAME = 'name';
+    const COURSE = 'course';
+    const DESCRIPTION = 'description';
 
     function __construct(\stdClass $course, \stdClass $cm)
     {
