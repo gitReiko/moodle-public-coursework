@@ -22,6 +22,8 @@ class Main extends \Coursework\Classes\Lib\MainTemplate
     const DELETE_THEME = 'delete_theme';
 
     const COLLECTION_ID = 'collection_id';
+    const THEME_ID = 'theme_id';
+    const NAME = 'name';
 
     function __construct(\stdClass $course, \stdClass $cm)
     {

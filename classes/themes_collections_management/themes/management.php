@@ -2,6 +2,8 @@
 
 namespace Coursework\View\ThemesCollectionsManagement\Themes;
 
+use Coursework\View\ThemesCollectionsManagement\Main;
+
 class Management
 {
     private $course;
@@ -37,7 +39,7 @@ class Management
 
     private function get_collection_id() 
     {
-        $id = optional_param(COLLECTION.ID, null, PARAM_INT);
+        $id = optional_param(Main::COLLECTION_ID, null, PARAM_INT);
         if(empty($id)) throw new \Exception('Missing collection id.');
         return $id;
     }
@@ -50,89 +52,226 @@ class Management
 
     private function get_themes_management_header() : string 
     {
-        $header = '<h3>'.get_string('collection_themes_management_header', 'coursework');
-        $header.= ' <b>'.$this->collection->name.'</b></h3>';
-        return $header;
+        $attr = array('style' => 'color:grey;');
+        $text = get_string('collection_themes_management_header', 'coursework').' ';
+        $text = \html_writer::tag('span', $text, $attr);
+        $text.= $this->collection->name;
+
+        return \html_writer::tag('h3', $text);
     }
 
     private function get_course_header() : string 
     {
-        $header = '<h3>'.get_string('collection_course_header', 'coursework');
-        $header.= ' <b>'.cw_get_course_name($this->collection->course).'</b></h3>';
-        return $header;
+        $attr = array('style' => 'color:grey;');
+        $text = get_string('collection_course_header', 'coursework').' ';
+        $text = \html_writer::tag('span', $text, $attr);
+        $text.= cw_get_course_name($this->collection->course);
+
+        return \html_writer::tag('h3', $text);
     }
 
     private function get_themes_list() : string
     {
-        $str = '<ol>';
+        $str = \html_writer::start_tag('ol');
+
         foreach ($this->themes as $theme)
         {
-            $str.= '<li>';
-            $str.= $theme->name;
-            $str.= $this->get_edit_theme_button($theme);
-            $str.= $this->get_delete_theme_button($theme);
-            $str.= '</li>';
+            $text = $theme->name;
+            $text.= $this->get_edit_button($theme);
+            $text.= $this->get_delete_button($theme);
+
+            $str.= \html_writer::tag('li', $text);
         }
-        $str.= $this->get_add_new_theme_button();
-        $str.= '</ol>';
+
+        $str.= $this->get_add_new_button();
+        $str.= \html_writer::end_tag('ol');
 
         return $str;
     }
 
-    private function get_edit_theme_button(\stdClass $theme) : string
+    private function get_edit_button(\stdClass $theme) : string
     {
-        $str = '<form style="display:inline;" method="post">';
-        $str.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
-        $str.= '<input type="hidden" name="'.DB_EVENT.'" value="'.Main::EDIT_THEME.'">';
-        $str.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.THEMES_COLLECTIONS_MANAGEMENT.'">';
-        $str.= '<input type="hidden" name="'.Main::GUI_TYPE.'" value="'.Main::THEMES_MANAGEMENT.'">';
-        $str.= '<input type="hidden" name="'.COLLECTION.ID.'" value="'.$this->collection->id.'">';
-        $str.= '<input type="hidden" name="'.THEME.ID.'" value="'.$theme->id.'">';
-        $str.= '<input type="text" minlength="5" maxlength="255" required name="'.NAME.'" size="80" autocomplete="off" style="display:none;" id="theme'.$theme->id.'">';
-        $str.= '<input type="submit" value="'.get_string('edit', 'coursework').'" onclick="edit_theme('.$theme->id.',`'.$theme->name.'`)">';
-        $str.= '</form>';
-        return $str;
+        $attr = array(
+            'style' => 'display:inline;',
+            'method' => 'post'
+        );
+        $btn = ' '.\html_writer::start_tag('form', $attr);
+
+        $btn.= $this->get_common_themes_inputs();
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::DATABASE_EVENT,
+            'value' => Main::EDIT_THEME
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::THEME_ID,
+            'value' => $theme->id
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'id' => 'theme'.$theme->id,
+            'type' => 'text',
+            'name' => Main::NAME,
+            'minlength' => 5,
+            'maxlength' => 255,
+            'required' => 'required',
+            'size' => 80,
+            'autocomplete' => 'off',
+            'style' => 'display:none;'
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'submit',
+            'value' => get_string('edit', 'coursework'),
+            'onclick' => 'edit_theme('.$theme->id.',`'.$theme->name.'`)'
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $btn.= \html_writer::end_tag('form');
+
+        return $btn;
     }
 
-    private function get_delete_theme_button(\stdClass $theme) : string
+    private function get_common_themes_inputs() : string 
     {
-        $str = '<form style="display:inline;" method="post">';
-        $str.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
-        $str.= '<input type="hidden" name="'.Main::DB_EVENT.'" value="'.Main::DELETE_THEME.'">';
-        $str.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.THEMES_COLLECTIONS_MANAGEMENT.'">';
-        $str.= '<input type="hidden" name="'.Main::GUI_TYPE.'" value="'.Main::THEMES_MANAGEMENT.'">';
-        $str.= '<input type="hidden" name="'.COLLECTION.ID.'" value="'.$this->collection->id.'">';
-        $str.= '<input type="hidden" name="'.THEME.ID.'" value="'.$theme->id.'">';
-        $str.= '<input type="submit" value="'.get_string('delete', 'coursework').'">';
-        $str.= '</form>';
-        return $str;
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::ID,
+            'value' => $this->cm->id
+        );
+        $btn = \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::GUI_TYPE,
+            'value' => Main::THEMES_MANAGEMENT
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::COLLECTION_ID,
+            'value' => $this->collection->id
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        return $btn;
     }
 
-    private function get_add_new_theme_button() : string
+    private function get_delete_button(\stdClass $theme) : string
     {
-        $str = '<li>';
-        $str.= '<form method="post">';
-        $str.= '<input type="text" minlength="5" maxlength="255" required name="'.NAME.'" autofocus size="80" autocomplete="off">';
-        $str.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
-        $str.= '<input type="hidden" name="'.Main::DB_EVENT.'" value="'.Main::ADD_THEME.'">';
-        $str.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.THEMES_COLLECTIONS_MANAGEMENT.'">';
-        $str.= '<input type="hidden" name="'.Main::GUI_TYPE.'" value="'.Main::THEMES_MANAGEMENT.'">';
-        $str.= '<input type="hidden" name="'.COLLECTION.ID.'" value="'.$this->collection->id.'">';
-        $str.= '<input type="submit" value="'.get_string('add_new_theme', 'coursework').'" >';
-        $str.= '</form>';
-        $str.= '</li>';
-        return $str;
+        $attr = array(
+            'style' => 'display:inline;',
+            'method' => 'post'
+        );
+        $btn = ' '.\html_writer::start_tag('form', $attr);
+
+        $btn.= $this->get_common_themes_inputs();
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::DATABASE_EVENT,
+            'value' => Main::DELETE_THEME
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::THEME_ID,
+            'value' => $theme->id
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'submit',
+            'value' => get_string('delete', 'coursework')
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $btn.= \html_writer::end_tag('form');
+
+        return $btn;
+    }
+
+    private function get_add_new_button() : string
+    {
+        $btn = \html_writer::start_tag('li');
+
+        $attr = array('method' => 'post');
+        $btn.= \html_writer::start_tag('form', $attr);
+
+        $btn.= $this->get_common_themes_inputs();
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::DATABASE_EVENT,
+            'value' => Main::ADD_THEME
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'text',
+            'name' => Main::NAME,
+            'minlength' => 5,
+            'maxlength' => 255,
+            'required' => 'required',
+            'autofocus' => 'autofocus',
+            'size' => 80,
+            'autocomplete' => 'off'
+        );
+        $btn.= \html_writer::empty_tag('input', $attr).' ';
+
+        $attr = array(
+            'type' => 'submit',
+            'value' => get_string('add_new_theme', 'coursework')
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $btn.= \html_writer::end_tag('form');
+
+        $btn.= \html_writer::end_tag('li');
+
+        return $btn;
     }
 
     private function get_back_to_overview_button() : string 
     {
-        $button = '<p><form method="post">';
-        $button.= '<input type="hidden" name="id" value="'.$this->cm->id.'" >';
-        $button.= '<input type="hidden" name="'.CONFIG_MODULE.'" value="'.THEMES_COLLECTIONS_MANAGEMENT.'">';
-        $button.= '<input type="hidden" name="'.Main::GUI_TYPE.'" value="'.Main::OVERVIEW.'">';
-        $button.= '<input type="submit" value="'.get_string('back', 'coursework').'" >';
-        $button.= '</form></p>';
-        return $button;
+        $btn = \html_writer::start_tag('p');
+
+        $attr = array('method' => 'post');
+        $btn.= \html_writer::start_tag('form', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::ID,
+            'value' => $this->cm->id
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::GUI_TYPE,
+            'value' => Main::OVERVIEW
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'submit',
+            'value' => get_string('back', 'coursework')
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $btn.= \html_writer::end_tag('form');
+
+        $btn.= \html_writer::end_tag('p');
+
+        return $btn;
     }
 
 }
