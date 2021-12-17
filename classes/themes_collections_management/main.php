@@ -55,9 +55,42 @@ class Main extends \Coursework\Classes\Lib\MainTemplate
 
     protected function redirect_to_prevent_page_update() : void
     {
+        $guiType = optional_param(self::GUI_TYPE, null, PARAM_TEXT);
+
+        if($guiType === self::THEMES_MANAGEMENT)
+        {
+            $this->redirect_to_themes_management_page();
+        }
+        else 
+        {
+            $this->redirect_to_overview_page();
+        }
+    }
+
+    private function redirect_to_overview_page() : void 
+    {
         $path = '/mod/coursework/pages/themes_collections_management.php';
-        $params = array('id'=>$this->cm->id);
+        $params = array(self::ID=>$this->cm->id);
         redirect(new \moodle_url($path, $params));
+    }
+
+    private function redirect_to_themes_management_page() : void 
+    {
+
+        $params = array(
+            self::ID => $this->cm->id,
+            self::GUI_TYPE => self::THEMES_MANAGEMENT,
+            self::COLLECTION_ID => $this->get_collection_id()
+        );
+        $path = '/mod/coursework/pages/themes_collections_management.php';
+        redirect(new \moodle_url($path, $params));
+    }
+
+    private function get_collection_id() 
+    {
+        $id = optional_param(self::COLLECTION_ID, null, PARAM_INT);
+        if(empty($id)) throw new \Exception('Missing collection id.');
+        return $id;
     }
 
     protected function get_gui() : string 
