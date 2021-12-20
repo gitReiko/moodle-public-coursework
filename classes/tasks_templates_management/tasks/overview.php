@@ -41,28 +41,32 @@ class Overview
 
     private function get_overview_header() : string 
     {
-        return '<h3>'.get_string('tasks_templates_list', 'coursework').'</h3>';
+        return \html_writer::tag('h3', get_string('tasks_templates_list', 'coursework'));
     }
 
 
     private function get_tasks_table() : string 
     {
-        $table = '<table class="leaders_overview">';
+        $attr = array('class' => 'leaders_overview');
+        $table = \html_writer::start_tag('table', $attr);
         $table.= $this->get_tasks_table_header();
         $table.= $this->get_tasks_table_body();
-        $table.= '</table>';
+        $table.= \html_writer::end_tag('table');
+
         return $table;
     }
 
     private function get_tasks_table_header() : string 
     {
-        $header = '<tr class="header">';
-        $header.= '<td>'.get_string('name', 'coursework').'</td>';
-        $header.= '<td>'.get_string('description', 'coursework'). '</td>';
-        $header.= '<td></td>';
-        $header.= '<td></td>';
-        $header.= '</tr>';
-        return $header;
+        $attr = array('class' => 'header');
+        $head = \html_writer::start_tag('tr', $attr);
+        $head.= \html_writer::tag('td', get_string('name', 'coursework'));
+        $head.= \html_writer::tag('td', get_string('description', 'coursework'));
+        $head.= \html_writer::tag('td', '');
+        $head.= \html_writer::tag('td', '');
+        $head.= \html_writer::end_tag('tr', '');
+
+        return $head;
     }
 
     private function get_tasks_table_body() : string 
@@ -71,12 +75,13 @@ class Overview
 
         foreach($this->tasks as $task)
         {
-            $body.= '<tr>';
-            $body.= '<td>'.$task->name.'</td>';
-            $body.= '<td style="max-width: 450px;">'.$task->description.'</td>';
-            $body.= '<td>'.$this->get_edit_button($task).'</td>';
-            $body.= '<td>'.$this->get_sections_management_button($task).'</td>';
-            $body.= '</tr>';
+            $body.= \html_writer::start_tag('tr');
+            $body.= \html_writer::tag('td', $task->name);
+            $attr = array('style' => 'max-width: 450px;');
+            $body.= \html_writer::tag('td', $task->description, $attr);
+            $body.= \html_writer::tag('td', $this->get_edit_button($task));
+            $body.= \html_writer::tag('td', $this->get_sections_management_button($task));
+            $body.= \html_writer::end_tag('tr');
         }
 
         return $body;
@@ -84,34 +89,106 @@ class Overview
 
     private function get_edit_button(\stdClass $task) : string 
     {
-        $button = '<form method="post">';
-        $button.= '<input type="submit" value="'.get_string('edit', 'coursework').'">';
-        $button.= '<input type="hidden" name="'.Main::ID.'" value="'.$this->cm->id.'" >';
-        $button.= '<input type="hidden" name="'.Main::GUI_TYPE.'" value="'.Main::EDIT_TASK.'">';
-        $button.= '<input type="hidden" name="'.Main::TASK_ID.'" value="'.$task->id.'">';
-        $button.= '</form>';
-        return $button;
+        $attr = array('method' => 'post');
+        $btn = \html_writer::start_tag('form', $attr);
+
+        $attr = array(
+            'type' => 'submit',
+            'value' => get_string('edit', 'coursework')
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::ID,
+            'value' => $this->cm->id
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::GUI_TYPE,
+            'value' => Main::EDIT_TASK
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::TASK_ID,
+            'value' => $task->id
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $btn.= \html_writer::end_tag('form');
+
+        return $btn;
     }
 
     private function get_sections_management_button(\stdClass $task) : string 
     {
-        $button = '<form method="post">';
-        $button.= '<input type="submit" value="'.get_string('task_sections_management', 'coursework').'">';
-        $button.= '<input type="hidden" name="'.Main::ID.'" value="'.$this->cm->id.'" >';
-        $button.= '<input type="hidden" name="'.Main::GUI_TYPE.'" value="'.Main::SECTIONS_MANAGEMENT.'">';
-        $button.= '<input type="hidden" name="'.Main::TASK_ID.'" value="'.$task->id.'">';
-        $button.= '</form>';
-        return $button;
+        $attr = array('method' => 'post');
+        $btn = \html_writer::start_tag('form', $attr);
+
+        $attr = array(
+            'type' => 'submit',
+            'value' => get_string('task_sections_management', 'coursework')
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::ID,
+            'value' => $this->cm->id
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::GUI_TYPE,
+            'value' => Main::SECTIONS_MANAGEMENT
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::TASK_ID,
+            'value' => $task->id
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $btn.= \html_writer::end_tag('form');
+
+        return $btn;
     }
 
     private function get_add_task_template_button() : string 
     {
-        $button = '<form method="post">';
-        $button.= '<input type="submit" value="'.get_string('add_task_template', 'coursework').'" autofocus>';
-        $button.= '<input type="hidden" name="'.Main::ID.'" value="'.$this->cm->id.'" >';
-        $button.= '<input type="hidden" name="'.Main::GUI_TYPE.'" value="'.Main::ADD_TASK.'">';
-        $button.= '</form>';
-        return $button;
+        $attr = array('method' => 'post');
+        $btn = \html_writer::start_tag('form', $attr);
+
+        $attr = array(
+            'type' => 'submit',
+            'value' => get_string('add_task_template', 'coursework')
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::ID,
+            'value' => $this->cm->id
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::GUI_TYPE,
+            'value' => Main::ADD_TASK
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
+
+        $btn.= \html_writer::end_tag('form');
+
+        return $btn;
     }
     
 
