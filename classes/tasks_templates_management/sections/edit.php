@@ -60,7 +60,7 @@ class Edit extends Action
         return $inputs;
     }
 
-    private function get_section() : stdClass
+    private function get_section() : \stdClass
     {
         $sectionId = optional_param(Main::SECTION_ID, null, PARAM_INT);
 

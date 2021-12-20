@@ -26,6 +26,7 @@ class Main extends \Coursework\Classes\Lib\MainTemplate
     const SECTIONS_MANAGEMENT = 'sections_management';
     const ADD_SECTION = 'add_section';
     const EDIT_SECTION = 'edit_section';
+    const THEMES_MANAGEMENT = 'themes_management';
     const COMPLETION_DATE = 'completion_date';
     const LIST_POSITION = 'list_position';
     const TASK_ID = 'task_id';
@@ -79,17 +80,16 @@ class Main extends \Coursework\Classes\Lib\MainTemplate
     private function redirect_to_overview_page() : void 
     {
         $path = '/mod/coursework/pages/tasks_templates_management.php';
-        $params = array(self::ID=>$this->cm->id);
+        $params = array(self::ID => $this->cm->id);
         redirect(new \moodle_url($path, $params));
     }
 
     private function redirect_to_sections_management_page() : void 
     {
-
         $params = array(
             self::ID => $this->cm->id,
             self::GUI_TYPE => self::THEMES_MANAGEMENT,
-            self::TASK_ID => Lib::get_task_from_post()
+            self::TASK_ID => Lib::get_task_from_post()->id
         );
         $path = '/mod/coursework/pages/tasks_templates_management.php';
         redirect(new \moodle_url($path, $params));
