@@ -88,7 +88,7 @@ class Main extends \Coursework\Classes\Lib\MainTemplate
     {
         $params = array(
             self::ID => $this->cm->id,
-            self::GUI_TYPE => self::THEMES_MANAGEMENT,
+            self::GUI_TYPE => self::SECTIONS_MANAGEMENT,
             self::TASK_ID => Lib::get_task_from_post()->id
         );
         $path = '/mod/coursework/pages/tasks_templates_management.php';
