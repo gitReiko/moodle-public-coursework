@@ -311,7 +311,7 @@ class ThemeSelect
     {
         global $USER;
         $data = new \stdClass;
-        $data->student = cw_get_user_name($USER->id);
+        $data->student = cg::get_user_name($USER->id);
         $data->date = date('d-m-Y');
         $data->time = date('G:i');
         return $data;
