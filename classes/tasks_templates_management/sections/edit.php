@@ -17,7 +17,8 @@ class Edit extends Action
 
     protected function get_action_header() : string
     {
-        return '<h3>'.get_string('edit_task_section_header', 'coursework').'</h3>';
+        $text = get_string('edit_task_section_header', 'coursework');
+        return \html_writer::tag('h3', $text);
     }
 
     protected function get_name_input_value() : string
@@ -50,13 +51,30 @@ class Edit extends Action
 
     protected function get_action_button() : string
     {
-        return '<p><input type="submit" value="'.get_string('save_changes', 'coursework').'" ></p>';
+        $attr = array(
+            'type' => 'submit',
+            'value' => get_string('save_changes', 'coursework')
+        );
+        $input = \html_writer::empty_tag('input', $attr);
+        return \html_writer::tag('p', $input);
     }
 
     protected function get_unique_form_hidden_inputs() : string
     {
-        $inputs = '<input type="hidden" name="'.Main::DATABASE_EVENT.'" value="'.Main::EDIT_SECTION.'"/>';
-        $inputs.= '<input type="hidden" name="'.Main::SECTION_ID.'" value="'.$this->section->id.'">';
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::DATABASE_EVENT,
+            'value' => Main::EDIT_SECTION
+        );
+        $inputs = \html_writer::empty_tag('input', $attr);
+
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::SECTION_ID,
+            'value' => $this->section->id
+        );
+        $inputs.= \html_writer::empty_tag('input', $attr);
+
         return $inputs;
     }
 
