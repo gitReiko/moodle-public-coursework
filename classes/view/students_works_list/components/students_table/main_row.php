@@ -7,7 +7,6 @@ use Coursework\View\StudentsWorksList as swl;
 use Coursework\Lib\TeacherNotifications;
 use Coursework\Lib\Enums as enum;
 use Coursework\View\Main as view_main;
-use coursework_lib as cw;
 
 class MainRow 
 {
@@ -177,7 +176,7 @@ class MainRow
         }
         else 
         {
-            $text = cw\get_course_fullname($this->student->course);
+            $text = cg::get_course_name($this->student->course);
         }
         
         return \html_writer::tag('td', $text);

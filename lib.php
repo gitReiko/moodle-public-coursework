@@ -1,6 +1,5 @@
 <?php
 
-use coursework_lib as lib;
 // Moodle module functions
 
 function coursework_add_instance($coursework)
@@ -175,7 +174,7 @@ function coursework_extend_settings_navigation($settings, $navref)
         $linkname = get_string('manage_old_files_area', 'coursework');
         $navref->add($linkname, $link, navigation_node::TYPE_SETTING);
     }
-    
+
 }
 
 function is_user_can_view_configuration_category() : bool
