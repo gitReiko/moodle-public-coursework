@@ -442,3 +442,7 @@ $string['theme_added'] = 'Тема добавлена';
 $string['theme_changed'] = 'Тема изменена';
 $string['theme_deleted'] = 'Тема удалена';
 $string['themes_viewed'] = 'Темы коллекции просмотрены';
+$string['task_template_added'] = 'Шаблон-задание добавлен';
+$string['task_template_changed'] = 'Шаблон-задание изменён';
+$string['task_section_added'] = 'Раздел задания добавлен';
+$string['task_section_changed'] = 'Раздел задания изменён';

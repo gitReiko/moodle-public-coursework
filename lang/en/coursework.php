@@ -434,3 +434,7 @@ $string['theme_added'] = 'Theme added';
 $string['theme_changed'] = 'Theme changed';
 $string['theme_deleted'] = 'Theme deleted';
 $string['themes_viewed'] = 'Viewed collection themes';
+$string['task_template_added'] = 'Task template added';
+$string['task_template_changed'] = 'Task template changed';
+$string['task_section_added'] = 'Task section added';
+$string['task_section_changed'] = 'Task section changed';

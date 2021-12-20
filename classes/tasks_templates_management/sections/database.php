@@ -89,7 +89,10 @@ class Database
     private function add_task_section() : void 
     {
         global $DB;
-        $DB->insert_record('coursework_tasks_sections', $this->section, false);
+        if($DB->insert_record('coursework_tasks_sections', $this->section, false))
+        {
+            $this->log_task_section_added();
+        }
     }
 
     private function update_task_section() : void 
@@ -97,7 +100,32 @@ class Database
         if(empty($this->section->id)) throw new \Exception('Missing task section id.');
 
         global $DB;
-        $DB->update_record('coursework_tasks_sections', $this->section);
+        if($DB->update_record('coursework_tasks_sections', $this->section))
+        {
+            $this->log_task_section_changed();
+        }
+    }
+
+    private function log_task_section_added() : void 
+    {
+        $params = array
+        (
+            'context' => \context_module::instance($this->cm->id)
+        );
+        
+        $event = \mod_coursework\event\task_section_added::create($params);
+        $event->trigger();
+    }
+
+    private function log_task_section_changed() : void 
+    {
+        $params = array
+        (
+            'context' => \context_module::instance($this->cm->id)
+        );
+        
+        $event = \mod_coursework\event\task_section_changed::create($params);
+        $event->trigger();
     }
 
 

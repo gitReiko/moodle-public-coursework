@@ -73,7 +73,10 @@ class Database
     private function add_task() : void 
     {
         global $DB;
-        $DB->insert_record('coursework_tasks', $this->task, false);
+        if($DB->insert_record('coursework_tasks', $this->task, false))
+        {
+            $this->log_task_template_added();
+        }
     }
 
     private function update_task() : void 
@@ -81,7 +84,32 @@ class Database
         if(empty($this->task->id)) throw new \Exception('Missing task id.');
 
         global $DB;
-        $DB->update_record('coursework_tasks', $this->task);
+        if($DB->update_record('coursework_tasks', $this->task))
+        {
+            $this->log_task_template_changed();
+        }
+    }
+
+    private function log_task_template_added() : void 
+    {
+        $params = array
+        (
+            'context' => \context_module::instance($this->cm->id)
+        );
+        
+        $event = \mod_coursework\event\task_template_added::create($params);
+        $event->trigger();
+    }
+
+    private function log_task_template_changed() : void 
+    {
+        $params = array
+        (
+            'context' => \context_module::instance($this->cm->id)
+        );
+        
+        $event = \mod_coursework\event\task_template_changed::create($params);
+        $event->trigger();
     }
 
 
