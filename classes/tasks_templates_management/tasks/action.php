@@ -59,7 +59,8 @@ abstract class Action
             'maxlength' => 254,
             'size' => 80,
             'required' => 'required',
-            'autofocus' => 'autofocus'
+            'autofocus' => 'autofocus',
+            'autocomplete' => 'off'
         );
         return \html_writer::empty_tag('input', $attr);
     }
@@ -78,7 +79,8 @@ abstract class Action
         $attr = array(
             'name' => Main::DESCRIPTION,
             'cols' => 80,
-            'rows' => 5
+            'rows' => 5,
+            'autocomplete' => 'off'
         );
         $text = $this->get_description_text();
         return \html_writer::tag('textarea', $text, $attr);
