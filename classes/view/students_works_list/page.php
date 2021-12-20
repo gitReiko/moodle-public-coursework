@@ -95,7 +95,7 @@ class Page
 
     private function get_leader_setting_url() : string 
     {
-        $url = '/mod/coursework/configuration.php';
+        $url = '/mod/coursework/pages/config/appoint_leaders.php';
         $url.= '?id='.$this->d->get_cm()->id;
         $url.= '&'.CONFIG_MODULE.'='.LEADERS_SETTING;
 

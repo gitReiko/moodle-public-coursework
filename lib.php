@@ -175,13 +175,7 @@ function coursework_extend_settings_navigation($settings, $navref)
         $linkname = get_string('manage_old_files_area', 'coursework');
         $navref->add($linkname, $link, navigation_node::TYPE_SETTING);
     }
-
-    if(has_capability('mod/coursework:enrollmembers', $PAGE->cm->context))
-    {
-        $link = new moodle_url('/mod/coursework/configuration.php', array('id' => $cm->id));
-        $linkname = get_string('configurate_coursework', 'coursework');
-        $navref->add($linkname, $link, navigation_node::TYPE_SETTING);
-    }
+    
 }
 
 function is_user_can_view_configuration_category() : bool
