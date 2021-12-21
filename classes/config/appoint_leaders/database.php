@@ -48,7 +48,11 @@ class Database
         // Because there can be only one bundle leader + course.
         if($this->is_leader_already_exist($leader))
         {
-            throw new \Exception(get_string('e-le-ev:leader_already_exist', 'coursework'));
+            $errorText = get_string(
+                'e:only_1_link_with_leader_and_course_can_exists', 
+                'coursework'
+            );
+            throw new \Exception($errorText);
         }
         else
         {
@@ -66,7 +70,11 @@ class Database
         // Because there can be only one bundle leader + course.
         if($this->is_more_than_two_leaders($leader))
         {
-            throw new \Exception(get_string('e-le-ev:leader_already_exist', 'coursework'));
+            $errorText = get_string(
+                'e:only_1_link_with_leader_and_course_can_exists', 
+                'coursework'
+            );
+            throw new \Exception($errorText);
         }
         else
         {
@@ -99,7 +107,7 @@ class Database
         $rowId = optional_param(Main::LEADER_ROW_ID, null, PARAM_INT);
 
         if(isset($rowId)) return $rowId;
-        else throw new \Exception(get_string('e-le-ev:missing_row_id', 'coursework'));       
+        else throw new \Exception('Missing coursework teachers id.');       
     }
 
     private function get_leader_coursework() : int 
@@ -107,7 +115,7 @@ class Database
         $coursework = $this->cm->instance;
 
         if(isset($coursework)) return $coursework;
-        else throw new \Exception(get_string('e-le-ev:missing_coursework', 'coursework'));
+        else throw new \Exception('Missing coursework id.');
     }
 
     private function get_leader_teacher() : int 
@@ -115,7 +123,7 @@ class Database
         $teacher = optional_param(Main::LEADER_ID, null, PARAM_INT);
 
         if(isset($teacher)) return $teacher;
-        else throw new \Exception(get_string('e-le-ev:missing_teacher', 'coursework'));
+        else throw new \Exception('Missing teacher id.');
     }
 
     private function get_leader_course() : int 
@@ -123,7 +131,7 @@ class Database
         $course = optional_param(Main::COURSE_ID, null, PARAM_INT);
 
         if(isset($course)) return $course;
-        else throw new \Exception(get_string('e-le-ev:missing_course', 'coursework'));
+        else throw new \Exception('Missing course id.');
     }
 
     private function get_leader_quota() : int 
@@ -131,7 +139,7 @@ class Database
         $quota = optional_param(Main::QUOTA, null, PARAM_INT);
 
         if(isset($quota)) return $quota;
-        else throw new \Exception(get_string('e-le-ev:missing_quota', 'coursework'));
+        else throw new \Exception('Missing quota.');
     }
 
     private function is_leader_already_exist(\stdClass $leader) : bool 

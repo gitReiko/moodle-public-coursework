@@ -50,7 +50,7 @@ class Database
             $this->log_student_leader_replaced($studentId);
             $this->send_notification_to_student($studentId);
         }
-        else throw new Exception(get_string('e-tc:leader_not_changed', 'coursework'));
+        else throw new Exception(get_string('e:leader_hasnt_been_changed', 'coursework'));
     }
 
     private function get_new_coursework_students_row(int $studentId) : \stdClass 

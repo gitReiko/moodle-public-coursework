@@ -105,11 +105,11 @@ class Notification
     {
         global $CFG;
 
-        $link = get_string('coursework_link1','coursework');
+        $link = get_string('coursework','coursework').' ';
 
         $url = $CFG->wwwroot.'/mod/coursework/view.php?id='.$this->cm->id;
         $attr = array('href' => $url);
-        $text = get_string('coursework_link2','coursework');
+        $text = get_string('available_on_site','coursework');
         $link.= \html_writer::tag('a', $text, $attr);
 
         $link = \html_writer::tag('p', $link);

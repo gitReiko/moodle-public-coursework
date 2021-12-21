@@ -53,7 +53,7 @@ class Database
             $this->send_message_to_student($studentId);
             $this->log_student_coursework_deleted($studentId);
         }
-        else throw new Exception(get_string('e:student-not-deleted', 'coursework'));
+        else throw new Exception(get_string('e:student_not_deleted', 'coursework'));
     }
 
     private function send_message_to_student(int $studentId)

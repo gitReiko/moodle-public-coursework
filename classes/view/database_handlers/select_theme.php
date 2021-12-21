@@ -133,16 +133,16 @@ class ThemeSelect
     {
         if($this->is_user_didnt_selected_theme($row))
         {
-            throw new \Exception(get_string('e:missing-theme-and-owntheme', 'coursework'));
+            throw new \Exception(get_string('e:missing_theme_and_own_theme', 'coursework'));
         }
         if($this->is_theme_already_used($row))
         {
-            throw new \Exception(get_string('e:theme-already-used', 'coursework'));
+            throw new \Exception(get_string('e:theme_already_used', 'coursework'));
         }
         if($this->is_teacher_quota_gone($row)
             && $this->is_it_not_theme_select_update($row))
         {
-            throw new \Exception(get_string('e:teacher-quota-over', 'coursework'));
+            throw new \Exception(get_string('e:teacher_quota_over', 'coursework'));
         }
     }
 
@@ -232,7 +232,7 @@ class ThemeSelect
         global $DB;
         if(!$DB->insert_record('coursework_students', $row)) 
         {
-            throw new \Exception(get_string('e:ins:student-not-selected', 'coursework'));
+            throw new \Exception(get_string('e:student_didnt_choose_theme', 'coursework'));
         }
     }
 
@@ -241,7 +241,7 @@ class ThemeSelect
         global $DB;
         if(!$DB->update_record('coursework_students', $row)) 
         {
-            throw new \Exception(get_string('e:upd:student-not-selected', 'coursework'));
+            throw new \Exception(get_string('e:upd:student_not_selected', 'coursework'));
         }
     }
 
