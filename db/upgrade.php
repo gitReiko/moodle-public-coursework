@@ -396,5 +396,15 @@ function xmldb_coursework_upgrade($oldversion)
         $dbman->rename_table($table, 'coursework_default_task_use');
     }
 
+    if($oldversion < 2021122302)
+    {
+        $table = new xmldb_table('coursework_used_collections');
+        $field = new xmldb_field('countofsamethemes', XMLDB_TYPE_INTEGER, '1', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, '1');
+        if(!$dbman->field_exists($table, $field))
+        {
+            $dbman->add_field($table, $field);
+        }
+    }
+
     return true;
 }

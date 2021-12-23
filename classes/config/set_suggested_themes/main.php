@@ -20,6 +20,7 @@ class Main extends \Coursework\Classes\Lib\MainTemplate
     const COURSE_ID = 'course_id';
     const COLLECTION_ID = 'collection_id';
     const THEMES_USING_ID = 'themes_using_id';
+    const COUNT_OF_SAME_THEMES = 'count_of_same_themes';
 
     function __construct(\stdClass $course, \stdClass $cm)
     {

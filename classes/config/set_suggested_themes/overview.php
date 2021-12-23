@@ -26,10 +26,9 @@ class Overview
         }
         else 
         {
-            // dsdvs
+            $gui.= $this->set_up_leaders();
         }
 
-        //$gui.= $this->get_use_new_theme_collection_button();
         return $gui;
     }
 
@@ -67,7 +66,8 @@ class Overview
     private function get_course_themes_collection(int $courseId)
     {
         global $DB;
-        $sql = 'SELECT ctc.id, ctc.name, ctc.description, cuc.id AS rowid 
+        $sql = 'SELECT ctc.id, ctc.name, ctc.description, 
+                cuc.countofsamethemes, cuc.id AS rowid 
                 FROM {coursework_used_collections} AS cuc
                 INNER JOIN {coursework_theme_collections} AS ctc
                 ON cuc.collection = ctc.id
@@ -101,6 +101,12 @@ class Overview
     {
         $text = get_string('set_suggested_themes', 'coursework');
         return \html_writer::tag('h2', $text);
+    }
+
+    private function set_up_leaders() : string 
+    {
+        $text = get_string('set_up_leaders', 'coursework');
+        return \html_writer('p', $text);
     }
 
     private function get_themes_collections_setting() : string 
@@ -147,6 +153,7 @@ class Overview
     {
         $view = $this->get_suggested_collection_header();
         $view.= $this->get_collection_name($course->collection);
+        $view.= $this->get_same_theme_can_be_selected_times($course->collection);
         $view.= $this->get_collection_description($course->collection);
         $view.= $this->get_collection_themes_list($course);
 
@@ -165,6 +172,14 @@ class Overview
         $text = get_string('name', 'coursework').': ';
         $text = \html_writer::tag('b', $text);
         $text.= $collection->name;
+        return \html_writer::tag('p', $text);
+    }
+
+    private function get_same_theme_can_be_selected_times(\stdClass $collection)
+    {
+        $text = get_string('same_theme_can_be_selected_times', 'coursework').': ';
+        $text = \html_writer::tag('b', $text);
+        $text.= $collection->countofsamethemes;
         return \html_writer::tag('p', $text);
     }
 

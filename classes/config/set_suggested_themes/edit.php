@@ -6,6 +6,7 @@ class Edit extends Action
 {
     private $collectionId;
     private $themesUsingId;
+    private $countOfSameThemes;
 
     function __construct(\stdClass $course, \stdClass $cm)
     {
@@ -13,6 +14,7 @@ class Edit extends Action
 
         $this->collectionId = $this->get_collection_id();
         $this->themesUsingId = $this->get_themes_using_id();
+        $this->countOfSameThemes = $this->get_count_of_same_thems();
     }
 
     private function get_collection_id() : int 
@@ -27,6 +29,13 @@ class Edit extends Action
         $id = optional_param(Main::THEMES_USING_ID, null, PARAM_INT);
         if(empty($id)) throw new \Exception('Missing themes using id.');
         return $id;
+    }
+
+    private function get_count_of_same_thems() : int 
+    {
+        global $DB;
+        $where = array('id' => $this->themesUsingId);
+        return $DB->get_field('coursework_used_collections', 'countofsamethemes', $where);
     }
 
     protected function get_action_header() : string 
@@ -45,6 +54,11 @@ class Edit extends Action
         {
             return false;
         }
+    }
+
+    protected function get_default_count_of_same_themes() : int
+    {
+        return $this->countOfSameThemes;
     }
 
     protected function get_action_button() : string 

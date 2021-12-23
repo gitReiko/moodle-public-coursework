@@ -2,6 +2,7 @@
 
 namespace Coursework\View\StudentWork;
 
+use Coursework\Lib\Getters\CommonGetter as cg;
 use Coursework\Lib\Getters\StudentsGetter as sg;
 use Coursework\Lib\Enums as enum;
 
@@ -102,6 +103,39 @@ class Locallib
         }
         $inQuery = mb_substr($inQuery, 0, -1);
         return $inQuery;
+    }
+
+    public static function get_count_of_same_themes(int $cmInstance, int $courseId) 
+    {
+        $usedCollection = cg::get_used_theme_collection($cmInstance, $courseId);
+        return $usedCollection->countofsamethemes;
+    }
+
+    public static function get_count_of_theme_usages(int $cmInstance, int $themeId, string $students) : int 
+    {
+        global $DB;
+        $sql = "SELECT COUNT(id)
+                FROM {coursework_students}
+                WHERE coursework = ?
+                AND theme = ?
+                AND student IN ($students)";
+        $where = array($cmInstance, $themeId);
+        $count = $DB->count_records_sql($sql, $where);
+
+        if(empty($count)) return 0;
+        else return $count;
+    }
+
+    public static function is_theme_not_used(int $usagesCount, int $availableCountOfUsages) : bool
+    {
+        if(intval($usagesCount) < intval($availableCountOfUsages))
+        {
+            return true;
+        }
+        else 
+        {
+            return false;
+        }
     }
 
 

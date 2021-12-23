@@ -21,6 +21,11 @@ class Add extends Action
         return false;
     }
 
+    protected function get_default_count_of_same_themes() : int
+    {
+        return 1;
+    }
+
     protected function get_action_button() : string 
     {
         $attr = array(

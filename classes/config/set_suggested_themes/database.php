@@ -39,6 +39,7 @@ class Database
         $using = new \stdClass;
         $using->coursework = $this->cm->instance;
         $using->collection = $this->get_collection();
+        $using->countofsamethemes = $this->get_count_of_same_themes();
         return $using;
     }
 
@@ -46,6 +47,13 @@ class Database
     {
         $collection = optional_param(Main::COLLECTION_ID, null, PARAM_INT);
         if(empty($collection)) throw new \Exception('Missing collection id.');
+        return $collection;
+    }
+
+    private function get_count_of_same_themes() : int 
+    {
+        $collection = optional_param(Main::COUNT_OF_SAME_THEMES, null, PARAM_INT);
+        if(empty($collection)) throw new \Exception('Missing count of same themes.');
         return $collection;
     }
 

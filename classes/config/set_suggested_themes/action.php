@@ -23,6 +23,7 @@ abstract class Action
     {
         $gui = $this->get_action_header();
         $gui.= $this->get_collection_field();
+        $gui.= $this->get_count_of_same_themes_field();
         $gui.= $this->get_buttons_panel();
         $gui.= $this->get_action_form();
         return $gui;
@@ -62,6 +63,34 @@ abstract class Action
         
         return $field;
     }
+
+    private function get_count_of_same_themes_field() : string 
+    {
+        $text = get_string('count_of_same_themes', 'coursework');
+        $field = \html_writer::tag('h4', $text);
+
+        $text = $this->get_count_of_same_themes_input();
+        $field.= \html_writer::tag('p', $text);
+
+        return $field;
+    }
+
+    private function get_count_of_same_themes_input() : string 
+    {
+        $attr = array(
+            'type' => 'number',
+            'name' => Main::COUNT_OF_SAME_THEMES,
+            'value' => $this->get_default_count_of_same_themes(),
+            'form' => self::ACTION_FORM,
+            'min' => 1,
+            'max' => 255,
+            'required' => 'required',
+            'autocomplete' => 'off',
+        );
+        return \html_writer::empty_tag('input', $attr);
+    }
+
+    abstract protected function get_default_count_of_same_themes() : int;
 
     private function get_collections_select() : string 
     {

@@ -181,23 +181,19 @@ class ThemeSelect
 
     private function is_theme_already_used(\stdClass $row) : bool 
     {
-        if(isset($row->theme))
-        {
-            global $DB;
-            $students = locallib::get_students_list_for_in_query($this->cm);
-            $sql = "SELECT id 
-                    FROM {coursework_students}
-                    WHERE coursework = ?
-                    AND theme = ? 
-                    AND student IN ($students)";
-            $params = array($this->cm->instance, $row->theme);
+        $availableCountOfUsages = locallib::get_count_of_same_themes(
+            $this->cm->instance, 
+            $row->course
+        );
 
-            return $DB->record_exists_sql($sql, $params);
-        }
-        else
-        {
-            return false;
-        }
+        $students = locallib::get_students_list_for_in_query($this->cm);
+        $usagesCount = locallib::get_count_of_theme_usages(
+            $this->cm->instance, 
+            $row->theme, 
+            $students
+        );
+
+        return !locallib::is_theme_not_used($usagesCount, $availableCountOfUsages);
     }
 
     private function is_it_not_theme_select_update(\stdClass $row) : bool 

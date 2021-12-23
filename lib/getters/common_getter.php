@@ -141,5 +141,19 @@ class CommonGetter
         return $DB->get_field('course', 'fullname', $where);
     }
 
+    public static function get_used_theme_collection(int $courseworkId, int $courseId) : \stdClass 
+    {
+        global $DB;
+        $sql = 'SELECT ctc.id, ctc.name, ctc.description, 
+                cuc.countofsamethemes, cuc.id AS rowid 
+                FROM {coursework_used_collections} AS cuc
+                INNER JOIN {coursework_theme_collections} AS ctc
+                ON cuc.collection = ctc.id
+                WHERE cuc.coursework = ?
+                AND ctc.course = ?';
+        $params = array($courseworkId, $courseId);
+        return $DB->get_record_sql($sql, $params);
+    }
+
 
 }

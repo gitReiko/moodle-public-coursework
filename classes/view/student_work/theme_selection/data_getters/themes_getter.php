@@ -2,6 +2,9 @@
 
 namespace Coursework\View\StudentWork\ThemeSelection;
 
+use Coursework\View\StudentWork\Locallib as locallib;
+use Coursework\Lib\Getters\CommonGetter as cg;
+
 class ThemesGetter 
 {
     private $course;
@@ -42,7 +45,8 @@ class ThemesGetter
         {
             $collection = new \stdClass;
             $collection->course = $course->id;
-            $collection->themes = $this->get_course_available_themes($course->id);
+            $countofsamethemes = locallib::get_count_of_same_themes($this->cm->instance, $course->id);
+            $collection->themes = $this->get_course_available_themes($course->id, $countofsamethemes);
 
             $themes[] = $collection;
         }
@@ -63,11 +67,11 @@ class ThemesGetter
         }
     }
 
-    private function get_course_available_themes(int $courseId) 
+    private function get_course_available_themes(int $courseId, int $countofsamethemes) 
     {
         $collectionId = $this->get_course_collection_id($courseId);
         $themes = $this->get_course_collection_themes($collectionId);
-        $themes = $this->filter_used_themes($themes);
+        $themes = $this->filter_used_themes($themes, $countofsamethemes);
         return $themes;
     }
 
@@ -91,19 +95,27 @@ class ThemesGetter
         return $DB->get_records('coursework_themes', $where, 'name');
     }
 
-    private function filter_used_themes(array $allThemes) : array
+    private function filter_used_themes(array $themes, int $availableCountOfUsages) : array
     {
         $students = $this->get_students_list_for_in_query();
 
-        $themes = array();
-        foreach($allThemes as $theme)
+        $filtered = array();
+
+        foreach($themes as $theme)
         {
-            if($this->is_theme_not_used($theme->id, $students))
+            $usagesCount = locallib::get_count_of_theme_usages(
+                $this->cm->instance, 
+                $theme->id, 
+                $students
+            );
+
+            if(locallib::is_theme_not_used($usagesCount, $availableCountOfUsages))
             {
-                $themes[] = $theme;
+                $filtered[] = $theme;
             }
         }
-        return $themes;
+
+        return $filtered;
     }
 
     private function get_students_list_for_in_query()
@@ -115,19 +127,6 @@ class ThemesGetter
         }
         $inQuery = mb_substr($inQuery, 0, -1);
         return $inQuery;
-    }
-
-    private function is_theme_not_used($themeId, $students) : bool 
-    {
-        global $DB;
-        $sql = "SELECT id
-                FROM {coursework_students}
-                WHERE coursework = ?
-                AND theme = ?
-                AND student IN ($students)";
-
-        $where = array($this->cm->instance, $themeId);
-        return !$DB->record_exists_sql($sql, $where);
     }
 
 }
