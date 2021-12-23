@@ -473,6 +473,18 @@ class ViewStudentsWorks
         }
     }
 
+    static filter_name(letter, name, formId)
+    {
+        let input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = name;
+        input.value = letter;
+
+        let form = document.getElementById(formId);
+        form.appendChild(input);
+        form.submit();
+    }
+
 
 }
 

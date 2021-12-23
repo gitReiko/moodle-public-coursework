@@ -4,6 +4,8 @@ namespace Coursework\View\StudentsWorksList;
 
 use Coursework\View\StudentsWorksList\StudentsHider as sh;
 
+use Coursework\View\StudentsWorksList\StudentsNamesFilter as snf;
+
 require_once 'groups_getter.php';
 require_once 'teachers_getter.php';
 require_once 'courses_getter.php';
@@ -28,6 +30,9 @@ class MainGetter
     private $courses;
     private $selectedCourseId;
 
+    private $lastnameFilter;
+    private $firstnameFilter;
+
     private $students;
 
     private $hideStudents;
@@ -47,6 +52,9 @@ class MainGetter
 
         $coursesGtr = $this->get_courses_getter();
         $this->init_courses_params($coursesGtr);
+
+        $this->lastnameFilter = $this->init_lastname_filter();
+        $this->firstnameFilter = $this->init_firstname_filter();
 
         $studentsGtr = $this->get_students_getter();
         $this->init_students($studentsGtr);
@@ -99,6 +107,16 @@ class MainGetter
         return $this->selectedCourseId;
     }
 
+    public function get_lastname_filter()
+    {
+        return $this->lastnameFilter;
+    }
+    
+    public function get_firstname_filter()
+    {
+        return $this->firstnameFilter;
+    }
+
     public function get_students() 
     {
         return $this->students;
@@ -146,6 +164,16 @@ class MainGetter
     {
         $this->courses = $coursesGtr->get_courses();
         $this->selectedCourseId = $coursesGtr->get_selected_course_id();
+    }
+
+    private function init_lastname_filter()
+    {
+        return optional_param(snf::LASTNAME, snf::ALL, PARAM_TEXT);
+    }
+
+    private function init_firstname_filter()
+    {
+        return optional_param(snf::FIRSTNAME, snf::ALL, PARAM_TEXT);
     }
 
     private function get_students_getter()

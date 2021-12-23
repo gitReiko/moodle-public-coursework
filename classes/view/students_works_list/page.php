@@ -6,6 +6,7 @@ require_once 'components/groups_selector.php';
 require_once 'components/teachers_selector.php';
 require_once 'components/courses_selector.php';
 require_once 'components/students_table/main.php';
+require_once 'components/students_names_filter.php';
 require_once 'components/students_hider.php';
 require_once 'getters/main_getter.php';
 
@@ -36,6 +37,7 @@ class Page
             $page.= $this->get_teachers_selector();
             $page.= $this->get_courses_selector();
             $page.= $this->get_students_hider();
+            $page.= $this->get_students_names_filter();
             $page.= $this->get_students_table();
             $page.= $this->get_form_end();
         }
@@ -130,6 +132,12 @@ class Page
     {
         $hider = new StudentsHider($this->d);
         return $hider->get_students_without_theme_hider();
+    }
+
+    private function get_students_names_filter() : string 
+    {
+        $filter = new StudentsNamesFilter($this->d);
+        return $filter->get_students_names_filter();
     }
 
     private function get_students_table() : string 

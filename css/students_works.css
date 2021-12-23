@@ -79,3 +79,14 @@ p.students-hider
 {
     cursor: pointer;
 }
+
+.help
+{
+    cursor: help;
+}
+
+.selected-letter 
+{
+    font-weight: bold;
+    font-size: larger;
+}
