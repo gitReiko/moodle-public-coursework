@@ -6,12 +6,13 @@ require_once 'components/groups_selector.php';
 require_once 'components/teachers_selector.php';
 require_once 'components/courses_selector.php';
 require_once 'components/students_table/main.php';
-require_once 'components/students_names_filter.php';
+require_once 'components/students_names_filter/main.php';
 require_once 'components/students_hider.php';
 require_once 'getters/main_getter.php';
 
 use Coursework\Lib\Getters\CommonGetter as cg;
 use Coursework\View\StudentsWorksList\StudentsTable as st;
+use Coursework\View\StudentsWorksList\StudentsNamesFilter as snf;
 
 class Page 
 {
@@ -136,7 +137,7 @@ class Page
 
     private function get_students_names_filter() : string 
     {
-        $filter = new StudentsNamesFilter($this->d);
+        $filter = new snf\Main($this->d);
         return $filter->get_students_names_filter();
     }
 

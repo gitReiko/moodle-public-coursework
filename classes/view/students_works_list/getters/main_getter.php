@@ -4,7 +4,7 @@ namespace Coursework\View\StudentsWorksList;
 
 use Coursework\View\StudentsWorksList\StudentsHider as sh;
 
-use Coursework\View\StudentsWorksList\StudentsNamesFilter as snf;
+use Coursework\View\StudentsWorksList\StudentsNamesFilter\Main as snf;
 
 require_once 'groups_getter.php';
 require_once 'teachers_getter.php';
