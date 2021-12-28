@@ -27,9 +27,7 @@ class Main
 
     public function get_page() : string 
     {
-        $str = cg::get_page_header($this->cm);
-
-        $str.= $this->get_info_block();
+        $str = $this->get_info_block();
         $str.= $this->get_guidelines_block();
         $str.= $this->get_chat_block();
         $str.= $this->get_filemanager_block();

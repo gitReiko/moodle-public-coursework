@@ -8,6 +8,7 @@ require_once 'database_handlers/main.php';
 
 use Coursework\View\DatabaseHandlers\Main as MainDatabaseHandler;
 use Coursework\View\StudentWork\Main as StudentWork;
+use Coursework\Lib\Getters\CommonGetter as cg;
 use Coursework\View\StudentsWorksList as swl;
 use Coursework\Lib\CommonLib as cl;
 
@@ -40,27 +41,37 @@ class Main
 
     public function get_gui() : string 
     {
-        global $USER;
-
-        if(cl::is_user_student($this->cm, $USER->id))
+        $page = cg::get_page_header($this->cm);
+        
+        if($this->is_coursework_leaders_exists())
         {
             global $USER;
-            return $this->get_student_work_page($USER->id);
-        }
-        else 
-        {
-            $event = $this->get_gui_event();
 
-            if($event == self::USER_WORK)
+            if(cl::is_user_student($this->cm, $USER->id))
             {
-                $studentId = $this->get_student_id();
-                return $this->get_student_work_page($studentId);
+                $page.= $this->get_student_work_page($USER->id);
             }
             else 
             {
-                return $this->get_students_works_list_page();
+                $event = $this->get_gui_event();
+    
+                if($event == self::USER_WORK)
+                {
+                    $studentId = $this->get_student_id();
+                    $page.= $this->get_student_work_page($studentId);
+                }
+                else 
+                {
+                    $page.= $this->get_students_works_list_page();
+                }
             }
         }
+        else 
+        {
+            $page.= $this->get_unconfigured_leaders_notify();
+        }
+
+        return $page;
     }
 
     private function redirect_to_prevent_page_update()
@@ -146,6 +157,41 @@ class Main
     private function get_student_id() : int 
     {
         return optional_param(STUDENT.ID, null, PARAM_INT);
+    }
+
+    private function is_coursework_leaders_exists() : bool 
+    {
+        global $DB;
+        $params = array('coursework' => $this->cm->instance);
+        return $DB->record_exists('coursework_teachers', $params);
+    }
+
+    private function get_unconfigured_leaders_notify() : string 
+    {
+        $notify = '';
+
+        $text = get_string('appointed_leaders_not_exists', 'coursework');
+        $notify.= \html_writer::tag('p', $text);
+
+        $context = \context_module::instance($this->cm->id);
+        if(has_capability('mod/coursework:settingleaders', $context))
+        {
+            $href = '/mod/coursework/pages/config/appoint_leaders.php?id='.$this->cm->id;
+            $text = get_string('go_to_leaders_appointment', 'coursework');
+            $text = \html_writer::tag('p', $text);
+
+            $notify.= \html_writer::tag('a', $text, array('href' => $href));
+        }
+        else 
+        {
+            $text = get_string('contact_the_teachers', 'coursework');
+            $notify.= \html_writer::tag('p', $text);
+        }
+
+        $attr = array('class' => 'error-notify');
+        $notify = \html_writer::tag('div', $notify, $attr);
+
+        return $notify;
     }
 
 

@@ -29,7 +29,7 @@ class Main
 
     public function get_page() : string 
     {
-        $page = cg::get_page_header($this->cm);
+        $page = '';
 
         if(locallib::is_user_student($this->work))
         {

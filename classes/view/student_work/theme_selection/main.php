@@ -22,8 +22,7 @@ class Main
 
     public function get_page() : string 
     {
-        $page = cg::get_page_header($this->cm);
-        $page.= $this->get_guidelines_block();
+        $page = $this->get_guidelines_block();
         $page.= $this->get_theme_selection_block();
         $page.= $this->get_navigation_block();
 

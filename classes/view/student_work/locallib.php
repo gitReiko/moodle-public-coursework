@@ -2,8 +2,9 @@
 
 namespace Coursework\View\StudentWork;
 
-use Coursework\Lib\Getters\CommonGetter as cg;
 use Coursework\Lib\Getters\StudentsGetter as sg;
+use Coursework\Lib\Getters\CommonGetter as cg;
+use Coursework\Lib\CommonLib as cl;
 use Coursework\Lib\Enums as enum;
 
 class Locallib 
@@ -107,8 +108,15 @@ class Locallib
 
     public static function get_count_of_same_themes(int $cmInstance, int $courseId) 
     {
-        $usedCollection = cg::get_used_theme_collection($cmInstance, $courseId);
-        return $usedCollection->countofsamethemes;
+        if(cl::is_theme_collection_used($cmInstance, $courseId))
+        {
+            $usedCollection = cg::get_used_theme_collection($cmInstance, $courseId);
+            return $usedCollection->countofsamethemes;
+        }
+        else 
+        {
+            return 0;
+        }
     }
 
     public static function get_count_of_theme_usages(int $cmInstance, int $themeId, string $students) : int 

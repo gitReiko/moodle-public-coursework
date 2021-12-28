@@ -71,6 +71,19 @@ class CommonLib
         }
     }
 
+    public static function is_theme_collection_used(int $courseworkId, int $courseId) : bool 
+    {
+        global $DB;
+        $sql = 'SELECT ctc.id 
+                FROM {coursework_used_collections} AS cuc
+                INNER JOIN {coursework_theme_collections} AS ctc
+                ON cuc.collection = ctc.id
+                WHERE cuc.coursework = ?
+                AND ctc.course = ?';
+        $params = array($courseworkId, $courseId);
+        return $DB->record_exists_sql($sql, $params);
+    }
+
 
 }
 

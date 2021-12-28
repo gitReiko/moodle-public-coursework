@@ -33,8 +33,7 @@ class Main
 
     public function get_page() : string 
     {
-        $page = cg::get_page_header($this->cm);
-        $page.= $this->get_info_block();
+        $page = $this->get_info_block();
         $page.= $this->get_guidelines_block();
         $page.= $this->get_chat_block();
         $page.= $this->get_task_assignment_block();

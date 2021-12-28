@@ -33,7 +33,6 @@ class Page
         if($this->is_teachers_exists())
         {
             $page = $this->get_form_start();
-            $page.= cg::get_page_header($this->d->get_cm());
             $page.= $this->get_group_selector();
             $page.= $this->get_teachers_selector();
             $page.= $this->get_courses_selector();
