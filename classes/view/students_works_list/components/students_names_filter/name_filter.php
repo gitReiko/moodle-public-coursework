@@ -19,6 +19,7 @@ abstract class NameFilter
     {
         $filter = $this->get_header();
         $filter.= $this->get_letters_list();
+        $filter.= $this->get_hidden_input();
 
         return \html_writer::tag('p', $filter);
     }
@@ -87,6 +88,8 @@ abstract class NameFilter
     }
 
     abstract protected function is_letter_selected($letter) : bool;
+
+    abstract protected function get_hidden_input() : string;
 
     private function get_filter_js_func($letter) : string 
     {

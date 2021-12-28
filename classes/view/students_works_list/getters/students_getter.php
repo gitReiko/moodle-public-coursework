@@ -2,6 +2,7 @@
 
 namespace Coursework\View\StudentsWorksList;
 
+use Coursework\View\StudentsWorksList\StudentsNamesFilter\Main as snf;
 use Coursework\View\StudentsWorksList\GroupsSelector as grp;
 use Coursework\View\StudentsWorksList\MainGetter as mg;
 use Coursework\Lib\Getters\StudentsGetter as sg;
@@ -18,7 +19,11 @@ class StudentsGetter
     private $groupMode;
     private $selectedGroupId;
 
+    private $lastnameFilter;
+    private $firstnameFilter;
+
     private $students;
+    private $studentsLetters;
 
     private $hideStudentsWithoutTheme;
 
@@ -29,7 +34,9 @@ class StudentsGetter
         int $selectedGroupId,
         $selectedTeacherId,
         $selectedCourseId,
-        $hideStudentsWithoutTheme
+        $hideStudentsWithoutTheme,
+        $lastnameFilter,
+        $firstnameFilter
     ) 
     {
         $this->course = $course;
@@ -40,12 +47,19 @@ class StudentsGetter
         $this->selectedTeacherId = $selectedTeacherId;
         $this->selectedCourseId = $selectedCourseId;
         $this->hideStudentsWithoutTheme = $hideStudentsWithoutTheme;
+        $this->lastnameFilter = $lastnameFilter;
+        $this->firstnameFilter = $firstnameFilter;
         $this->init_students();
     }
 
     public function get_students() 
     {
         return $this->students;
+    }
+
+    public function get_students_letters()
+    {
+        return $this->studentsLetters;
     }
 
     private function init_students() 
@@ -85,6 +99,18 @@ class StudentsGetter
         if($this->coursework->usetask == 1)
         {
             $students = $this->add_students_task_sections($students);
+        }
+
+        $this->studentsLetters = $students;
+
+        if($this->is_lastname_filter_exists())
+        {
+            $students = $this->filter_by_lastname($students);
+        }
+
+        if($this->is_firstname_filter_exists())
+        {
+            $students = $this->filter_by_firstname($students);
         }
 
         $this->students = $students;
@@ -174,7 +200,91 @@ class StudentsGetter
         return $students;
     }
 
+    private function is_lastname_filter_exists() : bool 
+    {
+        if(empty($this->lastnameFilter))
+        {
+            return false;
+        }
+        else 
+        {
+            return true;
+        }
+    }
 
+    private function filter_by_lastname($students)
+    {
+        if($this->lastnameFilter == snf::ALL)
+        {
+            return $students;
+        }
+        else 
+        {
+            $students = $this->filter_by_lastname_letter($students);
+        }
+
+        return $students;
+    }
+
+    private function filter_by_lastname_letter($students)
+    {
+        $filtered = array();
+
+        foreach($students as $student)
+        {
+            $firstLetter = mb_substr($student->lastname, 0, 1);
+
+            if($firstLetter == $this->lastnameFilter)
+            {
+                $filtered[] = $student;
+            }
+        }
+
+        return $filtered;
+    }
+
+    private function is_firstname_filter_exists() : bool 
+    {
+        if(empty($this->firstnameFilter))
+        {
+            return false;
+        }
+        else 
+        {
+            return true;
+        }
+    }
+
+    private function filter_by_firstname($students)
+    {
+        if($this->firstnameFilter == snf::ALL)
+        {
+            return $students;
+        }
+        else 
+        {
+            $students = $this->filter_by_firstname_letter($students);
+        }
+
+        return $students;
+    }
+
+    private function filter_by_firstname_letter($students)
+    {
+        $filtered = array();
+
+        foreach($students as $student)
+        {
+            $firstLetter = mb_substr($student->firstname, 0, 1);
+
+            if($firstLetter == $this->firstnameFilter)
+            {
+                $filtered[] = $student;
+            }
+        }
+
+        return $filtered;
+    }
 
 
 }

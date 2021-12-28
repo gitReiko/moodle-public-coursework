@@ -16,7 +16,7 @@ class FirstnameFilter  extends NameFilter
     {
         $letters = array();
 
-        foreach($this->d->get_students() as $student)
+        foreach($this->d->get_students_letters() as $student)
         {
             $letters[] = mb_substr($student->firstname, 0, 1);
         }
@@ -44,6 +44,23 @@ class FirstnameFilter  extends NameFilter
         {
             return false;
         }
+    }
+
+    protected function get_hidden_input() : string
+    {
+        $input = '';
+
+        if(!empty($this->d->get_firstname_filter()))
+        {
+            $attr = array(
+                'type' => 'hidden',
+                'name' => Main::FIRSTNAME,
+                'value' => $this->d->get_firstname_filter()
+            );
+            $input = \html_writer::empty_tag('input', $attr);
+        }
+
+        return $input;
     }
 
 }

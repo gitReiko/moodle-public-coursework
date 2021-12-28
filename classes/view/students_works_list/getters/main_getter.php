@@ -57,7 +57,7 @@ class MainGetter
         $this->firstnameFilter = $this->init_firstname_filter();
 
         $studentsGtr = $this->get_students_getter();
-        $this->init_students($studentsGtr);
+        $this->init_students_params($studentsGtr);
 
         $this->add_student_courses_to_courses($coursesGtr);
     }
@@ -120,6 +120,11 @@ class MainGetter
     public function get_students() 
     {
         return $this->students;
+    }
+
+    public function get_students_letters()
+    {
+        return $this->studentsLetters;
     }
 
     public function is_hide_students_without_theme()
@@ -185,13 +190,16 @@ class MainGetter
             $this->selectedGroupId,
             $this->selectedTeacherId,
             $this->selectedCourseId,
-            $this->hideStudentsWithoutTheme
+            $this->hideStudentsWithoutTheme,
+            $this->lastnameFilter,
+            $this->firstnameFilter
         );
     }
 
-    private function init_students($studentsGtr) 
+    private function init_students_params($studentsGtr) 
     {
         $this->students = $studentsGtr->get_students();
+        $this->studentsLetters = $studentsGtr->get_students_letters();
     }
 
     private function filter_out_not_student_teachers($teachersGtr, $students)
