@@ -176,7 +176,7 @@ class Page
         }
         else 
         {
-            return get_string('coursework_'.$student->status, 'coursework');
+            return get_string('work_'.$student->status, 'coursework');
         }
     }
 

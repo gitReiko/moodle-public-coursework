@@ -169,7 +169,7 @@ class StudentsTable
         return \html_writer::tag('td', $fullname);
     }
 
-    protected function get_group_classes(array $groups)
+    protected function get_group_classes($groups)
     {
         $grClasses = '';
 
@@ -181,7 +181,7 @@ class StudentsTable
         return $grClasses;
     }
 
-    private function get_groups_names_cell(array $groups) : string 
+    private function get_groups_names_cell($groups) : string 
     {
         if(count($groups) == 1) 
         {
