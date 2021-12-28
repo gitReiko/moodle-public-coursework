@@ -65,6 +65,34 @@ class Chat extends Base
 
     protected function get_content() : string
     {
+        if(locallib::is_user_student_or_teacher($this->work))
+        {
+            return $this->get_chat();
+        }
+        else if($this->is_messages_exists())
+        {
+            return $this->get_chat();
+        }
+        else 
+        {
+            return $this->get_no_correspondence();
+        }
+    }
+
+    private function is_messages_exists() : bool 
+    {
+        if(empty($this->messages))
+        {
+            return false;
+        }
+        else 
+        {
+            return true;
+        }
+    }
+
+    private function get_chat() : string 
+    {
         $с = $this->get_messages_box();
         if(locallib::is_user_student_or_teacher($this->work))
         {
@@ -75,6 +103,12 @@ class Chat extends Base
         $c = \html_writer::tag('div', $с, $attr);
         
         return $c;
+    }
+
+    private function get_no_correspondence() : string 
+    {
+        $text = get_string('no_correspondence', 'coursework');
+        return \html_writer::tag('p', $text);
     }
 
     private function get_messages_box() : string 

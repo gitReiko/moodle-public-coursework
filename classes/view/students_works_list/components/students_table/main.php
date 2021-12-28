@@ -96,7 +96,7 @@ class Main
     private function no_students_message() : string 
     {
         $attr = array('class' => 'no_students_message');
-        $text = get_string('students_didnt_choose_teacher', 'coursework');
+        $text = get_string('no_students_matching_filters', 'coursework');
         return \html_writer::tag('p', $text, $attr);
     }
 
