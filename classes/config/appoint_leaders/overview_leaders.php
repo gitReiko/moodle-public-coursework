@@ -7,19 +7,20 @@ class OverviewLeaders
     private $course;
     private $cm;
 
-    private $cwLeaders;
+    private $leaders;
 
     function __construct(\stdClass $course, \stdClass $cm)
     {
         $this->course = $course;
         $this->cm = $cm;
 
-        $this->cwLeaders = $this->get_configured_leaders();
+        $this->leaders = $this->get_configured_leaders();
     }
 
     public function get_gui() : string 
     {
-        $gui = '';
+        $gui = $this->get_page_header();
+
         if($this->is_coursework_has_leaders())
         {
             $gui.= $this->get_coursework_leaders_table();
@@ -39,16 +40,22 @@ class OverviewLeaders
                     ct.quota, u.firstname, u.lastname
                 FROM {coursework_teachers} as ct, {user} as u, {course} as c
                 WHERE ct.teacher = u.id AND ct.course = c.id
-                AND u.suspended = 0 AND ct.coursework = ?
+                AND ct.coursework = ?
                 ORDER BY u.lastname';
         $conditions = array($this->cm->instance);
 
         return $DB->get_records_sql($sql, $conditions);
     }
 
+    private function get_page_header() : string 
+    {
+        $text = get_string('appoint_leaders', 'coursework');
+        return \html_writer::tag('h2', $text);
+    }
+
     private function is_coursework_has_leaders() : bool
     {
-        if(empty($this->cwLeaders)) return false;
+        if(empty($this->leaders)) return false;
         else return true;
     }
 
@@ -84,7 +91,7 @@ class OverviewLeaders
     {
         $body = '';
 
-        foreach($this->cwLeaders as $leader)
+        foreach($this->leaders as $leader)
         {
             $body.= \html_writer::start_tag('tr');
 
