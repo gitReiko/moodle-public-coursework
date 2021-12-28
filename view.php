@@ -35,7 +35,7 @@ $PAGE->set_cm($cm);
 $PAGE->set_title(get_string('pluginname', 'coursework'));
 $PAGE->set_heading(get_string('pluginname', 'coursework'));
 
-$PAGE->requires->css('/mod/coursework/css/common.css?v=0.9');
+$PAGE->requires->css('/mod/coursework/css/common.css?v=0.11');
 $PAGE->requires->css('/mod/coursework/css/view.css?v=1');
 $PAGE->requires->css('/mod/coursework/css/student_work.css?v=1.0.28');
 $PAGE->requires->css('/mod/coursework/css/students_works.css?v=1.1.1');
