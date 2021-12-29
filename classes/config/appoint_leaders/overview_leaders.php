@@ -19,7 +19,8 @@ class OverviewLeaders
 
     public function get_gui() : string 
     {
-        $gui = $this->get_page_header();
+        $gui = StepByStep::get_leader_explanation($this->get_page_header());
+        $gui.= StepByStep::get_help_button();
 
         if($this->is_coursework_has_leaders())
         {

@@ -8,6 +8,7 @@ require_once 'leader_action.php';
 require_once 'add_leader.php';
 require_once 'edit_leader.php';
 require_once 'database.php';
+require_once 'step_by_step.php';
 
 class Main extends \Coursework\Classes\Lib\MainTemplate
 {

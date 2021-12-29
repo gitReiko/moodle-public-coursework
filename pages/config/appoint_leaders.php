@@ -28,6 +28,9 @@ $PAGE->set_heading(get_string('appoint_leaders', 'coursework'));
 $PAGE->requires->css('/mod/coursework/css/common.css');
 $PAGE->requires->css('/mod/coursework/css/config/appoint_leaders.css');
 
+$PAGE->requires->css('/mod/coursework/css/external/introjs.min.css?v=1');
+$PAGE->requires->js('/mod/coursework/js/external/intro.min.js', true);
+
 require_login();
 
 $appointLeaders = new appointLeaders\Main($course, $cm);
