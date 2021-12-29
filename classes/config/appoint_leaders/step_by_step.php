@@ -10,10 +10,21 @@ class StepByStep
         $attr = array(
             'type' => 'button',
             'value' => get_string('help', 'coursework'),
-            'onclick' => 'introJs().start();'
+            'onclick' => self::get_intro_js_function()
         );
         $input = \html_writer::empty_tag('input', $attr);
         return \html_writer::tag('p', $input);
+    }
+
+    private static function get_intro_js_function() : string 
+    {
+        $func = 'introJs().setOptions({';
+        $func.= "nextLabel: '".get_string('next', 'coursework')."', ";
+        $func.= "prevLabel: '".get_string('back', 'coursework')."', ";
+        $func.= "doneLabel: '".get_string('done', 'coursework')."'})";
+        $func.= '.start();';
+
+        return $func;
     }
 
     public static function get_leader_explanation(string $text) : string 
