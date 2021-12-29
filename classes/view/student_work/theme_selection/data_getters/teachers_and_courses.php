@@ -109,7 +109,8 @@ class TeachersAndCoursesGetter
 
         foreach($this->teachers as $teacher)
         {
-            if($this->is_teacher_quota_is_not_exhausted($teacher))
+            if($this->is_teacher_quota_is_not_exhausted($teacher)
+                || $this->is_teacher_selected_by_student($teacher))
             {
                 $tempTeacher = new \stdClass;
                 $tempTeacher->id = $teacher->id;
@@ -121,6 +122,18 @@ class TeachersAndCoursesGetter
         }
 
         return $availableTeachers;
+    }
+
+    private function is_teacher_selected_by_student($teacher) : bool 
+    {
+        if($this->studentWork->teacher == $teacher->id)
+        {
+            return true;
+        }
+        else 
+        {
+            return false;
+        }
     }
 
     private function is_teacher_quota_is_not_exhausted($teacher)
@@ -144,7 +157,8 @@ class TeachersAndCoursesGetter
         {
             foreach($teacher->courses as $course)
             {
-                if($course->available_quota > 0)
+                if(($course->available_quota > 0)
+                    || $this->is_course_selected_by_student($course))
                 {
                     $tempCourse = new \stdClass;
                     $tempCourse->id = $course->id;
@@ -155,23 +169,18 @@ class TeachersAndCoursesGetter
             }
         }
 
-        if($this->is_student_selected_course())
-        {
-            $availableCourses = $this->filter_out_unselected_courses($availableCourses);
-        }
-
         return $availableCourses;
     }
 
-    private function is_student_selected_course() : bool 
+    private function is_course_selected_by_student($course) : bool 
     {
-        if(empty($this->studentWork->course))
+        if($this->studentWork->course == $course->id)
         {
-            return false;
+            return true;
         }
         else 
         {
-            return true;
+            return false;
         }
     }
 
@@ -193,7 +202,8 @@ class TeachersAndCoursesGetter
         $availableCourses = array();
         foreach($firstTeacher->courses as $course)
         {
-            if($course->available_quota > 0)
+            if(($course->available_quota > 0)
+                || $this->is_course_selected_by_student($course))
             {
                 $tempCourse = new \stdClass;
                 $tempCourse->id = $course->id;
@@ -201,11 +211,6 @@ class TeachersAndCoursesGetter
 
                 $availableCourses[] = $tempCourse;
             }
-        }
-
-        if($this->is_student_selected_course())
-        {
-            $availableCourses = $this->filter_out_unselected_courses($availableCourses);
         }
 
         return $availableCourses;
