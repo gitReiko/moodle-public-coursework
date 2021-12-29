@@ -2,7 +2,7 @@
 
 namespace Coursework\Config\AppointLeaders;
 
-class OverviewLeaders
+class Overview
 {
     private $course;
     private $cm;
@@ -14,7 +14,7 @@ class OverviewLeaders
         $this->course = $course;
         $this->cm = $cm;
 
-        $this->leaders = $this->get_configured_leaders();
+        $this->leaders = $this->get_leaders();
     }
 
     public function get_gui() : string 
@@ -24,7 +24,7 @@ class OverviewLeaders
 
         if($this->is_coursework_has_leaders())
         {
-            $gui.= $this->get_coursework_leaders_table();
+            $gui.= $this->get_overview_table();
         }
 
         $gui.= $this->get_add_leader_button();
@@ -34,7 +34,7 @@ class OverviewLeaders
         return $gui;
     }
 
-    private function get_configured_leaders()
+    private function get_leaders()
     {
         global $DB;
         $sql = 'SELECT ct.id, ct.teacher, ct.course, c.fullname as coursename, 
@@ -60,21 +60,21 @@ class OverviewLeaders
         else return true;
     }
 
-    private function get_coursework_leaders_table() : string 
+    private function get_overview_table() : string 
     {
         $text = get_string('leaders_overview_table_header', 'coursework');
         $tbl = \html_writer::tag('h3', $text);
 
         $attr = array('class' => 'leaders_overview');
         $tbl.= \html_writer::start_tag('table', $attr);
-        $tbl.= $this->get_coursework_leaders_table_header();
-        $tbl.= $this->get_coursework_leaders_table_body();
+        $tbl.= $this->get_overview_table_header();
+        $tbl.= $this->get_overview_table_body();
         $tbl.= \html_writer::end_tag('table');
 
         return $tbl;
     }
 
-    private function get_coursework_leaders_table_header() : string 
+    private function get_overview_table_header() : string 
     {
         $attr = array('class' => 'header');
         $header = \html_writer::start_tag('tr', $attr);
@@ -109,7 +109,7 @@ class OverviewLeaders
         return \html_writer::tag('td', $text);
     }
 
-    private function get_coursework_leaders_table_body() : string 
+    private function get_overview_table_body() : string 
     {
         $body = '';
 

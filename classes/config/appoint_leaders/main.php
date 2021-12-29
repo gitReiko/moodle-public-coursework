@@ -3,11 +3,11 @@
 namespace Coursework\Config\AppointLeaders;
 
 require_once '../../classes/lib/main_template.php';
-require_once 'overview_leaders.php';
-require_once 'leader_action.php';
-require_once 'add_leader.php';
-require_once 'edit_leader.php';
+require_once 'action.php';
+require_once 'add.php';
 require_once 'database.php';
+require_once 'edit.php';
+require_once 'overview.php';
 require_once 'step_by_step.php';
 
 class Main extends \Coursework\Classes\Lib\MainTemplate
@@ -66,19 +66,19 @@ class Main extends \Coursework\Classes\Lib\MainTemplate
 
     private function get_overview_gui() : string 
     {
-        $overview = new OverviewLeaders($this->course, $this->cm);
+        $overview = new Overview($this->course, $this->cm);
         return $overview->get_gui();
     }
 
     private function get_add_leader_gui() : string 
     {
-        $addGUI = new AddLeader($this->course, $this->cm);
+        $addGUI = new Add($this->course, $this->cm);
         return $addGUI->display();
     }
 
     private function get_edit_leader_gui() : string 
     {
-        $editGUI = new EditLeader($this->course, $this->cm);
+        $editGUI = new Edit($this->course, $this->cm);
         return $editGUI->display();
     }
 

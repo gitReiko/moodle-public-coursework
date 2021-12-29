@@ -4,7 +4,7 @@ namespace Coursework\Config\AppointLeaders;
 
 use Coursework\Lib\Getters\TeachersGetter as tg;
 
-abstract class LeaderAction
+abstract class Action
 {
     protected $course;
     protected $cm;
