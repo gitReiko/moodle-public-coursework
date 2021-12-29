@@ -19,7 +19,7 @@ class OverviewLeaders
 
     public function get_gui() : string 
     {
-        $gui = StepByStep::get_leader_explanation($this->get_page_header());
+        $gui = $this->get_page_header();
         $gui.= StepByStep::get_help_button();
 
         if($this->is_coursework_has_leaders())
@@ -78,14 +78,35 @@ class OverviewLeaders
     {
         $attr = array('class' => 'header');
         $header = \html_writer::start_tag('tr', $attr);
-        $header.= \html_writer::tag('td', get_string('leader', 'coursework'));
-        $header.= \html_writer::tag('td', get_string('course', 'coursework'));
-        $header.= \html_writer::tag('td', get_string('quota', 'coursework'));
+        $header.= $this->get_leader_cell();
+        $header.= $this->get_course_cell();
+        $header.= $this->get_quota_cell();
         $header.= \html_writer::tag('td', '');
         $header.= \html_writer::tag('td', '');
         $header.= \html_writer::end_tag('tr');
 
         return $header;
+    }
+
+    private function get_leader_cell() : string 
+    {
+        $text = get_string('leader', 'coursework');
+        $text = StepByStep::get_leader_explanation($text);
+        return \html_writer::tag('td', $text);
+    }
+
+    private function get_course_cell() : string 
+    {
+        $text = get_string('course', 'coursework');
+        $text = StepByStep::get_leader_course_explanation($text);
+        return \html_writer::tag('td', $text);
+    }
+
+    private function get_quota_cell() : string 
+    {
+        $text = get_string('quota', 'coursework');
+        $text = StepByStep::get_quota_explanation($text);
+        return \html_writer::tag('td', $text);
     }
 
     private function get_coursework_leaders_table_body() : string 

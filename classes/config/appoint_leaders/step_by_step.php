@@ -21,7 +21,27 @@ class StepByStep
         $attr = array(
             'data-title' => get_string('leader', 'coursework'),
             'data-intro' => get_string('leader_explanation', 'coursework'),
-            'class' => 'card-demo'
+            'class' => 'card__body'
+        );
+        return \html_writer::tag('div', $text, $attr);
+    }
+
+    public static function get_leader_course_explanation(string $text) : string 
+    {
+        $attr = array(
+            'data-title' => get_string('course', 'coursework'),
+            'data-intro' => get_string('leader_course_explanation', 'coursework'),
+            'class' => 'card__body'
+        );
+        return \html_writer::tag('div', $text, $attr);
+    }
+
+    public static function get_quota_explanation(string $text) : string 
+    {
+        $attr = array(
+            'data-title' => get_string('quota', 'coursework'),
+            'data-intro' => get_string('quota_explanation', 'coursework'),
+            'class' => 'card__body'
         );
         return \html_writer::tag('div', $text, $attr);
     }
