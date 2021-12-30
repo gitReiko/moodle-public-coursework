@@ -50,6 +50,7 @@ $string['collections_list'] = 'Список коллекций';
 $string['completion_date'] = 'Дата завершения';
 $string['config_list'] = 'Список настроек';
 $string['configuration'] = 'Настройка';
+$string['confirm_irreversible_action'] = 'Подтвердите действие. \n\nДанное действие нельзя отменить.';
 $string['confirm_theme_reselect'] = 'Вы уверены, что хотите удалить выбор тем студентов? \n\nДанное действие нельзя отменить. \n\nПосле удаления выбора тем, студентам нужно будет снова выбрать тему.';
 $string['contact_the_teachers'] = 'Cвяжитесь с учителем для решения проблемы.';
 $string['correct_default_task'] = 'Скорректировать стандартное задание';

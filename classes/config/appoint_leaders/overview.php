@@ -222,8 +222,12 @@ class Overview
     }
 
     private function get_delete_button(int $id) : string 
-    {        
-        $attr = array('method' => 'post');
+    {
+        $confText = get_string('confirm_irreversible_action', 'coursework');
+        $attr = array(
+            'method' => 'post',
+            'onsubmit' => 'return confirm_leader_deleting(`'.$confText.'`)'
+        );
         $btn = \html_writer::start_tag('form', $attr);
 
         $attr = array(

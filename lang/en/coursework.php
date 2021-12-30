@@ -50,6 +50,7 @@ $string['collections_list'] = 'Collections list';
 $string['completion_date'] = 'Completion date';
 $string['config_list'] = 'Configuration list';
 $string['configuration'] = 'Configuration';
+$string['confirm_irreversible_action'] = 'Confirm action. \n\nThis action is irreversible.';
 $string['confirm_theme_reselect'] = 'Are you sure you want to delete students themes selection? \n\nThis action cannot be undone. \n\nAfter deleting themes selections, students need to select a theme again.';
 $string['contact_the_teachers'] = 'Contact the teacher to solve the problem.';
 $string['correct_default_task'] = 'Correct default task';
