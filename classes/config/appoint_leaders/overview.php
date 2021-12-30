@@ -19,7 +19,7 @@ class Overview
 
     public function get_gui() : string 
     {
-        $gui = $this->get_page_header();
+        $gui = StepByStep::get_appoint_explanation($this->get_page_header());
         $gui.= StepByStep::get_help_button();
 
         if($this->is_coursework_has_leaders())
@@ -113,6 +113,7 @@ class Overview
     {
         $body = '';
 
+        $i = 0;
         foreach($this->leaders as $leader)
         {
             $body.= \html_writer::start_tag('tr');
@@ -127,16 +128,39 @@ class Overview
             $text = $leader->quota;
             $body.= \html_writer::tag('td', $text, $attr);
 
-            $text = $this->get_edit_button($leader);
-            $body.= \html_writer::tag('td', $text);
-
-            $text = $this->get_delete_button($leader->id);
-            $body.= \html_writer::tag('td', $text);
+            $body.= $this->get_edit_button_body_cell($leader, $i);
+            $body.= $this->get_delete_button_body_cell($leader, $i);
 
             $body.= \html_writer::end_tag('tr');
+
+            $i++;
         }
 
         return $body;
+    }
+
+    private function get_edit_button_body_cell(\stdClass $leader, int $i) : string 
+    {
+        $text = $this->get_edit_button($leader);
+
+        if(empty($i))
+        {
+            $text = StepByStep::get_edit_button_explanation($text);
+        }
+
+        return \html_writer::tag('td', $text);
+    }
+
+    private function get_delete_button_body_cell(\stdClass $leader, int $i) : string 
+    {
+        $text = $this->get_delete_button($leader->id);
+
+        if(empty($i))
+        {
+            $text = StepByStep::get_delete_button_explanation($text);
+        }
+
+        return \html_writer::tag('td', $text);
     }
 
     private function get_edit_button(\stdClass $leader) : string 
