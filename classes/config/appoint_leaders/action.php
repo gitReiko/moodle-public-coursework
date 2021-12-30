@@ -25,14 +25,14 @@ abstract class Action
 
     public function display() : string 
     {
-        $gui = '';
-        $gui.= $this->get_html_form_start();
+        $gui = $this->get_html_form_start();
         $gui.= $this->get_action_header();
-        $gui.= $this->get_leader_label();
+        $gui.= StepByStep::get_help_button();
+        $gui.= StepByStep::get_leaders_list_explanation($this->get_leader_label());
         $gui.= $this->get_leader_select();
-        $gui.= $this->get_course_label();
+        $gui.= StepByStep::get_courses_list_explanation($this->get_course_label());
         $gui.= $this->get_course_select();
-        $gui.= $this->get_quota_label();
+        $gui.= StepByStep::get_quota_explanation($this->get_quota_label());
         $gui.= $this->get_quota_input();
         $gui.= $this->get_form_common_params();
         $gui.= $this->get_form_special_params();
@@ -69,7 +69,9 @@ abstract class Action
     private function get_leader_label() : string 
     {
         $text = get_string('leader', 'coursework');
-        return $this->get_label($text);
+        $title = get_string('leader_explanation', 'coursework').' ';
+        $title.= get_string('only_teachers_in_list', 'coursework');
+        return $this->get_label($text, $title);
     }
 
     protected function get_select(array $items, string $selectName, int $selectedItem = null, bool $autofocus = false) : string 
@@ -119,15 +121,17 @@ abstract class Action
     private function get_course_label() : string 
     {
         $text = get_string('course', 'coursework');
-        return $this->get_label($text);
+        $title = get_string('leader_course_explanation', 'coursework').' ';
+        $title.= get_string('in_list_all_site_courses', 'coursework');
+        return $this->get_label($text, $title);
     }
 
     abstract protected function get_course_select() : string;
 
     private function get_quota_label() : string 
     {
-        $text = get_string('quota', 'coursework').' (?)';
-        $title = get_string('quota_title', 'coursework');
+        $text = get_string('quota', 'coursework');
+        $title = get_string('quota_explanation', 'coursework');
         return $this->get_label($text, $title);
     }
 

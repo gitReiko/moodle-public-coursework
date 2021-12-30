@@ -32,10 +32,28 @@ class StepByStep
         return self::get_explanation($text, $title, $intro);
     }
 
+    public static function get_leaders_list_explanation(string $text) : string 
+    {
+        $title = get_string('leader', 'coursework');
+        $intro = get_string('leader_explanation', 'coursework').'<br><br>';
+        $intro.= get_string('only_teachers_in_list', 'coursework');
+
+        return self::get_explanation($text, $title, $intro);
+    }
+
     public static function get_leader_course_explanation(string $text) : string 
     {
         $title = get_string('course', 'coursework');
         $intro = get_string('leader_course_explanation', 'coursework');
+
+        return self::get_explanation($text, $title, $intro);
+    }
+
+    public static function get_courses_list_explanation(string $text) : string 
+    {
+        $title = get_string('course', 'coursework');
+        $intro = get_string('leader_course_explanation', 'coursework').'<br><br>';
+        $intro.= get_string('in_list_all_site_courses', 'coursework');
 
         return self::get_explanation($text, $title, $intro);
     }
