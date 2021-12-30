@@ -50,8 +50,9 @@ class Overview
 
     private function get_page_header() : string 
     {
+        $attr = array('title' => get_string('appoint_explanation', 'coursework'));
         $text = get_string('appoint_leaders', 'coursework');
-        return \html_writer::tag('h2', $text);
+        return \html_writer::tag('h2', $text, $attr);
     }
 
     private function is_coursework_has_leaders() : bool
@@ -90,23 +91,26 @@ class Overview
 
     private function get_leader_cell() : string 
     {
+        $attr = array('title' => get_string('leader_explanation', 'coursework'));
         $text = get_string('leader', 'coursework');
         $text = StepByStep::get_leader_explanation($text);
-        return \html_writer::tag('td', $text);
+        return \html_writer::tag('td', $text, $attr);
     }
 
     private function get_course_cell() : string 
     {
+        $attr = array('title' => get_string('leader_course_explanation', 'coursework'));
         $text = get_string('course', 'coursework');
         $text = StepByStep::get_leader_course_explanation($text);
-        return \html_writer::tag('td', $text);
+        return \html_writer::tag('td', $text, $attr);
     }
 
     private function get_quota_cell() : string 
     {
+        $attr = array('title' => get_string('quota_explanation', 'coursework'));
         $text = get_string('quota', 'coursework');
         $text = StepByStep::get_quota_explanation($text);
-        return \html_writer::tag('td', $text);
+        return \html_writer::tag('td', $text, $attr);
     }
 
     private function get_overview_table_body() : string 
@@ -170,7 +174,8 @@ class Overview
 
         $attr = array(
             'type' => 'submit',
-            'value' => get_string('edit', 'coursework')
+            'value' => get_string('edit', 'coursework'),
+            'title' => get_string('no_effect_on_choice_made', 'coursework')
         );
         $btn.= \html_writer::empty_tag('input', $attr);
 
@@ -232,7 +237,8 @@ class Overview
 
         $attr = array(
             'type' => 'submit',
-            'value' => get_string('delete', 'coursework')
+            'value' => get_string('delete', 'coursework'),
+            'title' => get_string('no_effect_on_choice_made', 'coursework')
         );
         $btn.= \html_writer::empty_tag('input', $attr);
 
