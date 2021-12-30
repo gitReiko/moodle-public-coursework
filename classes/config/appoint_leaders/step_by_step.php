@@ -24,10 +24,18 @@ class StepByStep
         return self::get_explanation($text, $title, $intro);
     }
 
+    public static function get_appoint_adding_explanation(string $text) : string 
+    {
+        $title = get_string('adding', 'coursework');
+        $intro = get_string('adding_leader_appoint', 'coursework');
+
+        return self::get_explanation($text, $title, $intro);
+    } 
+
     public static function get_appoint_editing_explanation(string $text) : string 
     {
         $title = get_string('editing', 'coursework');
-        $intro = get_string('leader_appoint_editing', 'coursework').'<br><br>';;
+        $intro = get_string('editing_leader_appoint', 'coursework').'<br><br>';;
         $intro.= get_string('no_effect_on_choice_made', 'coursework');
 
         return self::get_explanation($text, $title, $intro);

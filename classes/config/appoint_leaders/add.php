@@ -12,7 +12,13 @@ class Add extends Action
 
     protected function get_action_header() : string
     {
-        return \html_writer::tag('h3', get_string('add_leader_header', 'coursework'));
+        $title = get_string('adding_leader_appoint', 'coursework');
+
+        $attr = array('title' => $title);
+        $text = get_string('add_leader_header', 'coursework');
+        $text = \html_writer::tag('h3', $text, $attr);
+
+        return StepByStep::get_appoint_adding_explanation($text);
     }
 
     protected function get_leader_select() : string 

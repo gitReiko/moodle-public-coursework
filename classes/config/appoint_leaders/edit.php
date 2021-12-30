@@ -21,7 +21,7 @@ class Edit extends Action
 
     protected function get_action_header() : string
     {
-        $title = get_string('leader_appoint_editing', 'coursework').' ';;
+        $title = get_string('editing_leader_appoint', 'coursework').' ';;
         $title.= get_string('no_effect_on_choice_made', 'coursework');
 
         $attr = array('title' => $title);
