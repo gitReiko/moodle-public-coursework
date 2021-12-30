@@ -21,7 +21,14 @@ class Edit extends Action
 
     protected function get_action_header() : string
     {
-        return \html_writer::tag('h3', get_string('edit_leader_header', 'coursework'));
+        $title = get_string('leader_appoint_editing', 'coursework').' ';;
+        $title.= get_string('no_effect_on_choice_made', 'coursework');
+
+        $attr = array('title' => $title);
+        $text = get_string('edit_leader_header', 'coursework');
+        $text = \html_writer::tag('h3', $text, $attr);
+
+        return StepByStep::get_appoint_editing_explanation($text);
     }
 
     protected function get_leader_select() : string 

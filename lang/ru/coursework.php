@@ -149,6 +149,7 @@ $string['issuing_assignment_to_student'] = 'Выдача задания студ
 $string['last_state_change'] = 'Послед. измен. статуса';
 $string['lastname'] = 'Фамилия';
 $string['lc_overview_header'] = 'Выберите студентов, которым нужно сменить руководителя';
+$string['leader_appoint_editing'] = 'Позволяет редактировать свойства руководителя.';
 $string['leader_changed_for_student'] = 'Изменён руководитель курсовой работы.';
 $string['leader_course_explanation'] = 'Связь с курсом позволяет проводить одну курсовую работу по нескольким дисциплинам.';
 $string['leader_explanation'] = 'Руководитель - это преподаватель, который руководит работой студентов.';

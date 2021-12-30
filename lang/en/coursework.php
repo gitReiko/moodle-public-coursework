@@ -149,6 +149,7 @@ $string['issuing_assignment_to_student'] = 'Issuing an assignment to a student';
 $string['last_state_change'] = 'Last change state';
 $string['lastname'] = 'Lastname';
 $string['lc_overview_header'] = 'Select students who need to change their leader';
+$string['leader_appoint_editing'] = 'Allows edit the properties of the leader.';
 $string['leader_changed_for_student'] = 'Changed coursework leader';
 $string['leader_course_explanation'] = 'The link with the course allows one coursework to be carried out in several disciplines.';
 $string['leader_explanation'] = 'A leader is a teacher who directs the work of students.';
