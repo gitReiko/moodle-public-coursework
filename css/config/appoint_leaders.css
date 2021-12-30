@@ -2,9 +2,11 @@
 table.leaders_overview tr td
 {
     padding: 3px 5px;
+    cursor: default;
 }
 
 table.leaders_overview tr.header td
 {
     font-weight: bold;
+    cursor: default;
 }
