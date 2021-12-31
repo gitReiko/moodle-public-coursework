@@ -30,11 +30,11 @@ class Overview
     public function get_gui() : string 
     {
         $gui = $this->get_overview_header();
-
+        $gui.= StepByStep::get_help_button();
         $gui.= $this->get_html_form();
 
         $studentsSelector = new StudentsMassActions\StudentsSelector($this->groups);
-        $gui.= $studentsSelector->get();
+        $gui.= StepByStep::get_students_selection_explanation($studentsSelector->get());
 
         $table = new DistributeStudentsTable(
             $this->students, 
@@ -77,7 +77,9 @@ class Overview
     private function get_overview_header() : string 
     {
         $text = get_string('sd_overview_header', 'coursework');
-        return \html_writer::tag('h3', $text);
+        $text = \html_writer::tag('h3', $text);
+
+        return StepByStep::get_students_distribution_explanation($text);
     }
 
     private function get_distribute_button() : string 

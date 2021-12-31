@@ -3,6 +3,7 @@
 namespace Coursework\Config\DistributeToLeaders;
 
 use Coursework\Classes\Lib\StudentsMassActions as sma;
+use Coursework\Lib as stepLib;
 
 class DistributeStudentsTable extends sma\StudentsTable 
 {
@@ -26,7 +27,7 @@ class DistributeStudentsTable extends sma\StudentsTable
         }
     }
     
-    protected function get_select_student_checkbox_cell(\stdClass $student) : string 
+    protected function get_select_student_checkbox_cell(\stdClass $student, int $i) : string 
     {
         if(empty($student->teacher))
         {
@@ -43,6 +44,11 @@ class DistributeStudentsTable extends sma\StudentsTable
     
             );
             $input = \html_writer::empty_tag('input', $attr);
+
+            if(empty($i))
+            {
+                $input = sma\StepByStep::get_select_explanation($input);
+            }
         }
         else 
         {

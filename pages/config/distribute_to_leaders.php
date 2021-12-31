@@ -1,13 +1,14 @@
 <?php
 
 require_once '../../../../config.php';
-require_once '../../classes/config/distribute_to_leaders/main.php';
+require_once '../../lib/step_by_step.php';
 require_once '../../lib/getters/students_getter.php';
 require_once '../../lib/getters/teachers_getter.php';
 require_once '../../lib/getters/common_getter.php';
 require_once '../../lib/notification.php'; 
 require_once '../../lib/common.php';
 require_once '../../lib/enums.php';
+require_once '../../classes/config/distribute_to_leaders/main.php';
 
 use Coursework\Config\DistributeToLeaders as distributeToLeaders;
  
@@ -33,6 +34,8 @@ $PAGE->set_heading(get_string('distribute_to_leaders', 'coursework'));
 $PAGE->requires->css('/mod/coursework/css/common.css');
 $PAGE->requires->css('/mod/coursework/css/lib/students_mass_actions.css');
 $PAGE->requires->css('/mod/coursework/css/config/distribute_to_leaders.css');
+$PAGE->requires->css('/mod/coursework/css/external/introjs.min.css?v=1');
+$PAGE->requires->js('/mod/coursework/js/external/intro.min.js', true);
 $PAGE->requires->js('/mod/coursework/js/lib/mass_actions_on_students.js');
 $PAGE->requires->js('/mod/coursework/js/config/distribute_to_leaders.js');
 

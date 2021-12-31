@@ -52,7 +52,7 @@ class ReselectStudentsTable extends sma\StudentsTable
         }
     }
     
-    protected function get_select_student_checkbox_cell(\stdClass $student) : string 
+    protected function get_select_student_checkbox_cell(\stdClass $student, int $i) : string 
     {
         if(!empty($student->theme))
         {
@@ -69,6 +69,11 @@ class ReselectStudentsTable extends sma\StudentsTable
     
             );
             $input = \html_writer::empty_tag('input', $attr);
+
+            if(empty($i))
+            {
+                $input = sma\StepByStep::get_select_explanation($input);
+            }
         }
         else 
         {

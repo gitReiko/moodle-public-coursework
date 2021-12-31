@@ -3,6 +3,17 @@ table.studentsSelector
 {
     border: none;
     margin-top: 20px;
+    cursor: default;
+}
+
+table.studentsSelector tr td select 
+{
+    cursor: pointer;
+}
+
+table.studentsSelector tr td button 
+{
+    cursor: pointer;
 }
 
 table.studentsMassAction

@@ -7,6 +7,7 @@ require_once '../../classes/lib/students_mass_actions.php';
 require_once 'database.php';
 require_once 'distribute.php';
 require_once 'overview.php';
+require_once 'step_by_step.php';
 
 class Main extends \Coursework\Classes\Lib\MainTemplate
 {

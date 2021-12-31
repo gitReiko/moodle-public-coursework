@@ -31,8 +31,7 @@ abstract class StepByStep
     {
         $attr = array(
             'data-title' => $title, 
-            'data-intro' => $intro, 
-            'class' => 'card__body'
+            'data-intro' => $intro
         );
         return \html_writer::tag('div', $text, $attr);
     }
