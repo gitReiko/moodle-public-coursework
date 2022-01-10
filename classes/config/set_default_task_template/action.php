@@ -24,15 +24,39 @@ abstract class Action
     public function get_gui() : string 
     {
         $gui = '';
-        $gui.= $this->get_html_form_start();
+        
         $gui.= $this->get_action_header();
-        $gui.= $this->get_task_template_field();
-        $gui.= $this->get_buttons_panel();
-        $gui.= $this->get_form_hidden_inputs();
-        $gui.= $this->get_html_form_end();
+        $gui.= $this->get_go_to_tasks_templates_setup_page();
+
+        if($this->is_task_templates_exists())
+        {
+            $gui.= $this->get_html_form_start();
+            $gui.= $this->get_task_template_field();
+            $gui.= $this->get_buttons_panel();
+            $gui.= $this->get_form_hidden_inputs();
+            $gui.= $this->get_html_form_end();
+        }
+        else
+        {
+            $gui.= $this->get_task_templates_not_exists();
+            $gui.= $this->get_back_to_overview_button();
+        }
+
         $gui.= $this->get_back_to_overview_form();
      
         return $gui;
+    }
+
+    private function is_task_templates_exists() : bool 
+    {
+        if(count($this->tasks))
+        {
+            return true;
+        }
+        else 
+        {
+            return false;
+        }
     }
 
     private function get_task_templates()
@@ -54,6 +78,15 @@ abstract class Action
     {
         $text = get_string('select_default_task_template', 'coursework');
         return \html_writer::tag('h3', $text);
+    }
+
+    private function get_go_to_tasks_templates_setup_page() : string 
+    {
+        $url = '/mod/coursework/pages/tasks_templates_management.php?id='.$this->cm->id;
+        $attr = array('href' => $url);
+        $text = get_string('go_to_task_templates_setup_page', 'coursework');
+        $text = \html_writer::tag('a', $text, $attr);
+        return \html_writer::tag('p', $text);
     }
 
     private function get_task_template_field() : string 
@@ -183,6 +216,12 @@ abstract class Action
         $form.= \html_writer::end_tag('form');
 
         return $form;
+    }
+
+    private function get_task_templates_not_exists() : string 
+    {
+        $text = get_string('task_template_not_exists', 'coursework');
+        return \html_writer::tag('p', $text);
     }
 
 
