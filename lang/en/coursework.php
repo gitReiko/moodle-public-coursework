@@ -314,3 +314,4 @@ $string['work_sent_to_check'] = 'sent to check';
 $string['work'] = 'Work';
 $string['write_your_message_here'] = 'Write your message here';
 $string['go_to_collections_setup_page'] = 'Go to the themes collections setup page';
+$string['for_course'] = 'For course';

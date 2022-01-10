@@ -7,6 +7,7 @@ require_once 'action.php';
 require_once 'add.php';
 require_once 'database.php';
 require_once 'edit.php';
+require_once 'lib.php';
 require_once 'overview.php';
 
 class Main extends \Coursework\Classes\Lib\MainTemplate

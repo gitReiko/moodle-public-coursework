@@ -314,3 +314,4 @@ $string['work_sent_to_check'] = 'отправлен(а) на проверку';
 $string['work'] = 'Работа';
 $string['write_your_message_here'] = 'Напишите тут своё сообщение';
 $string['go_to_collections_setup_page'] = 'Перейти к настройке страницы коллекций тем';
+$string['for_course'] = 'Для дисциплины';

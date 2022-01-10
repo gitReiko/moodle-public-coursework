@@ -2,6 +2,8 @@
 
 namespace Coursework\Config\SetSuggestedThemes;
 
+use Coursework\Lib\Getters\CommonGetter as cg;
+
 abstract class Action 
 {
     const ACTION_FORM = 'action_form';
@@ -22,10 +24,22 @@ abstract class Action
     public function get_gui() : string 
     {
         $gui = $this->get_action_header();
-        $gui.= $this->get_collection_field();
-        $gui.= $this->get_count_of_same_themes_field();
-        $gui.= $this->get_buttons_panel();
-        $gui.= $this->get_action_form();
+        $gui.= Lib::get_go_to_collections_setup_page($this->cm->id);
+        $gui.= $this->get_course_name();
+
+        if($this->is_collection_exists())
+        {
+            $gui.= $this->get_collection_field();
+            $gui.= $this->get_count_of_same_themes_field();
+            $gui.= $this->get_buttons_panel();
+            $gui.= $this->get_action_form();
+        }
+        else
+        {
+            $gui.= $this->get_themes_collections_not_exists();
+            $gui.= $this->get_back_to_overview_button();
+        }
+
         return $gui;
     }
 
@@ -45,21 +59,39 @@ abstract class Action
 
     abstract protected function get_action_header() : string;
 
+    private function get_course_name() : string 
+    {
+        $courseName = cg::get_course_fullname($this->get_collection_course());
+        $text = get_string('for_course', 'coursework').' ';
+        $text.= \html_writer::tag('b', $courseName);
+        return \html_writer::tag('p', $text);
+    }
+
+    private function is_collection_exists() : bool 
+    {
+        if(count($this->collections))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    private function get_themes_collections_not_exists() : string 
+    {
+        $text = get_string('not_suitable_for_use', 'coursework');
+        return \html_writer::tag('p', $text);
+    }
+
     private function get_collection_field() : string 
     {
         $text = get_string('name', 'coursework');
         $field = \html_writer::tag('h4', $text);
 
-        if(count($this->collections))
-        {
-            $text = $this->get_collections_select();
-            $field.= \html_writer::tag('p', $text);
-        }
-        else 
-        {
-            $text = get_string('not_suitable_for_use', 'coursework');
-            $field.= \html_writer::tag('p', $text);
-        }
+        $text = $this->get_collections_select();
+        $field.= \html_writer::tag('p', $text);
         
         return $field;
     }

@@ -19,7 +19,7 @@ class Overview
     public function get_gui() : string 
     {
         $gui = $this->get_header();
-        $gui.= $this->get_go_to_collections_setup_page();
+        $gui.= Lib::get_go_to_collections_setup_page($this->cm->id);
 
         if(count($this->courses))
         {
@@ -102,15 +102,6 @@ class Overview
     {
         $text = get_string('set_suggested_themes', 'coursework');
         return \html_writer::tag('h2', $text);
-    }
-
-    private function get_go_to_collections_setup_page() : string 
-    {
-        $url = '/mod/coursework/pages/themes_collections_management.php?id='.$this->cm->id;
-        $attr = array('href' => $url);
-        $text = get_string('go_to_collections_setup_page', 'coursework');
-        $text = \html_writer::tag('a', $text, $attr);
-        return \html_writer::tag('p', $text);
     }
 
     private function set_up_leaders() : string 

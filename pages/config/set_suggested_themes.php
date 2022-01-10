@@ -2,6 +2,7 @@
 
 require_once '../../../../config.php';
 require_once '../../classes/config/set_suggested_themes/main.php';
+require_once '../../lib/getters/common_getter.php';
 
 use Coursework\Config\SetSuggestedThemes\Main as setSuggestedThemes;
  
