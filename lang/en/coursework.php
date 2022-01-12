@@ -181,6 +181,7 @@ $string['navigation'] = 'Navigation';
 $string['next'] = 'Next';
 $string['no_correspondence'] = 'No correspondence.';
 $string['no_effect_on_choice_made'] = 'This action will not affect the students who made the choice. Only for those who have not chosen a leader.';
+$string['no_leaders_needed'] = 'No leaders needed';
 $string['no_notifications'] = 'no notifications';
 $string['no_students_matching_filters'] = 'No students matching filters.';
 $string['no_students_who_started_courseworks'] = 'There are no students who have started coursework.';

@@ -181,6 +181,7 @@ $string['navigation'] = 'Навигация';
 $string['next'] = 'Далее';
 $string['no_correspondence'] = 'Переписка отсутствует.';
 $string['no_effect_on_choice_made'] = 'Данное действие не повлияет на студентов сделавших выбор. Только на тех кто не выбрал себе руководителя.';
+$string['no_leaders_needed'] = 'Нет необходимых руководителей';
 $string['no_notifications'] = 'нет уведомлений';
 $string['no_students_matching_filters'] = 'Нет студентов соответствующих фильтрам.';
 $string['no_students_who_started_courseworks'] = 'Нет студентов, которые начали курсовую работу.';

@@ -38,6 +38,7 @@ class Distribute
         $gui.= $this->get_list_of_the_students_being_distributed();
         $gui.= massLib::get_action_students_inputs($this->students);
         $gui.= $this->get_leader_header();
+        $gui.= $this->get_go_to_appoint_page();
         $gui.= StepByStep::get_leader_explanation($this->get_leader_select());
         $gui.= $this->get_course_header();
         $gui.= StepByStep::get_course_explanation($this->get_course_select());
@@ -96,6 +97,15 @@ class Distribute
     {
         $text = get_string('leader', 'coursework');
         return \html_writer::tag('h3', $text);
+    }
+
+    private function get_go_to_appoint_page() : string 
+    {
+        $href = '/mod/coursework/pages/config/appoint_leaders.php?id='.$this->cm->id;
+        $text = get_string('no_leaders_needed', 'coursework').'? ';
+        $text.= get_string('go_to_leaders_appointment', 'coursework');
+        $text = \html_writer::tag('a', $text, array('href' => $href));
+        return \html_writer::tag('p', $text);
     }
 
     private function get_leader_select() : string
