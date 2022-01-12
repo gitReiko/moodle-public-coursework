@@ -34,13 +34,14 @@ class Distribute
     {
         $gui = $this->get_html_form_start();
         $gui.= $this->get_students_distribution_header();
+        $gui.= StepByStep::get_help_button();
         $gui.= $this->get_list_of_the_students_being_distributed();
         $gui.= massLib::get_action_students_inputs($this->students);
         $gui.= $this->get_leader_header();
-        $gui.= $this->get_leader_select();
+        $gui.= StepByStep::get_leader_explanation($this->get_leader_select());
         $gui.= $this->get_course_header();
-        $gui.= $this->get_course_select();
-        $gui.= $this->get_expand_quota_panel();
+        $gui.= StepByStep::get_course_explanation($this->get_course_select());
+        $gui.= StepByStep::get_quota_increase_explanation($this->get_expand_quota_panel());
         $gui.= $this->get_html_form_end();
         $gui.= $this->get_buttons_panel();
         $gui.= $this->get_data_for_javascript();
