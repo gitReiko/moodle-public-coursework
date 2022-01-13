@@ -14,13 +14,32 @@ require_once 'mark_messages_as_readed.php';
 
 class Main 
 {
-    const SELECT_THEME = 'select_theme';
-    const USE_TASK_TEMPLATE = 'use_task_template';
-    const CUSTOM_TASK_ASSIGNMENT = 'custom_task_assignment';
     const CHAT_MESSAGE = 'chat_message';
+    const COURSE = 'course';
+    const CUSTOM_TASK_ASSIGNMENT = 'custom_task_assignment';
+    const DB_EVENT = 'database_event';
+    const DESCRIPTION = 'description';
+    const GRADE = 'grade';
+    const ID = 'id';
+    const MESSAGE = 'message';
+    const NAME = 'name';
+    const NEED_TO_FIX = 'need_to_fix';
+    const OWN_THEME = 'own_theme';
+    const READY = 'ready';
+    const SECTION = 'section';
+    const SECTION_CHECK = 'section_check';
+    const SELECT_THEME = 'select_theme';
     const SEND_SECTION_FOR_CHECK = 'send_section_for_check';
     const SEND_WORK_FOR_CHECK = 'send_work_for_check';
-    const SECTION_CHECK = 'section_check';
+    const SENT_TO_CHECK = 'sent_to_check';
+    const STATUS = 'status';
+    const STUDENT = 'student';
+    const STUDENT_ID = 'student_id';
+    const TEACHER = 'teacher';
+    const THEME = 'theme';
+    const USE_TASK_TEMPLATE = 'use_task_template';
+    const USERFROM = 'userfrom';
+    const USERTO = 'userto';
     const WORK_CHECK = 'work_check';
         
     private $course;
@@ -34,7 +53,7 @@ class Main
 
     public function handle() : void 
     {
-        $event = optional_param(DB_EVENT, null, PARAM_TEXT);
+        $event = optional_param(self::DB_EVENT, null, PARAM_TEXT);
 
         switch($event)
         {

@@ -2,7 +2,6 @@
 
 require_once '../../config.php';
 require_once 'classes/view/main.php';
-require_once 'enums.php';
 require_once 'lib.php';
 
 require_once 'lib/getters/student_task_getter.php';

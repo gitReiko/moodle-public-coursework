@@ -6,7 +6,7 @@ require_once 'students_works_list/page.php';
 require_once 'student_work/main.php';
 require_once 'database_handlers/main.php';
 
-use Coursework\View\DatabaseHandlers\Main as MainDatabaseHandler;
+use Coursework\View\DatabaseHandlers\Main as MainDB;
 use Coursework\View\StudentWork\Main as StudentWork;
 use Coursework\Lib\Getters\CommonGetter as cg;
 use Coursework\View\StudentsWorksList as swl;
@@ -125,7 +125,7 @@ class Main
 
     private function is_database_event_exist() : bool 
     {
-        $event = optional_param(DB_EVENT, null, PARAM_TEXT);
+        $event = optional_param(MainDB::DB_EVENT, null, PARAM_TEXT);
 
         if($event) return true;
         else return false;
@@ -133,7 +133,7 @@ class Main
 
     private function execute_database_handler() : void 
     {
-        $database = new MainDatabaseHandler($this->course, $this->cm);
+        $database = new MainDB($this->course, $this->cm);
         $database->handle();
     }
 
@@ -156,7 +156,7 @@ class Main
 
     private function get_student_id() : int 
     {
-        return optional_param(STUDENT.ID, null, PARAM_INT);
+        return optional_param(MainDB::STUDENT_ID, null, PARAM_INT);
     }
 
     private function is_coursework_leaders_exists() : bool 

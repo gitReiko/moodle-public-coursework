@@ -2,6 +2,7 @@
 
 namespace Coursework\View\DatabaseHandlers;
 
+use Coursework\View\DatabaseHandlers\Main as MainDB;
 use Coursework\Lib\Getters\StudentsGetter as sg;
 use Coursework\Lib\Getters\CommonGetter as cg;
 use Coursework\Lib\Notification;
@@ -39,7 +40,7 @@ class UseTaskTemplate
 
     private function get_student_id() : int 
     {
-        $studentId = optional_param(STUDENT.ID, null, PARAM_INT);
+        $studentId = optional_param(MainDB::STUDENT_ID, null, PARAM_INT);
         if(empty($studentId)) throw new Exception('Missing student id');
         return $studentId;
     }

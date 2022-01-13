@@ -2,6 +2,7 @@
 
 namespace Coursework\View\DatabaseHandlers;
 
+use Coursework\View\DatabaseHandlers\Main as MainDB;
 use Coursework\Lib\Getters\StudentsGetter as sg;
 use Coursework\Lib\Getters\CommonGetter as cg;
 use Coursework\Lib\Notification;
@@ -37,14 +38,14 @@ class SendWorkForCheck
     {
         $student = $this->get_student();
         $work = sg::get_students_work($this->cm->instance, $student);
-        $work->status = SENT_TO_CHECK;
+        $work->status = MainDB::SENT_TO_CHECK;
         $work->workstatuschangedate = time();
         return $work;
     }
 
     private function get_student() : int 
     {
-        $student = optional_param(STUDENT, null, PARAM_INT);
+        $student = optional_param(MainDB::STUDENT, null, PARAM_INT);
         if(empty($student)) throw new Exception('Missing student id.');
         return $student;
     }

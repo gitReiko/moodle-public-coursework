@@ -2,6 +2,7 @@
 
 namespace Coursework\View\StudentWork\Components;
 
+use Coursework\View\DatabaseHandlers\Main as MainDB;
 use Coursework\View\StudentWork\Locallib as locallib;
 use Coursework\Lib\Getters\StudentsGetter as sg;
 use Coursework\Lib\Enums as enum;
@@ -60,7 +61,7 @@ class WorkCheck extends Base
 
         $attr = array(
             'type' => 'hidden',
-            'name' => DB_EVENT,
+            'name' => MainDB::DB_EVENT,
             'value' => db::SEND_WORK_FOR_CHECK
         );
         $btn.= \html_writer::empty_tag('input', $attr);
@@ -76,14 +77,14 @@ class WorkCheck extends Base
     {
         $attr = array(
             'type' => 'hidden',
-            'name' => ID,
+            'name' => MainDB::ID,
             'value' => $this->cm->id
         );
         $btn = \html_writer::empty_tag('input', $attr);
 
         $attr = array(
             'type' => 'hidden',
-            'name' => STUDENT,
+            'name' => MainDB::STUDENT,
             'value' => $this->studentId
         );
         $btn.= \html_writer::empty_tag('input', $attr);
@@ -109,14 +110,14 @@ class WorkCheck extends Base
 
         $attr = array(
             'type' => 'hidden',
-            'name' => STATUS,
+            'name' => MainDB::STATUS,
             'value' => enum::NEED_TO_FIX
         );
         $btn.= \html_writer::empty_tag('input', $attr);
 
         $attr = array(
             'type' => 'hidden',
-            'name' => DB_EVENT,
+            'name' => MainDB::DB_EVENT,
             'value' => db::WORK_CHECK
         );
         $btn.= \html_writer::empty_tag('input', $attr);
@@ -146,21 +147,21 @@ class WorkCheck extends Base
 
         $attr = array(
             'type' => 'hidden',
-            'name' => STATUS,
+            'name' => MainDB::STATUS,
             'value' => enum::READY
         );
         $btn.= \html_writer::empty_tag('input', $attr);
 
         $attr = array(
             'type' => 'hidden',
-            'name' => DB_EVENT,
+            'name' => MainDB::DB_EVENT,
             'value' => db::WORK_CHECK
         );
         $btn.= \html_writer::empty_tag('input', $attr);
 
         $attr = array(
             'type' => 'number',
-            'name' => GRADE,
+            'name' => MainDB::GRADE,
             'size' => 4,
             'min' => 0,
             'max' => 10000,

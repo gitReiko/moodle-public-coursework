@@ -248,7 +248,7 @@ class Page
 
         $attr = array(
             'type' => 'hidden',
-            'name' => ID,
+            'name' => Main::ID,
             'value' => $this->cm->id
         );
         $params = \html_writer::empty_tag('input', $attr);

@@ -7,6 +7,7 @@ require_once 'database.php';
 
 class Main 
 {
+    const ID = 'id';
     const DB_EVENT = 'db_event';
     const STUDENT_ID = 'student_id';
 

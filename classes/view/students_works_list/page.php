@@ -99,7 +99,6 @@ class Page
     {
         $url = '/mod/coursework/pages/config/appoint_leaders.php';
         $url.= '?id='.$this->d->get_cm()->id;
-        $url.= '&'.CONFIG_MODULE.'='.LEADERS_SETTING;
 
         return $url;
     }

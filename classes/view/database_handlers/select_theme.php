@@ -2,6 +2,7 @@
 
 namespace Coursework\View\DatabaseHandlers;
 
+use Coursework\View\DatabaseHandlers\Main as MainDB;
 use Coursework\View\StudentWork\Locallib as locallib;
 use Coursework\Lib\Getters\CommonGetter as cg;
 use Coursework\Lib\Getters\TeachersGetter as tg;
@@ -105,27 +106,27 @@ class ThemeSelect
 
     private function get_teacher() : int 
     {
-        $teacher = optional_param(TEACHER, null, PARAM_INT);
+        $teacher = optional_param(MainDB::TEACHER, null, PARAM_INT);
         if(empty($teacher)) throw new \Exception('Missing teacher id.');
         return $teacher;
     }
 
     private function get_course() : int 
     {
-        $course = optional_param(COURSE, null, PARAM_INT);
+        $course = optional_param(MainDB::COURSE, null, PARAM_INT);
         if(empty($course)) throw new \Exception('Missing course id.');
         return $course;
     }
 
     private function get_theme()
     {
-        $theme = optional_param(THEME, null, PARAM_INT);
+        $theme = optional_param(MainDB::THEME, null, PARAM_INT);
         return $theme;
     }
 
     private function get_own_theme()
     {
-        $theme = optional_param(OWN_THEME, null, PARAM_TEXT);
+        $theme = optional_param(MainDB::OWN_THEME, null, PARAM_TEXT);
         return $theme;
     }
 

@@ -2,6 +2,7 @@
 
 namespace Coursework\View\StudentWork\TaskAssignment;
 
+use Coursework\View\DatabaseHandlers\Main as MainDB;
 use Coursework\View\DatabaseHandlers\Main as db;
 use Coursework\View\Main as view_main;
 
@@ -47,7 +48,7 @@ abstract class AssignCustomTask
     private function get_description_textarea() : string 
     {
         $attr = array(
-            'name' => DESCRIPTION,
+            'name' => MainDB::DESCRIPTION,
             'cols' => 80,
             'rows' => 5,
             'form' => $this->formName,
@@ -135,7 +136,7 @@ abstract class AssignCustomTask
     {
         $attr = array(
             'type' => 'hidden',
-            'name' => ID,
+            'name' => MainDB::ID,
             'value' => $this->cm->id
         );
         $btn = \html_writer::empty_tag('input', $attr);
@@ -149,7 +150,7 @@ abstract class AssignCustomTask
 
         $attr = array(
             'type' => 'hidden',
-            'name' => STUDENT.ID,
+            'name' => MainDB::STUDENT_ID,
             'value' => $this->studentId
         );
         $btn.= \html_writer::empty_tag('input', $attr);
@@ -168,21 +169,21 @@ abstract class AssignCustomTask
     {
         $attr = array(
             'type' => 'hidden',
-            'name' => ID,
+            'name' => MainDB::ID,
             'value' => $this->cm->id
         );
         $form = \html_writer::empty_tag('input', $attr);
 
         $attr = array(
             'type' => 'hidden',
-            'name' => STUDENT.ID,
+            'name' => MainDB::STUDENT_ID,
             'value' => $this->studentId
         );
         $form.= \html_writer::empty_tag('input', $attr);
 
         $attr = array(
             'type' => 'hidden',
-            'name' => DB_EVENT,
+            'name' => MainDB::DB_EVENT,
             'value' => db::CUSTOM_TASK_ASSIGNMENT
         );
         $form.= \html_writer::empty_tag('input', $attr);

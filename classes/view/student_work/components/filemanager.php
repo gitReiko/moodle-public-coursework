@@ -2,6 +2,7 @@
 
 namespace Coursework\View\StudentWork\Components;
 
+use Coursework\View\DatabaseHandlers\Main as MainDB;
 use Coursework\View\StudentWork\SaveFiles\StudentFileManager;
 use Coursework\View\StudentWork\SaveFiles\TeacherFileManager;
 use Coursework\View\StudentWork\Locallib as locallib;
@@ -68,11 +69,11 @@ class Filemanager extends Base
     {
         if(locallib::is_user_student($this->work))
         {
-            if($this->work->status == READY)
+            if($this->work->status == MainDB::READY)
             {
                 return false;
             }
-            else if($this->work->status == SENT_TO_CHECK)
+            else if($this->work->status == MainDB::SENT_TO_CHECK)
             {
                 return false;
             }
@@ -83,7 +84,7 @@ class Filemanager extends Base
         }
         else if(locallib::is_user_teacher($this->work))
         {
-            if($this->work->status == READY)
+            if($this->work->status == MainDB::READY)
             {
                 return false;
             }

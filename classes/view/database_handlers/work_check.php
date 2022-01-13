@@ -2,6 +2,7 @@
 
 namespace Coursework\View\DatabaseHandlers;
 
+use Coursework\View\DatabaseHandlers\Main as MainDB;
 use Coursework\Lib\Getters\StudentTaskGetter;
 use Coursework\Lib\Getters\StudentsGetter as sg;
 use Coursework\Lib\Getters\CommonGetter as cg;
@@ -68,7 +69,7 @@ class WorkCheck
             $work->emptyGrade = false;
         }
 
-        if($work->status == READY)
+        if($work->status == MainDB::READY)
         {
             $work->grade = $this->get_grade();
         }
@@ -79,21 +80,21 @@ class WorkCheck
 
     private function get_student() : int 
     {
-        $student = optional_param(STUDENT, null, PARAM_INT);
+        $student = optional_param(MainDB::STUDENT, null, PARAM_INT);
         if(empty($student)) throw new Exception('Missing student id.');
         return $student;
     }
 
     private function get_status() : string 
     {
-        $status = optional_param(STATUS, null, PARAM_TEXT);
+        $status = optional_param(MainDB::STATUS, null, PARAM_TEXT);
         if(empty($status)) throw new Exception('Missing work status.');
         return $status;
     }
 
     private function get_grade() : int 
     {
-        $grade = optional_param(GRADE, null, PARAM_INT);
+        $grade = optional_param(MainDB::GRADE, null, PARAM_INT);
         if(empty($grade)) throw new Exception('Missing work grade.');
         return $grade;
     }
@@ -106,7 +107,7 @@ class WorkCheck
 
     private function is_new_status_need_to_fix() : bool 
     {
-        if($this->work->status == NEED_TO_FIX)
+        if($this->work->status == MainDB::NEED_TO_FIX)
         {
             return true;
         }
@@ -171,7 +172,7 @@ class WorkCheck
                 AND student = ? 
                 AND section = ? 
                 AND status != ?';  
-        $params = array($this->cm->instance, $this->work->student, $sectionId, READY);
+        $params = array($this->cm->instance, $this->work->student, $sectionId, MainDB::READY);
         return $DB->record_exists_sql($sql, $params);
     }
 
@@ -181,7 +182,7 @@ class WorkCheck
         $section->coursework = $this->cm->instance;
         $section->student = $this->work->student;
         $section->section = $sectionId;
-        $section->status = READY;
+        $section->status = MainDB::READY;
         $section->timemodified = time();
         return $section;
     }

@@ -2,6 +2,7 @@
 
 namespace Coursework\View\DatabaseHandlers;
 
+use Coursework\View\DatabaseHandlers\Main as MainDB;
 use Coursework\Lib\Getters\CommonGetter as cg;
 use Coursework\Lib\Notification;
 
@@ -48,21 +49,21 @@ class ChatMessage
 
     private function get_user_from() : int 
     {
-        $userFrom = optional_param(USERFROM, null, PARAM_INT);
+        $userFrom = optional_param(MainDB::USERFROM, null, PARAM_INT);
         if(empty($userFrom)) throw new \Exception('Missing user from id.');
         return $userFrom;
     }
 
     private function get_user_to() : int 
     {
-        $userTo= optional_param(USERTO, null, PARAM_INT);
+        $userTo= optional_param(MainDB::USERTO, null, PARAM_INT);
         if(empty($userTo)) throw new \Exception('Missing user to id.');
         return $userTo;
     }
 
     private function get_message_text() : string 
     {
-        $message= optional_param(MESSAGE, null, PARAM_TEXT);
+        $message= optional_param(MainDB::MESSAGE, null, PARAM_TEXT);
         if(empty($message)) throw new \Exception('Missing message.');
         return $message;
     }

@@ -2,9 +2,10 @@
 
 namespace Coursework\View\StudentWork\Components\Task;
 
-use Coursework\Lib\Enums as enum;
+use Coursework\View\DatabaseHandlers\Main as MainDB;
 use Coursework\View\StudentWork\Locallib as locallib;
 use Coursework\View\DatabaseHandlers\Main as db;
+use Coursework\Lib\Enums as enum;
 
 class InteractionCell 
 {
@@ -54,7 +55,7 @@ class InteractionCell
 
         $attr = array(
             'type' => 'hidden',
-            'name' => DB_EVENT,
+            'name' => MainDB::DB_EVENT,
             'value' => db::SEND_SECTION_FOR_CHECK
         );
         $btn.= \html_writer::empty_tag('input', $attr);
@@ -71,21 +72,21 @@ class InteractionCell
     {
         $attr = array(
             'type' => 'hidden',
-            'name' => ID,
+            'name' => MainDB::ID,
             'value' => $this->cm->id
         );
         $inputs = \html_writer::empty_tag('input', $attr);
 
         $attr = array(
             'type' => 'hidden',
-            'name' => SECTION,
+            'name' => MainDB::SECTION,
             'value' => $this->section->id
         );
         $inputs.= \html_writer::empty_tag('input', $attr);
 
         $attr = array(
             'type' => 'hidden',
-            'name' => STUDENT,
+            'name' => MainDB::STUDENT,
             'value' => $this->work->student
         );
         $inputs.= \html_writer::empty_tag('input', $attr);
@@ -115,7 +116,7 @@ class InteractionCell
 
     private function is_section_ready() : bool 
     {
-        if($this->section->status == READY)
+        if($this->section->status == MainDB::READY)
         {
             return true;
         }
@@ -127,7 +128,7 @@ class InteractionCell
 
     private function is_coursework_not_ready() : bool 
     {
-        if($this->work->status == READY)
+        if($this->work->status == MainDB::READY)
         {
             return false;
         }
@@ -143,14 +144,14 @@ class InteractionCell
 
         $attr = array(
             'type' => 'hidden',
-            'name' => STATUS,
+            'name' => MainDB::STATUS,
             'value' => enum::READY
         );
         $btn.= \html_writer::empty_tag('input', $attr);
 
         $attr = array(
             'type' => 'hidden',
-            'name' => DB_EVENT,
+            'name' => MainDB::DB_EVENT,
             'value' => db::SECTION_CHECK
         );
         $btn.= \html_writer::empty_tag('input', $attr);
@@ -168,14 +169,14 @@ class InteractionCell
 
         $attr = array(
             'type' => 'hidden',
-            'name' => STATUS,
+            'name' => MainDB::STATUS,
             'value' => enum::NEED_TO_FIX
         );
         $btn.= \html_writer::empty_tag('input', $attr);
 
         $attr = array(
             'type' => 'hidden',
-            'name' => DB_EVENT,
+            'name' => MainDB::DB_EVENT,
             'value' => db::SECTION_CHECK
         );
         $btn.= \html_writer::empty_tag('input', $attr);

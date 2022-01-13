@@ -2,6 +2,7 @@
 
 namespace Coursework\View\DatabaseHandlers;
 
+use Coursework\View\DatabaseHandlers\Main as MainDB;
 use Coursework\Lib\Getters\CommonGetter as cg;
 use Coursework\Lib\Notification;
 
@@ -55,21 +56,21 @@ class SectionsCheck
 
     private function get_student() : int 
     {
-        $student = optional_param(STUDENT, null, PARAM_INT);
+        $student = optional_param(MainDB::STUDENT, null, PARAM_INT);
         if(empty($student)) throw new \Exception('Missing student id.');
         return $student;
     }
 
     private function get_section() : int 
     {
-        $section= optional_param(SECTION, null, PARAM_INT);
+        $section= optional_param(MainDB::SECTION, null, PARAM_INT);
         if(empty($section)) throw new \Exception('Missing section id.');
         return $section;
     }
 
     private function get_status() : string  
     {
-        $status= optional_param(STATUS, null, PARAM_TEXT);
+        $status= optional_param(MainDB::STATUS, null, PARAM_TEXT);
         if(empty($status)) throw new \Exception('Missing status.');
         return $status;
     }
@@ -120,7 +121,7 @@ class SectionsCheck
 
     private function is_section_status_need_to_fix() : bool 
     {
-        if($this->sectionStatus->status == NEED_TO_FIX)
+        if($this->sectionStatus->status == MainDB::NEED_TO_FIX)
         {
             return true;
         }

@@ -2,6 +2,7 @@
 
 namespace Coursework\View\StudentWork\Components;
 
+use Coursework\View\DatabaseHandlers\Main as MainDB;
 use Coursework\View\DatabaseHandlers\MarkMessageAsReaded;
 use Coursework\View\StudentWork\Locallib as locallib;
 use Coursework\Lib\Getters\StudentsGetter as sg;
@@ -196,7 +197,7 @@ class Chat extends Base
             'id' => 'chatMessageInput',
             'class' => 'inputMessage',
             'form' => $this->formId,
-            'name' => \MESSAGE,
+            'name' => MainDB::MESSAGE,
             'value' => get_string('write_your_message_here', 'coursework'),
             'title' => get_string('write_your_message_here', 'coursework'),
             'onclick' => 'Chat.remove_title_text();',
@@ -273,14 +274,14 @@ class Chat extends Base
     {
         $attr = array(
             'type' => 'hidden',
-            'name' => \ID,
+            'name' => MainDB::ID,
             'value' => $this->cm->id
         );
         $params = \html_writer::empty_tag('input', $attr);
 
         $attr = array(
             'type' => 'hidden',
-            'name' => \DB_EVENT,
+            'name' => MainDB::DB_EVENT,
             'value' => db::CHAT_MESSAGE
         );
         $params.= \html_writer::empty_tag('input', $attr);
@@ -292,14 +293,14 @@ class Chat extends Base
     {
         $attr = array(
             'type' => 'hidden',
-            'name' => \USERFROM,
+            'name' => MainDB::USERFROM,
             'value' => $this->work->student
         );
         $params = \html_writer::empty_tag('input', $attr);
 
         $attr = array(
             'type' => 'hidden',
-            'name' => \USERTO,
+            'name' => MainDB::USERTO,
             'value' => $this->work->teacher
         );
         $params.= \html_writer::empty_tag('input', $attr);
@@ -311,14 +312,14 @@ class Chat extends Base
     {
         $attr = array(
             'type' => 'hidden',
-            'name' => \USERFROM,
+            'name' => MainDB::USERFROM,
             'value' => $this->work->teacher
         );
         $params = \html_writer::empty_tag('input', $attr);
 
         $attr = array(
             'type' => 'hidden',
-            'name' => \USERTO,
+            'name' => MainDB::USERTO,
             'value' => $this->work->student
         );
         $params.= \html_writer::empty_tag('input', $attr);

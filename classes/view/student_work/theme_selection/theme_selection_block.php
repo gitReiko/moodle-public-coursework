@@ -2,6 +2,7 @@
 
 namespace Coursework\View\StudentWork\ThemeSelection;
 
+use Coursework\View\DatabaseHandlers\Main as MainDB;
 use Coursework\View\DatabaseHandlers\Main as db;
 use Coursework\Lib\CommonLib as cl; 
 
@@ -96,7 +97,7 @@ class ThemeSelectionBlock
     {
         $title = get_string('leader', 'coursework');
         $id = 'leader_select';
-        $name = TEACHER;
+        $name = MainDB::TEACHER;
         $onchange = 'SelectThemePage.change_available_courses()';
         $options = $this->get_teachers_options();
 
@@ -153,7 +154,7 @@ class ThemeSelectionBlock
     {
         $title = get_string('course', 'coursework');
         $id = 'course_select';
-        $name = COURSE;
+        $name = MainDB::COURSE;
         $onchange = 'SelectThemePage.update_themes_select()';
         $options = $this->get_courses_options();
 
@@ -204,7 +205,7 @@ class ThemeSelectionBlock
     {
         $title = get_string('proposed_themes', 'coursework');
         $id = 'theme_select';
-        $name = THEME;
+        $name = MainDB::THEME;
         $onchange = '';
         $options = $this->get_themes_options();
         $size = 10;
@@ -299,7 +300,7 @@ class ThemeSelectionBlock
         $attr = array(
             'type' => 'text',
             'id' => 'own_theme_input',
-            'name' => OWN_THEME,
+            'name' => MainDB::OWN_THEME,
             'minlength' => 5,
             'maxlength' => 254,
             'size' => 140,
@@ -330,14 +331,14 @@ class ThemeSelectionBlock
     {
         $attr = array(
             'type' => 'hidden',
-            'name' => ID,
+            'name' => MainDB::ID,
             'value' => $this->cm->id
         );
         $inputs = \html_writer::empty_tag('input', $attr);
 
         $attr = array(
             'type' => 'hidden',
-            'name' => DB_EVENT,
+            'name' => MainDB::DB_EVENT,
             'value' => db::SELECT_THEME
         );
         $inputs.= \html_writer::empty_tag('input', $attr);

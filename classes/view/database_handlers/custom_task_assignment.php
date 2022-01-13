@@ -2,6 +2,7 @@
 
 namespace Coursework\View\DatabaseHandlers;
 
+use Coursework\View\DatabaseHandlers\Main as MainDB;
 use Coursework\Lib\Getters\CommonGetter as cg;
 use Coursework\Lib\Getters\StudentsGetter as sg;
 use Coursework\Lib\Notification;
@@ -38,7 +39,7 @@ class CustomTaskAssignment
 
     private function get_student_id() : int 
     {
-        $studentId = optional_param(STUDENT.ID, null, PARAM_INT);
+        $studentId = optional_param(MainDB::STUDENT_ID, null, PARAM_INT);
         if(empty($studentId)) throw new \Exception('Misssing student id');
         return $studentId;
     }
@@ -62,7 +63,7 @@ class CustomTaskAssignment
 
     private function get_task_description() 
     {
-        return optional_param(DESCRIPTION, '', PARAM_TEXT);
+        return optional_param(MainDB::DESCRIPTION, '', PARAM_TEXT);
     }
 
     private function add_task_sections(int $taskId)
@@ -80,7 +81,7 @@ class CustomTaskAssignment
 
     private function get_task_sections(int $taskId) : array 
     {
-        $names = optional_param_array(NAME, null, PARAM_TEXT);
+        $names = optional_param_array(MainDB::NAME, null, PARAM_TEXT);
         $dates = optional_param_array('completion_date', null, PARAM_TEXT);
         $datesSync = optional_param_array('sync_dates', null, PARAM_TEXT);
 

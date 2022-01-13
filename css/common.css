@@ -30,3 +30,7 @@ div.error-notify
     cursor: default;
 }
 
+div.error-notify a p
+{
+    cursor: pointer;
+}

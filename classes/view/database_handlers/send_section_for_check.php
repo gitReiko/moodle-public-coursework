@@ -2,6 +2,7 @@
 
 namespace Coursework\View\DatabaseHandlers;
 
+use Coursework\View\DatabaseHandlers\Main as MainDB;
 use Coursework\Lib\Getters\CommonGetter as cg;
 use Coursework\Lib\Notification;
 
@@ -58,7 +59,7 @@ class SendSectionForCheck
         $sectionStatus->coursework = $this->get_coursework();
         $sectionStatus->student = $this->get_student();
         $sectionStatus->section = $this->get_section();
-        $sectionStatus->status = SENT_TO_CHECK;
+        $sectionStatus->status = MainDB::SENT_TO_CHECK;
         $sectionStatus->timemodified = time();
         return $sectionStatus;
     }
@@ -71,14 +72,14 @@ class SendSectionForCheck
 
     private function get_student() : int 
     {
-        $student = optional_param(STUDENT, null, PARAM_INT);
+        $student = optional_param(MainDB::STUDENT, null, PARAM_INT);
         if(empty($student)) throw new \Exception('Missing student id.');
         return $student;
     }
 
     private function get_section() : int 
     {
-        $section= optional_param(SECTION, null, PARAM_INT);
+        $section= optional_param(MainDB::SECTION, null, PARAM_INT);
         if(empty($section)) throw new \Exception('Missing section id.');
         return $section;
     }
