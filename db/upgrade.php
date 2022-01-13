@@ -406,5 +406,12 @@ function xmldb_coursework_upgrade($oldversion)
         }
     }
 
+    if($oldversion < 2022011300)
+    {
+        $table = new xmldb_table('coursework_students');
+        $field = new xmldb_field('comment');
+        $dbman->drop_field($table, $field);
+    }
+
     return true;
 }
