@@ -171,6 +171,7 @@ $string['manager_message'] = '<p>User {$a->teacher} {$a->date} at {$a->time} rem
 $string['mass_selection_explanation'] = 'Click on the list to select students in bulk. Then select the option you want.';
 $string['mass_selection'] = 'Mass selection';
 $string['mass_unselection_explanation'] = 'Click on the button to bulk cancel all of the selections you made.';
+$string['max_file_size'] = 'Maximum file size';
 $string['modulename'] = 'Course work';
 $string['modulenameplural'] = 'Course works';
 $string['more_details'] = 'More details';

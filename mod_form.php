@@ -38,9 +38,15 @@ class mod_coursework_mod_form extends moodleform_mod {
         $mform->setExpanded('task_template', false);
         $mform->addElement('checkbox', 'usetask', get_string('use_task', 'coursework'));
         $mform->addElement('checkbox', 'automatictaskobtaining', get_string('automatic_task_obtaining', 'coursework'));
+
+        // File sizes
+        $sizes = get_max_upload_sizes(0, $COURSE->maxbytes, 0, 0);
+        $mform->addElement('select', 'filesize', get_string('max_file_size', 'coursework'), $sizes);
+
         
         $this->standard_coursemodule_elements();
         $this->add_action_buttons();
+
     }
 
 }

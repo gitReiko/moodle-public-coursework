@@ -171,6 +171,7 @@ $string['manager_message'] = '<p>Пользователь {$a->teacher} {$a->dat
 $string['mass_selection_explanation'] = 'Нажмите по списку, чтобы массово выбрать студентов. Затем выберите нужную опцию.';
 $string['mass_selection'] = 'Массовый выбор';
 $string['mass_unselection_explanation'] = 'Нажмите по кнопке, чтобы массово отменить весь сделанный выбор.';
+$string['max_file_size'] = 'Максимальный размер файлов';
 $string['modulename'] = 'Курсовая работа';
 $string['modulenameplural'] = 'Курсовые работы';
 $string['more_details'] = 'Подробнее';
