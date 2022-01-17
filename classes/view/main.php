@@ -19,7 +19,7 @@ class Main
     const USER_WORK = 'user_work';
 
     const ID = 'id';
-    const STUDENT_ID = 'studentid';
+    const STUDENT_ID = 'student_id';
 
     private $course;
     private $cm;
