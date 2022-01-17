@@ -1,0 +1,67 @@
+Изменение структуры базы данных (подготовка к реализации бэкапов)
+
+====== Этап А =================================================================================
+
+1) переименовать поле automatictaskobtaining в autotaskissuance у таблицы coursework
+2) добавить поле defaulttask таблице coursework
+3) перенести данные из таблицы coursework_default_task_use в поле defaulttask таблицы coursework
+4) удалить таблицу coursework_default_task_use
+
+====== Этап Б =================================================================================
+
+Cоздать таблицу coursework_students_statuses
+_______________________________________________________________________________________________
+
+Название   | Характеристики-
+id         | TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true"
+coursework | TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false"
+student    | TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false"
+type       | TYPE="char" LENGTH="30" NOTNULL="true" SEQUENCE="false" 
+instance   | TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false"
+status     | TYPE="char" LENGTH="60" NOTNULL="true" SEQUENCE="false"
+changetime | TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false"
+_______________________________________________________________________________________________
+
+Типы статусов: section или coursework
+Instance - id секции или курсовой работы
+
+Статусы курсовой работы: 
+theme_selection - выбор темы
+task_receipt - получение задания
+work_started - работа начата
+returned_for_rework - возвращена на доработку
+sent_for_check - отправлена на проверку
+work_is_ready - работа готова
+
+Статусы раздела задания: ready, need_to_fix, not_ready, sent_to_check
+section_started - раздела задания начат
+returned_for_rework - возвращен на доработку
+sent_for_check - отправлена на проверку
+section_is_ready - раздела задания готов
+
+====== Этап В =================================================================================
+
+1) перенести поля themeselectiondate, receivingtaskdate, status, workstatuschangedate из таблицы coursework_students в таблицу coursework_students_statuses (при этом использовать новые статусы, этап Б)
+2) удалить поля themeselectiondate, receivingtaskdate, status, workstatuschangedate из таблицы coursework_students
+
+====== Этап Г =================================================================================
+
+1) перенести данные таблицы coursework_sections_status в coursework_students_statuses
+2) удалить таблицу coursework_sections_status
+
+
+
+
+
+
+mdl_coursework_tasks_sections
+completiondate на дэдлайн?
+
+mdl_coursework_themes
+name иногда не хватает длинны
+
+mdl_coursework_used_collections
+countofsamethemes переименовать на samethemescount???
+
+mdl_coursework_theme_collections
+course нужна ли привязка к курсу??
