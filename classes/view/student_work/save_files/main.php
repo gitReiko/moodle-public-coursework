@@ -17,6 +17,7 @@ class Main
     private $studentId;
 
     private $work;
+    private $coursework;
 
     function __construct(\stdClass $course, \stdClass $cm, int $studentId)
     {
@@ -25,6 +26,7 @@ class Main
         $this->studentId = $studentId;
 
         $this->work = sg::get_students_work($cm->instance, $studentId);
+        $this->coursework = cg::get_coursework($cm->instance);
     }
 
     public function get_page() : string 
@@ -54,8 +56,8 @@ class Main
         $context = \context_module::instance($this->cm->id);
 
         $fileoptions = array(
-            'maxbytes' => 0,
-            'maxfiles' => '3',
+            'maxbytes' => $this->coursework->maxfilesize,
+            'maxfiles' => $this->coursework->maxfilesnumber,
             'subdirs' => 0,
             'context' => $context
         );
@@ -88,8 +90,8 @@ class Main
         $context = \context_module::instance($this->cm->id);
 
         $fileoptions = array(
-            'maxbytes' => 0,
-            'maxfiles' => '3',
+            'maxbytes' => $this->coursework->maxfilesize,
+            'maxfiles' => $this->coursework->maxfilesnumber,
             'subdirs' => 0,
             'context' => $context
         );

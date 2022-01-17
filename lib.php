@@ -7,6 +7,8 @@ function coursework_add_instance($coursework)
 
     if(empty($coursework->usetask)) $coursework->usetask = 0;
     if(empty($coursework->automatictaskobtaining)) $coursework->automatictaskobtaining = 0;
+    if(empty($coursework->maxfilesize)) $coursework->maxfilesize = 0;
+    if(empty($coursework->maxfilesnumber)) $coursework->maxfilesnumber = 0;
 
     return $DB->insert_record('coursework', $coursework);
 }
@@ -20,6 +22,8 @@ function coursework_update_instance($coursework)
 
     if(empty($coursework->usetask)) $coursework->usetask = 0;
     if(empty($coursework->automatictaskobtaining)) $coursework->automatictaskobtaining = 0;
+    if(empty($coursework->maxfilesize)) $coursework->maxfilesize = 0;
+    if(empty($coursework->maxfilesnumber)) $coursework->maxfilesnumber = 3;
 
     if($DB->update_record('coursework', $coursework)) return true;
     else return false;

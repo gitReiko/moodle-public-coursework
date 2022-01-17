@@ -40,10 +40,23 @@ class mod_coursework_mod_form extends moodleform_mod {
         $mform->addElement('checkbox', 'automatictaskobtaining', get_string('automatic_task_obtaining', 'coursework'));
 
         // File sizes
-        $sizes = get_max_upload_sizes(0, $COURSE->maxbytes, 0, 0);
-        $mform->addElement('select', 'filesize', get_string('max_file_size', 'coursework'), $sizes);
+        $mform->addElement('header', 'coursework_files', get_string('coursework_files', 'coursework'));
+        $mform->setExpanded('coursework_files', false);
 
+        $sizes = get_max_upload_sizes($CFG->maxbytes, $COURSE->maxbytes, 0, 0);
+        $mform->addElement('select', 'maxfilesize', get_string('max_files_size', 'coursework'), $sizes);
+        $mform->addHelpButton('maxfilesize', 'max_files_size', 'coursework');
+
+        $number = array
+        (
+            1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5,
+            6 => 6, 7 => 7, 8 => 8, 9 => 9, 10 => 10
+        );
+        $mform->addElement('select', 'maxfilesnumber', get_string('max_files_number', 'coursework'), $number);
+        $mform->setDefault('maxfilesnumber', 2);
+        $mform->addHelpButton('maxfilesnumber', 'max_files_number', 'coursework');
         
+        // Default
         $this->standard_coursemodule_elements();
         $this->add_action_buttons();
 

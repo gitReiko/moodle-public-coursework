@@ -413,5 +413,22 @@ function xmldb_coursework_upgrade($oldversion)
         $dbman->drop_field($table, $field);
     }
 
+    if($oldversion < 2022011706)
+    {
+        $table = new xmldb_table('coursework');
+
+        $field = new xmldb_field('maxfilesize', XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, '0');
+        if(!$dbman->field_exists($table, $field))
+        {
+            $dbman->add_field($table, $field);
+        }
+
+        $field = new xmldb_field('maxfilesnumber', XMLDB_TYPE_INTEGER, '1', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, '3');
+        if(!$dbman->field_exists($table, $field))
+        {
+            $dbman->add_field($table, $field);
+        }
+    }
+
     return true;
 }

@@ -17,6 +17,7 @@ class Filemanager extends Base
 {
     const FORM_ID = 'change_my_files_form';
 
+    private $coursework;
     private $work;
 
     function __construct(\stdClass $course, \stdClass $cm, int $studentId)
@@ -24,6 +25,7 @@ class Filemanager extends Base
         parent::__construct($course, $cm, $studentId);
 
         $this->work = sg::get_students_work($cm->instance, $studentId);
+        $this->coursework = cg::get_coursework($cm->instance);
     }
 
     protected function get_hiding_class_name() : string
@@ -242,8 +244,8 @@ class Filemanager extends Base
         $context = \context_module::instance($this->cm->id);
 
         $fileoptions = array(
-            'maxbytes' => 0,
-            'maxfiles' => '3',
+            'maxbytes' => $this->coursework->maxfilesize,
+            'maxfiles' => $this->coursework->maxfilesnumber,
             'subdirs' => 0,
             'context' => $context
         );
@@ -302,8 +304,8 @@ class Filemanager extends Base
         $context = \context_module::instance($this->cm->id);
 
         $fileoptions = array(
-            'maxbytes' => 0,
-            'maxfiles' => '3',
+            'maxbytes' => $this->coursework->maxfilesize,
+            'maxfiles' => $this->coursework->maxfilesnumber,
             'subdirs' => 0,
             'context' => $context
         );
