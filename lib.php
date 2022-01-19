@@ -6,7 +6,7 @@ function coursework_add_instance($coursework)
     $coursework->timemodified = time();
 
     if(empty($coursework->usetask)) $coursework->usetask = 0;
-    if(empty($coursework->automatictaskobtaining)) $coursework->automatictaskobtaining = 0;
+    if(empty($coursework->autotaskissuance)) $coursework->autotaskissuance = 0;
     if(empty($coursework->maxfilesize)) $coursework->maxfilesize = 0;
     if(empty($coursework->maxfilesnumber)) $coursework->maxfilesnumber = 0;
 
@@ -21,7 +21,7 @@ function coursework_update_instance($coursework)
     $coursework->timemodified = time();
 
     if(empty($coursework->usetask)) $coursework->usetask = 0;
-    if(empty($coursework->automatictaskobtaining)) $coursework->automatictaskobtaining = 0;
+    if(empty($coursework->autotaskissuance)) $coursework->autotaskissuance = 0;
     if(empty($coursework->maxfilesize)) $coursework->maxfilesize = 0;
     if(empty($coursework->maxfilesnumber)) $coursework->maxfilesnumber = 3;
 

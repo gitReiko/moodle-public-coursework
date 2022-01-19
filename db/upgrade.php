@@ -430,5 +430,49 @@ function xmldb_coursework_upgrade($oldversion)
         }
     }
 
+    if($oldversion < 2022011901)
+    {
+        $table = new xmldb_table('coursework');
+
+        $field = new xmldb_field('automatictaskobtaining', XMLDB_TYPE_INTEGER, '4', null, XMLDB_NOTNULL, null, '0');
+        if($dbman->field_exists($table, $field))
+        {
+            $dbman->rename_field($table, $field, 'autotaskissuance');
+        }
+
+        $field = new xmldb_field('defaulttask', XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, '0');
+        if(!$dbman->field_exists($table, $field))
+        {
+            $dbman->add_field($table, $field);
+        }
+
+        $field = new xmldb_field('deadline', XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, '0');
+        if(!$dbman->field_exists($table, $field))
+        {
+            $dbman->add_field($table, $field);
+        }
+
+        $courseworks = $DB->get_records('coursework', array());
+        $defaultTasks = $DB->get_records('coursework_default_task_use', array());
+        foreach($defaultTasks as $default)
+        {
+            foreach($courseworks as $coursework)
+            {
+                if($default->coursework == $coursework->id)
+                {
+                    $coursework->defaulttask = $default->task;
+
+                    $DB->update_record('coursework', $coursework);
+                }
+            }
+        }
+
+        $table = new xmldb_table('coursework_default_task_use');
+        if($dbman->table_exists($table))
+        {
+            $dbman->drop_table($table);
+        }
+    }
+
     return true;
 }

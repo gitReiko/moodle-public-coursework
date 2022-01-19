@@ -53,7 +53,7 @@ class ThemeSelect
 
         if($coursework->usetask)
         {
-            if($coursework->automatictaskobtaining)
+            if($coursework->autotaskissuance)
             {
                 return false;
             }
@@ -324,17 +324,15 @@ class ThemeSelect
     private function is_task_obtained_automatically() : bool 
     {
         global $DB;
-        $where = array('id'=>$this->cm->instance, 'usetask'=>1, 'automatictaskobtaining'=>1);
+        $where = array('id'=>$this->cm->instance, 'usetask'=>1, 'autotaskissuance'=>1);
         return $DB->record_exists('coursework', $where);
     }
 
     private function get_coursework_task_template() : int 
     {
-        global $DB;
-        $where = array('coursework' => $this->cm->instance);
-        $task = $DB->get_field('coursework_default_task_use', 'task', $where);
-        if(empty($task)) throw new \Exception('Task template is absent.');
-        return $task;
+        $defaultTask = cg::get_default_coursework_task($this->cm);
+        if(empty($defaultTask->id)) throw new \Exception('Task template is absent.');
+        return $defaultTask->id;
     }
 
     private function log_event_student_chose_theme() : void 

@@ -2,11 +2,14 @@
 
 namespace Coursework\Config\SetDefaultTaskTemplate;
 
-abstract class Action 
+use Coursework\Lib\Getters\CommonGetter as cg;
+
+class SetDefaultTask 
 {
     protected $course;
     protected $cm;
 
+    protected $coursework;
     protected $templates;
 
     private $backToOverviewFormName = 'backToOverviewForm';
@@ -18,6 +21,7 @@ abstract class Action
         $this->course = $course;
         $this->cm = $cm;
 
+        $this->coursework = cg::get_coursework($this->cm->instance);
         $this->tasks = $this->get_task_templates();
     }
 
@@ -127,7 +131,21 @@ abstract class Action
         return $s;
     }
 
-    abstract protected function is_task_selected(int $taskId) : bool;
+    protected function is_task_selected(int $taskId) : bool
+    {
+        if(empty($this->coursework->defaulttask))
+        {
+            return false;
+        }
+        else if($taskId == $this->coursework->defaulttask)
+        {
+            return true;
+        }
+        else 
+        {
+            return false;
+        }
+    }
 
     private function get_buttons_panel() : string 
     {
@@ -179,12 +197,15 @@ abstract class Action
         );
         $inputs.= \html_writer::empty_tag('input', $attr);
 
-        $inputs.= $this->get_unique_form_hidden_inputs();
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::DATABASE_EVENT,
+            'value' => Main::SET_DEFAULT_TASK
+        );
+        $inputs.= \html_writer::empty_tag('input', $attr);
 
         return $inputs;
     }
-
-    abstract protected function get_unique_form_hidden_inputs() : string;
 
     private function get_html_form_end() : string 
     {

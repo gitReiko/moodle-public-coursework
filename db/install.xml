@@ -134,19 +134,6 @@
       </KEYS>
     </TABLE>
 
-    <TABLE NAME="coursework_default_task_use" COMMENT="Defines default task template used in coursework.">
-      <FIELDS>
-        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" />
-        <FIELD NAME="coursework" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" />
-        <FIELD NAME="task" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" />
-      </FIELDS>
-      <KEYS>
-        <KEY NAME="primary" TYPE="primary" FIELDS="id" COMMENT="Primary key for certificate_issues" />
-        <KEY NAME="coursework" TYPE="foreign" FIELDS="coursework" REFTABLE="coursework" REFFIELDS="id" />
-        <KEY NAME="task" TYPE="foreign" FIELDS="task" REFTABLE="coursework_tasks" REFFIELDS="id" />
-      </KEYS>
-    </TABLE>
-
     <TABLE NAME="coursework_chat" COMMENT="Defines coursework chat.">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" />

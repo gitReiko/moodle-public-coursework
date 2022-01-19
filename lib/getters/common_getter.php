@@ -29,11 +29,11 @@ class CommonGetter
     public static function get_default_coursework_task(\stdClass $cm)
     {
         global $DB;
-        $sql = 'SELECT ct.*, ctu.id as rowid
+        $sql = 'SELECT ct.* 
                 FROM {coursework_tasks} AS ct
-                INNER JOIN {coursework_default_task_use} AS ctu
-                ON ct.id = ctu.task
-                WHERE coursework = ?';
+                INNER JOIN {coursework} AS c
+                ON ct.id = c.defaulttask
+                WHERE c.id = ?';
         $conditions = array($cm->instance);
         return $DB->get_record_sql($sql, $conditions);
     }

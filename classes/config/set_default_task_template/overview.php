@@ -153,49 +153,17 @@ class Overview
         );
         $btn.= \html_writer::empty_tag('input', $attr);
 
-        if(empty($this->defaultTask))
-        {
-            $btn.= $this->get_add_event_input();
-        }
-        else 
-        {
-            $btn.= $this->get_edit_event_inputs();
-        }
+        $attr = array(
+            'type' => 'hidden',
+            'name' => Main::GUI_TYPE,
+            'value' => Main::SET_DEFAULT_TASK
+        );
+        $btn.= \html_writer::empty_tag('input', $attr);
 
         $btn.= \html_writer::end_tag('form');
 
         return $btn;
-    }
-
-    private function get_add_event_input() : string 
-    {
-        $attr = array(
-            'type' => 'hidden',
-            'name' => Main::GUI_TYPE,
-            'value' => Main::ADD_DEFAULT_TASK
-        );
-        return \html_writer::empty_tag('input', $attr);
-    }
-
-    private function get_edit_event_inputs() : string 
-    {
-        $attr = array(
-            'type' => 'hidden',
-            'name' => Main::GUI_TYPE,
-            'value' => Main::EDIT_DEFAULT_TASK
-        );
-        $btn = \html_writer::empty_tag('input', $attr);
-
-        $attr = array(
-            'type' => 'hidden',
-            'name' => Main::DEFAULT_TASK_ROW_ID,
-            'value' => $this->defaultTask->rowid
-        );
-        $btn.= \html_writer::empty_tag('input', $attr);
-
-        return $btn;
-    }
-    
+    }    
 
 }
 

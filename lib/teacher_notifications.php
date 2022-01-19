@@ -85,7 +85,7 @@ class TeacherNotifications
     {
         if($this->coursework->usetask == 1)
         {
-            if($this->coursework->automatictaskobtaining == 0)
+            if($this->coursework->autotaskissuance == 0)
             {
                 if(empty($this->student->task))
                 {
