@@ -1,11 +1,14 @@
 Изменение структуры базы данных (подготовка к реализации бэкапов)
 
+Схему backup-scheme.png можно отредактировать с помощью https://app.diagrams.net/
+
 ====== Этап А =================================================================================
 
 1) переименовать поле automatictaskobtaining в autotaskissuance у таблицы coursework
-2) добавить поле defaulttask таблице coursework
-3) перенести данные из таблицы coursework_default_task_use в поле defaulttask таблицы coursework
-4) удалить таблицу coursework_default_task_use
+2) добавить поле deadline таблице coursework
+3) добавить поле defaulttask таблице coursework
+4) перенести данные из таблицы coursework_default_task_use в поле defaulttask таблицы coursework
+5) удалить таблицу coursework_default_task_use
 
 ====== Этап Б =================================================================================
 
@@ -41,7 +44,7 @@ section_is_ready - раздела задания готов
 
 ====== Этап В =================================================================================
 
-1) перенести поля themeselectiondate, receivingtaskdate, status, workstatuschangedate из таблицы coursework_students в таблицу coursework_students_statuses (при этом использовать новые статусы, этап Б)
+1) перенести данные полей themeselectiondate, receivingtaskdate, status, workstatuschangedate из таблицы coursework_students в таблицу coursework_students_statuses (при этом использовать новые статусы, этап Б)
 2) удалить поля themeselectiondate, receivingtaskdate, status, workstatuschangedate из таблицы coursework_students
 
 ====== Этап Г =================================================================================
@@ -49,19 +52,29 @@ section_is_ready - раздела задания готов
 1) перенести данные таблицы coursework_sections_status в coursework_students_statuses
 2) удалить таблицу coursework_sections_status
 
+====== Этап Д =================================================================================
 
+1) добавить поле type таблице coursework_chat
+2) переименовать поле message в content у таблицы coursework_chat
 
+На будущее, для возможности прикрепления файлов, картинок.
+На старте у всего будет тип message
 
+====== Этап Е =================================================================================
 
+1) переименовать таблицу coursework_used_collections в coursework_collections_use
+2) переименовать поле countofsamethemes в samethemescount для таблицы coursework_collections_use
 
-mdl_coursework_tasks_sections
-completiondate на дэдлайн?
+====== Этап Ё =================================================================================
 
-mdl_coursework_themes
-name иногда не хватает длинны
+1) изменить тип поля name таблицы coursework_themes на TEXT (varchar иногда нехватает)
+2) изменить название поля name на content для таблицы coursework_themes
 
-mdl_coursework_used_collections
-countofsamethemes переименовать на samethemescount???
+====== Этап Ж =================================================================================
 
-mdl_coursework_theme_collections
-course нужна ли привязка к курсу??
+1) переименовать таблицу coursework_theme_collections в coursework_themes_collections
+
+====== Этап З =================================================================================
+
+1) изменить название поля completiondate на deadline для таблицы coursework_tasks_sections
+
