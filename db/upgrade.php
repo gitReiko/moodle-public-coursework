@@ -564,5 +564,40 @@ function xmldb_coursework_upgrade($oldversion)
         $dbman->drop_field($table, $field);
     }
 
+    if($oldversion < 2022022102)
+    {
+        $sections = $DB->get_records('coursework_sections_status', array());
+
+        foreach($sections as $section)
+        {
+            $state = new \stdClass;
+            $state->coursework = $section->coursework;
+            $state->student = $section->student;
+            $state->type = 'section';
+            $state->instance = $section->section;
+
+            switch($section->status)
+            {
+                case 'not_ready':
+                    $state->status = 'started';
+                    break;
+                case 'ready':
+                    $state->status = 'ready';
+                    break;
+                case 'need_to_fix':
+                    $state->status = 'returned_for_rework';
+                    break;
+                case 'sent_to_check':
+                    $state->status = 'sent_for_check';
+                    break;
+                default:
+                    $state->status = 'unknown';
+            }
+            
+            $state->changetime = $section->timemodified;
+            $DB->insert_record('coursework_students_statuses', $state, false);
+        }
+    }
+
     return true;
 }
