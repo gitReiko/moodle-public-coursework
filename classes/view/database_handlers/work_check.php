@@ -8,6 +8,7 @@ use Coursework\Lib\Getters\StudentsGetter as sg;
 use Coursework\Lib\Getters\CommonGetter as cg;
 use Coursework\Lib\CommonLib as cl;
 use Coursework\Lib\Notification;
+use Coursework\Lib\Enums;
 
 class WorkCheck 
 {
@@ -25,7 +26,7 @@ class WorkCheck
 
     public function handle()
     {
-        if($this->update_work_status())
+        if($this->add_new_coursework_status())
         {
             if($this->is_new_status_need_to_fix())
             {
@@ -58,7 +59,6 @@ class WorkCheck
     {
         $student = $this->get_student();
         $work = sg::get_students_work($this->cm->instance, $student);
-        $work->status = $this->get_status();
 
         if(empty($work->grade))
         {
@@ -69,12 +69,11 @@ class WorkCheck
             $work->emptyGrade = false;
         }
 
-        if($work->status == MainDB::READY)
+        if($this->get_status() == MainDB::READY)
         {
             $work->grade = $this->get_grade();
         }
 
-        $work->workstatuschangedate = time();
         return $work;
     }
 
@@ -99,10 +98,24 @@ class WorkCheck
         return $grade;
     }
 
-    private function update_work_status()
+    private function add_new_coursework_status()
     {
         global $DB;
-        return $DB->update_record('coursework_students', $this->work);
+        $status = $this->get_returned_for_rework_status();
+        return $DB->insert_record('coursework_students_statuses', $status);
+    }
+
+    private function get_returned_for_rework_status()
+    {
+        $state = new \stdClass;
+        $state->coursework = $this->work->coursework;
+        $state->student = $this->work->student;
+        $state->type = Enums::COURSEWORK;
+        $state->instance = $this->work->coursework;
+        $state->status = $this->get_status();
+        $state->changetime = time();
+
+        return $state;
     }
 
     private function is_new_status_need_to_fix() : bool 

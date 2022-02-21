@@ -6,6 +6,7 @@ use Coursework\View\DatabaseHandlers\Main as MainDB;
 use Coursework\Lib\Getters\StudentsGetter as sg;
 use Coursework\Lib\Getters\CommonGetter as cg;
 use Coursework\Lib\Notification;
+use Coursework\Lib\Enums;
 
 class SendWorkForCheck 
 {
@@ -13,33 +14,34 @@ class SendWorkForCheck
     private $cm;
 
     private $work;
+    private $status;
 
     function __construct(\stdClass $course, \stdClass $cm)
     {
         $this->course = $course;
         $this->cm = $cm;
-        $this->work = $this->get_work();
 
+        $this->work = $this->get_work();
+        $this->status = $this->get_status();
     }
 
     public function handle()
     {
-        if($this->update_work_status())
+        if($DB->insert_record('coursework_students_statuses', $this->status)) 
         {
-            $work = $this->get_student_coursework();
-            $this->send_notification($work);
-
+            $this->send_notification($this->work);
             $this->log_event_student_sent_work_for_check();
         }
+        else 
+        {
+            throw new \Exception('Coursework student sent for check state not created.');
+        }
     }
-
 
     private function get_work() : \stdClass 
     {
         $student = $this->get_student();
         $work = sg::get_students_work($this->cm->instance, $student);
-        $work->status = MainDB::SENT_TO_CHECK;
-        $work->workstatuschangedate = time();
         return $work;
     }
 
@@ -50,18 +52,17 @@ class SendWorkForCheck
         return $student;
     }
 
-
-    private function update_work_status()
+    private function get_status() : \stdClass 
     {
-        global $DB;
-        return $DB->update_record('coursework_students', $this->work);
-    }
+        $state = new \stdClass;
+        $state->coursework = $this->work->coursework;
+        $state->student = $this->work->student;
+        $state->type = Enums::COURSEWORK;
+        $state->instance = $this->work->coursework;
+        $state->status = Enums::SENT_FOR_CHECK;
+        $state->changetime = time();
 
-    private function get_student_coursework() : \stdClass
-    {
-        global $DB, $USER;
-        $where = array('coursework' => $this->cm->instance, 'student' => $USER->id);
-        return $DB->get_record('coursework_students', $where);
+        return $state;
     }
 
     private function send_notification(\stdClass $work) : void 

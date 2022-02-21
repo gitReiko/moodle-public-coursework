@@ -6,6 +6,7 @@ use Coursework\View\DatabaseHandlers\Main as MainDB;
 use Coursework\Lib\Getters\CommonGetter as cg;
 use Coursework\Lib\Getters\StudentsGetter as sg;
 use Coursework\Lib\Notification;
+use Coursework\Lib\Enums;
 
 class CustomTaskAssignment 
 {
@@ -111,12 +112,28 @@ class CustomTaskAssignment
         global $DB;
         $work = sg::get_students_work($this->cm->instance, $this->studentId);
         $work->task = $taskId;
-        $work->receivingtaskdate = time();
 
         if($DB->update_record('coursework_students', $work)) 
         {
+            $this->add_student_task_receipt_status($work);
             $this->send_notification_to_student($work);
             $this->log_event();
+        }
+    }
+
+    private function add_student_task_receipt_status(\stdClass $work)
+    {
+        $state = new \stdClass;
+        $state->coursework = $work->coursework;
+        $state->student = $work->student;
+        $state->type = Enums::COURSEWORK;
+        $state->instance = $work->coursework;
+        $state->status = Enums::TASK_RECEIPT;
+        $state->changetime = time();
+
+        if(!$DB->insert_record('coursework_students_statuses', $state)) 
+        {
+            throw new \Exception('Coursework student task receipt state not created.');
         }
     }
 

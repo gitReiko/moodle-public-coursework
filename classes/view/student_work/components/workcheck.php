@@ -111,7 +111,7 @@ class WorkCheck extends Base
         $attr = array(
             'type' => 'hidden',
             'name' => MainDB::STATUS,
-            'value' => enum::NEED_TO_FIX
+            'value' => enum::RETURNED_FOR_REWORK
         );
         $btn.= \html_writer::empty_tag('input', $attr);
 

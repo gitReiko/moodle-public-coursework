@@ -496,5 +496,73 @@ function xmldb_coursework_upgrade($oldversion)
         }
     }
 
+    if($oldversion < 2022012900)
+    {
+        $students = $DB->get_records('coursework_students', array());
+
+        foreach($students as $student)
+        {
+            $state = new \stdClass;
+            $state->coursework = $student->coursework;
+            $state->student = $student->student;
+            $state->type = 'coursework';
+            $state->instance = $student->coursework;
+
+            // Theme selection state
+            if(!empty($student->themeselectiondate))
+            {
+                $state->status = 'theme_selection';
+                $state->changetime = $student->themeselectiondate;
+                $DB->insert_record('coursework_students_statuses', $state, false);
+            }
+
+            // Receiving task state
+            if(!empty($student->receivingtaskdate))
+            {
+                $state->status = 'task_receipt';
+                $state->changetime = $student->receivingtaskdate;
+                $DB->insert_record('coursework_students_statuses', $state, false);
+            }
+
+            // Last work state
+            if(!empty($student->workstatuschangedate))
+            {
+                switch($student->status)
+                {
+                    case 'not_ready':
+                        $state->status = 'started';
+                        break;
+                    case 'ready':
+                        $state->status = 'ready';
+                        break;
+                    case 'need_to_fix':
+                        $state->status = 'returned_for_rework';
+                        break;
+                    case 'sent_to_check':
+                        $state->status = 'sent_for_check';
+                        break;
+                    default:
+                        $state->status = 'started';
+                }
+
+                $state->changetime = $student->workstatuschangedate;
+                $DB->insert_record('coursework_students_statuses', $state, false);
+            }
+        }
+    }
+
+    if($oldversion < 2022012901)
+    {
+        $table = new xmldb_table('coursework_students');
+        $field = new xmldb_field('themeselectiondate');
+        $dbman->drop_field($table, $field);
+        $field = new xmldb_field('receivingtaskdate');
+        $dbman->drop_field($table, $field);
+        $field = new xmldb_field('status');
+        $dbman->drop_field($table, $field);
+        $field = new xmldb_field('workstatuschangedate');
+        $dbman->drop_field($table, $field);
+    }
+
     return true;
 }

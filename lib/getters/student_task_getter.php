@@ -91,7 +91,7 @@ class StudentTaskGetter
             else 
             {
                 $section->status = enum::NOT_READY;
-                $section->statusmodified = $this->studentWork->receivingtaskdate;
+                $section->statusmodified = $this->get_coursework_task_receiving_date();
             }
         }
 
@@ -120,6 +120,25 @@ class StudentTaskGetter
         {
             return true;
         }
+    }
+
+    private function get_coursework_task_receiving_date()
+    {
+        global $DB;
+        $sql = 'SELECT changetime 
+                FROM {coursework_students_statuses} 
+                WHERE type = `coursework` 
+                AND instance = ? 
+                AND student = ? 
+                AND `status` = ? 
+                GROUP BY student 
+                HAVING changetime = MAX(changetime)';
+        $params = array(
+            $this->studentWork->coursework, 
+            $this->studentWork->student, 
+            enum::TASK_RECEIPT
+        );
+        return $DB->get_field_sql($sql, $params);
     }
 
 

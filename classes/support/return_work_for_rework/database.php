@@ -3,8 +3,8 @@
 namespace Coursework\Support\BackToWorkState;
 
 use Coursework\Lib\Getters\CommonGetter as cg;
-use Coursework\Lib\Enums as enum;
 use Coursework\Lib\Notification;
+use Coursework\Lib\Enums;
 
 class Database 
 {
@@ -23,8 +23,6 @@ class Database
         $studentWork->coursework = $this->get_coursework();
         $studentWork->student = $this->get_student();
         $studentWork->id = $this->get_id($studentWork);
-        $studentWork->status = enum::NOT_READY;
-        $studentWork->workstatuschangedate = time();
 
         if($this->is_student_work_exist($studentWork))
         {
@@ -89,7 +87,9 @@ class Database
     {
         global $DB;
 
-        if($DB->update_record('coursework_students', $studentWork))
+        $status = $this->get_returned_for_rework_status($student);
+
+        if($DB->insert_record('coursework_students_statuses', $status))
         {
             $this->send_notification_to_student($studentWork->student);
             $this->log_event($studentWork->student);
@@ -97,8 +97,21 @@ class Database
         }
         else 
         {
-            throw new \Exception('Student work wasn\'t returned to work state.');
+            throw new \Exception('Coursework student returned for rework state not created.');
         }
+    }
+
+    private function get_returned_for_rework_status(\stdClass $student)
+    {
+        $state = new \stdClass;
+        $state->coursework = $student->coursework;
+        $state->student = $student->student;
+        $state->type = Enums::COURSEWORK;
+        $state->instance = $student->coursework;
+        $state->status = Enums::RETURNED_FOR_REWORK;
+        $state->changetime = time();
+
+        return $state;
     }
 
     private function send_notification_to_student(int $studentId) : void 

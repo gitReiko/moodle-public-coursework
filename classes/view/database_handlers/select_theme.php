@@ -7,6 +7,7 @@ use Coursework\View\StudentWork\Locallib as locallib;
 use Coursework\Lib\Getters\CommonGetter as cg;
 use Coursework\Lib\Getters\TeachersGetter as tg;
 use Coursework\Lib\Notification;
+use Coursework\Lib\Enums;
 
 class ThemeSelect 
 {
@@ -35,6 +36,8 @@ class ThemeSelect
             $this->add_student_row($student);
         }
 
+        $this->add_student_theme_selection_status($student);
+
         if($this->is_teacher_must_give_task())
         {
             $this->send_notification_to_teacher_give_task($student);
@@ -45,6 +48,22 @@ class ThemeSelect
         }
 
         $this->log_event_student_chose_theme();
+    }
+
+    private function add_student_theme_selection_status(\stdClass $student)
+    {
+        $state = new \stdClass;
+        $state->coursework = $student->coursework;
+        $state->student = $student->student;
+        $state->type = Enums::COURSEWORK;
+        $state->instance = $student->coursework;
+        $state->status = Enums::THEME_SELECTION;
+        $state->changetime = time();
+
+        if(!$DB->insert_record('coursework_students_statuses', $state)) 
+        {
+            throw new \Exception('Coursework student theme selection state not created.');
+        }
     }
 
     private function is_teacher_must_give_task() : bool 
@@ -77,16 +96,31 @@ class ThemeSelect
         $row->course = $this->get_course();
         $row->theme = $this->get_theme();
         $row->owntheme = $this->get_own_theme();
-        $row->themeselectiondate = time();
 
         if($this->is_task_obtained_automatically())
         {
             $row->task = $this->get_coursework_task_template();
-            $row->receivingtaskdate = time();
+            $this->add_student_task_receipt_status($row);
             $this->log_event_assign_default_task_to_student($row);
         }
 
         return $row;
+    }
+
+    private function add_student_task_receipt_status(\stdClass $student)
+    {
+        $state = new \stdClass;
+        $state->coursework = $student->coursework;
+        $state->student = $student->student;
+        $state->type = Enums::COURSEWORK;
+        $state->instance = $student->coursework;
+        $state->status = Enums::TASK_RECEIPT;
+        $state->changetime = time();
+
+        if(!$DB->insert_record('coursework_students_statuses', $state)) 
+        {
+            throw new \Exception('Coursework student task receipt state not created.');
+        }
     }
 
     private function get_coursework() : int 

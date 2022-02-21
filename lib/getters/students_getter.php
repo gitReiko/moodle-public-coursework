@@ -167,10 +167,8 @@ class StudentsGetter
         $student->theme = '';
         $student->grade = '';
         $student->task = '';
-        $student->status = '';
-        $student->themeselectiondate = '';
-        $student->receivingtaskdate = '';
-        $student->workstatuschangedate = '';
+        $student->latestStatus = '';
+        $student->statusChangeTime = '';
 
         return $student;
     }
@@ -182,15 +180,27 @@ class StudentsGetter
         $student->theme = self::get_student_theme($work);
         $student->grade = $work->grade;
         $student->task = $work->task;
-        $student->status = $work->status;
-        $student->themeselectiondate = $work->themeselectiondate;
-        $student->receivingtaskdate = $work->receivingtaskdate;
-        $student->workstatuschangedate = $work->workstatuschangedate;
+
+        $lastState =  self::get_coursework_student_latest_state($student, $work);
+        $student->latestStatus = $lastState->status;
+        $student->statusChangeTime = $lastState->changetime;
 
         return $student;
     }
 
-
+    private static function get_coursework_student_latest_state(\stdClass $student, \stdClass $work)
+    {
+        global $DB;
+        $sql = 'SELECT `status`, changetime
+                FROM {coursework_students_statuses}
+                WHERE type = `coursework` 
+                AND instance = ?
+                AND student = ?
+                GROUP BY student
+                HAVING changetime = MAX(changetime)';
+        $params = array($work->coursework, $student->id);
+        return $DB->get_record_sql($sql, $params);
+    }
 
 
 }
