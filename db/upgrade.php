@@ -599,5 +599,17 @@ function xmldb_coursework_upgrade($oldversion)
         }
     }
 
+    if($oldversion < 2022022200)
+    {
+        $table = new xmldb_table('coursework_sections_status');
+        
+        if($dbman->table_exists($table))
+        {
+            $dbman->drop_table($table);
+        }
+    }
+
+
+
     return true;
 }
