@@ -81,12 +81,12 @@ class StudentTaskGetter
     {
         foreach($sections as $section)
         {
-            $state = $this->get_section_status($section);
+            $state = $this->get_section_latest_status($section);
 
             if($this->is_section_status_exist($state))
             {
                 $section->status = $state->status;
-                $section->statusmodified = $state->timemodified;
+                $section->statusmodified = $state->changetime;
             }
             else 
             {
@@ -98,16 +98,25 @@ class StudentTaskGetter
         return $sections;
     }
 
-    private function get_section_status(\stdClass $section) 
+    private function get_section_latest_status(\stdClass $section) 
     {
         global $DB;
-        $table = 'coursework_sections_status';
-        $where = array(
-            'coursework' => $this->courseworkId,
-            'student' => $this->studentId,
-            'section' => $section->id
+
+        $sql = 'SELECT status, changetime 
+                FROM {coursework_students_statuses} 
+                WHERE coursework = ?
+                AND student = ? 
+                AND type = ? 
+                AND instance = ? 
+                GROUP BY student 
+                HAVING changetime = MAX(changetime)';
+        $params = array(
+            $this->courseworkId,
+            $this->studentId,
+            enum::SECTION,
+            $section->id
         );
-        return $DB->get_record($table, $where);
+        return $DB->get_record_sql($sql, $params);
     }
 
     private function is_section_status_exist($state) : bool 
@@ -127,15 +136,17 @@ class StudentTaskGetter
         global $DB;
         $sql = 'SELECT changetime 
                 FROM {coursework_students_statuses} 
-                WHERE type = `coursework` 
-                AND instance = ? 
+                WHERE coursework = ?
                 AND student = ? 
+                AND type = `coursework`
+                AND instance = ? 
                 AND `status` = ? 
                 GROUP BY student 
                 HAVING changetime = MAX(changetime)';
         $params = array(
             $this->studentWork->coursework, 
             $this->studentWork->student, 
+            $this->studentWork->coursework,
             enum::TASK_RECEIPT
         );
         return $DB->get_field_sql($sql, $params);

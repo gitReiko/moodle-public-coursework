@@ -5,6 +5,7 @@ namespace Coursework\Lib;
 require_once 'getters/common_getter.php';
 
 use Coursework\Lib\Getters\CommonGetter as cg;
+use Coursework\Lib\Enums;
 
 // Students notification for teacher
 class TeacherNotifications 
@@ -136,16 +137,18 @@ class TeacherNotifications
         global $DB;
         $sql = 'SELECT COUNT(cts.id)  
                 FROM {coursework_tasks_sections} AS cts 
-                INNER JOIN {coursework_sections_status} AS css
-                ON cts.id = css.section 
+                INNER JOIN {coursework_students_statuses} AS css
+                ON cts.id = css.instance 
                 WHERE css.coursework = ?
                 AND css.student = ? 
+                AND css.type = ?
                 AND css.status = ? 
-                ORDER BY listposition';
+                ORDER BY cts.listposition';
         $params = array(
             $this->coursework->id, 
             $this->student->id,
-            Enums::SENT_TO_CHECK
+            Enums::SECTION,
+            Enums::SENT_FOR_CHECK
         );
         return $DB->count_records_sql($sql, $params);
     }
