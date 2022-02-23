@@ -5,6 +5,7 @@ namespace Coursework\View\DatabaseHandlers;
 use Coursework\View\DatabaseHandlers\Main as MainDB;
 use Coursework\Lib\Getters\CommonGetter as cg;
 use Coursework\Lib\Notification;
+use Coursework\Lib\Enums;
 
 class SendSectionForCheck 
 {
@@ -22,35 +23,13 @@ class SendSectionForCheck
 
     public function handle()
     {
-        if($this->is_section_status_exist())
+        if($this->add_section_status())
         {
-            if($this->update_section_status())
-            {
-                $work = $this->get_student_coursework();
-                $this->send_notification($work);
-        
-                $this->log_event_student_sent_section_for_check();
-            }
+            $work = $this->get_student_coursework();
+            $this->send_notification($work);
+    
+            $this->log_event_student_sent_section_for_check();
         }
-        else 
-        {
-            if($this->add_section_status())
-            {
-                $work = $this->get_student_coursework();
-                $this->send_notification($work);
-        
-                $this->log_event_student_sent_section_for_check();
-            }
-        }
-    }
-
-    private function is_section_status_exist() : bool 
-    {
-        global $DB;
-        $where = array('coursework'=>$this->cm->instance, 
-                        'student' => $this->sectionStatus->student,
-                        'section' => $this->sectionStatus->section);
-        return $DB->record_exists('coursework_sections_status', $where);
     }
 
     private function get_section_status() : \stdClass 
@@ -58,9 +37,10 @@ class SendSectionForCheck
         $sectionStatus = new \stdClass;
         $sectionStatus->coursework = $this->get_coursework();
         $sectionStatus->student = $this->get_student();
-        $sectionStatus->section = $this->get_section();
-        $sectionStatus->status = MainDB::SENT_TO_CHECK;
-        $sectionStatus->timemodified = time();
+        $sectionStatus->type = Enums::SECTION;
+        $sectionStatus->instance = $this->get_section();
+        $sectionStatus->status = Enums::SENT_FOR_CHECK;
+        $sectionStatus->changetime = time();
         return $sectionStatus;
     }
 
@@ -87,23 +67,7 @@ class SendSectionForCheck
     private function add_section_status()
     {
         global $DB;
-        return $DB->insert_record('coursework_sections_status', $this->sectionStatus);
-    }
-
-    private function get_section_status_id() : int  
-    {
-        global $DB;
-        $where = array('coursework'=>$this->cm->instance, 
-                        'student' => $this->sectionStatus->student,
-                        'section' => $this->sectionStatus->section);
-        return $DB->get_field('coursework_sections_status', 'id', $where);
-    }
-
-    private function update_section_status()
-    {
-        global $DB;
-        $this->sectionStatus->id = $this->get_section_status_id();
-        return $DB->update_record('coursework_sections_status', $this->sectionStatus);
+        return $DB->insert_record('coursework_students_statuses', $this->sectionStatus);
     }
 
     private function get_student_coursework() : \stdClass
