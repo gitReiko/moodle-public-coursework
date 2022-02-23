@@ -145,19 +145,7 @@ class WorkCheck
 
         foreach($sections as $section)
         {
-            $sectionRow = $this->get_section($section->id);
-            if($this->is_student_task_section_exist($section->id))
-            {
-                if($this->is_section_status_not_ready($section->id))
-                {
-                    $sectionRow->id = $this->get_section_id($section->id);
-                    $this->update_section_in_database($sectionRow);
-                }
-            }
-            else
-            {
-                $this->insert_section_to_database($sectionRow);
-            }
+            $this->add_section_status_in_database($sectionRow);
         }
     }
 
@@ -167,58 +155,12 @@ class WorkCheck
         return $ts->get_sections();
     }
 
-    private function is_student_task_section_exist(int $sectionId) : bool 
+    private function add_section_status_in_database(\stdClass $section) : void 
     {
         global $DB;
-        $conditions = array('coursework' => $this->cm->instance,
-                            'student' => $this->work->student,
-                            'section' => $sectionId);
-        return $DB->record_exists('coursework_sections_status', $conditions);
-    }
-
-    private function is_section_status_not_ready(int $sectionId) : bool 
-    {
-        global $DB;
-        $sql = 'SELECT * 
-                FROM {coursework_sections_status}
-                WHERE coursework = ?
-                AND student = ? 
-                AND section = ? 
-                AND status != ?';  
-        $params = array($this->cm->instance, $this->work->student, $sectionId, MainDB::READY);
-        return $DB->record_exists_sql($sql, $params);
-    }
-
-    private function get_section(int $sectionId) : \stdClass 
-    {
-        $section = new \stdClass;
-        $section->coursework = $this->cm->instance;
-        $section->student = $this->work->student;
-        $section->section = $sectionId;
         $section->status = MainDB::READY;
         $section->timemodified = time();
-        return $section;
-    }
-
-    private function insert_section_to_database(\stdClass $section) : void 
-    {
-        global $DB;
-        $DB->insert_record('coursework_sections_status', $section);
-    }
-
-    private function get_section_id(int $sectionId) : int 
-    {
-        global $DB;
-        $conditions = array('coursework' => $this->cm->instance,
-                            'student' => $this->work->student,
-                            'section' => $sectionId);
-        return $DB->get_field('coursework_sections_status', 'id', $conditions);
-    }
-    
-    private function update_section_in_database(\stdClass $section) : void 
-    {
-        global $DB;
-        $DB->update_record('coursework_sections_status', $section);
+        $DB->insert_record('coursework_students_statuses', $section);
     }
 
     private function send_notification(\stdClass $work) : void 
