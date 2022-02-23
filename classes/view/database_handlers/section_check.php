@@ -5,6 +5,7 @@ namespace Coursework\View\DatabaseHandlers;
 use Coursework\View\DatabaseHandlers\Main as MainDB;
 use Coursework\Lib\Getters\CommonGetter as cg;
 use Coursework\Lib\Notification;
+use Coursework\Lib\Enums;
 
 class SectionsCheck 
 {
@@ -21,12 +22,12 @@ class SectionsCheck
 
     public function handle()
     {
-        if($this->update_section_status())
+        if($this->add_student_status())
         {
             $work = $this->get_student_coursework();
             $this->send_notification($work);
 
-            if($this->is_section_status_need_to_fix())
+            if($this->is_section_status_returned_for_rework())
             {
                 $this->log_event_teacher_sent_section_for_rework();
             }
@@ -42,9 +43,10 @@ class SectionsCheck
         $sectionStatus = new \stdClass;
         $sectionStatus->coursework = $this->get_coursework();
         $sectionStatus->student = $this->get_student();
-        $sectionStatus->section = $this->get_section();
+        $sectionStatus->type = Enums::SECTION;
+        $sectionStatus->instance = $this->get_section();
         $sectionStatus->status = $this->get_status();
-        $sectionStatus->timemodified = time();
+        $sectionStatus->changetime = time();
         return $sectionStatus;
     }
 
@@ -75,20 +77,9 @@ class SectionsCheck
         return $status;
     }
 
-    private function get_section_status_id() : int  
+    private function add_student_status()
     {
-        global $DB;
-        $where = array('coursework'=>$this->cm->instance, 
-                        'student' => $this->sectionStatus->student,
-                        'section' => $this->sectionStatus->section);
-        return $DB->get_field('coursework_sections_status', 'id', $where);
-    }
-
-    private function update_section_status()
-    {
-        global $DB;
-        $this->sectionStatus->id = $this->get_section_status_id();
-        return $DB->update_record('coursework_sections_status', $this->sectionStatus);
+        return $DB->insert_record('coursework_students_statuses', $this->sectionStatus);
     }
 
     private function get_student_coursework() : \stdClass
@@ -119,9 +110,9 @@ class SectionsCheck
         $notification->send();
     }
 
-    private function is_section_status_need_to_fix() : bool 
+    private function is_section_status_returned_for_rework() : bool 
     {
-        if($this->sectionStatus->status == MainDB::NEED_TO_FIX)
+        if($this->sectionStatus->status == Enums::RETURNED_FOR_REWORK)
         {
             return true;
         }
