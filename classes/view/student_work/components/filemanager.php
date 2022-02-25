@@ -75,7 +75,7 @@ class Filemanager extends Base
             {
                 return false;
             }
-            else if($this->work->status == MainDB::SENT_TO_CHECK)
+            else if($this->work->status == MainDB::SENT_FOR_CHECK)
             {
                 return false;
             }

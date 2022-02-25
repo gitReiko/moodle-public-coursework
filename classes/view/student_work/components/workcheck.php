@@ -37,7 +37,7 @@ class WorkCheck extends Base
         {
             if(locallib::is_state_not_ready_or_need_to_fix($this->work->status))
             {
-                $con.= $this->get_sent_to_check_button();
+                $con.= $this->get_sent_for_check_button();
             }
         }
         else if(locallib::is_user_teacher($this->work))
@@ -55,7 +55,7 @@ class WorkCheck extends Base
         return $con;
     }
 
-    private function get_sent_to_check_button() : string 
+    private function get_sent_for_check_button() : string 
     {
         $btn = $this->get_common_form_inputs();
 

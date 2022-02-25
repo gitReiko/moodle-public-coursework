@@ -31,7 +31,7 @@ class Main
     const SELECT_THEME = 'select_theme';
     const SEND_SECTION_FOR_CHECK = 'send_section_for_check';
     const SEND_WORK_FOR_CHECK = 'send_work_for_check';
-    const SENT_TO_CHECK = 'sent_to_check';
+    const SENT_FOR_CHECK = 'sent_for_check';
     const STATUS = 'status';
     const STUDENT = 'student';
     const STUDENT_ID = 'student_id';

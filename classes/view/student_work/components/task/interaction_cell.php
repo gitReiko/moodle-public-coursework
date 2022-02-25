@@ -41,7 +41,7 @@ class InteractionCell
     {
         if(locallib::is_state_not_ready_or_need_to_fix($this->section->status))
         {
-            return $this->get_sent_to_check_button();
+            return $this->get_sent_for_check_button();
         }
         else 
         {
@@ -49,7 +49,7 @@ class InteractionCell
         }
     }
 
-    private function get_sent_to_check_button() : string 
+    private function get_sent_for_check_button() : string 
     {
         $btn = $this->get_common_form_inputs();
 

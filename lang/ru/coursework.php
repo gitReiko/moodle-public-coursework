@@ -322,6 +322,6 @@ $string['work_need_to_fix'] = 'необходимо исправить';
 $string['work_not_ready'] = 'не готов(а)';
 $string['work_ready'] = 'готов(а)';
 $string['work_send_for_check_header'] = 'Курсовая работа отправлена на проверку';
-$string['work_sent_to_check'] = 'отправлен(а) на проверку';
+$string['work_sent_for_check'] = 'отправлен(а) на проверку';
 $string['work'] = 'Работа';
 $string['write_your_message_here'] = 'Напишите тут своё сообщение';

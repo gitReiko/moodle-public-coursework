@@ -155,7 +155,7 @@ class TeacherNotifications
 
     private function is_student_work_not_checked() : bool 
     {
-        if($this->student->status == Enums::SENT_TO_CHECK)
+        if($this->student->status == Enums::SENT_FOR_CHECK)
         {
             return true;
         }

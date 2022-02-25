@@ -72,7 +72,7 @@ class Locallib
 
     public static function is_state_sent_for_check(string $status) : bool 
     {
-        if($status == enum::SENT_TO_CHECK)
+        if($status == enum::SENT_FOR_CHECK)
         {
             return true;
         }
