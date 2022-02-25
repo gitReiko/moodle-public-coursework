@@ -39,7 +39,7 @@ class InteractionCell
 
     private function get_student_button() : string 
     {
-        if(locallib::is_state_not_ready_or_need_to_fix($this->section->status))
+        if(locallib::is_state_not_ready_or_returned_for_rework($this->section->status))
         {
             return $this->get_sent_for_check_button();
         }
@@ -170,7 +170,7 @@ class InteractionCell
         $attr = array(
             'type' => 'hidden',
             'name' => MainDB::STATUS,
-            'value' => enum::NEED_TO_FIX
+            'value' => enum::RETURNED_FOR_REWORK
         );
         $btn.= \html_writer::empty_tag('input', $attr);
 

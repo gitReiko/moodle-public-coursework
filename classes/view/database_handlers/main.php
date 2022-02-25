@@ -23,7 +23,7 @@ class Main
     const ID = 'id';
     const MESSAGE = 'message';
     const NAME = 'name';
-    const NEED_TO_FIX = 'need_to_fix';
+    const RETURNED_FOR_REWORK = 'returned_for_rework';
     const OWN_THEME = 'own_theme';
     const READY = 'ready';
     const SECTION = 'section';

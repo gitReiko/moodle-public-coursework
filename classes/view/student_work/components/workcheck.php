@@ -35,7 +35,7 @@ class WorkCheck extends Base
 
         if(locallib::is_user_student($this->work)) 
         {
-            if(locallib::is_state_not_ready_or_need_to_fix($this->work->status))
+            if(locallib::is_state_not_ready_or_returned_for_rework($this->work->status))
             {
                 $con.= $this->get_sent_for_check_button();
             }

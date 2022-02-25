@@ -54,13 +54,13 @@ class Locallib
         }
     }
 
-    public static function is_state_not_ready_or_need_to_fix(string $status) : bool 
+    public static function is_state_not_ready_or_returned_for_rework(string $status) : bool 
     {
         if($status == enum::NOT_READY)
         {
             return true;
         }
-        else if($status == enum::NEED_TO_FIX)
+        else if($status == enum::RETURNED_FOR_REWORK)
         {
             return true;
         }

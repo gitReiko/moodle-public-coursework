@@ -28,7 +28,7 @@ class WorkCheck
     {
         if($this->add_new_coursework_status())
         {
-            if($this->is_new_status_need_to_fix())
+            if($this->is_new_status_returned_for_rework())
             {
                 $this->log_event_teacher_sent_coursework_for_rework();
             }
@@ -118,9 +118,9 @@ class WorkCheck
         return $state;
     }
 
-    private function is_new_status_need_to_fix() : bool 
+    private function is_new_status_returned_for_rework() : bool 
     {
-        if($this->work->status == MainDB::NEED_TO_FIX)
+        if($this->work->status == MainDB::RETURNED_FOR_REWORK)
         {
             return true;
         }

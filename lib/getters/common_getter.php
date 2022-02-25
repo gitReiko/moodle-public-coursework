@@ -100,8 +100,8 @@ class CommonGetter
                 return get_string('work_not_ready', 'coursework');
             case enum::READY:
                 return get_string('work_ready', 'coursework');
-            case enum::NEED_TO_FIX:
-                return get_string('work_need_to_fix', 'coursework');
+            case enum::RETURNED_FOR_REWORK:
+                return get_string('work_returned_for_rework', 'coursework');
             case enum::SENT_FOR_CHECK:
                 return get_string('work_sent_for_check', 'coursework');
         }

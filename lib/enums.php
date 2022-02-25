@@ -23,7 +23,6 @@ class Enums
     const READY = 'ready';
 
     // outdated statuses !!!
-    const NEED_TO_FIX = 'need_to_fix';
     const NOT_READY = 'not_ready';
 
     
