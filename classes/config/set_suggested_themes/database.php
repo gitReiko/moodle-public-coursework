@@ -39,7 +39,7 @@ class Database
         $using = new \stdClass;
         $using->coursework = $this->cm->instance;
         $using->collection = $this->get_collection();
-        $using->countofsamethemes = $this->get_count_of_same_themes();
+        $using->samethemescount = $this->get_count_of_same_themes();
         return $using;
     }
 
@@ -60,7 +60,7 @@ class Database
     private function add_suggested_collection_using(\stdClass $using) : void 
     {
         global $DB;
-        if($DB->insert_record('coursework_used_collections', $using, false))
+        if($DB->insert_record('coursework_collections_use', $using, false))
         {
             $this->log_themes_using_added();
         }
@@ -69,7 +69,7 @@ class Database
     private function change_suggested_collection_using(\stdClass $using) : void 
     {
         global $DB;
-        if($DB->update_record('coursework_used_collections', $using))
+        if($DB->update_record('coursework_collections_use', $using))
         {
             $this->log_themes_using_changed();
         }
@@ -79,7 +79,7 @@ class Database
     {
         global $DB;
         $id = $this->get_using_row_id();
-        if($DB->delete_records('coursework_used_collections', array('id'=>$id)))
+        if($DB->delete_records('coursework_collections_use', array('id'=>$id)))
         {
             $this->log_themes_using_deleted();
         }

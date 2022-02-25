@@ -75,10 +75,10 @@ class CommonLib
     {
         global $DB;
         $sql = 'SELECT ctc.id 
-                FROM {coursework_used_collections} AS cuc
+                FROM {coursework_collections_use} AS ccu
                 INNER JOIN {coursework_theme_collections} AS ctc
-                ON cuc.collection = ctc.id
-                WHERE cuc.coursework = ?
+                ON ccu.collection = ctc.id
+                WHERE ccu.coursework = ?
                 AND ctc.course = ?';
         $params = array($courseworkId, $courseId);
         return $DB->record_exists_sql($sql, $params);

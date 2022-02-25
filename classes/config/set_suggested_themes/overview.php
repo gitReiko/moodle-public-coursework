@@ -68,11 +68,11 @@ class Overview
     {
         global $DB;
         $sql = 'SELECT ctc.id, ctc.name, ctc.description, 
-                cuc.countofsamethemes, cuc.id AS rowid 
-                FROM {coursework_used_collections} AS cuc
+                ccu.samethemescount, ccu.id AS rowid 
+                FROM {coursework_collections_use} AS ccu
                 INNER JOIN {coursework_theme_collections} AS ctc
-                ON cuc.collection = ctc.id
-                WHERE cuc.coursework = ?
+                ON ccu.collection = ctc.id
+                WHERE ccu.coursework = ?
                 AND ctc.course = ?';
         $params = array($this->cm->instance, $courseId);
         return $DB->get_record_sql($sql, $params);
@@ -180,7 +180,7 @@ class Overview
     {
         $text = get_string('same_theme_can_be_selected_times', 'coursework').': ';
         $text = \html_writer::tag('b', $text);
-        $text.= $collection->countofsamethemes;
+        $text.= $collection->samethemescount;
         return \html_writer::tag('p', $text);
     }
 

@@ -45,8 +45,8 @@ class ThemesGetter
         {
             $collection = new \stdClass;
             $collection->course = $course->id;
-            $countofsamethemes = locallib::get_count_of_same_themes($this->cm->instance, $course->id);
-            $collection->themes = $this->get_course_available_themes($course->id, $countofsamethemes);
+            $samethemescount = locallib::get_count_of_same_themes($this->cm->instance, $course->id);
+            $collection->themes = $this->get_course_available_themes($course->id, $samethemescount);
 
             $themes[] = $collection;
         }
@@ -67,11 +67,11 @@ class ThemesGetter
         }
     }
 
-    private function get_course_available_themes(int $courseId, int $countofsamethemes) 
+    private function get_course_available_themes(int $courseId, int $samethemescount) 
     {
         $collectionId = $this->get_course_collection_id($courseId);
         $themes = $this->get_course_collection_themes($collectionId);
-        $themes = $this->filter_used_themes($themes, $countofsamethemes);
+        $themes = $this->filter_used_themes($themes, $samethemescount);
         return $themes;
     }
 
@@ -79,10 +79,10 @@ class ThemesGetter
     {
         global $DB;
         $sql = 'SELECT ctc.id
-                FROM {coursework_used_collections} AS cuc 
+                FROM {coursework_collections_use} AS ccu 
                 INNER JOIN {coursework_theme_collections} AS ctc 
-                ON cuc.collection = ctc.id 
-                WHERE cuc.coursework = ?
+                ON ccu.collection = ctc.id 
+                WHERE ccu.coursework = ?
                 AND ctc.course = ?';
         $where = array($this->cm->instance, $courseId);
         return $DB->get_field_sql($sql, $where);

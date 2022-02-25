@@ -111,7 +111,7 @@ class Locallib
         if(cl::is_theme_collection_used($cmInstance, $courseId))
         {
             $usedCollection = cg::get_used_theme_collection($cmInstance, $courseId);
-            return $usedCollection->countofsamethemes;
+            return $usedCollection->samethemescount;
         }
         else 
         {

@@ -635,6 +635,19 @@ function xmldb_coursework_upgrade($oldversion)
         }
     }
 
+    if($oldversion < 2022022501)
+    {
+        $table = new xmldb_table('coursework_used_collections');
+
+        $field = new xmldb_field('countofsamethemes', XMLDB_TYPE_INTEGER, '1', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, '1');
+        if($dbman->field_exists($table, $field))
+        {
+            $dbman->rename_field($table, $field, 'samethemescount');
+        }
+
+        $dbman->rename_table($table, 'coursework_collections_use');
+    }
+
 
 
     return true;
