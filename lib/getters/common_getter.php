@@ -59,7 +59,7 @@ class CommonGetter
     {
         global $DB;
         $where = array('id'=> $themeId);
-        return $DB->get_field('coursework_themes', 'name', $where);
+        return $DB->get_field('coursework_themes', 'content', $where);
     }
 
     public static function get_user_photo($userID) : string

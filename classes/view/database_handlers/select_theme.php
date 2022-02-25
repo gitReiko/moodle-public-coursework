@@ -60,6 +60,7 @@ class ThemeSelect
         $state->status = Enums::THEME_SELECTION;
         $state->changetime = time();
 
+        global $DB;
         if(!$DB->insert_record('coursework_students_statuses', $state)) 
         {
             throw new \Exception('Coursework student theme selection state not created.');

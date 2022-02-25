@@ -92,7 +92,7 @@ class ThemesGetter
     {
         global $DB;
         $where = array('collection' => $collectionId);
-        return $DB->get_records('coursework_themes', $where, 'name');
+        return $DB->get_records('coursework_themes', $where, 'content');
     }
 
     private function filter_used_themes(array $themes, int $availableCountOfUsages) : array
