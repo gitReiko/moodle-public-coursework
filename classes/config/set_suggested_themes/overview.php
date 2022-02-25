@@ -70,7 +70,7 @@ class Overview
         $sql = 'SELECT ctc.id, ctc.name, ctc.description, 
                 ccu.samethemescount, ccu.id AS rowid 
                 FROM {coursework_collections_use} AS ccu
-                INNER JOIN {coursework_theme_collections} AS ctc
+                INNER JOIN {coursework_themes_collections} AS ctc
                 ON ccu.collection = ctc.id
                 WHERE ccu.coursework = ?
                 AND ctc.course = ?';

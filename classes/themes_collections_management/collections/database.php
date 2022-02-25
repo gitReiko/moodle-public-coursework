@@ -76,7 +76,7 @@ class Database
     {
         global $DB;
         
-        if($DB->insert_record('coursework_theme_collections', $this->collection, false))
+        if($DB->insert_record('coursework_themes_collections', $this->collection, false))
         {
             $this->log_theme_collections_added();
         }
@@ -91,7 +91,7 @@ class Database
             throw new \Exception('Missing collection id.');
         }
 
-        if($DB->update_record('coursework_theme_collections', $this->collection))
+        if($DB->update_record('coursework_themes_collections', $this->collection))
         {
             $this->log_theme_collections_changed();
         }

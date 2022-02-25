@@ -86,7 +86,7 @@ class Edit extends Action
 
         global $DB;
         $condition = array('id' => $collectionId);
-        return $DB->get_record('coursework_theme_collections', $condition);
+        return $DB->get_record('coursework_themes_collections', $condition);
     }
 
     private function get_collection_id()

@@ -38,7 +38,7 @@ class Management
     {
         $collectionId = $this->get_collection_id();
         global $DB;
-        return $DB->get_record('coursework_theme_collections', array('id'=>$collectionId));
+        return $DB->get_record('coursework_themes_collections', array('id'=>$collectionId));
     }
 
     private function get_collection_id() 

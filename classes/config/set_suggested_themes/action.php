@@ -54,7 +54,7 @@ abstract class Action
     {
         global $DB;
         $where = array('course' => $this->get_collection_course());
-        return $DB->get_records('coursework_theme_collections', $where, 'name');
+        return $DB->get_records('coursework_themes_collections', $where, 'name');
     }
 
     abstract protected function get_action_header() : string;

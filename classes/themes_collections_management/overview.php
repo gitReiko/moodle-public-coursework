@@ -35,7 +35,7 @@ class Overview
     {
         global $DB;
         $sql = 'SELECT ctc.* , c.fullname AS coursename
-                FROM {coursework_theme_collections} AS ctc 
+                FROM {coursework_themes_collections} AS ctc 
                 INNER JOIN {course} AS c 
                 ON ctc.course = c.id
                 ORDER BY ctc.name';

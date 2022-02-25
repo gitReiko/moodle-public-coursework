@@ -83,4 +83,6 @@ section_is_ready - раздела задания готов
 
 1) изменить название поля completiondate на deadline для таблицы coursework_tasks_sections
 
+====== Этап И =================================================================================
 
+1) переименовать таблицу coursework_collections_use в coursework_themes_collections_use
