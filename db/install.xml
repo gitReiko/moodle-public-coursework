@@ -106,7 +106,7 @@
       </KEYS>
     </TABLE>
 
-    <TABLE NAME="coursework_collections_use" COMMENT="Сonnects collections with courseworks.">
+    <TABLE NAME="coursework_themes_collections_use" COMMENT="Сonnects collections with courseworks.">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" />
         <FIELD NAME="coursework" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" />

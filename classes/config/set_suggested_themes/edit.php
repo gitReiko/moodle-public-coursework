@@ -35,7 +35,7 @@ class Edit extends Action
     {
         global $DB;
         $where = array('id' => $this->themesUsingId);
-        return $DB->get_field('coursework_collections_use', 'sameThemesCount', $where);
+        return $DB->get_field('coursework_themes_collections_use', 'sameThemesCount', $where);
     }
 
     protected function get_action_header() : string 

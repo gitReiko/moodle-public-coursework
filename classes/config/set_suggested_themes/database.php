@@ -60,7 +60,7 @@ class Database
     private function add_suggested_collection_using(\stdClass $using) : void 
     {
         global $DB;
-        if($DB->insert_record('coursework_collections_use', $using, false))
+        if($DB->insert_record('coursework_themes_collections_use', $using, false))
         {
             $this->log_themes_using_added();
         }
@@ -69,7 +69,7 @@ class Database
     private function change_suggested_collection_using(\stdClass $using) : void 
     {
         global $DB;
-        if($DB->update_record('coursework_collections_use', $using))
+        if($DB->update_record('coursework_themes_collections_use', $using))
         {
             $this->log_themes_using_changed();
         }
@@ -79,7 +79,7 @@ class Database
     {
         global $DB;
         $id = $this->get_using_row_id();
-        if($DB->delete_records('coursework_collections_use', array('id'=>$id)))
+        if($DB->delete_records('coursework_themes_collections_use', array('id'=>$id)))
         {
             $this->log_themes_using_deleted();
         }

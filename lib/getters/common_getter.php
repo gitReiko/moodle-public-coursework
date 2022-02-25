@@ -145,11 +145,11 @@ class CommonGetter
     {
         global $DB;
         $sql = 'SELECT ctc.id, ctc.name, ctc.description, 
-                ccu.samethemescount, ccu.id AS rowid 
-                FROM {coursework_collections_use} AS ccu
+                ctcu.samethemescount, ctcu.id AS rowid 
+                FROM {coursework_themes_collections_use} AS ctcu
                 INNER JOIN {coursework_themes_collections} AS ctc
-                ON ccu.collection = ctc.id
-                WHERE ccu.coursework = ?
+                ON ctcu.collection = ctc.id
+                WHERE ctcu.coursework = ?
                 AND ctc.course = ?';
         $params = array($courseworkId, $courseId);
         return $DB->get_record_sql($sql, $params);

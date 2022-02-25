@@ -677,5 +677,11 @@ function xmldb_coursework_upgrade($oldversion)
         }
     }
 
+    if($oldversion < 2022022505)
+    {
+        $table = new xmldb_table('coursework_collections_use');
+        $dbman->rename_table($table, 'coursework_themes_collections_use');
+    }
+
     return true;
 }
