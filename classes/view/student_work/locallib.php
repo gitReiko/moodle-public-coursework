@@ -54,9 +54,9 @@ class Locallib
         }
     }
 
-    public static function is_state_not_ready_or_returned_for_rework(string $status) : bool 
+    public static function is_state_started_or_returned_for_rework(string $status) : bool 
     {
-        if($status == enum::NOT_READY)
+        if($status == enum::STARTED)
         {
             return true;
         }

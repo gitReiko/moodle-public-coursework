@@ -96,8 +96,8 @@ class CommonGetter
     {
         switch($status)
         {
-            case enum::NOT_READY:
-                return get_string('work_not_ready', 'coursework');
+            case enum::STARTED:
+                return get_string('work_started', 'coursework');
             case enum::READY:
                 return get_string('work_ready', 'coursework');
             case enum::RETURNED_FOR_REWORK:

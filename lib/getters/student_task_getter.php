@@ -90,7 +90,7 @@ class StudentTaskGetter
             }
             else 
             {
-                $section->status = enum::NOT_READY;
+                $section->status = enum::STARTED;
                 $section->statusmodified = $this->get_coursework_task_receiving_date();
             }
         }

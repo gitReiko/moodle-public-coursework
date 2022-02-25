@@ -81,7 +81,7 @@ class Main
     {
         if(locallib::is_user_student($this->work)) 
         {
-            if(locallib::is_state_not_ready_or_returned_for_rework($this->work->status))
+            if(locallib::is_state_started_or_returned_for_rework($this->work->status))
             {
                 return true;
             }
