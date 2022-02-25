@@ -647,6 +647,18 @@ function xmldb_coursework_upgrade($oldversion)
 
         $dbman->rename_table($table, 'coursework_collections_use');
     }
+    
+    if($oldversion < 2022022502)
+    {
+        $table = new xmldb_table('coursework_themes');
+
+        $field = new xmldb_field('name', XMLDB_TYPE_TEXT, 'small', null, null, null, null);
+        if($dbman->field_exists($table, $field))
+        {
+            $dbman->change_field_type($table, $field);
+            $dbman->rename_field($table, $field, 'content');
+        }
+    }
 
 
 

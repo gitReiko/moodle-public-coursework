@@ -84,7 +84,7 @@ class NeccessaryJavascript
                     'class' => 'hidden themes_js_data',
                     'data-theme-id' => $theme->id,
                     'data-course-id' => $container->course,
-                    'data-name' => $theme->name
+                    'data-name' => $theme->content
                 );
     
                 $data.= \html_writer::tag('p', '', $attr);

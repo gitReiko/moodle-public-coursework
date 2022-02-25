@@ -236,7 +236,7 @@ class Overview
 
         foreach($themes as $theme)
         {
-            $list.= \html_writer::tag('li', $theme->name);
+            $list.= \html_writer::tag('li', $theme->content);
         }
 
         $list.= \html_writer::end_tag('ol');

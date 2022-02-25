@@ -24,6 +24,7 @@ class Main extends \Coursework\Classes\Lib\MainTemplate
     const COLLECTION_ID = 'collection_id';
     const THEME_ID = 'theme_id';
     const NAME = 'name';
+    const CONTENT = 'content';
     const COURSE = 'course';
     const DESCRIPTION = 'description';
 

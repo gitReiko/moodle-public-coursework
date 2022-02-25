@@ -39,7 +39,7 @@ class Database
     private function get_theme() : \stdClass 
     {
         $theme = new \stdClass;
-        $theme->name = $this->get_theme_name();
+        $theme->content = $this->get_theme_content();
         $theme->collection = $this->get_theme_collection();
         return $theme;
     }
@@ -51,9 +51,9 @@ class Database
         return $id;
     }
 
-    private function get_theme_name() : string 
+    private function get_theme_content() : string 
     {
-        $name = optional_param(Main::NAME, null, PARAM_TEXT);
+        $name = optional_param(Main::CONTENT, null, PARAM_TEXT);
         if(empty($name)) throw new \Exception('Missing theme name.');
         return $name;
     }

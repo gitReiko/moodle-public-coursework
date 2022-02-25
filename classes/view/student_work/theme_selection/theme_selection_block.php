@@ -240,7 +240,7 @@ class ThemeSelectionBlock
         foreach($this->selectedThemes as $theme)
         {
             $attr = array('class' => 'course_option', 'value' => $theme->id);
-            $text = $theme->name;
+            $text = $theme->content;
             $options.= \html_writer::tag('option', $text, $attr);
         }
 

@@ -80,7 +80,7 @@ class Management
 
         foreach ($this->themes as $theme)
         {
-            $text = $theme->name;
+            $text = $theme->content;
             $text.= $this->get_edit_button($theme);
             $text.= $this->get_delete_button($theme);
 
@@ -120,7 +120,7 @@ class Management
         $attr = array(
             'id' => 'theme'.$theme->id,
             'type' => 'text',
-            'name' => Main::NAME,
+            'name' => Main::CONTENT,
             'minlength' => 5,
             'maxlength' => 255,
             'required' => 'required',
@@ -147,7 +147,7 @@ class Management
         $enterText = get_string('enter_new_theme_name', 'coursework');
         $errorText = get_string('error_theme_not_changed', 'coursework');
 
-        $func = 'edit_theme('.$theme->id.',`'.$theme->name.'`,';
+        $func = 'edit_theme('.$theme->id.',`'.$theme->content.'`,';
         $func.= '`'.$enterText.'`, `'.$errorText.'`)';
 
         return $func;
@@ -232,7 +232,7 @@ class Management
 
         $attr = array(
             'type' => 'text',
-            'name' => Main::NAME,
+            'name' => Main::CONTENT,
             'minlength' => 5,
             'maxlength' => 255,
             'required' => 'required',
