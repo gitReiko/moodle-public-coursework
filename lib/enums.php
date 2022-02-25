@@ -22,6 +22,9 @@ class Enums
     const SENT_FOR_CHECK = 'sent_for_check';
     const READY = 'ready';
 
+    // Chat types
+    const MESSAGE = 'message';
+
     
 }
 

@@ -609,6 +609,32 @@ function xmldb_coursework_upgrade($oldversion)
         }
     }
 
+    if($oldversion < 2022022500)
+    {
+        $table = new xmldb_table('coursework_chat');
+
+        $field = new xmldb_field('message', XMLDB_TYPE_TEXT, 'small', null, null, null, null);
+        if($dbman->field_exists($table, $field))
+        {
+            $dbman->rename_field($table, $field, 'content');
+        }
+
+        $field = new xmldb_field('type', XMLDB_TYPE_CHAR, '30', null, XMLDB_NOTNULL, null, null);
+        if(!$dbman->field_exists($table, $field))
+        {
+            $dbman->add_field($table, $field);
+        }
+
+        $messages = $DB->get_records('coursework_chat', array());
+
+        foreach($messages as $message)
+        {
+            $message->type = 'message';
+
+            $DB->update_record('coursework_chat', $message);
+        }
+    }
+
 
 
     return true;
