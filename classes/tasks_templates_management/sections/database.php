@@ -45,7 +45,7 @@ class Database
         $section->description = $this->get_section_description();
         $section->listposition = $this->get_list_position();
         $section->task = $this->get_task_id();
-        $section->completiondate = $this->get_completion_date();
+        $section->deadline = $this->get_deadline();
 
         return $section;
     }
@@ -79,9 +79,9 @@ class Database
         return $taskId;
     }
 
-    private function get_completion_date()
+    private function get_deadline()
     {
-        $date = optional_param(Main::COMPLETION_DATE, 0, PARAM_TEXT);
+        $date = optional_param(Main::DEADLINE, 0, PARAM_TEXT);
         if(!empty($date)) $date = strtotime($date);
         return $date;
     }

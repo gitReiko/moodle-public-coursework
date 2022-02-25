@@ -85,9 +85,9 @@ class CorrectTask extends AssignCustomTask
             'form' => $this->formName
         );
 
-        if(!empty($section->completiondate))
+        if(!empty($section->deadline))
         {
-            $attr = array_merge($attr, array('value' => date('Y-m-d', $section->completiondate)));
+            $attr = array_merge($attr, array('value' => date('Y-m-d', $section->deadline)));
         }
 
         $input = \html_writer::empty_tag('input', $attr);

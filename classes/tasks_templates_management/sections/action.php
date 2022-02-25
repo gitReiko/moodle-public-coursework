@@ -128,7 +128,7 @@ abstract class Action
     {
         $attr = array(
             'type' => 'date',
-            'name' => Main::COMPLETION_DATE,
+            'name' => Main::DEADLINE,
             'value' => $this->get_completion_date_value(),
             'autocomplete' => 'off'
         );

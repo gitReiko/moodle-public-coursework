@@ -110,13 +110,13 @@ class Overview
             $attr = array('style' => 'max-width: 450px;');
             $body.= \html_writer::tag('td', $section->description, $attr);
 
-            if(empty($section->completiondate))
+            if(empty($section->deadline))
             {
                 $body.= \html_writer::tag('td', '');
             }
             else
             {
-                $text = date('d-m-Y', $section->completiondate);
+                $text = date('d-m-Y', $section->deadline);
                 $body.= \html_writer::tag('td', $text);
             }
             

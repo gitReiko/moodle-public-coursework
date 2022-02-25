@@ -97,7 +97,7 @@ class CustomTaskAssignment
 
             if($datesSync[$i] === '1')
             {
-                $section->completiondate = strtotime($dates[$j]);
+                $section->deadline = strtotime($dates[$j]);
                 $j++;
             }
 

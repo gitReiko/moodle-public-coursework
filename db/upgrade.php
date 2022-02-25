@@ -666,6 +666,16 @@ function xmldb_coursework_upgrade($oldversion)
         $dbman->rename_table($table, 'coursework_themes_collections');
     }
 
+    if($oldversion < 2022022504)
+    {
+        $table = new xmldb_table('coursework_tasks_sections');
+
+        $field = new xmldb_field('completiondate', XMLDB_TYPE_INTEGER, '10', null, null, null, '0');
+        if($dbman->field_exists($table, $field))
+        {
+            $dbman->rename_field($table, $field, 'deadline');
+        }
+    }
 
     return true;
 }

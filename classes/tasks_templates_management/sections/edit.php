@@ -38,13 +38,13 @@ class Edit extends Action
 
     protected function get_completion_date_value() : string
     {
-        if(empty($this->section->completiondate))
+        if(empty($this->section->deadline))
         {
             return '';
         }
         else 
         {
-            return date('Y-m-d', $this->section->completiondate);
+            return date('Y-m-d', $this->section->deadline);
         }
         
     }

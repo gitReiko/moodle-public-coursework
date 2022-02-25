@@ -27,7 +27,7 @@ class Main extends \Coursework\Classes\Lib\MainTemplate
     const ADD_SECTION = 'add_section';
     const EDIT_SECTION = 'edit_section';
     const THEMES_MANAGEMENT = 'themes_management';
-    const COMPLETION_DATE = 'completion_date';
+    const DEADLINE = 'deadline';
     const LIST_POSITION = 'list_position';
     const TASK_ID = 'task_id';
     const NAME = 'name';
