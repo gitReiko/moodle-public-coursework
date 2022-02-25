@@ -253,7 +253,7 @@ class Chat extends Base
     private function get_message_text(\stdClass $message) : string 
     {
         $attr = array('class' => 'message');
-        $text = $message->message;
+        $text = $message->content;
         return \html_writer::tag('p', $text, $attr);
     }
 

@@ -5,6 +5,7 @@ namespace Coursework\View\DatabaseHandlers;
 use Coursework\View\DatabaseHandlers\Main as MainDB;
 use Coursework\Lib\Getters\CommonGetter as cg;
 use Coursework\Lib\Notification;
+use Coursework\Lib\Enums;
 
 class ChatMessage 
 {
@@ -35,7 +36,8 @@ class ChatMessage
         $message->coursework = $this->get_coursework();
         $message->userfrom = $this->get_user_from();
         $message->userto = $this->get_user_to();
-        $message->message = $this->get_message_text();
+        $message->type = Enums::MESSAGE;
+        $message->content = $this->get_message_text();
         $message->sendtime = time();
         $message->readed = 0;
         return $message;
