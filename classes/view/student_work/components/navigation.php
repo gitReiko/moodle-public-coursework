@@ -13,7 +13,7 @@ class Navigation extends Base
     {
         parent::__construct($course, $cm, $studentId);
 
-        $this->work = sg::get_students_work($cm->instance, $studentId);
+        $this->work = sg::get_student_work($cm->instance, $studentId);
     }
 
     protected function get_hiding_class_name() : string

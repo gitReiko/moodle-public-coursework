@@ -22,7 +22,7 @@ class Main
         $this->course = $course;
         $this->cm = $cm;
         $this->studentId = $studentId;
-        $this->work = sg::get_students_work($this->cm->instance, $this->studentId);
+        $this->work = sg::get_student_work($this->cm->instance, $this->studentId);
     }
 
     public function get_page() : string 

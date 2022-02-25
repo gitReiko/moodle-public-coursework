@@ -25,7 +25,7 @@ class Main
         $this->cm = $cm;
         $this->studentId = $studentId;
 
-        $this->work = sg::get_students_work($cm->instance, $studentId);
+        $this->work = sg::get_student_work($cm->instance, $studentId);
         $this->coursework = cg::get_coursework($cm->instance);
     }
 

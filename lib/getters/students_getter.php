@@ -90,7 +90,7 @@ class StudentsGetter
     {
         foreach($students as $student)
         {
-            $work = self::get_students_work($courseworkId, $student->id);
+            $work = self::get_student_work($courseworkId, $student->id);
 
             if($work)
             {
@@ -106,7 +106,7 @@ class StudentsGetter
         return $students;
     }
 
-    public static function get_students_work(int $courseworkId, int $studentId) 
+    public static function get_student_work(int $courseworkId, int $studentId) 
     {
         global $DB;
         $where = array(

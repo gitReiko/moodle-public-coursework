@@ -41,7 +41,7 @@ class SendWorkForCheck
     private function get_work() : \stdClass 
     {
         $student = $this->get_student();
-        $work = sg::get_students_work($this->cm->instance, $student);
+        $work = sg::get_student_work($this->cm->instance, $student);
         return $work;
     }
 

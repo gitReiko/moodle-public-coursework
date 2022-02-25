@@ -16,7 +16,7 @@ class WorkCheck extends Base
     {
         parent::__construct($course, $cm, $studentId);
 
-        $this->work = sg::get_students_work($this->cm->instance, $this->studentId);
+        $this->work = sg::get_student_work($this->cm->instance, $this->studentId);
     }
 
     protected function get_hiding_class_name() : string

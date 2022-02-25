@@ -19,7 +19,7 @@ class Main extends c\Base
         parent::__construct($course, $cm, $studentId);
 
         $this->taskSections = $this->get_task_sections();
-        $this->work = sg::get_students_work($this->cm->instance, $this->studentId);
+        $this->work = sg::get_student_work($this->cm->instance, $this->studentId);
     }
 
     protected function get_hiding_class_name() : string

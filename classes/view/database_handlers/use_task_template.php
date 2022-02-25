@@ -28,7 +28,7 @@ class UseTaskTemplate
     private function get_student_work() : \stdClass 
     {
         $studentId = $this->get_student_id();
-        $work = sg::get_students_work($this->cm->instance, $studentId);
+        $work = sg::get_student_work($this->cm->instance, $studentId);
         $taskTemplate = cg::get_default_coursework_task($this->cm);
 
         $studentWork = new \stdClass;

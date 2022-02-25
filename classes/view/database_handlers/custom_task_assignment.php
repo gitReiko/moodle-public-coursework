@@ -110,7 +110,7 @@ class CustomTaskAssignment
     private function assign_new_task_to_student(int $taskId)
     {
         global $DB;
-        $work = sg::get_students_work($this->cm->instance, $this->studentId);
+        $work = sg::get_student_work($this->cm->instance, $this->studentId);
         $work->task = $taskId;
 
         if($DB->update_record('coursework_students', $work)) 

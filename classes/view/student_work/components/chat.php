@@ -20,7 +20,7 @@ class Chat extends Base
         parent::__construct($course, $cm, $studentId);
 
         $this->formId = 'messageFormId';
-        $this->work = sg::get_students_work($cm->instance, $studentId);
+        $this->work = sg::get_student_work($cm->instance, $studentId);
         $this->messages = $this->get_messages();
         $this->mark_messages_as_readed();
     }

@@ -38,7 +38,7 @@ class Database
 
     private function remove_student_theme_selection(int $studentId) : void 
     {
-        $student = sg::get_students_work($this->cm->instance, $studentId);
+        $student = sg::get_student_work($this->cm->instance, $studentId);
         $student->theme = null;
         $student->owntheme = null;
 

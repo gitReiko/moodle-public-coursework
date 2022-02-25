@@ -24,7 +24,7 @@ class TeachersAndCoursesGetter
         $this->cm = $cm;
         $this->studentId = $studentId;
         $this->students = $students;
-        $this->studentWork = sg::get_students_work($this->cm->instance, $this->studentId);
+        $this->studentWork = sg::get_student_work($this->cm->instance, $this->studentId);
         $this->teachers = $this->init_teachers();
         $this->availableTeachers = $this->init_available_teachers();
         $this->selectedCourses = $this->init_selected_courses();
