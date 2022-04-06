@@ -21,7 +21,7 @@ class Add extends Action
         return StepByStep::get_appoint_adding_explanation($text);
     }
 
-    protected function get_leader_select() : string 
+    protected function get_leader_select_html_element() : string
     {
         return $this->get_select($this->courseTeachers, Main::LEADER_ID, null, true);
     }
@@ -62,14 +62,9 @@ class Add extends Action
         return $params;
     }
 
-    protected function get_action_button() : string
+    protected function get_action_button_text() : string
     {
-        $attr = array(
-            'type' => 'submit',
-            'form' => Action::ACTION_FORM,
-            'value' => get_string('add_leader', 'coursework')
-        );
-        return \html_writer::empty_tag('input', $attr);
+        return get_string('add_leader', 'coursework');
     }
 
 

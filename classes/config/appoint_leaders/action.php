@@ -116,7 +116,42 @@ abstract class Action
         return $options;
     }
 
-    abstract protected function get_leader_select() : string;
+    protected function get_leader_select() : string 
+    {
+        if($this->is_leaders_not_exists())
+        {
+            return $this->get_leaders_not_exists_message();
+        }
+        else 
+        {
+            return $this->get_leader_select_html_element();
+        }
+    }
+
+    protected function is_leaders_not_exists() : bool 
+    {
+        if(empty($this->courseTeachers))
+        {
+            return true;
+        }
+        else 
+        {
+            return false;
+        }
+    }
+
+    protected function get_leaders_not_exists_message() : string 
+    {
+        $text = \html_writer::tag('p', get_string('leaders_not_exists', 'coursework'));
+
+        $link = \html_writer::tag('p', get_string('go_to_enroll_users_page', 'coursework'));
+        $attr = array('href' => '/user/index.php?id='.$this->course->id);
+        $link = \html_writer::tag('a', $link, $attr);
+        
+        return $text.$link;
+    }
+
+    abstract protected function get_leader_select_html_element() : string;
 
     private function get_course_label() : string 
     {
@@ -164,7 +199,29 @@ abstract class Action
         return $btns;
     }
 
-    abstract protected function get_action_button() : string ;
+    private function get_action_button() : string
+    {
+        $attr = array(
+            'type' => 'submit',
+            'form' => Action::ACTION_FORM,
+            'value' => get_string('add_leader', 'coursework')
+        );
+
+        if($this->is_leaders_not_exists())
+        {
+            $notAllowedAttr = array(
+                'disabled' => 'disabled',
+                'style' => 'cursor: not-allowed',
+                'title' => get_string('enroll_user_in_course', 'coursework')
+            );
+
+            $attr = array_merge($attr, $notAllowedAttr);
+        }
+
+        return \html_writer::empty_tag('input', $attr);
+    }
+
+    abstract protected function get_action_button_text() : string;
 
     private function get_back_to_overview_button() : string 
     {

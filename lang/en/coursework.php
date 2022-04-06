@@ -1,5 +1,5 @@
-<?php 
 
+<?php 
 $string['absent'] = 'Absent';
 $string['accept_sections'] = 'Accept sections';
 $string['accept_work_and_grade'] = 'Accept work and grade';
@@ -127,6 +127,7 @@ $string['edit_task_section_header'] = 'Task section editing';
 $string['edit'] = 'Edit';
 $string['editing_leader_appoint'] = 'Allows edit the properties of the leader.';
 $string['editing'] = 'Editing';
+$string['enroll_user_in_course'] = 'Enroll user(s) in course with the role teacher or non-editing teacher to activate this button.';
 $string['enter_new_theme_name'] = 'Enter a new theme name';
 $string['error_theme_not_changed'] = 'Error! Theme hasn\'t been changed. Theme name must be at least 4 characters and no more than 254.';
 $string['expand_quota'] = 'Increase leaders quota to distribute all students.';
@@ -140,6 +141,7 @@ $string['give_them_a_task'] = 'Give the student a task, so that he can continue 
 $string['go_to_collections_setup_page'] = 'Go to the themes collections setup page';
 $string['go_to_configuration_page'] = 'Go to configuration page.';
 $string['go_to_course'] = 'Go to course';
+$string['go_to_enroll_users_page'] = 'Go to enroll users in course page.';
 $string['go_to_leaders_appointment'] = 'Go to the appointment of leaders.';
 $string['go_to_student_work'] = 'Go to student work';
 $string['go_to_task_templates_setup_page'] = 'Go to the tasks templates setup page .';
@@ -165,6 +167,7 @@ $string['leader_quota_increased'] = 'Leader quota increased.';
 $string['leader_replacement'] = 'Replace student leader';
 $string['leader'] = 'Leader';
 $string['leaders_appointment'] = 'Leaders appointment';
+$string['leaders_not_exists'] = 'There are no users with the teacher or non-editing teacher role in this course.';
 $string['leaders_overview_table_header'] = 'List of coursework leaders';
 $string['load'] = 'Load';
 $string['manage_old_files_area'] = 'Manage old files area';
@@ -318,10 +321,10 @@ $string['waiting_for_task_assignment'] = 'Waiting for task assignment.';
 $string['work_check_message'] = 'Coursework checked';
 $string['work_check'] = 'Work check';
 $string['work_info'] = 'Work info';
-$string['work_returned_for_rework'] = 'need to fix';
-$string['work_started'] = 'started';
 $string['work_ready'] = 'ready';
+$string['work_returned_for_rework'] = 'need to fix';
 $string['work_send_for_check_header'] = 'Coursework send for check';
 $string['work_sent_for_check'] = 'sent to check';
+$string['work_started'] = 'started';
 $string['work'] = 'Work';
 $string['write_your_message_here'] = 'Write your message here';
