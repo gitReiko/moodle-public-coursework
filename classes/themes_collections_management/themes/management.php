@@ -51,7 +51,7 @@ class Management
     private function get_collection_themes()
     {
         global $DB;
-        return $DB->get_records('coursework_themes', array('collection'=>$this->collection->id), 'name');
+        return $DB->get_records('coursework_themes', array('collection'=>$this->collection->id), 'content');
     }
 
     private function get_themes_management_header() : string 
