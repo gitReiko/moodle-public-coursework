@@ -13,7 +13,7 @@ class SendWorkForCheck
     private $course;
     private $cm;
 
-    private $student;
+    private $work;
     private $status;
 
     function __construct(\stdClass $course, \stdClass $cm)
@@ -21,15 +21,16 @@ class SendWorkForCheck
         $this->course = $course;
         $this->cm = $cm;
 
-        $this->student = $this->get_student();
+        $this->work = $this->get_student_work();
         $this->status = $this->get_status();
     }
 
     public function handle()
     {
+        global $DB;
         if($DB->insert_record('coursework_students_statuses', $this->status)) 
         {
-            $this->send_notification($this->student);
+            $this->send_notification();
             $this->log_event_student_sent_work_for_check();
         }
         else 
@@ -38,14 +39,14 @@ class SendWorkForCheck
         }
     }
 
-    private function get_student() : \stdClass 
+    private function get_student_work() : \stdClass 
     {
-        $student = $this->get_student_from_request();
-        $student = sg::get_student_with_his_work($this->cm->instance, $student);
+        $student = $this->get_student_id_from_request();
+        $student = sg::get_student_work($this->cm->instance, $student);
         return $student;
     }
 
-    private function get_student_from_request() : int 
+    private function get_student_id_from_request() : int 
     {
         $student = optional_param(MainDB::STUDENT, null, PARAM_INT);
         if(empty($student)) throw new Exception('Missing student id.');
@@ -55,24 +56,24 @@ class SendWorkForCheck
     private function get_status() : \stdClass 
     {
         $state = new \stdClass;
-        $state->coursework = $this->student->coursework;
-        $state->student = $this->student->id;
+        $state->coursework = $this->work->coursework;
+        $state->student = $this->work->student;
         $state->type = Enums::COURSEWORK;
-        $state->instance = $this->student->coursework;
+        $state->instance = $this->work->coursework;
         $state->status = Enums::SENT_FOR_CHECK;
         $state->changetime = time();
 
         return $state;
     }
 
-    private function send_notification(\stdClass $student) : void 
+    private function send_notification() : void 
     {
         global $USER;
 
         $cm = $this->cm;
         $course = $this->course;
         $userFrom = $USER;
-        $userTo = cg::get_user($student->teacher); 
+        $userTo = cg::get_user($this->work->teacher); 
         $messageName = 'sendworkforcheck';
         $messageText = get_string('work_send_for_check_header','coursework');
 
