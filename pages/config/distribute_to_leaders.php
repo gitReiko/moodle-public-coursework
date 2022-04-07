@@ -33,7 +33,6 @@ $PAGE->set_heading(get_string('distribute_to_leaders', 'coursework'));
 
 $PAGE->requires->css('/mod/coursework/css/common.css');
 $PAGE->requires->css('/mod/coursework/css/lib/students_mass_actions.css');
-$PAGE->requires->css('/mod/coursework/css/config/distribute_to_leaders.css');
 $PAGE->requires->css('/mod/coursework/css/external/introjs.min.css?v=1');
 $PAGE->requires->js('/mod/coursework/js/external/intro.min.js', true);
 $PAGE->requires->js('/mod/coursework/js/lib/mass_actions_on_students.js');
