@@ -15,13 +15,13 @@ class WorkCheck
     private $course;
     private $cm;
 
-    private $work;
+    private $student;
 
     function __construct(\stdClass $course, \stdClass $cm)
     {
         $this->course = $course;
         $this->cm = $cm;
-        $this->work = $this->get_work();
+        $this->student = $this->get_student();
     }
 
     public function handle()
@@ -51,33 +51,33 @@ class WorkCheck
                 }
             }
 
-            $this->send_notification($this->work);
+            $this->send_notification($this->student);
         }
     }
 
-    private function get_work() : \stdClass 
+    private function get_student() : \stdClass 
     {
-        $student = $this->get_student();
-        $work = sg::get_student_work($this->cm->instance, $student);
+        $student = $this->get_student_from_request();
+        $student = sg::get_student_with_his_work($this->cm->instance, $student);
 
-        if(empty($work->grade))
+        if(empty($student->grade))
         {
-            $work->emptyGrade = true;
+            $student->emptyGrade = true;
         }
         else
         {
-            $work->emptyGrade = false;
+            $student->emptyGrade = false;
         }
 
         if($this->get_status() == MainDB::READY)
         {
-            $work->grade = $this->get_grade();
+            $student->grade = $this->get_grade();
         }
 
-        return $work;
+        return $student;
     }
 
-    private function get_student() : int 
+    private function get_student_from_request() : int 
     {
         $student = optional_param(MainDB::STUDENT, null, PARAM_INT);
         if(empty($student)) throw new Exception('Missing student id.');
@@ -108,10 +108,10 @@ class WorkCheck
     private function get_returned_for_rework_status()
     {
         $state = new \stdClass;
-        $state->coursework = $this->work->coursework;
-        $state->student = $this->work->student;
+        $state->coursework = $this->student->coursework;
+        $state->student = $this->student->id;
         $state->type = Enums::COURSEWORK;
-        $state->instance = $this->work->coursework;
+        $state->instance = $this->student->coursework;
         $state->status = $this->get_status();
         $state->changetime = time();
 
@@ -120,7 +120,7 @@ class WorkCheck
 
     private function is_new_status_returned_for_rework() : bool 
     {
-        if($this->work->status == MainDB::RETURNED_FOR_REWORK)
+        if($this->student->latestStatus == MainDB::RETURNED_FOR_REWORK)
         {
             return true;
         }
@@ -133,8 +133,8 @@ class WorkCheck
     private function save_grade_in_gradebook() : void 
     {
         $grade = new \stdClass;
-        $grade->userid   = $this->work->student;
-        $grade->rawgrade = $this->work->grade;
+        $grade->userid   = $this->student->id;
+        $grade->rawgrade = $this->student->grade;
         $coursework = cg::get_coursework($this->cm->instance);
         coursework_grade_item_update($coursework, $grade);
     }
@@ -163,12 +163,12 @@ class WorkCheck
         $DB->insert_record('coursework_students_statuses', $section);
     }
 
-    private function send_notification(\stdClass $work) : void 
+    private function send_notification(\stdClass $student) : void 
     {
         $cm = $this->cm;
         $course = $this->course;
-        $userFrom = cg::get_user($work->teacher);
-        $userTo = cg::get_user($work->student); 
+        $userFrom = cg::get_user($student->teacher);
+        $userTo = cg::get_user($student->id); 
         $messageName = 'workcheck';
         $messageText = get_string('work_check_message','coursework');
 
@@ -188,7 +188,7 @@ class WorkCheck
     {
         $params = array
         (
-            'relateduserid' => $this->work->student,
+            'relateduserid' => $this->student->id,
             'context' => \context_module::instance($this->cm->id)
         );
         
@@ -198,7 +198,7 @@ class WorkCheck
 
     private function is_coursework_already_graded() : bool 
     {
-        if($this->work->emptyGrade)
+        if($this->student->emptyGrade)
         {
             return false;
         }
@@ -212,7 +212,7 @@ class WorkCheck
     {
         $params = array
         (
-            'relateduserid' => $this->work->student,
+            'relateduserid' => $this->student->id,
             'context' => \context_module::instance($this->cm->id)
         );
         
@@ -224,7 +224,7 @@ class WorkCheck
     {
         $params = array
         (
-            'relateduserid' => $this->work->student,
+            'relateduserid' => $this->student->id,
             'context' => \context_module::instance($this->cm->id)
         );
         

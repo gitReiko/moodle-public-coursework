@@ -10,13 +10,13 @@ use Coursework\Lib\Enums as enum;
 class InteractionCell 
 {
     private $cm;
-    private $work;
+    private $student;
     private $section;
 
-    function __construct($cm, $work, $section)
+    function __construct($cm, $student, $section)
     {
         $this->cm = $cm;
-        $this->work = $work;
+        $this->student = $student;
         $this->section = $section;
     }
 
@@ -24,11 +24,11 @@ class InteractionCell
     {
         $cell = '';
 
-        if(locallib::is_user_student($this->work)) 
+        if(locallib::is_user_student($this->student)) 
         {
             $cell.= $this->get_student_button();
         }
-        else if(locallib::is_user_teacher($this->work))
+        else if(locallib::is_user_teacher($this->student))
         {
             $cell.= $this->get_teacher_buttons();
         }
@@ -87,7 +87,7 @@ class InteractionCell
         $attr = array(
             'type' => 'hidden',
             'name' => MainDB::STUDENT,
-            'value' => $this->work->student
+            'value' => $this->student->id
         );
         $inputs.= \html_writer::empty_tag('input', $attr);
 
@@ -128,7 +128,7 @@ class InteractionCell
 
     private function is_coursework_started() : bool 
     {
-        if($this->work->status == MainDB::READY)
+        if($this->student->latestStatus == MainDB::READY)
         {
             return false;
         }

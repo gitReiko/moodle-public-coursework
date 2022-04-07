@@ -28,7 +28,7 @@ class Main
         $this->course = $course;
         $this->cm = $cm;
         $this->studentId = $studentId;
-        $this->studentWork = sg::get_student_work($cm->instance, $studentId);
+        $this->studentWork = sg::get_student_with_his_work($cm->instance, $studentId);
     }
 
     public function get_page() : string 

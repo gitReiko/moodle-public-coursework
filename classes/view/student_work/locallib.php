@@ -10,11 +10,11 @@ use Coursework\Lib\Enums as enum;
 class Locallib 
 {
 
-    public static function is_user_teacher(\stdClass $work) : bool 
+    public static function is_user_teacher(\stdClass $student) : bool 
     {
         global $USER;
 
-        if($USER->id == $work->teacher)
+        if($USER->id == $student->teacher)
         {
             return true;
         }
@@ -24,11 +24,11 @@ class Locallib
         }
     }
 
-    public static function is_user_student(\stdClass $work) : bool 
+    public static function is_user_student(\stdClass $student) : bool 
     {
         global $USER;
 
-        if($USER->id == $work->student)
+        if($USER->id == $student->id)
         {
             return true;
         }
@@ -38,13 +38,13 @@ class Locallib
         }
     }
 
-    public static function is_user_student_or_teacher(\stdClass $work) : bool 
+    public static function is_user_student_or_teacher(\stdClass $student) : bool 
     {
-        if(self::is_user_student($work))
+        if(self::is_user_student($student))
         {
             return true;
         }
-        else if(self::is_user_teacher($work))
+        else if(self::is_user_teacher($student))
         {
             return true;
         }

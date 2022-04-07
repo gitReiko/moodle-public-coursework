@@ -14,7 +14,7 @@ class StudentsGetter
 
         if($groupMode == enum::NO_GROUPS)
         {
-            return self::get_all_course_students($cm);
+            return self::get_all_students_from_course($cm);
         }
         else 
         {
@@ -22,7 +22,7 @@ class StudentsGetter
         }
     }
 
-    public static function get_all_course_students(\stdClass $cm)
+    public static function get_all_students_from_course(\stdClass $cm)
     {
         $context = \context_module::instance($cm->id); 
         $groupId = enum::NO_GROUPS;
@@ -86,34 +86,21 @@ class StudentsGetter
         return $DB->get_records('coursework_students', $where);
     }
 
-    public static function add_works_to_students(int $courseworkId, $students)
+    public static function get_students_with_their_works(int $courseworkId, $students)
     {
         foreach($students as $student)
         {
-            $work = self::get_student_work($courseworkId, $student->id);
-
-            if($work)
-            {
-                $student = self::add_works_params_to_student($student, $work);
-            }
-            else 
-            {
-                $student = self::add_empty_student_work_params($student);
-            }
-
+            $student = self::get_student_with_work($courseworkId, $student);
         }
 
         return $students;
     }
 
-    public static function get_student_work(int $courseworkId, int $studentId) 
+    public static function get_student_with_his_work(int $courseworkId, int $studentId)
     {
-        global $DB;
-        $where = array(
-            'coursework' => $courseworkId,
-            'student' => $studentId
-        );
-        return $DB->get_record('coursework_students', $where);
+        $student = self::get_student($studentId);
+        $student = self::get_student_with_work($courseworkId, $student);
+        return $student;
     }
 
     public static function get_student_theme(\stdClass $work)
@@ -130,6 +117,38 @@ class StudentsGetter
         {
             return '';
         }
+    }
+
+    private static function get_student_with_work(int $courseworkId, \stdClass $student)
+    {
+        $work = self::get_student_work($courseworkId, $student->id);
+
+        if($work)
+        {
+            return self::add_works_params_to_student($student, $work);
+        }
+        else 
+        {
+            return self::add_empty_student_work_params($student);
+        }
+    }
+
+    private static function get_student_work(int $courseworkId, int $studentId)  
+    {
+        global $DB;
+        $where = array(
+            'coursework' => $courseworkId,
+            'student' => $studentId
+        );
+        return $DB->get_record('coursework_students', $where);
+    }
+
+    private static function get_student(int $studentId) : \stdClass 
+    {
+        global $DB;
+        $params = array('id' => $studentId);
+        $fields = 'id,firstname,lastname,email,phone1,phone2';
+        return $DB->get_record('user', $params, $fields);
     }
 
     private static function get_unique_students($students)
@@ -181,25 +200,31 @@ class StudentsGetter
         $student->grade = $work->grade;
         $student->task = $work->task;
 
-        $lastState =  self::get_coursework_student_latest_state($student, $work);
+        $lastState =  self::get_coursework_student_latest_state($work);
         $student->latestStatus = $lastState->status;
         $student->statusChangeTime = $lastState->changetime;
 
         return $student;
     }
 
-    private static function get_coursework_student_latest_state(\stdClass $student, \stdClass $work)
+    private static function get_coursework_student_latest_state(\stdClass $work)
     {
         global $DB;
-        $sql = 'SELECT `status`, changetime
-                FROM {coursework_students_statuses}
-                WHERE type = `coursework` 
-                AND instance = ?
-                AND student = ?
-                GROUP BY student
-                HAVING changetime = MAX(changetime)';
-        $params = array($work->coursework, $student->id);
-        return $DB->get_record_sql($sql, $params);
+
+        $sql = 'SELECT css.status, css.changetime 
+                FROM {coursework_students_statuses} AS css 
+                WHERE css.type = ? 
+                AND css.instance = ? 
+                AND css.student = ? 
+                ORDER BY css.changetime ';
+        
+        $params = array(
+            enum::COURSEWORK, 
+            $work->coursework, 
+            $work->student
+        );
+
+        return end($DB->get_records_sql($sql, $params));
     }
 
 

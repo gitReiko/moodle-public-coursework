@@ -43,7 +43,7 @@ class Page
     private function get_students() 
     {
         $students = sg::get_all_students($this->cm);
-        return sg::add_works_to_students($this->cm->instance, $students);
+        return sg::get_students_with_their_works($this->cm->instance, $students);
     }
 
     private function get_html_form_begin() : string 

@@ -97,7 +97,7 @@ class Database
         }
         else 
         {
-            throw new \Exception('Coursework student returned for rework state not created.');
+            throw new \Exception('Student coursework state "returned_for_rework" not added.');
         }
     }
 

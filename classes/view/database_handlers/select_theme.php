@@ -37,6 +37,7 @@ class ThemeSelect
         }
 
         $this->add_student_theme_selection_status($student);
+        $this->add_student_coursework_started_status($student);
 
         if($this->is_teacher_must_give_task())
         {
@@ -63,7 +64,24 @@ class ThemeSelect
         global $DB;
         if(!$DB->insert_record('coursework_students_statuses', $state)) 
         {
-            throw new \Exception('Coursework student theme selection state not created.');
+            throw new \Exception('Student coursework state "theme_selection" not added.');
+        }
+    }
+
+    private function add_student_coursework_started_status(\stdClass $student)
+    {
+        $state = new \stdClass;
+        $state->coursework = $student->coursework;
+        $state->student = $student->student;
+        $state->type = Enums::COURSEWORK;
+        $state->instance = $student->coursework;
+        $state->status = Enums::STARTED;
+        $state->changetime = intval(time())+1;
+
+        global $DB;
+        if(!$DB->insert_record('coursework_students_statuses', $state)) 
+        {
+            throw new \Exception('Student coursework state "started" not added.');
         }
     }
 
@@ -120,7 +138,7 @@ class ThemeSelect
 
         if(!$DB->insert_record('coursework_students_statuses', $state)) 
         {
-            throw new \Exception('Coursework student task receipt state not created.');
+            throw new \Exception('Student task state "task_receipt" not added.');
         }
     }
 

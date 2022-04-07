@@ -12,7 +12,7 @@ use Coursework\View\DatabaseHandlers\Main as db;
 class Chat extends Base 
 {
     private $formId;
-    private $work;
+    private $student;
     private $messages;
 
     function __construct(\stdClass $course, \stdClass $cm, int $studentId)
@@ -20,7 +20,7 @@ class Chat extends Base
         parent::__construct($course, $cm, $studentId);
 
         $this->formId = 'messageFormId';
-        $this->work = sg::get_student_work($cm->instance, $studentId);
+        $this->student = sg::get_student_with_his_work($cm->instance, $studentId);
         $this->messages = $this->get_messages();
         $this->mark_messages_as_readed();
     }
@@ -59,14 +59,14 @@ class Chat extends Base
                 OR (userfrom = ? AND userto =?))
                 ORDER BY sendtime';
         $params = array($this->cm->instance, 
-                        $this->work->student, $this->work->teacher,
-                        $this->work->teacher, $this->work->student);
+                        $this->student->id, $this->student->teacher,
+                        $this->student->teacher, $this->student->id);
         return $DB->get_records_sql($sql, $params);
     }
 
     protected function get_content() : string
     {
-        if(locallib::is_user_student_or_teacher($this->work))
+        if(locallib::is_user_student_or_teacher($this->student))
         {
             return $this->get_chat();
         }
@@ -95,7 +95,7 @@ class Chat extends Base
     private function get_chat() : string 
     {
         $с = $this->get_messages_box();
-        if(locallib::is_user_student_or_teacher($this->work))
+        if(locallib::is_user_student_or_teacher($this->student))
         {
             $с.= $this->get_send_message_button();
         }
@@ -136,7 +136,7 @@ class Chat extends Base
 
     private function get_student_message(\stdClass $message) : string 
     {
-        $inner = cg::get_chat_user_photo($this->work->student);
+        $inner = cg::get_chat_user_photo($this->student->id);
         $td = \html_writer::tag('td', $inner);
 
         $inner = $this->get_message_text($message);
@@ -157,7 +157,7 @@ class Chat extends Base
         $inner.= $this->get_message_date($message);
         $td = \html_writer::tag('td', $inner);
 
-        $inner = cg::get_chat_user_photo($this->work->teacher);
+        $inner = cg::get_chat_user_photo($this->student->teacher);
         $td.= \html_writer::tag('td', $inner);
 
         $tr = \html_writer::tag('tr', $td);
@@ -183,7 +183,7 @@ class Chat extends Base
         $attr = array('class' => 'sendMessage');
         $table = \html_writer::tag('table', $td, $attr);
 
-        if(locallib::is_user_student_or_teacher($this->work))
+        if(locallib::is_user_student_or_teacher($this->student))
         {
             $table.= $this->get_send_message_form();
         }
@@ -220,11 +220,11 @@ class Chat extends Base
     {
         $form = $this->get_neccessary_form_params();
 
-        if(locallib::is_user_student($this->work))
+        if(locallib::is_user_student($this->student))
         {
             $form.= $this->get_student_form_params(); 
         }
-        else if(locallib::is_user_teacher($this->work))
+        else if(locallib::is_user_teacher($this->student))
         {
             $form.= $this->get_teacher_form_params();
         }
@@ -240,7 +240,7 @@ class Chat extends Base
 
     private function is_student_sent_message(\stdClass $message) : bool 
     {
-        if($message->userfrom == $this->work->student)
+        if($message->userfrom == $this->student->id)
         {
             return true;
         }
@@ -294,14 +294,14 @@ class Chat extends Base
         $attr = array(
             'type' => 'hidden',
             'name' => MainDB::USERFROM,
-            'value' => $this->work->student
+            'value' => $this->student->id
         );
         $params = \html_writer::empty_tag('input', $attr);
 
         $attr = array(
             'type' => 'hidden',
             'name' => MainDB::USERTO,
-            'value' => $this->work->teacher
+            'value' => $this->student->teacher
         );
         $params.= \html_writer::empty_tag('input', $attr);
 
@@ -313,14 +313,14 @@ class Chat extends Base
         $attr = array(
             'type' => 'hidden',
             'name' => MainDB::USERFROM,
-            'value' => $this->work->teacher
+            'value' => $this->student->teacher
         );
         $params = \html_writer::empty_tag('input', $attr);
 
         $attr = array(
             'type' => 'hidden',
             'name' => MainDB::USERTO,
-            'value' => $this->work->student
+            'value' => $this->student->id
         );
         $params.= \html_writer::empty_tag('input', $attr);
 

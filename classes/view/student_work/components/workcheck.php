@@ -10,13 +10,13 @@ use Coursework\View\DatabaseHandlers\Main as db;
 
 class WorkCheck extends Base 
 {
-    private $work;
+    private $student;
 
     function __construct(\stdClass $course, \stdClass $cm, int $studentId)
     {
         parent::__construct($course, $cm, $studentId);
 
-        $this->work = sg::get_student_work($this->cm->instance, $this->studentId);
+        $this->student = sg::get_student_with_his_work($this->cm->instance, $this->studentId);
     }
 
     protected function get_hiding_class_name() : string
@@ -33,20 +33,20 @@ class WorkCheck extends Base
     {
         $con = '';
 
-        if(locallib::is_user_student($this->work)) 
+        if(locallib::is_user_student($this->student)) 
         {
-            if(locallib::is_state_started_or_returned_for_rework($this->work->status))
+            if(locallib::is_state_started_or_returned_for_rework($this->student->latestStatus))
             {
                 $con.= $this->get_sent_for_check_button();
             }
         }
-        else if(locallib::is_user_teacher($this->work))
+        else if(locallib::is_user_teacher($this->student))
         {
-            if(locallib::is_state_sent_for_check($this->work->status))
+            if(locallib::is_state_sent_for_check($this->student->latestStatus))
             {
                 $con.= $this->get_teacher_check_work_block();
             }
-            else if(locallib::is_state_ready($this->work->status))
+            else if(locallib::is_state_ready($this->student->latestStatus))
             {
                 $con.= $this->get_teacher_regrade_block();
             }
@@ -170,7 +170,7 @@ class WorkCheck extends Base
         );
         $btn.= \html_writer::empty_tag('input', $attr).' ';
 
-        if(locallib::is_state_sent_for_check($this->work->status))
+        if(locallib::is_state_sent_for_check($this->student->latestStatus))
         {
             $text = get_string('accept_work_and_grade', 'coursework');
         }

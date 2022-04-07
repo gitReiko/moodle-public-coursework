@@ -110,7 +110,7 @@ class CustomTaskAssignment
     private function assign_new_task_to_student(int $taskId)
     {
         global $DB;
-        $work = sg::get_student_work($this->cm->instance, $this->studentId);
+        $work = sg::get_student_with_his_work($this->cm->instance, $this->studentId);
         $work->task = $taskId;
 
         if($DB->update_record('coursework_students', $work)) 
@@ -133,7 +133,7 @@ class CustomTaskAssignment
 
         if(!$DB->insert_record('coursework_students_statuses', $state)) 
         {
-            throw new \Exception('Coursework student task receipt state not created.');
+            throw new \Exception('Student task state "task_receipt" not added.');
         }
     }
 

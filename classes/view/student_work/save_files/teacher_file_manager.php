@@ -25,7 +25,7 @@ class TeacherFileManager extends \moodleform
         $mform->setType('id', PARAM_INT);
         $mform->addElement('hidden', 'gui_event', 'user_work');
         $mform->setType('gui_event', PARAM_TEXT);
-        $mform->addElement('hidden', 'studentid', $this->_customdata['work']->student);
+        $mform->addElement('hidden', 'studentid', $this->_customdata['student']->id);
         $mform->setType('studentid', PARAM_INT);
 
         $this->add_action_buttons(false, get_string('save_changes', 'coursework'));

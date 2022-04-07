@@ -15,14 +15,14 @@ class Main
     private $course;
     private $cm;
     private $studentId;
-    private $work;
+    private $student;
 
     function __construct(\stdClass $course, \stdClass $cm, int $studentId)
     {
         $this->course = $course;
         $this->cm = $cm;
         $this->studentId = $studentId;
-        $this->work = sg::get_student_work($this->cm->instance, $this->studentId);
+        $this->student = sg::get_student_with_his_work($this->cm->instance, $this->studentId);
     }
 
     public function get_page() : string 
@@ -79,9 +79,9 @@ class Main
 
     private function is_work_check_neccessary() : bool 
     {
-        if(locallib::is_user_student($this->work)) 
+        if(locallib::is_user_student($this->student)) 
         {
-            if(locallib::is_state_started_or_returned_for_rework($this->work->status))
+            if(locallib::is_state_started_or_returned_for_rework($this->student->latestStatus))
             {
                 return true;
             }
@@ -90,13 +90,13 @@ class Main
                 return false;
             }
         }
-        else if(locallib::is_user_teacher($this->work))
+        else if(locallib::is_user_teacher($this->student))
         {
-            if(locallib::is_state_sent_for_check($this->work->status))
+            if(locallib::is_state_sent_for_check($this->student->latestStatus))
             {
                 return true;
             }
-            else if(locallib::is_state_ready($this->work->status))
+            else if(locallib::is_state_ready($this->student->latestStatus))
             {
                 return true;
             }

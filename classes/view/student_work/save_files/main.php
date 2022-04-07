@@ -16,7 +16,7 @@ class Main
     private $cm;
     private $studentId;
 
-    private $work;
+    private $student;
     private $coursework;
 
     function __construct(\stdClass $course, \stdClass $cm, int $studentId)
@@ -25,7 +25,7 @@ class Main
         $this->cm = $cm;
         $this->studentId = $studentId;
 
-        $this->work = sg::get_student_work($cm->instance, $studentId);
+        $this->student = sg::get_student_with_his_work($cm->instance, $studentId);
         $this->coursework = cg::get_coursework($cm->instance);
     }
 
@@ -33,11 +33,11 @@ class Main
     {
         $page = '';
 
-        if(locallib::is_user_student($this->work))
+        if(locallib::is_user_student($this->student))
         {
             $page.= $this->get_student_files_manager();
         }
-        else if(locallib::is_user_teacher($this->work))
+        else if(locallib::is_user_teacher($this->student))
         {
             $page.= $this->get_teacher_files_manager();
         }
@@ -67,7 +67,7 @@ class Main
         $data = file_prepare_standard_filemanager(
             $data, 'student', $fileoptions, 
             $context, 'mod_coursework', 
-            'student', $this->work->student
+            'student', $this->student->id
         );
         
         $mform = new StudentFileManager(
@@ -102,7 +102,7 @@ class Main
             $data, 'teacher', $fileoptions, 
             $context, 'mod_coursework', 
             'teacher', 
-            $this->work->student
+            $this->student->id
         );
         
         $mform = new TeacherFileManager(
@@ -110,7 +110,7 @@ class Main
             array
             (
                 'fileoptions' => $fileoptions,
-                'work' => $this->work,
+                'student' => $this->student,
             )
         );
         
@@ -123,11 +123,11 @@ class Main
 
     private function get_back_to_coursework_button() : string 
     {
-        if(locallib::is_user_student($this->work))
+        if(locallib::is_user_student($this->student))
         {
             return $this->get_back_to_coursework_student_button();
         }
-        else if(locallib::is_user_teacher($this->work))
+        else if(locallib::is_user_teacher($this->student))
         {
             return $this->get_back_to_coursework_teacher_button();
         }

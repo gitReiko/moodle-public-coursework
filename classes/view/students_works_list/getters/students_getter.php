@@ -79,7 +79,7 @@ class StudentsGetter
             $students = sg::get_students_from_group($this->cm, $this->selectedGroupId);
         }
 
-        $students = sg::add_works_to_students($this->cm->instance, $students);
+        $students = sg::get_students_with_their_works($this->cm->instance, $students);
 
         if($this->hideStudentsWithoutTheme)
         {

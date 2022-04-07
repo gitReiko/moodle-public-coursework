@@ -7,13 +7,13 @@ use Coursework\Lib\Getters\StudentsGetter as sg;
 
 class Navigation extends Base 
 {
-    private $work;
+    private $student;
 
     function __construct(\stdClass $course, \stdClass $cm, int $studentId)
     {
         parent::__construct($course, $cm, $studentId);
 
-        $this->work = sg::get_student_work($cm->instance, $studentId);
+        $this->student = sg::get_student_with_his_work($cm->instance, $studentId);
     }
 
     protected function get_hiding_class_name() : string
@@ -28,7 +28,7 @@ class Navigation extends Base
 
     protected function get_content() : string
     {
-        if(empty($this->work))
+        if(empty($this->student))
         {
             global $PAGE;
 
@@ -41,7 +41,7 @@ class Navigation extends Base
                 return $this->get_back_to_works_list_button();
             }            
         }
-        else if(locallib::is_user_student($this->work))
+        else if(locallib::is_user_student($this->student))
         {
             return $this->get_back_to_course_button();
         }

@@ -7,13 +7,13 @@ use Coursework\Lib\Getters\StudentsGetter as sg;
 
 class Info extends Base
 {
-    private $work;
+    private $student;
 
     function __construct(\stdClass $course, \stdClass $cm, int $studentId)
     {
         parent::__construct($course, $cm, $studentId);
 
-        $this->work = sg::get_student_work($this->cm->instance, $this->studentId);
+        $this->student = sg::get_student_with_his_work($this->cm->instance, $this->studentId);
     }
 
     protected function get_hiding_class_name() : string
@@ -61,7 +61,7 @@ class Info extends Base
 
     private function get_student_photo() : string 
     {
-        $inner = cg::get_big_user_photo($this->work->student);
+        $inner = cg::get_big_user_photo(intval($this->student->id));
         return \html_writer::tag('p', $inner);
     }
 
@@ -69,7 +69,7 @@ class Info extends Base
     {
         $inner = get_string('theme', 'coursework').': ';
         $inner = \html_writer::tag('b', $inner);
-        $inner.= sg::get_student_theme($this->work);
+        $inner.= $this->student->theme;
         return \html_writer::tag('p', $inner);
     }
 
@@ -77,7 +77,7 @@ class Info extends Base
     {
         $inner = get_string('course', 'coursework').': ';
         $inner = \html_writer::tag('b', $inner);
-        $inner.= cg::get_course_name($this->work->course);
+        $inner.= cg::get_course_name($this->student->course);
         return \html_writer::tag('p', $inner);
     }
 
@@ -85,7 +85,7 @@ class Info extends Base
     {
         $inner = get_string('student', 'coursework').': ';
         $inner = \html_writer::tag('b', $inner);
-        $inner.= cg::get_user_name($this->work->student);
+        $inner.= cg::get_user_name($this->student->id);
         return \html_writer::tag('p', $inner);
     }
 
@@ -111,7 +111,7 @@ class Info extends Base
 
     private function get_teacher_photo() : string 
     {
-        $inner = cg::get_big_user_photo($this->work->teacher);
+        $inner = cg::get_big_user_photo($this->student->teacher);
         return \html_writer::tag('div', $inner);
     }
 
@@ -119,7 +119,7 @@ class Info extends Base
     {
         $inner = get_string('state', 'coursework').': ';
         $inner = \html_writer::tag('b', $inner);
-        $inner.= cg::get_state_name($this->work->status);
+        $inner.= cg::get_state_name($this->student->latestStatus);
         return \html_writer::tag('p', $inner);
     }
 
@@ -127,7 +127,7 @@ class Info extends Base
     {
         $inner = get_string('grade', 'coursework').': ';
         $inner = \html_writer::tag('b', $inner);
-        $inner.= $this->work->grade;
+        $inner.= $this->student->grade;
         return \html_writer::tag('p', $inner);
     }
 
@@ -135,7 +135,7 @@ class Info extends Base
     {
         $inner = get_string('teacher', 'coursework').': ';
         $inner = \html_writer::tag('b', $inner);
-        $inner.= cg::get_user_name($this->work->teacher);
+        $inner.= cg::get_user_name($this->student->teacher);
         return \html_writer::tag('p', $inner);
     }
 

@@ -18,13 +18,13 @@ class Filemanager extends Base
     const FORM_ID = 'change_my_files_form';
 
     private $coursework;
-    private $work;
+    private $student;
 
     function __construct(\stdClass $course, \stdClass $cm, int $studentId)
     {
         parent::__construct($course, $cm, $studentId);
 
-        $this->work = sg::get_student_work($cm->instance, $studentId);
+        $this->student = sg::get_student_with_his_work($cm->instance, $studentId);
         $this->coursework = cg::get_coursework($cm->instance);
     }
 
@@ -54,12 +54,12 @@ class Filemanager extends Base
         
         $content.= \html_writer::end_tag('div');
 
-        if(locallib::is_user_student($this->work))
+        if(locallib::is_user_student($this->student))
         {
             $this->save_student_files();
         }
 
-        if(locallib::is_user_teacher($this->work))
+        if(locallib::is_user_teacher($this->student))
         {
             $this->save_teacher_files();
         }
@@ -69,13 +69,13 @@ class Filemanager extends Base
 
     private function is_user_can_change_files() : bool 
     {
-        if(locallib::is_user_student($this->work))
+        if(locallib::is_user_student($this->student))
         {
-            if($this->work->status == MainDB::READY)
+            if($this->student->latestStatus == MainDB::READY)
             {
                 return false;
             }
-            else if($this->work->status == MainDB::SENT_FOR_CHECK)
+            else if($this->student->latestStatus == MainDB::SENT_FOR_CHECK)
             {
                 return false;
             }
@@ -84,9 +84,9 @@ class Filemanager extends Base
                 return true;
             }
         }
-        else if(locallib::is_user_teacher($this->work))
+        else if(locallib::is_user_teacher($this->student))
         {
-            if($this->work->status == MainDB::READY)
+            if($this->student->latestStatus == MainDB::READY)
             {
                 return false;
             }
@@ -110,7 +110,7 @@ class Filemanager extends Base
 
     private function get_student_files() : string 
     {
-        if(locallib::is_user_student($this->work))
+        if(locallib::is_user_student($this->student))
         {
             $text = get_string('my_files', 'coursework');
         }
@@ -120,7 +120,7 @@ class Filemanager extends Base
         }
         $text = \html_writer::tag('b', $text);
 
-        $filesList = $this->get_files_list('student', $this->work->student);
+        $filesList = $this->get_files_list('student', $this->student->id);
 
         if(empty($filesList))
         {
@@ -136,7 +136,7 @@ class Filemanager extends Base
 
     private function get_teacher_files() : string 
     {
-        if(locallib::is_user_teacher($this->work))
+        if(locallib::is_user_teacher($this->student))
         {
             $text = get_string('my_files', 'coursework');
         }
@@ -146,7 +146,7 @@ class Filemanager extends Base
         }
         $text = \html_writer::tag('b', $text);
 
-        $filesList = $this->get_files_list('teacher', $this->work->student);
+        $filesList = $this->get_files_list('teacher', $this->student->id);
 
         if(empty($filesList))
         {
@@ -222,7 +222,7 @@ class Filemanager extends Base
         $attr = array(
             'type' => 'hidden',
             'name' => view_main::STUDENT_ID,
-            'value' => $this->work->student
+            'value' => $this->student->id
         );
         $form.= \html_writer::empty_tag('input', $attr);
 
@@ -255,7 +255,7 @@ class Filemanager extends Base
         $data = file_prepare_standard_filemanager(
             $data, 'student', $fileoptions, 
             $context, 'mod_coursework', 
-            'student', $this->work->student
+            'student', $this->student->id
         );
         
         $mform = new StudentFileManager(
@@ -271,7 +271,7 @@ class Filemanager extends Base
             // Save the file.
             $data = file_postupdate_standard_filemanager(
                 $data, 'student', $fileoptions, $context, 
-                'mod_coursework', 'student', $this->work->student
+                'mod_coursework', 'student', $this->student->id
             );
             $this->log_event_user_save_files();
             $this->send_notification_to_teacher();
@@ -282,8 +282,8 @@ class Filemanager extends Base
     {
         $cm = $this->cm;
         $course = $this->course;
-        $userFrom = cg::get_user($this->work->student);
-        $userTo = cg::get_user($this->work->teacher); 
+        $userFrom = cg::get_user($this->student->id);
+        $userTo = cg::get_user($this->student->teacher); 
         $messageName = 'student_upload_file';
         $messageText = get_string('student_upload_file_header','coursework');
 
@@ -316,7 +316,7 @@ class Filemanager extends Base
             $data, 'teacher', $fileoptions, 
             $context, 'mod_coursework', 
             'teacher', 
-            $this->work->student
+            $this->student->id
         );
         
         $mform = new TeacherFileManager(
@@ -324,7 +324,7 @@ class Filemanager extends Base
             array
             (
                 'fileoptions' => $fileoptions,
-                'work' => $this->work,
+                'work' => $this->student,
             )
         );
         
@@ -333,7 +333,7 @@ class Filemanager extends Base
             // Save the file.
             $data = file_postupdate_standard_filemanager(
                 $data, 'teacher', $fileoptions, $context, 'mod_coursework', 
-                'teacher', $this->work->student
+                'teacher', $this->student->id
             );
             $this->log_event_user_save_files();
             $this->send_notification_to_student();
@@ -344,8 +344,8 @@ class Filemanager extends Base
     {
         $cm = $this->cm;
         $course = $this->course;
-        $userFrom = cg::get_user($this->work->teacher);
-        $userTo = cg::get_user($this->work->student); 
+        $userFrom = cg::get_user($this->student->teacher);
+        $userTo = cg::get_user($this->student->id); 
         $messageName = 'teacher_upload_file';
         $messageText = get_string('teacher_upload_file_header','coursework');
 
@@ -366,7 +366,7 @@ class Filemanager extends Base
     {
         $params = array
         (
-            'relateduserid' => $this->work->student,
+            'relateduserid' => $this->student->id,
             'context' => \context_module::instance($this->cm->id)
         );
         

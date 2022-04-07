@@ -35,7 +35,7 @@ class Getter
     private function init_students()
     {
         $students = sg::get_all_students($this->cm);
-        $students = sg::add_works_to_students($this->cm->instance, $students);
+        $students = sg::get_students_with_their_works($this->cm->instance, $students);
         $students = $this->add_groups_to_students($students);
 
         return $students;

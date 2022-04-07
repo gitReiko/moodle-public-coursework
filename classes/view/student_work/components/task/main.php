@@ -11,7 +11,7 @@ use Coursework\Lib\Getters\StudentTaskGetter;
 class Main extends c\Base 
 {
 
-    private $work;
+    private $student;
     private $taskSections;
 
     function __construct(\stdClass $course, \stdClass $cm, int $studentId)
@@ -19,7 +19,7 @@ class Main extends c\Base
         parent::__construct($course, $cm, $studentId);
 
         $this->taskSections = $this->get_task_sections();
-        $this->work = sg::get_student_work($this->cm->instance, $this->studentId);
+        $this->student = sg::get_student_with_his_work($this->cm->instance, $this->studentId);
     }
 
     protected function get_hiding_class_name() : string
@@ -77,7 +77,7 @@ class Main extends c\Base
 
     private function get_table_body() : string 
     {
-        $tbody = new Tbody($this->cm, $this->taskSections, $this->work);
+        $tbody = new Tbody($this->cm, $this->taskSections, $this->student);
         return $tbody->get();
     }
 
