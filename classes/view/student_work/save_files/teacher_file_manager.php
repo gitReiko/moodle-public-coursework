@@ -5,6 +5,8 @@ namespace Coursework\View\StudentWork\SaveFiles;
 require_once("$CFG->libdir/formslib.php");
 
 use Coursework\View\StudentWork\Locallib as locallib;
+use Coursework\View\DatabaseHandlers\Main as MainDB;
+use Coursework\View\Main as MainView;
 
 class TeacherFileManager extends \moodleform 
 {
@@ -23,10 +25,10 @@ class TeacherFileManager extends \moodleform
 
         $mform->addElement('hidden', 'id', $PAGE->cm->id);
         $mform->setType('id', PARAM_INT);
-        $mform->addElement('hidden', 'gui_event', 'user_work');
-        $mform->setType('gui_event', PARAM_TEXT);
-        $mform->addElement('hidden', 'studentid', $this->_customdata['student']->id);
-        $mform->setType('studentid', PARAM_INT);
+        $mform->addElement('hidden', MainView::GUI_EVENT, 'user_work');
+        $mform->setType(MainView::GUI_EVENT, PARAM_TEXT);
+        $mform->addElement('hidden', MainDB::STUDENT_ID, $this->_customdata['student']->id);
+        $mform->setType(MainDB::STUDENT_ID, PARAM_INT);
 
         $this->add_action_buttons(false, get_string('save_changes', 'coursework'));
     }
