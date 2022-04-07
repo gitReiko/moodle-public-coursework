@@ -326,5 +326,6 @@ $string['work_returned_for_rework'] = 'need to fix';
 $string['work_send_for_check_header'] = 'Coursework send for check';
 $string['work_sent_for_check'] = 'sent to check';
 $string['work_started'] = 'started';
+$string['work_theme_reselection'] = 'theme reselection';
 $string['work'] = 'Work';
 $string['write_your_message_here'] = 'Write your message here';

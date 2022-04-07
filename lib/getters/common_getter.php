@@ -104,6 +104,8 @@ class CommonGetter
                 return get_string('work_returned_for_rework', 'coursework');
             case enum::SENT_FOR_CHECK:
                 return get_string('work_sent_for_check', 'coursework');
+            case enum::THEME_RESELECTION:
+                return get_string('work_theme_reselection', 'coursework');
         }
     }
 

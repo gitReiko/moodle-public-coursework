@@ -114,28 +114,16 @@ class MainRow
 
     private function get_state_cell() : string 
     {
-        if($this->is_student_select_theme())
-        {
-            $text = cg::get_state_name($this->student->status);
-        }
-        else 
+        if(empty($this->student->latestStatus))
         {
             $text = get_string('student_not_chosen_theme', 'coursework');
         }
+        else 
+        {
+            $text = cg::get_state_name($this->student->latestStatus);
+        }
         
         return \html_writer::tag('td', $text);
-    }
-
-    private function is_student_select_theme() : bool 
-    {
-        if(empty($this->student->theme))
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
     }
 
     private function get_leader_cell() : string 

@@ -6,13 +6,14 @@ use Coursework\Classes\Lib\StudentsMassActions\StudentsTable as sma;
 use Coursework\Lib\Getters\StudentsGetter as sg;
 use Coursework\Lib\Getters\CommonGetter as cg;
 use Coursework\Lib\Notification;
+use Coursework\Lib\Enums;
 
 class Database 
 {
     private $course;
     private $cm;
 
-    private $students;
+    private $studentsIds;
     private $leader;
 
     function __construct(\stdClass $course, \stdClass $cm) 
@@ -20,36 +21,64 @@ class Database
         $this->course = $course;
         $this->cm = $cm;
 
-        $this->students = $this->get_students();
+        $this->studentsIds = $this->get_students_ids();
     }
 
     public function execute() 
     {
-        foreach($this->students as $student)
+        foreach($this->studentsIds as $studentId)
         {
-            $this->remove_student_theme_selection($student);
+            $this->remove_student_theme_selection($studentId);
         }
     }
 
-    private function get_students() : array 
+    private function get_students_ids() : array 
     {
-        return optional_param_array(sma::STUDENTS, array(), PARAM_INT);
+        $requestItems = optional_param_array(sma::STUDENTS, array(), PARAM_TEXT);
+
+        $studentsIds = array();
+
+        foreach($requestItems as $requestItem)
+        {
+            $chunks = explode(sma::SEPARATOR, $requestItem);
+            $studentsIds[] = $chunks[0];
+        }
+
+        return $studentsIds;
     }
 
     private function remove_student_theme_selection(int $studentId) : void 
     {
-        $student = sg::get_student_with_his_work($this->cm->instance, $studentId);
-        $student->theme = null;
-        $student->owntheme = null;
+        $work = sg::get_student_work($this->cm->instance, $studentId);
+        $work->theme = null;
+        $work->owntheme = null;
 
         global $DB;
-        if($DB->update_record('coursework_students', $student))
+        if($DB->update_record('coursework_students', $work))
         {
+            $this->add_theme_reselection_status($work);
             $this->print_success_message($studentId);
             $this->send_notification_to_student($studentId);
             $this->log_theme_selection_deleted($studentId);
         }
         else throw new Exception('Student theme selection not removed.');
+    }
+
+    private function add_theme_reselection_status(\stdClass $work)
+    {
+        $state = new \stdClass;
+        $state->coursework = $work->coursework;
+        $state->student = $work->student;
+        $state->type = Enums::COURSEWORK;
+        $state->instance = $work->coursework;
+        $state->status = Enums::THEME_RESELECTION;
+        $state->changetime = time();
+
+        global $DB;
+        if(!$DB->insert_record('coursework_students_statuses', $state)) 
+        {
+            throw new \Exception('Student coursework state "theme_reselection" not added.');
+        }
     }
 
     private function print_success_message($studentId) : void 

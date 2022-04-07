@@ -119,6 +119,16 @@ class StudentsGetter
         }
     }
 
+    public static function get_student_work(int $courseworkId, int $studentId)  
+    {
+        global $DB;
+        $where = array(
+            'coursework' => $courseworkId,
+            'student' => $studentId
+        );
+        return $DB->get_record('coursework_students', $where);
+    }
+
     private static function get_student_with_work(int $courseworkId, \stdClass $student)
     {
         $work = self::get_student_work($courseworkId, $student->id);
@@ -131,16 +141,6 @@ class StudentsGetter
         {
             return self::add_empty_student_work_params($student);
         }
-    }
-
-    private static function get_student_work(int $courseworkId, int $studentId)  
-    {
-        global $DB;
-        $where = array(
-            'coursework' => $courseworkId,
-            'student' => $studentId
-        );
-        return $DB->get_record('coursework_students', $where);
     }
 
     private static function get_student(int $studentId) : \stdClass 
@@ -181,6 +181,7 @@ class StudentsGetter
 
     private static function add_empty_student_work_params(\stdClass $student)
     {
+        $student->coursework = '';
         $student->teacher = '';
         $student->course = '';
         $student->theme = '';
@@ -194,6 +195,7 @@ class StudentsGetter
 
     private static function add_works_params_to_student(\stdClass $student, \stdClass $work)
     {
+        $student->coursework = $work->coursework;
         $student->teacher = $work->teacher;
         $student->course = $work->course;
         $student->theme = self::get_student_theme($work);

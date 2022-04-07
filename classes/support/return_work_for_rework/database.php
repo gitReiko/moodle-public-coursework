@@ -105,7 +105,7 @@ class Database
     {
         $state = new \stdClass;
         $state->coursework = $student->coursework;
-        $state->student = $student->student;
+        $state->student = $student->id;
         $state->type = Enums::COURSEWORK;
         $state->instance = $student->coursework;
         $state->status = Enums::RETURNED_FOR_REWORK;

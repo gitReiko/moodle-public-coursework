@@ -130,7 +130,7 @@ class ThemeSelect
     {
         $state = new \stdClass;
         $state->coursework = $student->coursework;
-        $state->student = $student->student;
+        $state->student = $student->id;
         $state->type = Enums::COURSEWORK;
         $state->instance = $student->coursework;
         $state->status = Enums::TASK_RECEIPT;
@@ -138,7 +138,7 @@ class ThemeSelect
 
         if(!$DB->insert_record('coursework_students_statuses', $state)) 
         {
-            throw new \Exception('Student task state "task_receipt" not added.');
+            throw new \Exception('Student task state "theme_reselection" not added.');
         }
     }
 

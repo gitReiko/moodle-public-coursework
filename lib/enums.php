@@ -16,6 +16,7 @@ class Enums
     const COURSEWORK = 'coursework';
     const SECTION = 'section';
     const THEME_SELECTION = 'theme_selection';
+    const THEME_RESELECTION = 'theme_reselection';
     const TASK_RECEIPT = 'task_receipt';
     const STARTED = 'started';
     const RETURNED_FOR_REWORK = 'returned_for_rework';
