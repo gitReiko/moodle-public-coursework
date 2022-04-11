@@ -16,111 +16,114 @@ class WorkCheck
     private $cm;
 
     private $student;
+    private $studentWork;
+    private $newCourseworkState;
 
     function __construct(\stdClass $course, \stdClass $cm)
     {
-        $this->course = $course;
         $this->cm = $cm;
-        $this->student = $this->get_student();
+        $this->course = $course;
+
+        $studentId = $this->get_student_id();
+
+        $this->student = sg::get_student_with_his_work(
+            $this->cm->instance, 
+            $studentId
+        );
+
+        $this->studentWork = sg::get_student_work(
+            $this->cm->instance, 
+            $studentId
+        );
+        $this->studentWork->grade = $this->get_grade();
+
+        $this->newCourseworkState = $this->get_new_coursework_state();
     }
 
     public function handle()
     {
-        if($this->add_new_coursework_status())
+        if($this->is_new_coursework_state_ready())
         {
-            if($this->is_new_status_returned_for_rework())
+            if($this->is_coursework_regrading())
             {
-                $this->log_event_teacher_sent_coursework_for_rework();
+                $this->save_grade_in_gradebook();
+                $this->update_grade_in_coursework_students_table();
+
+                $text = get_string('work_regrade_message','coursework');
+                $this->send_notification($this->studentWork, $text);
+
+                $this->log_event_teacher_regraded_coursework();
             }
             else 
             {
-                $this->save_grade_in_gradebook();
-    
-                if(cl::is_coursework_use_task($this->cm->instance))
+                if($this->add_new_coursework_status())
                 {
-                    $this->update_user_task_sections_to_ready();
-                }
+                    $this->save_grade_in_gradebook();
+                    $this->update_grade_in_coursework_students_table();
 
-                if($this->is_coursework_already_graded())
-                {
-                    $this->log_event_teacher_regraded_coursework();
-                }
-                else 
-                {
+                    $text = get_string('work_check_message','coursework');
+                    $this->send_notification($this->studentWork, $text);
+
+                    if(cl::is_coursework_use_task($this->cm->instance))
+                    {
+                        $this->set_sections_status_ready();
+                    }
+
                     $this->log_event_teacher_accepted_and_graded_coursework();
                 }
             }
-
-            $this->send_notification($this->student);
         }
-    }
-
-    private function get_student() : \stdClass 
-    {
-        $student = $this->get_student_from_request();
-        $student = sg::get_student_with_his_work($this->cm->instance, $student);
-
-        if(empty($student->grade))
+        // sent for rework
+        else 
         {
-            $student->emptyGrade = true;
+            if($this->add_new_coursework_status())
+            {
+                $this->save_grade_in_gradebook();
+                $this->update_grade_in_coursework_students_table();
+
+                $text = get_string('work_back_to_rework','coursework');
+                $this->send_notification($this->studentWork, $text);
+
+                $this->log_event_teacher_sent_coursework_for_rework();
+            }
         }
-        else
-        {
-            $student->emptyGrade = false;
-        }
-
-        if($this->get_status() == MainDB::READY)
-        {
-            $student->grade = $this->get_grade();
-        }
-
-        return $student;
     }
 
-    private function get_student_from_request() : int 
+    private function get_student_id() : int 
     {
-        $student = optional_param(MainDB::STUDENT, null, PARAM_INT);
-        if(empty($student)) throw new Exception('Missing student id.');
-        return $student;
+        $studentId = optional_param(MainDB::STUDENT, null, PARAM_INT);
+        if(empty($studentId)) throw new \Exception('Missing student id.');
+        return $studentId;
     }
 
-    private function get_status() : string 
+    private function get_grade()  
     {
-        $status = optional_param(MainDB::STATUS, null, PARAM_TEXT);
-        if(empty($status)) throw new Exception('Missing work status.');
-        return $status;
+        return optional_param(MainDB::GRADE, 0, PARAM_INT);
     }
 
-    private function get_grade() : int 
-    {
-        $grade = optional_param(MainDB::GRADE, null, PARAM_INT);
-        if(empty($grade)) throw new Exception('Missing work grade.');
-        return $grade;
-    }
-
-    private function add_new_coursework_status()
-    {
-        global $DB;
-        $status = $this->get_returned_for_rework_status();
-        return $DB->insert_record('coursework_students_statuses', $status);
-    }
-
-    private function get_returned_for_rework_status()
+    private function get_new_coursework_state()
     {
         $state = new \stdClass;
-        $state->coursework = $this->student->coursework;
-        $state->student = $this->student->id;
+        $state->coursework = $this->studentWork->coursework;
+        $state->student = $this->studentWork->student;
         $state->type = Enums::COURSEWORK;
-        $state->instance = $this->student->coursework;
+        $state->instance = $this->studentWork->coursework;
         $state->status = $this->get_status();
         $state->changetime = time();
 
         return $state;
     }
 
-    private function is_new_status_returned_for_rework() : bool 
+    private function get_status() : string 
     {
-        if($this->student->latestStatus == MainDB::RETURNED_FOR_REWORK)
+        $status = optional_param(MainDB::STATUS, null, PARAM_TEXT);
+        if(empty($status)) throw new \Exception('Missing work status.');
+        return $status;
+    }
+
+    private function is_new_coursework_state_ready() : bool 
+    {
+        if($this->newCourseworkState->status == Enums::READY)
         {
             return true;
         }
@@ -130,45 +133,39 @@ class WorkCheck
         }
     }
 
+    private function is_coursework_regrading() : bool 
+    {
+        if(empty($this->student->grade))
+        {
+            return false;
+        }
+        else 
+        {
+            return true;
+        }
+    }
+
     private function save_grade_in_gradebook() : void 
     {
         $grade = new \stdClass;
-        $grade->userid   = $this->student->id;
-        $grade->rawgrade = $this->student->grade;
+        $grade->userid   = $this->studentWork->student;
+        $grade->rawgrade = $this->studentWork->grade;
         $coursework = cg::get_coursework($this->cm->instance);
         coursework_grade_item_update($coursework, $grade);
     }
 
-    private function update_user_task_sections_to_ready() : void 
-    {
-        $sections = $this->get_sections();
-
-        foreach($sections as $section)
-        {
-            $this->add_section_status_in_database($sectionRow);
-        }
-    }
-
-    private function get_sections()
-    {
-        $ts = new StudentTaskGetter($this->cm->instance, $this->get_student());
-        return $ts->get_sections();
-    }
-
-    private function add_section_status_in_database(\stdClass $section) : void 
+    private function update_grade_in_coursework_students_table()
     {
         global $DB;
-        $section->status = MainDB::READY;
-        $section->timemodified = time();
-        $DB->insert_record('coursework_students_statuses', $section);
+        $DB->update_record('coursework_students', $this->studentWork);
     }
 
-    private function send_notification(\stdClass $student) : void 
+    private function send_notification(\stdClass $work, $notifyText) : void 
     {
         $cm = $this->cm;
         $course = $this->course;
-        $userFrom = cg::get_user($student->teacher);
-        $userTo = cg::get_user($student->id); 
+        $userFrom = cg::get_user($work->teacher);
+        $userTo = cg::get_user($work->student); 
         $messageName = 'workcheck';
         $messageText = get_string('work_check_message','coursework');
 
@@ -184,47 +181,11 @@ class WorkCheck
         $notification->send();
     }
 
-    private function log_event_teacher_sent_coursework_for_rework() : void 
-    {
-        $params = array
-        (
-            'relateduserid' => $this->student->id,
-            'context' => \context_module::instance($this->cm->id)
-        );
-        
-        $event = \mod_coursework\event\teacher_sent_coursework_for_rework::create($params);
-        $event->trigger();
-    }
-
-    private function is_coursework_already_graded() : bool 
-    {
-        if($this->student->emptyGrade)
-        {
-            return false;
-        }
-        else 
-        {
-            return true;
-        }
-    }
-
-    private function log_event_teacher_accepted_and_graded_coursework() : void 
-    {
-        $params = array
-        (
-            'relateduserid' => $this->student->id,
-            'context' => \context_module::instance($this->cm->id)
-        );
-        
-        $event = \mod_coursework\event\teacher_accepted_and_graded_coursework::create($params);
-        $event->trigger();
-    }
-
     private function log_event_teacher_regraded_coursework() : void 
     {
         $params = array
         (
-            'relateduserid' => $this->student->id,
+            'relateduserid' => $this->studentWork->student,
             'context' => \context_module::instance($this->cm->id)
         );
         
@@ -232,7 +193,70 @@ class WorkCheck
         $event->trigger();
     }
 
+    private function add_new_coursework_status()
+    {
+        global $DB;
+        return $DB->insert_record('coursework_students_statuses', $this->newCourseworkState);
+    }
 
+    private function set_sections_status_ready() : void 
+    {
+        $sections = $this->get_sections();
 
+        foreach($sections as $section)
+        {
+            $section = $this->get_section_new_status($section);
+            $this->add_new_section_status($section);
+        }
+    }
+
+    private function get_sections()
+    {
+        $ts = new StudentTaskGetter($this->cm->instance, $this->get_student());
+        return $ts->get_sections();
+    }
+
+    private function get_section_new_status(int $section)
+    {
+        $state = new \stdClass;
+        $state->coursework = $this->studentWork->coursework;
+        $state->student = $this->studentWork->student;
+        $state->type = Enums::SECTION;
+        $state->instance = $section->id;
+        $state->status = Enums::READY;
+        $state->changetime = time();
+
+        return $state;
+    }
+
+    private function add_new_section_status(\stdClass $newState) : void 
+    {
+        global $DB;
+        $DB->insert_record('coursework_students_statuses', $newState);
+    }
+
+    private function log_event_teacher_accepted_and_graded_coursework() : void 
+    {
+        $params = array
+        (
+            'relateduserid' => $this->studentWork->student,
+            'context' => \context_module::instance($this->cm->id)
+        );
+        
+        $event = \mod_coursework\event\teacher_accepted_and_graded_coursework::create($params);
+        $event->trigger();
+    }
+
+    private function log_event_teacher_sent_coursework_for_rework() : void 
+    {
+        $params = array
+        (
+            'relateduserid' => $this->studentWork->student,
+            'context' => \context_module::instance($this->cm->id)
+        );
+        
+        $event = \mod_coursework\event\teacher_sent_coursework_for_rework::create($params);
+        $event->trigger();
+    }
 
 }

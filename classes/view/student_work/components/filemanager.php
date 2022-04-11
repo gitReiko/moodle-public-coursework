@@ -2,7 +2,6 @@
 
 namespace Coursework\View\StudentWork\Components;
 
-use Coursework\View\DatabaseHandlers\Main as MainDB;
 use Coursework\View\StudentWork\SaveFiles\StudentFileManager;
 use Coursework\View\StudentWork\SaveFiles\TeacherFileManager;
 use Coursework\View\StudentWork\Locallib as locallib;
@@ -10,6 +9,7 @@ use Coursework\View\StudentWork\Main as StudentWorkMain;
 use Coursework\Lib\Getters\CommonGetter as cg;
 use Coursework\Lib\Getters\StudentsGetter as sg;
 use Coursework\Lib\Notification;
+use Coursework\Lib\Enums;
 
 use Coursework\View\Main as view_main;
 
@@ -71,11 +71,11 @@ class Filemanager extends Base
     {
         if(locallib::is_user_student($this->student))
         {
-            if($this->student->latestStatus == MainDB::READY)
+            if($this->student->latestStatus == Enums::READY)
             {
                 return false;
             }
-            else if($this->student->latestStatus == MainDB::SENT_FOR_CHECK)
+            else if($this->student->latestStatus == Enums::SENT_FOR_CHECK)
             {
                 return false;
             }
@@ -86,7 +86,7 @@ class Filemanager extends Base
         }
         else if(locallib::is_user_teacher($this->student))
         {
-            if($this->student->latestStatus == MainDB::READY)
+            if($this->student->latestStatus == Enums::READY)
             {
                 return false;
             }
