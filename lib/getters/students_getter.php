@@ -226,7 +226,17 @@ class StudentsGetter
             $work->student
         );
 
-        return end($DB->get_records_sql($sql, $params));
+        $states = $DB->get_records_sql($sql, $params);
+
+        usort($states, function($a, $b)
+        {
+            $a = intval($a->changetime);
+            $b = intval($b->changetime);
+            if ($a == $b) { return 0; }
+            return ($a < $b) ? -1 : 1;
+        });
+
+        return end($states);
     }
 
 
