@@ -111,7 +111,7 @@ class TaskAssignMethods
         $attr = array(
             'type' => 'hidden',
             'name' => MainDB::DB_EVENT,
-            'value' => db::DEFAULT_TASK_ASSIGN
+            'value' => db::ASSIGN_DEFAULT_TASK
         );
         $btn.= \html_writer::empty_tag('input', $attr);
 

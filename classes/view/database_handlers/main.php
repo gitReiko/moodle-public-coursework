@@ -2,11 +2,11 @@
 
 namespace Coursework\View\DatabaseHandlers;
 
+require_once 'assign_default_task.php';
 require_once 'chat_message.php';
 require_once 'check_task_section.php';
 require_once 'check_work.php';
 require_once 'custom_task_assignment.php';
-require_once 'default_task_assign.php';
 require_once 'mark_messages_as_readed.php';
 require_once 'select_theme.php';
 require_once 'send_section_for_check.php';
@@ -14,13 +14,13 @@ require_once 'send_work_for_check.php';
 
 class Main 
 {
+    const ASSIGN_DEFAULT_TASK = 'assign_default_task';
     const CHAT_MESSAGE = 'chat_message';
     const CHECK_TASK_SECTION = 'check_task_section';
     const CHECK_WORK = 'check_work';
     const COURSE = 'course';
     const CUSTOM_TASK_ASSIGNMENT = 'custom_task_assignment';
     const DB_EVENT = 'database_event';
-    const DEFAULT_TASK_ASSIGN = 'default_task_assign';
     const DESCRIPTION = 'description';
     const GRADE = 'grade';
     const ID = 'id';
@@ -60,8 +60,8 @@ class Main
             case self::SELECT_THEME : 
                 $this->handle_select_theme_database_event();
                 break;
-            case self::DEFAULT_TASK_ASSIGN : 
-                $this->handle_default_task_assign_database_event();
+            case self::ASSIGN_DEFAULT_TASK : 
+                $this->handle_assign_default_task_database_event();
                 break;
             case self::CUSTOM_TASK_ASSIGNMENT : 
                 $this->handle_custom_task_assignment_database_event();
@@ -87,9 +87,9 @@ class Main
         $database->handle();
     }
 
-    private function handle_default_task_assign_database_event() : void 
+    private function handle_assign_default_task_database_event() : void 
     {
-        $database = new DefaultTaskAssign($this->course, $this->cm);
+        $database = new AssignDefaultTask($this->course, $this->cm);
         $database->handle();
     }
 

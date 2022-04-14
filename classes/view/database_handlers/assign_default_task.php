@@ -8,7 +8,7 @@ use Coursework\Lib\Getters\CommonGetter as cg;
 use Coursework\Lib\Notification;
 use Coursework\Lib\Enums;
 
-class DefaultTaskAssign 
+class AssignDefaultTask 
 {
       
     private $course;
