@@ -6,23 +6,37 @@ use Coursework\View\DatabaseHandlers\Main as MainDB;
 use Coursework\Lib\Getters\StudentsGetter as sg;
 use Coursework\Lib\Getters\CommonGetter as cg;
 use Coursework\Lib\Notification;
+use Coursework\Lib\Enums;
 
-class UseTaskTemplate 
+class DefaultTaskAssign 
 {
       
     private $course;
     private $cm;
 
+    private $studentWork;
+    private $taskSections;
+
     function __construct(\stdClass $course, \stdClass $cm)
     {
         $this->course = $course;
         $this->cm = $cm;
+
+        $this->studentWork = $this->get_student_work();
+        $this->taskSections = cg::get_task_sections($this->studentWork->task);
     }
 
     public function handle()
     {
-        $work = $this->get_student_work();
-        $this->update_student_work($work);
+        global $DB;
+
+        if($DB->update_record('coursework_students', $this->studentWork))
+        {
+            $this->set_status_started_to_task_section();
+
+            $this->send_notification_to_student($this->studentWork);
+            $this->log_event();
+        }
     }
 
     private function get_student_work() : \stdClass 
@@ -33,6 +47,8 @@ class UseTaskTemplate
 
         $studentWork = new \stdClass;
         $studentWork->id = $work->id;
+        $studentWork->coursework = $work->coursework;
+        $studentWork->student = $work->student;
         $studentWork->task = $taskTemplate->id;
 
         return $studentWork;
@@ -45,14 +61,32 @@ class UseTaskTemplate
         return $studentId;
     }
 
-    private function update_student_work(\stdClass $work)
+    private function set_status_started_to_task_section() : void 
+    {
+        foreach($this->taskSections as $section)
+        {
+            $this->add_section_status(
+                $this->get_section_status($section->id)
+            );
+        }
+    }
+
+    private function get_section_status(int $sectionId) : \stdClass 
+    {
+        $sectionStatus = new \stdClass;
+        $sectionStatus->coursework = $this->studentWork->coursework;
+        $sectionStatus->student = $this->studentWork->student;
+        $sectionStatus->type = Enums::SECTION;
+        $sectionStatus->instance = $sectionId;
+        $sectionStatus->status = Enums::STARTED;
+        $sectionStatus->changetime = time();
+        return $sectionStatus;
+    }
+
+    private function add_section_status(\stdClass $sectionStatus) : void 
     {
         global $DB;
-        if($DB->update_record('coursework_students', $work))
-        {
-            $this->send_notification_to_student($work);
-            $this->log_event();
-        }
+        if($DB->insert_record('coursework_students_statuses', $sectionStatus));
     }
 
     private function send_notification_to_student(\stdClass $row) : void 
