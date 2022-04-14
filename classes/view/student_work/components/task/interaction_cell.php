@@ -39,7 +39,7 @@ class InteractionCell
 
     private function get_student_button() : string 
     {
-        if(locallib::is_state_started_or_returned_for_rework($this->section->status))
+        if(locallib::is_state_started_or_returned_for_rework($this->section->latestStatus))
         {
             return $this->get_sent_for_check_button();
         }
@@ -98,7 +98,7 @@ class InteractionCell
     {
         $btn = '';
 
-        if(locallib::is_state_sent_for_check($this->section->status))
+        if(locallib::is_state_sent_for_check($this->section->latestStatus))
         {
             $btn.= $this->get_accept_section_button();
             $btn.= $this->get_send_for_rework_button();
@@ -116,7 +116,7 @@ class InteractionCell
 
     private function is_section_ready() : bool 
     {
-        if($this->section->status == MainDB::READY)
+        if($this->section->latestStatus == enum::READY)
         {
             return true;
         }
@@ -128,7 +128,7 @@ class InteractionCell
 
     private function is_coursework_started() : bool 
     {
-        if($this->student->latestStatus == MainDB::READY)
+        if($this->student->latestStatus == enum::READY)
         {
             return false;
         }

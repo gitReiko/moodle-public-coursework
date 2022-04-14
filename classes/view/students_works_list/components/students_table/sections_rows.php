@@ -54,7 +54,7 @@ class SectionsRows
     private function get_section_state_cell(\stdClass $section) : string 
     {
         $attr = array('colspan' => 2);
-        $text = cg::get_state_name($section->status);
+        $text = cg::get_state_name($section->latestStatus);
         return \html_writer::tag('td', $text, $attr);
     }
 

@@ -49,15 +49,15 @@ class Tbody
     private function get_section_state_cell(\stdClass $section) : string 
     {
         $attr = array('class' => 'center');
-        $text = cg::get_state_name($section->status);
+        $text = cg::get_state_name($section->latestStatus);
         return \html_writer::tag('td', $text, $attr);
     }
 
     private function get_last_modify_date_cell(\stdClass $section) : string 
     {
-        if($this->is_date_exists($section->statusmodified))
+        if($this->is_date_exists($section->statusChangeTime))
         {
-            $text = date('H:i d-m-Y', $section->statusmodified);
+            $text = date('H:i d-m-Y', $section->statusChangeTime);
         }
         else
         {

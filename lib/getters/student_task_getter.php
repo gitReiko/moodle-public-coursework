@@ -85,13 +85,13 @@ class StudentTaskGetter
 
             if($this->is_section_status_exist($state))
             {
-                $section->status = $state->status;
-                $section->statusmodified = $state->changetime;
+                $section->latestStatus = $state->status;
+                $section->statusChangeTime = $state->changetime;
             }
             else 
             {
-                $section->status = enum::STARTED;
-                $section->statusmodified = $this->get_coursework_task_receiving_date();
+                $section->latestStatus = enum::STARTED;
+                $section->statusChangeTime = $this->get_coursework_task_receiving_date();
             }
         }
 
