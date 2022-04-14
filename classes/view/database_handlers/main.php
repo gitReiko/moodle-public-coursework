@@ -2,9 +2,9 @@
 
 namespace Coursework\View\DatabaseHandlers;
 
+require_once 'add_chat_message.php';
 require_once 'assign_custom_task.php';
 require_once 'assign_default_task.php';
-require_once 'chat_message.php';
 require_once 'check_task_section.php';
 require_once 'check_work.php';
 require_once 'mark_messages_as_readed.php';
@@ -14,9 +14,9 @@ require_once 'send_work_for_check.php';
 
 class Main 
 {
+    const ADD_CHAT_MESSAGE = 'add_chat_message';
     const ASSIGN_CUSTOM_TASK = 'assign_custom_task';
     const ASSIGN_DEFAULT_TASK = 'assign_default_task';
-    const CHAT_MESSAGE = 'chat_message';
     const CHECK_TASK_SECTION = 'check_task_section';
     const CHECK_WORK = 'check_work';
     const COURSE = 'course';
@@ -54,8 +54,8 @@ class Main
 
         switch($event)
         {
-            case self::CHAT_MESSAGE : 
-                $this->handle_chat_message_database_event();
+            case self::ADD_CHAT_MESSAGE : 
+                $this->handle_add_chat_message_database_event();
                 break;
             case self::SELECT_THEME : 
                 $this->handle_select_theme_database_event();
@@ -99,9 +99,9 @@ class Main
         $database->handle();
     }
 
-    private function handle_chat_message_database_event() : void 
+    private function handle_add_chat_message_database_event() : void 
     {
-        $database = new ChatMessage($this->course, $this->cm);
+        $database = new AddChatMessage($this->course, $this->cm);
         $database->handle();
     }
 

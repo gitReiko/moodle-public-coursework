@@ -282,7 +282,7 @@ class Chat extends Base
         $attr = array(
             'type' => 'hidden',
             'name' => MainDB::DB_EVENT,
-            'value' => db::CHAT_MESSAGE
+            'value' => db::ADD_CHAT_MESSAGE
         );
         $params.= \html_writer::empty_tag('input', $attr);
 
