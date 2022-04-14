@@ -10,7 +10,7 @@ use Coursework\Lib\CommonLib as cl;
 use Coursework\Lib\Notification;
 use Coursework\Lib\Enums;
 
-class WorkCheck 
+class CheckWork 
 {
     private $course;
     private $cm;

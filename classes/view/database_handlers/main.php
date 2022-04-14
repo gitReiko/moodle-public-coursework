@@ -2,19 +2,20 @@
 
 namespace Coursework\View\DatabaseHandlers;
 
-require_once 'select_theme.php';
+require_once 'chat_message.php';
+require_once 'check_work.php';
 require_once 'custom_task_assignment.php';
 require_once 'default_task_assign.php';
-require_once 'chat_message.php';
+require_once 'mark_messages_as_readed.php';
+require_once 'section_check.php';
+require_once 'select_theme.php';
 require_once 'send_section_for_check.php';
 require_once 'send_work_for_check.php';
-require_once 'section_check.php';
-require_once 'work_check.php';
-require_once 'mark_messages_as_readed.php';
 
 class Main 
 {
     const CHAT_MESSAGE = 'chat_message';
+    const CHECK_WORK = 'check_work';
     const COURSE = 'course';
     const CUSTOM_TASK_ASSIGNMENT = 'custom_task_assignment';
     const DB_EVENT = 'database_event';
@@ -37,7 +38,6 @@ class Main
     const THEME = 'theme';
     const USERFROM = 'userfrom';
     const USERTO = 'userto';
-    const WORK_CHECK = 'work_check';
         
     private $course;
     private $cm;
@@ -75,8 +75,8 @@ class Main
             case self::SECTION_CHECK : 
                 $this->handle_sections_check_database_event();
                 break;
-            case self::WORK_CHECK : 
-                $this->handle_work_check_database_event();
+            case self::CHECK_WORK : 
+                $this->handle_check_work_database_event();
                 break;
         }
     }
@@ -123,9 +123,9 @@ class Main
         $database->handle();
     }
 
-    private function handle_work_check_database_event() : void 
+    private function handle_check_work_database_event() : void 
     {
-        $database = new WorkCheck($this->course, $this->cm);
+        $database = new CheckWork($this->course, $this->cm);
         $database->handle();
     }
 

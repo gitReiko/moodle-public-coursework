@@ -118,7 +118,7 @@ class WorkCheck extends Base
         $attr = array(
             'type' => 'hidden',
             'name' => MainDB::DB_EVENT,
-            'value' => db::WORK_CHECK
+            'value' => db::CHECK_WORK
         );
         $btn.= \html_writer::empty_tag('input', $attr);
 
@@ -155,7 +155,7 @@ class WorkCheck extends Base
         $attr = array(
             'type' => 'hidden',
             'name' => MainDB::DB_EVENT,
-            'value' => db::WORK_CHECK
+            'value' => db::CHECK_WORK
         );
         $btn.= \html_writer::empty_tag('input', $attr);
 
