@@ -7,7 +7,7 @@ use Coursework\Lib\Getters\CommonGetter as cg;
 use Coursework\Lib\Notification;
 use Coursework\Lib\Enums;
 
-class SectionsCheck 
+class CheckTaskSection
 {
     private $course;
     private $cm;

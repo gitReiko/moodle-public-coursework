@@ -152,7 +152,7 @@ class InteractionCell
         $attr = array(
             'type' => 'hidden',
             'name' => MainDB::DB_EVENT,
-            'value' => db::SECTION_CHECK
+            'value' => db::CHECK_TASK_SECTION
         );
         $btn.= \html_writer::empty_tag('input', $attr);
 
@@ -177,7 +177,7 @@ class InteractionCell
         $attr = array(
             'type' => 'hidden',
             'name' => MainDB::DB_EVENT,
-            'value' => db::SECTION_CHECK
+            'value' => db::CHECK_TASK_SECTION
         );
         $btn.= \html_writer::empty_tag('input', $attr);
 
