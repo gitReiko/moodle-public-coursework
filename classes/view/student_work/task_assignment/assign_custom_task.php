@@ -184,7 +184,7 @@ abstract class AssignCustomTask
         $attr = array(
             'type' => 'hidden',
             'name' => MainDB::DB_EVENT,
-            'value' => db::CUSTOM_TASK_ASSIGNMENT
+            'value' => db::ASSIGN_CUSTOM_TASK
         );
         $form.= \html_writer::empty_tag('input', $attr);
 

@@ -8,7 +8,7 @@ use Coursework\Lib\Getters\StudentsGetter as sg;
 use Coursework\Lib\Notification;
 use Coursework\Lib\Enums;
 
-class CustomTaskAssignment 
+class AssignCustomTask 
 {
     protected $course;
     protected $cm;
