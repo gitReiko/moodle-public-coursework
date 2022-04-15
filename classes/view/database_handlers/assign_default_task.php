@@ -2,7 +2,7 @@
 
 namespace Coursework\View\DatabaseHandlers;
 
-use Coursework\View\DatabaseHandlers\Lib\SetStatusStartedToTaskSection;
+use Coursework\View\DatabaseHandlers\Lib\SetStatusStartedToTaskSections;
 use Coursework\View\DatabaseHandlers\Main as MainDB;
 use Coursework\Lib\Getters\StudentsGetter as sg;
 use Coursework\Lib\Getters\CommonGetter as cg;
@@ -33,7 +33,7 @@ class AssignDefaultTask
 
         if($DB->update_record('coursework_students', $this->studentWork))
         {
-            $this->set_status_started_to_task_section();
+            $this->set_status_started_to_task_sections();
 
             $this->send_notification_to_student($this->studentWork);
             $this->log_event();
@@ -62,13 +62,13 @@ class AssignDefaultTask
         return $studentId;
     }
 
-    private function set_status_started_to_task_section() : void 
+    private function set_status_started_to_task_sections() : void 
     {
-        $setStatusStartedToTaskSection = new SetStatusStartedToTaskSection(
+        $setStatusStartedToTaskSections = new SetStatusStartedToTaskSections(
             $this->studentWork,
             $this->taskSections
         );
-        $setStatusStartedToTaskSection->execute();
+        $setStatusStartedToTaskSections->execute();
     }
 
     private function send_notification_to_student(\stdClass $row) : void 

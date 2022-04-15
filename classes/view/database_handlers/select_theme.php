@@ -2,6 +2,7 @@
 
 namespace Coursework\View\DatabaseHandlers;
 
+use Coursework\View\DatabaseHandlers\Lib\SetStatusStartedToTaskSections;
 use Coursework\View\DatabaseHandlers\Main as MainDB;
 use Coursework\View\StudentWork\Locallib as locallib;
 use Coursework\Lib\Getters\CommonGetter as cg;
@@ -45,6 +46,7 @@ class ThemeSelect
         }
         else 
         {
+            $this->set_status_started_to_task_sections($student);
             $this->send_notification_to_teacher_theme_selected($student);
         }
 
@@ -130,12 +132,13 @@ class ThemeSelect
     {
         $state = new \stdClass;
         $state->coursework = $student->coursework;
-        $state->student = $student->id;
+        $state->student = $student->student;
         $state->type = Enums::COURSEWORK;
         $state->instance = $student->coursework;
         $state->status = Enums::TASK_RECEIPT;
         $state->changetime = time();
 
+        global $DB;
         if(!$DB->insert_record('coursework_students_statuses', $state)) 
         {
             throw new \Exception('Student task state "theme_reselection" not added.');
@@ -347,6 +350,15 @@ class ThemeSelect
         );
 
         $notification->send();
+    }
+
+    private function set_status_started_to_task_sections(\stdClass $student) : void 
+    {
+        $setStatusStartedToTaskSections = new SetStatusStartedToTaskSections(
+            $student,
+            cg::get_task_sections($student->task)
+        );
+        $setStatusStartedToTaskSections->execute();
     }
 
     private function get_select_theme_html_message($giveTask = false) : string

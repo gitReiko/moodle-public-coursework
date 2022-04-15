@@ -2,6 +2,7 @@
 
 namespace Coursework\View\DatabaseHandlers;
 
+use Coursework\View\DatabaseHandlers\Lib\SetStatusStartedToTaskSections;
 use Coursework\View\DatabaseHandlers\Main as MainDB;
 use Coursework\Lib\Getters\CommonGetter as cg;
 use Coursework\Lib\Getters\StudentsGetter as sg;
@@ -116,6 +117,7 @@ class AssignCustomTask
         if($DB->update_record('coursework_students', $work)) 
         {
             $this->add_student_task_receipt_status($work);
+            $this->set_status_started_to_task_sections($work);
             $this->send_notification_to_student($work);
             $this->log_event();
         }
@@ -131,10 +133,20 @@ class AssignCustomTask
         $state->status = Enums::TASK_RECEIPT;
         $state->changetime = time();
 
+        global $DB;
         if(!$DB->insert_record('coursework_students_statuses', $state)) 
         {
             throw new \Exception('Student task state "task_receipt" not added.');
         }
+    }
+
+    private function set_status_started_to_task_sections(\stdClass $work) : void 
+    {
+        $setStatusStartedToTaskSections = new SetStatusStartedToTaskSections(
+            $work,
+            cg::get_task_sections($work->task)
+        );
+        $setStatusStartedToTaskSections->execute();
     }
 
     private function send_notification_to_student(\stdClass $work) : void 

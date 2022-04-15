@@ -4,7 +4,7 @@ namespace Coursework\View\DatabaseHandlers\Lib;
 
 use Coursework\Lib\Enums;
 
-class SetStatusStartedToTaskSection 
+class SetStatusStartedToTaskSections 
 {
     private $studentWork;
     private $taskSections;
