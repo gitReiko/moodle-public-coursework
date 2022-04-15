@@ -2,6 +2,7 @@
 
 namespace Coursework\View\DatabaseHandlers;
 
+use Coursework\View\DatabaseHandlers\Lib\SetStatusStartedToTaskSection;
 use Coursework\View\DatabaseHandlers\Main as MainDB;
 use Coursework\Lib\Getters\StudentsGetter as sg;
 use Coursework\Lib\Getters\CommonGetter as cg;
@@ -63,30 +64,11 @@ class AssignDefaultTask
 
     private function set_status_started_to_task_section() : void 
     {
-        foreach($this->taskSections as $section)
-        {
-            $this->add_section_status(
-                $this->get_section_status($section->id)
-            );
-        }
-    }
-
-    private function get_section_status(int $sectionId) : \stdClass 
-    {
-        $sectionStatus = new \stdClass;
-        $sectionStatus->coursework = $this->studentWork->coursework;
-        $sectionStatus->student = $this->studentWork->student;
-        $sectionStatus->type = Enums::SECTION;
-        $sectionStatus->instance = $sectionId;
-        $sectionStatus->status = Enums::STARTED;
-        $sectionStatus->changetime = time();
-        return $sectionStatus;
-    }
-
-    private function add_section_status(\stdClass $sectionStatus) : void 
-    {
-        global $DB;
-        if($DB->insert_record('coursework_students_statuses', $sectionStatus));
+        $setStatusStartedToTaskSection = new SetStatusStartedToTaskSection(
+            $this->studentWork,
+            $this->taskSections
+        );
+        $setStatusStartedToTaskSection->execute();
     }
 
     private function send_notification_to_student(\stdClass $row) : void 
