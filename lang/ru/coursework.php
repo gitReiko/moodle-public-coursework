@@ -328,6 +328,7 @@ $string['work_returned_for_rework'] = 'необходимо исправить';
 $string['work_send_for_check_header'] = 'Курсовая работа отправлена на проверку';
 $string['work_sent_for_check'] = 'отправлен(а) на проверку';
 $string['work_started'] = 'начат(а)';
+$string['work_task_receipt'] = 'ожидание выдачи задания';
 $string['work_theme_reselection'] = 'перевыбор темы';
 $string['work'] = 'Работа';
 $string['write_your_message_here'] = 'Напишите тут своё сообщение';
