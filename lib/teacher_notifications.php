@@ -88,7 +88,11 @@ class TeacherNotifications
         {
             if($this->coursework->autotaskissuance == 0)
             {
-                if(empty($this->student->task))
+                if(empty($this->student->theme))
+                {
+                    return false;
+                }
+                else if(empty($this->student->task))
                 {
                     return true;
                 }
