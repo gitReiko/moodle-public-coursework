@@ -3,6 +3,7 @@
 namespace Coursework\View\DatabaseHandlers;
 
 use Coursework\View\DatabaseHandlers\Lib\SetStatusStartedToTaskSections;
+use Coursework\View\DatabaseHandlers\Lib\AddNewStudentWorkStatus;
 use Coursework\View\DatabaseHandlers\Main as MainDB;
 use Coursework\View\StudentWork\Locallib as locallib;
 use Coursework\Lib\Getters\CommonGetter as cg;
@@ -12,169 +13,100 @@ use Coursework\Lib\Enums;
 
 class ThemeSelect 
 {
-      
     private $course;
     private $cm;
+    private $coursework;
+    private $studentWork;
 
     function __construct(\stdClass $course, \stdClass $cm)
     {
         $this->course = $course;
         $this->cm = $cm;
+        $this->coursework = cg::get_coursework($this->cm->instance);
+        $this->studentWork = $this->get_student_work();
     }
 
     public function handle()
     {
-        $student = $this->get_coursework_student_row();
-        $this->handle_exceptions($student);
+        $this->handle_exceptions();
 
-        if($this->is_student_row_exist($student))
+        if($this->update_student_work())
         {
-            $student->id = $this->get_student_row_id($student);
-            $this->update_student_row($student);
-        }
-        else 
-        {
-            $this->add_student_row($student);
-        }
+            $this->add_theme_selection_status_to_student();
 
-        $this->add_student_theme_selection_status($student);
-        $this->add_student_coursework_started_status($student);
-
-        if($this->is_teacher_must_give_task())
-        {
-            $this->send_notification_to_teacher_give_task($student);
-        }
-        else 
-        {
-            $this->set_status_started_to_task_sections($student);
-            $this->send_notification_to_teacher_theme_selected($student);
-        }
-
-        $this->log_event_student_chose_theme();
-    }
-
-    private function add_student_theme_selection_status(\stdClass $student)
-    {
-        $state = new \stdClass;
-        $state->coursework = $student->coursework;
-        $state->student = $student->student;
-        $state->type = Enums::COURSEWORK;
-        $state->instance = $student->coursework;
-        $state->status = Enums::THEME_SELECTION;
-        $state->changetime = time();
-
-        global $DB;
-        if(!$DB->insert_record('coursework_students_statuses', $state)) 
-        {
-            throw new \Exception('Student coursework state "theme_selection" not added.');
-        }
-    }
-
-    private function add_student_coursework_started_status(\stdClass $student)
-    {
-        $state = new \stdClass;
-        $state->coursework = $student->coursework;
-        $state->student = $student->student;
-        $state->type = Enums::COURSEWORK;
-        $state->instance = $student->coursework;
-        $state->status = Enums::STARTED;
-        $state->changetime = intval(time())+1;
-
-        global $DB;
-        if(!$DB->insert_record('coursework_students_statuses', $state)) 
-        {
-            throw new \Exception('Student coursework state "started" not added.');
-        }
-    }
-
-    private function is_teacher_must_give_task() : bool 
-    {
-        $coursework = cg::get_coursework($this->cm->instance);
-
-        if($coursework->usetask)
-        {
-            if($coursework->autotaskissuance)
+            if($this->is_neccessary_assign_task())
             {
-                return false;
+                if($this->is_teacher_must_give_task())
+                {
+                    $this->send_notification_give_task_to_teacher();
+                }
+                else 
+                {
+                    $this->add_task_receipt_status_to_student();
+                    $this->add_started_status_to_student_work();
+                    $this->set_status_started_to_task_sections();
+                    $this->log_event_assign_default_task_to_student();
+                }
             }
             else 
             {
-                return true;
+                $this->add_started_status_to_student_work();
             }
-        }
-        else 
-        {
-            return false;
+    
+            $this->send_notification_theme_selected_to_teacher();
+            $this->log_event_student_chose_theme();
         }
     }
 
-    private function get_coursework_student_row() : \stdClass 
+    private function get_student_work() : \stdClass 
     {
-        $row = new \stdClass;
-        $row->coursework = $this->get_coursework();
-        $row->student = $this->get_student();
-        $row->teacher = $this->get_teacher();
-        $row->course = $this->get_course();
-        $row->theme = $this->get_theme();
-        $row->owntheme = $this->get_own_theme();
+        $work = new \stdClass;
+        $work->coursework = $this->get_coursework_id();
+        $work->student = $this->get_student_id();
+        $work->teacher = $this->get_teacher_id();
+        $work->course = $this->get_course_id();
+        $work->theme = $this->get_theme_id();
+        $work->owntheme = $this->get_own_theme();
 
-        if($this->is_task_obtained_automatically())
+        $work->id = $this->get_student_work_id($work);
+
+        if($this->is_task_assigned_automatically())
         {
-            $row->task = $this->get_coursework_task_template();
-            $this->add_student_task_receipt_status($row);
-            $this->log_event_assign_default_task_to_student($row);
+            $work->task = $this->get_default_task_id();
         }
 
-        return $row;
+        return $work;
     }
 
-    private function add_student_task_receipt_status(\stdClass $student)
+    private function get_coursework_id() : int 
     {
-        $state = new \stdClass;
-        $state->coursework = $student->coursework;
-        $state->student = $student->student;
-        $state->type = Enums::COURSEWORK;
-        $state->instance = $student->coursework;
-        $state->status = Enums::TASK_RECEIPT;
-        $state->changetime = time();
-
-        global $DB;
-        if(!$DB->insert_record('coursework_students_statuses', $state)) 
-        {
-            throw new \Exception('Student task state "theme_reselection" not added.');
-        }
+        $courseworkId = $this->cm->instance;
+        if(empty($courseworkId)) throw new \Exception('Missing coursework id.');
+        return $courseworkId;
     }
 
-    private function get_coursework() : int 
-    {
-        $coursework = $this->cm->instance;
-        if(empty($coursework)) throw new \Exception('Missing coursework id.');
-        return $coursework;
-    }
-
-    private function get_student() : int 
+    private function get_student_id() : int 
     {
         global $USER;
-        $student = $USER->id;
-        if(empty($student)) throw new \Exception('Missing student id');
-        return $student;
+        if(empty($USER->id)) throw new \Exception('Missing student id');
+        return $USER->id;
     }
 
-    private function get_teacher() : int 
+    private function get_teacher_id() : int 
     {
         $teacher = optional_param(MainDB::TEACHER, null, PARAM_INT);
         if(empty($teacher)) throw new \Exception('Missing teacher id.');
         return $teacher;
     }
 
-    private function get_course() : int 
+    private function get_course_id() : int 
     {
         $course = optional_param(MainDB::COURSE, null, PARAM_INT);
         if(empty($course)) throw new \Exception('Missing course id.');
         return $course;
     }
 
-    private function get_theme()
+    private function get_theme_id()
     {
         $theme = optional_param(MainDB::THEME, null, PARAM_INT);
         return $theme;
@@ -182,35 +114,119 @@ class ThemeSelect
 
     private function get_own_theme()
     {
-        $theme = optional_param(MainDB::OWN_THEME, null, PARAM_TEXT);
-        return $theme;
+        return optional_param(MainDB::OWN_THEME, null, PARAM_TEXT);
     }
 
-    private function handle_exceptions(\stdClass $row) : void 
+    private function get_student_work_id(\stdClass $work) : int 
     {
-        if($this->is_user_didnt_selected_theme($row))
+        global $DB;
+        $where = array('coursework' => $work->coursework, 'student' => $work->student);
+        return $DB->get_field('coursework_students', 'id', $where);
+    }
+
+    private function is_task_assigned_automatically() : bool 
+    {
+        if($this->is_neccessary_assign_task() && (!$this->is_teacher_must_give_task()))
+        {
+            return true;
+        }
+        else 
+        {
+            return false;
+        }
+    }
+
+    private function is_neccessary_assign_task() : bool 
+    {
+        if($this->coursework->usetask)
+        {
+            return true;
+        }
+        else 
+        {
+            return false;
+        }
+    }
+
+    private function is_teacher_must_give_task() : bool 
+    {
+        if($this->coursework->autotaskissuance)
+        {
+            return false;
+        }
+        else 
+        {
+            return true;
+        }
+    }
+
+    private function get_default_task_id() : int 
+    {
+        $defaultTask = cg::get_default_coursework_task($this->cm);
+        if(empty($defaultTask->id)) throw new \Exception('Task template is absent.');
+        return $defaultTask->id;
+    }
+
+    private function handle_exceptions() : void 
+    {
+        if($this->is_user_didnt_selected_theme())
         {
             throw new \Exception(get_string('e:missing_theme_and_own_theme', 'coursework'));
         }
-        if($this->is_theme_already_used($row))
+        if($this->is_theme_already_used())
         {
             throw new \Exception(get_string('e:theme_already_used', 'coursework'));
         }
-        if($this->is_teacher_quota_gone($row)
-            && $this->is_it_not_theme_select_update($row))
+        if($this->is_teacher_quota_gone() && $this->is_it_not_theme_select_update())
         {
             throw new \Exception(get_string('e:teacher_quota_over', 'coursework'));
         }
     }
 
-    private function is_teacher_quota_gone($student) : bool
+    private function is_user_didnt_selected_theme() : bool 
+    {
+        if(empty($this->studentWork->theme) && empty($this->studentWork->owntheme))
+        {
+            return true;
+        }
+        else 
+        {
+            return false;
+        }
+    }
+
+    private function is_theme_already_used() : bool 
+    {
+        if(empty($this->studentWork->theme))
+        {
+            return false;
+        }
+        else 
+        {
+            $availableCountOfUsages = locallib::get_count_of_same_themes(
+                $this->cm->instance, 
+                $this->studentWork->course
+            );
+    
+            $students = locallib::get_students_list_for_in_query($this->cm);
+            $usagesCount = locallib::get_count_of_theme_usages(
+                $this->cm->instance, 
+                $this->studentWork->theme, 
+                $students
+            );
+    
+            return !locallib::is_theme_not_used($usagesCount, $availableCountOfUsages);
+        }
+    }
+
+    private function is_teacher_quota_gone() : bool
     {
         $course = new \stdClass;
-        $course->id = $student->course;
+        $course->id = $this->studentWork->course;
 
         $courses = tg::get_courses_with_quotas(
             $this->cm, 
-            $student->teacher, 
+            $this->studentWork->teacher, 
             array($course)
         );
 
@@ -224,9 +240,55 @@ class ThemeSelect
         }
     }
 
-    private function is_user_didnt_selected_theme(\stdClass $row) : bool 
+    private function is_it_not_theme_select_update() : bool 
     {
-        if(empty($row->theme) && empty($row->owntheme))
+        global $DB;
+        $where = array
+        (
+            'coursework' => $this->studentWork->coursework, 
+            'student' => $this->studentWork->student,
+            'teacher' => $this->studentWork->teacher,
+            'course' => $this->studentWork->course,
+        );
+        return !$DB->record_exists('coursework_students', $where);
+    }
+
+    private function update_student_work() : bool
+    {
+        global $DB;
+
+        if($this->is_student_work_exists())
+        {
+            if($DB->update_record('coursework_students', $this->studentWork)) 
+            {
+                return true;
+            }
+            else 
+            {
+                throw new \Exception(
+                    get_string('e:upd:student_not_selected', 'coursework')
+                );
+            }
+            
+        }
+        else 
+        {
+            if($DB->insert_record('coursework_students', $this->studentWork)) 
+            {
+                return true;
+            }
+            else 
+            {
+                throw new \Exception(
+                    get_string('e:student_didnt_choose_theme', 'coursework')
+                );
+            }
+        }
+    }
+
+    private function is_student_work_exists() : bool 
+    {
+        if($this->studentWork->id)
         {
             return true;
         }
@@ -236,106 +298,24 @@ class ThemeSelect
         }
     }
 
-    private function is_theme_already_used(\stdClass $row) : bool 
+    private function add_theme_selection_status_to_student()
     {
-        if(empty($row->theme))
-        {
-            return false;
-        }
-        else 
-        {
-            $availableCountOfUsages = locallib::get_count_of_same_themes(
-                $this->cm->instance, 
-                $row->course
-            );
-    
-            $students = locallib::get_students_list_for_in_query($this->cm);
-            $usagesCount = locallib::get_count_of_theme_usages(
-                $this->cm->instance, 
-                $row->theme, 
-                $students
-            );
-    
-            return !locallib::is_theme_not_used($usagesCount, $availableCountOfUsages);
-        }
-    }
-
-    private function is_it_not_theme_select_update(\stdClass $row) : bool 
-    {
-        global $DB;
-        $where = array
-        (
-            'coursework' => $row->coursework, 
-            'student' => $row->student,
-            'teacher' => $row->teacher,
-            'course' => $row->course,
+        $addNewStatus = new AddNewStudentWorkStatus(
+            $this->studentWork->coursework, 
+            $this->studentWork->student, 
+            Enums::THEME_SELECTION 
         );
-        return !$DB->record_exists('coursework_students', $where);
+        $addNewStatus->execute();
     }
 
-    private function is_student_row_exist(\stdClass $row) : bool 
-    {
-        global $DB;
-        $where = array('coursework' => $row->coursework, 'student' => $row->student);
-        return $DB->record_exists('coursework_students', $where);
-    }
-
-    private function get_student_row_id(\stdClass $row) : int 
-    {
-        global $DB;
-        $where = array('coursework' => $row->coursework, 'student' => $row->student);
-        return $DB->get_field('coursework_students', 'id', $where);
-    }
-
-    private function add_student_row(\stdClass $row) : void 
-    {
-        global $DB;
-        if(!$DB->insert_record('coursework_students', $row)) 
-        {
-            throw new \Exception(get_string('e:student_didnt_choose_theme', 'coursework'));
-        }
-    }
-
-    private function update_student_row(\stdClass $row) : void 
-    {
-        global $DB;
-        if(!$DB->update_record('coursework_students', $row)) 
-        {
-            throw new \Exception(get_string('e:upd:student_not_selected', 'coursework'));
-        }
-    }
-
-    private function send_notification_to_teacher_theme_selected(\stdClass $row) : void 
+    private function send_notification_give_task_to_teacher() : void 
     {
         global $USER;
 
         $cm = $this->cm;
         $course = $this->course;
         $userFrom = $USER;
-        $userTo = cg::get_user($row->teacher); 
-        $messageName = 'selecttheme';
-        $messageText = $this->get_select_theme_html_message();
-
-        $notification = new Notification(
-            $cm,
-            $course,
-            $userFrom,
-            $userTo,
-            $messageName,
-            $messageText
-        );
-
-        $notification->send();
-    }
-
-    private function send_notification_to_teacher_give_task(\stdClass $work) : void 
-    {
-        global $USER;
-
-        $cm = $this->cm;
-        $course = $this->course;
-        $userFrom = $USER;
-        $userTo = cg::get_user($work->teacher); 
+        $userTo = cg::get_user($this->studentWork->teacher); 
         $messageName = 'givetask';
         $giveTask = true;
         $messageText = $this->get_select_theme_html_message($giveTask);
@@ -350,15 +330,6 @@ class ThemeSelect
         );
 
         $notification->send();
-    }
-
-    private function set_status_started_to_task_sections(\stdClass $student) : void 
-    {
-        $setStatusStartedToTaskSections = new SetStatusStartedToTaskSections(
-            $student,
-            cg::get_task_sections($student->task)
-        );
-        $setStatusStartedToTaskSections->execute();
     }
 
     private function get_select_theme_html_message($giveTask = false) : string
@@ -386,18 +357,68 @@ class ThemeSelect
         return $data;
     }
 
-    private function is_task_obtained_automatically() : bool 
+    private function add_task_receipt_status_to_student()
     {
-        global $DB;
-        $where = array('id'=>$this->cm->instance, 'usetask'=>1, 'autotaskissuance'=>1);
-        return $DB->record_exists('coursework', $where);
+        $addNewStatus = new AddNewStudentWorkStatus(
+            $this->studentWork->coursework, 
+            $this->studentWork->student, 
+            Enums::TASK_RECEIPT 
+        );
+        $addNewStatus->execute();
     }
 
-    private function get_coursework_task_template() : int 
+    private function add_started_status_to_student_work()
     {
-        $defaultTask = cg::get_default_coursework_task($this->cm);
-        if(empty($defaultTask->id)) throw new \Exception('Task template is absent.');
-        return $defaultTask->id;
+        $addNewStatus = new AddNewStudentWorkStatus(
+            $this->studentWork->coursework, 
+            $this->studentWork->student, 
+            Enums::STARTED 
+        );
+        $addNewStatus->execute();
+    }
+
+    private function set_status_started_to_task_sections() : void 
+    {
+        $setStatusStartedToTaskSections = new SetStatusStartedToTaskSections(
+            $this->studentWork,
+            cg::get_task_sections($this->studentWork->task)
+        );
+        $setStatusStartedToTaskSections->execute();
+    }
+
+    private function log_event_assign_default_task_to_student() : void 
+    {
+        $params = array
+        (
+            'relateduserid' => $this->studentWork->student, 
+            'context' => \context_module::instance($this->cm->id)
+        );
+        
+        $event = \mod_coursework\event\default_task_assigned_to_student::create($params);
+        $event->trigger();
+    }
+
+    private function send_notification_theme_selected_to_teacher() : void 
+    {
+        global $USER;
+
+        $cm = $this->cm;
+        $course = $this->course;
+        $userFrom = $USER;
+        $userTo = cg::get_user($this->studentWork->teacher); 
+        $messageName = 'selecttheme';
+        $messageText = $this->get_select_theme_html_message();
+
+        $notification = new Notification(
+            $cm,
+            $course,
+            $userFrom,
+            $userTo,
+            $messageName,
+            $messageText
+        );
+
+        $notification->send();
     }
 
     private function log_event_student_chose_theme() : void 
@@ -410,19 +431,6 @@ class ThemeSelect
         $event = \mod_coursework\event\student_chose_theme::create($params);
         $event->trigger();
     }
-
-    private function log_event_assign_default_task_to_student(\stdClass $work) : void 
-    {
-        $params = array
-        (
-            'relateduserid' => $work->student, 
-            'context' => \context_module::instance($this->cm->id)
-        );
-        
-        $event = \mod_coursework\event\default_task_assigned_to_student::create($params);
-        $event->trigger();
-    }
-
 
 
 }
