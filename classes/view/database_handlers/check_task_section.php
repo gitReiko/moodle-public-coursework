@@ -79,6 +79,7 @@ class CheckTaskSection
 
     private function add_student_status()
     {
+        global $DB;
         return $DB->insert_record('coursework_students_statuses', $this->sectionStatus);
     }
 

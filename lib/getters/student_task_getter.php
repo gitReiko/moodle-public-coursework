@@ -102,21 +102,32 @@ class StudentTaskGetter
     {
         global $DB;
 
-        $sql = 'SELECT status, changetime 
-                FROM {coursework_students_statuses} 
-                WHERE coursework = ?
-                AND student = ? 
-                AND type = ? 
-                AND instance = ? 
-                GROUP BY student 
-                HAVING changetime = MAX(changetime)';
+        $sql = 'SELECT css.status, css.changetime 
+                FROM {coursework_students_statuses} AS css 
+                WHERE css.coursework = ? 
+                AND css.student = ? 
+                AND css.type = ? 
+                AND css.instance = ? 
+                ORDER BY css.changetime ';
+        
         $params = array(
             $this->courseworkId,
             $this->studentId,
             enum::SECTION,
             $section->id
         );
-        return $DB->get_record_sql($sql, $params);
+
+        $states = $DB->get_records_sql($sql, $params);
+
+        usort($states, function($a, $b)
+        {
+            $a = intval($a->changetime);
+            $b = intval($b->changetime);
+            if ($a == $b) { return 0; }
+            return ($a < $b) ? -1 : 1;
+        });
+
+        return end($states);
     }
 
     private function is_section_status_exist($state) : bool 

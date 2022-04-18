@@ -5,6 +5,7 @@ namespace Coursework\Lib;
 require_once 'getters/common_getter.php';
 
 use Coursework\Lib\Getters\CommonGetter as cg;
+use Coursework\Lib\Getters\StudentTaskGetter;
 use Coursework\Lib\Enums;
 
 // Students notification for teacher
@@ -24,6 +25,7 @@ class TeacherNotifications
         $this->coursework = cg::get_coursework($courseworkId);
         $this->student = $student;
         $this->teacherId = $teacherId;
+        $this->student->sections = $this->get_student_sections();
 
         $this->isTeacherMustGiveTask = $this->is_teacher_must_give_task();
         $this->isTeacherHasUnreadedMessages = $this->is_teacher_has_unreaded_messages();
@@ -82,6 +84,18 @@ class TeacherNotifications
         return $nfs;
     }
 
+    private function get_student_sections() 
+    {
+        if(!empty($this->student->coursework))
+        {
+            $getter = new StudentTaskGetter(
+                $this->student->coursework,
+                $this->student->id
+            );
+            return $getter->get_sections();
+        }
+    }
+
     private function is_teacher_must_give_task() : bool 
     {
         if($this->coursework->usetask == 1)
@@ -126,35 +140,15 @@ class TeacherNotifications
 
     private function is_teacher_need_to_check_section() : bool 
     {
-        if($this->get_count_of_unchecked_sections())
+        foreach($this->student->sections as $section)
         {
-            return true;
+            if($section->latestStatus === Enums::SENT_FOR_CHECK)
+            {
+                return true;
+            }
         }
-        else 
-        {
-            return false;
-        }
-    }
-    
-    private function get_count_of_unchecked_sections()
-    {
-        global $DB;
-        $sql = 'SELECT COUNT(cts.id)  
-                FROM {coursework_tasks_sections} AS cts 
-                INNER JOIN {coursework_students_statuses} AS css
-                ON cts.id = css.instance 
-                WHERE css.coursework = ?
-                AND css.student = ? 
-                AND css.type = ?
-                AND css.status = ? 
-                ORDER BY cts.listposition';
-        $params = array(
-            $this->coursework->id, 
-            $this->student->id,
-            Enums::SECTION,
-            Enums::SENT_FOR_CHECK
-        );
-        return $DB->count_records_sql($sql, $params);
+
+        return false;
     }
 
     private function is_student_work_not_checked() : bool 
