@@ -117,7 +117,7 @@ class TeacherNotifications
         global $DB;
         $conditions = array(
             'coursework' => $this->coursework->id, 
-            'userto' => $this->teacherId, 
+            'userto' => $this->student->teacher, 
             'userfrom' => $this->student->id,
             'readed' => 0
         );
