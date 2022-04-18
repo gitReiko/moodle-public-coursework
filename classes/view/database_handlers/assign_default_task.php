@@ -3,6 +3,7 @@
 namespace Coursework\View\DatabaseHandlers;
 
 use Coursework\View\DatabaseHandlers\Lib\SetStatusStartedToTaskSections;
+use Coursework\View\DatabaseHandlers\Lib\AddNewStudentWorkStatus;
 use Coursework\View\DatabaseHandlers\Main as MainDB;
 use Coursework\Lib\Getters\StudentsGetter as sg;
 use Coursework\Lib\Getters\CommonGetter as cg;
@@ -33,8 +34,8 @@ class AssignDefaultTask
 
         if($DB->update_record('coursework_students', $this->studentWork))
         {
+            $this->add_started_status_to_student_work();
             $this->set_status_started_to_task_sections();
-
             $this->send_notification_to_student($this->studentWork);
             $this->log_event();
         }
@@ -44,13 +45,12 @@ class AssignDefaultTask
     {
         $studentId = $this->get_student_id();
         $work = sg::get_student_work($this->cm->instance, $studentId);
-        $taskTemplate = cg::get_default_coursework_task($this->cm);
 
         $studentWork = new \stdClass;
         $studentWork->id = $work->id;
         $studentWork->coursework = $work->coursework;
         $studentWork->student = $work->student;
-        $studentWork->task = $taskTemplate->id;
+        $studentWork->task = $this->get_default_task_id();
 
         return $studentWork;
     }
@@ -60,6 +60,23 @@ class AssignDefaultTask
         $studentId = optional_param(MainDB::STUDENT_ID, null, PARAM_INT);
         if(empty($studentId)) throw new Exception('Missing student id');
         return $studentId;
+    }
+
+    private function get_default_task_id() : int 
+    {
+        $defaultTask = cg::get_default_coursework_task($this->cm);
+        if(empty($defaultTask->id)) throw new \Exception('Task template is missing.');
+        return $defaultTask->id;
+    }
+
+    private function add_started_status_to_student_work()
+    {
+        $addNewStatus = new AddNewStudentWorkStatus(
+            $this->studentWork->coursework, 
+            $this->studentWork->student, 
+            Enums::STARTED 
+        );
+        $addNewStatus->execute();
     }
 
     private function set_status_started_to_task_sections() : void 

@@ -36,13 +36,14 @@ class SelectTheme
 
             if($this->is_neccessary_assign_task())
             {
+                $this->add_task_receipt_status_to_student();
+
                 if($this->is_teacher_must_give_task())
                 {
                     $this->send_notification_give_task_to_teacher();
                 }
                 else 
                 {
-                    $this->add_task_receipt_status_to_student();
                     $this->add_started_status_to_student_work();
                     $this->set_status_started_to_task_sections();
                     $this->log_event_assign_default_task_to_student();
@@ -163,7 +164,7 @@ class SelectTheme
     private function get_default_task_id() : int 
     {
         $defaultTask = cg::get_default_coursework_task($this->cm);
-        if(empty($defaultTask->id)) throw new \Exception('Task template is absent.');
+        if(empty($defaultTask->id)) throw new \Exception('Task template is missing.');
         return $defaultTask->id;
     }
 
