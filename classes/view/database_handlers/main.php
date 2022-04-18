@@ -118,7 +118,7 @@ class Main
 
     private function handle_event_select_theme() : void 
     {
-        $database = new ThemeSelect($this->course, $this->cm);
+        $database = new SelectTheme($this->course, $this->cm);
         $database->handle();
     }
 

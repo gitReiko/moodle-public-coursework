@@ -11,7 +11,7 @@ use Coursework\Lib\Getters\TeachersGetter as tg;
 use Coursework\Lib\Notification;
 use Coursework\Lib\Enums;
 
-class ThemeSelect 
+class SelectTheme
 {
     private $course;
     private $cm;
