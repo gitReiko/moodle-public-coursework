@@ -2,6 +2,7 @@
 
 namespace Coursework\View\DatabaseHandlers;
 
+use Coursework\View\DatabaseHandlers\Lib\AddNewStudentWorkStatus;
 use Coursework\View\DatabaseHandlers\Main as MainDB;
 use Coursework\Lib\Getters\StudentTaskGetter;
 use Coursework\Lib\Getters\StudentsGetter as sg;
@@ -36,8 +37,6 @@ class CheckWork
             $studentId
         );
         $this->studentWork->grade = $this->get_grade();
-
-        $this->newCourseworkState = $this->get_new_coursework_state();
     }
 
     public function handle()
@@ -101,29 +100,9 @@ class CheckWork
         return optional_param(MainDB::GRADE, 0, PARAM_INT);
     }
 
-    private function get_new_coursework_state()
-    {
-        $state = new \stdClass;
-        $state->coursework = $this->studentWork->coursework;
-        $state->student = $this->studentWork->student;
-        $state->type = Enums::COURSEWORK;
-        $state->instance = $this->studentWork->coursework;
-        $state->status = $this->get_status();
-        $state->changetime = time();
-
-        return $state;
-    }
-
-    private function get_status() : string 
-    {
-        $status = optional_param(MainDB::STATUS, null, PARAM_TEXT);
-        if(empty($status)) throw new \Exception('Missing work status.');
-        return $status;
-    }
-
     private function is_new_coursework_state_ready() : bool 
     {
-        if($this->newCourseworkState->status == Enums::READY)
+        if($this->get_status() == Enums::READY)
         {
             return true;
         }
@@ -131,6 +110,13 @@ class CheckWork
         {
             return false;
         }
+    }
+
+    private function get_status() : string 
+    {
+        $status = optional_param(MainDB::STATUS, null, PARAM_TEXT);
+        if(empty($status)) throw new \Exception('Missing work status.');
+        return $status;
     }
 
     private function is_coursework_regrading() : bool 
@@ -195,8 +181,12 @@ class CheckWork
 
     private function add_new_coursework_status()
     {
-        global $DB;
-        return $DB->insert_record('coursework_students_statuses', $this->newCourseworkState);
+        $addNewStatus = new AddNewStudentWorkStatus(
+            $this->studentWork->coursework, 
+            $this->studentWork->student, 
+            $this->get_status()
+        );
+        return $addNewStatus->execute();
     }
 
     private function set_sections_status_ready() : void 
@@ -205,24 +195,24 @@ class CheckWork
 
         foreach($sections as $section)
         {
-            $section = $this->get_section_new_status($section);
+            $section = $this->get_section_new_status($section->id);
             $this->add_new_section_status($section);
         }
     }
 
     private function get_sections()
     {
-        $ts = new StudentTaskGetter($this->cm->instance, $this->get_student());
+        $ts = new StudentTaskGetter($this->cm->instance, $this->get_student_id());
         return $ts->get_sections();
     }
 
-    private function get_section_new_status(int $section)
+    private function get_section_new_status(int $sectionId)
     {
         $state = new \stdClass;
         $state->coursework = $this->studentWork->coursework;
         $state->student = $this->studentWork->student;
         $state->type = Enums::SECTION;
-        $state->instance = $section->id;
+        $state->instance = $sectionId;
         $state->status = Enums::READY;
         $state->changetime = time();
 

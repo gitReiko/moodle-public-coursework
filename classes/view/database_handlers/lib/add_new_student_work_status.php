@@ -33,7 +33,12 @@ class AddNewStudentWorkStatus
     public function execute()
     {
         global $DB;
-        if(!$DB->insert_record('coursework_students_statuses', $this->newStatus)) 
+
+        if($DB->insert_record('coursework_students_statuses', $this->newStatus)) 
+        {
+            return true;
+        }
+        else 
         {
             $exception = 'Student coursework state <<'.$this->newStatus->status;
             $exception.= '>> not added.';
