@@ -3,6 +3,7 @@
 namespace Coursework\Support\ReturnToThemeSelection;
 
 use Coursework\Classes\Lib\StudentsMassActions\StudentsTable as sma;
+use Coursework\Lib\Database\AddNewStudentWorkStatus;
 use Coursework\Lib\Getters\StudentsGetter as sg;
 use Coursework\Lib\Getters\CommonGetter as cg;
 use Coursework\Lib\Notification;
@@ -66,19 +67,12 @@ class Database
 
     private function add_theme_reselection_status(\stdClass $work)
     {
-        $state = new \stdClass;
-        $state->coursework = $work->coursework;
-        $state->student = $work->student;
-        $state->type = Enums::COURSEWORK;
-        $state->instance = $work->coursework;
-        $state->status = Enums::THEME_RESELECTION;
-        $state->changetime = time();
-
-        global $DB;
-        if(!$DB->insert_record('coursework_students_statuses', $state)) 
-        {
-            throw new \Exception('Student coursework state "theme_reselection" not added.');
-        }
+        $addNewStatus = new AddNewStudentWorkStatus(
+            $work->coursework, 
+            $work->student, 
+            Enums::THEME_RESELECTION 
+        );
+        $addNewStatus->execute();
     }
 
     private function print_success_message($studentId) : void 
