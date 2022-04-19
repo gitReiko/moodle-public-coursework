@@ -2,6 +2,7 @@
 
 require_once '../../../../config.php';
 require_once '../../classes/support/return_work_for_rework/main.php';
+require_once '../../lib/database/add_new_student_work_status.php';
 require_once '../../lib/getters/students_getter.php';
 require_once '../../lib/getters/common_getter.php';
 require_once '../../lib/notification.php'; 

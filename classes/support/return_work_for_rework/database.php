@@ -2,6 +2,7 @@
 
 namespace Coursework\Support\BackToWorkState;
 
+use Coursework\Lib\Database\AddNewStudentWorkStatus;
 use Coursework\Lib\Getters\CommonGetter as cg;
 use Coursework\Lib\Notification;
 use Coursework\Lib\Enums;
@@ -85,33 +86,18 @@ class Database
 
     private function return_to_work_state(\stdClass $studentWork) : void 
     {
-        global $DB;
+        $addNewStatus = new AddNewStudentWorkStatus(
+            $studentWork->coursework, 
+            $studentWork->student, 
+            Enums::RETURNED_FOR_REWORK 
+        );
 
-        $status = $this->get_returned_for_rework_status($student);
-
-        if($DB->insert_record('coursework_students_statuses', $status))
+        if($addNewStatus->execute())
         {
             $this->send_notification_to_student($studentWork->student);
             $this->log_event($studentWork->student);
             $this->display_coursework_back_return_work_for_rework_message();
         }
-        else 
-        {
-            throw new \Exception('Student coursework state "returned_for_rework" not added.');
-        }
-    }
-
-    private function get_returned_for_rework_status(\stdClass $student)
-    {
-        $state = new \stdClass;
-        $state->coursework = $student->coursework;
-        $state->student = $student->id;
-        $state->type = Enums::COURSEWORK;
-        $state->instance = $student->coursework;
-        $state->status = Enums::RETURNED_FOR_REWORK;
-        $state->changetime = time();
-
-        return $state;
     }
 
     private function send_notification_to_student(int $studentId) : void 
