@@ -1,6 +1,6 @@
 <?php
 
-namespace Coursework\View\DatabaseHandlers\Lib;
+namespace Coursework\Lib\Database;
 
 use Coursework\Lib\Enums;
 

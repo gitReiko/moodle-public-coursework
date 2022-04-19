@@ -11,7 +11,6 @@ require_once 'mark_messages_as_readed.php';
 require_once 'select_theme.php';
 require_once 'send_section_for_check.php';
 require_once 'send_work_for_check.php';
-require_once 'lib/add_new_student_work_status.php';
 require_once 'lib/set_status_started_to_task_sections.php';
 
 class Main 

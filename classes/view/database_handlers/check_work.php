@@ -2,7 +2,7 @@
 
 namespace Coursework\View\DatabaseHandlers;
 
-use Coursework\View\DatabaseHandlers\Lib\AddNewStudentWorkStatus;
+use Coursework\Lib\Database\AddNewStudentWorkStatus;
 use Coursework\View\DatabaseHandlers\Main as MainDB;
 use Coursework\Lib\Getters\StudentTaskGetter;
 use Coursework\Lib\Getters\StudentsGetter as sg;
