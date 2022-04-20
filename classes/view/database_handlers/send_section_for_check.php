@@ -23,6 +23,7 @@ class SendSectionForCheck
 
         $this->studentId = $this->get_student_id();
         $this->sectionId = $this->get_section_id();
+        $this->teacherId = $this->get_teacher_id();
     }
 
     public function handle()
@@ -55,6 +56,16 @@ class SendSectionForCheck
         return $section;
     }
 
+    private function get_teacher_id() : int 
+    {
+        global $DB;
+        $where = array(
+            'coursework' => $this->cm->instance, 
+            'student' => $this->studentId
+        );
+        return $DB->get_field('coursework_students', 'teacher', $where);
+    }
+
     private function send_notification() : void 
     {
         global $USER;
@@ -62,7 +73,7 @@ class SendSectionForCheck
         $cm = $this->cm;
         $course = $this->course;
         $userFrom = $USER;
-        $userTo = cg::get_user($this->get_student_teacher_id()); 
+        $userTo = cg::get_user($this->teacherId); 
         $messageName = 'sendsectionforcheck';
         $messageText = get_string('section_check','coursework');
 
@@ -76,16 +87,6 @@ class SendSectionForCheck
         );
 
         $notification->send();
-    }
-
-    private function get_student_teacher_id() : int 
-    {
-        global $DB;
-        $where = array(
-            'coursework' => $this->cm->instance, 
-            'student' => $this->studentId
-        );
-        return $DB->get_field('coursework_students', 'teacher', $where);
     }
 
     private function log_event_student_sent_section_for_check() : void 
