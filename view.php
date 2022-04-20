@@ -4,6 +4,7 @@ require_once '../../config.php';
 require_once 'classes/view/main.php';
 require_once 'lib.php';
 
+require_once 'lib/database/add_new_status_to_all_sections.php';
 require_once 'lib/database/add_new_student_section_status.php';
 require_once 'lib/database/add_new_student_work_status.php';
 require_once 'lib/getters/student_task_getter.php';

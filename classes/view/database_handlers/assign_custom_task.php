@@ -2,7 +2,7 @@
 
 namespace Coursework\View\DatabaseHandlers;
 
-use Coursework\View\DatabaseHandlers\Lib\SetStatusStartedToTaskSections;
+use Coursework\Lib\Database\AddNewStatusToAllSections;
 use Coursework\Lib\Database\AddNewStudentWorkStatus;
 use Coursework\View\DatabaseHandlers\Main as MainDB;
 use Coursework\Lib\Getters\CommonGetter as cg;
@@ -136,11 +136,12 @@ class AssignCustomTask
 
     private function set_status_started_to_task_sections(\stdClass $work) : void 
     {
-        $setStatusStartedToTaskSections = new SetStatusStartedToTaskSections(
+        $addNewStatus = new AddNewStatusToAllSections(
             $work,
-            cg::get_task_sections($work->task)
+            cg::get_task_sections($work->task),
+            Enums::STARTED
         );
-        $setStatusStartedToTaskSections->execute();
+        $addNewStatus->execute();
     }
 
     private function send_notification_to_student(\stdClass $work) : void 

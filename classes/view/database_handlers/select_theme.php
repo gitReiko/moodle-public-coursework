@@ -2,7 +2,7 @@
 
 namespace Coursework\View\DatabaseHandlers;
 
-use Coursework\View\DatabaseHandlers\Lib\SetStatusStartedToTaskSections;
+use Coursework\Lib\Database\AddNewStatusToAllSections;
 use Coursework\Lib\Database\AddNewStudentWorkStatus;
 use Coursework\View\DatabaseHandlers\Main as MainDB;
 use Coursework\View\StudentWork\Locallib as locallib;
@@ -380,11 +380,12 @@ class SelectTheme
 
     private function set_status_started_to_task_sections() : void 
     {
-        $setStatusStartedToTaskSections = new SetStatusStartedToTaskSections(
+        $addNewStatus = new AddNewStatusToAllSections(
             $this->studentWork,
-            cg::get_task_sections($this->studentWork->task)
+            cg::get_task_sections($this->studentWork->task),
+            Enums::STARTED
         );
-        $setStatusStartedToTaskSections->execute();
+        $addNewStatus->execute();
     }
 
     private function log_event_assign_default_task_to_student() : void 
