@@ -194,16 +194,40 @@ class CheckWork
     {
         $addNewStatus = new AddNewStatusToAllSections(
             $this->studentWork,
-            $this->get_sections(),
+            $this->get_unchecked_sections(),
             Enums::READY
         );
         $addNewStatus->execute();
     }
 
-    private function get_sections()
+    private function get_unchecked_sections()
+    {
+        $sections = $this->get_all_student_task_sections();
+        $sections = $this->filter_unchecked_sections($sections);
+        return $sections;
+    }
+
+    private function get_all_student_task_sections()
     {
         $ts = new StudentTaskGetter($this->cm->instance, $this->get_student_id());
         return $ts->get_sections();
+    }
+
+    private function filter_unchecked_sections($sections)
+    {
+        $uncheked = array();
+
+        foreach($sections as $section)
+        {
+            if($section->latestStatus == Enums::READY)
+            {
+                continue;
+            }
+
+            $uncheked[] = $section;
+        }
+
+        return $uncheked;
     }
 
     private function log_event_teacher_accepted_and_graded_coursework() : void 
