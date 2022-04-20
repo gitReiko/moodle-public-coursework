@@ -2,6 +2,7 @@
 
 namespace Coursework\View\DatabaseHandlers;
 
+use Coursework\Lib\Database\AddNewStatusToAllSections;
 use Coursework\Lib\Database\AddNewStudentWorkStatus;
 use Coursework\View\DatabaseHandlers\Main as MainDB;
 use Coursework\Lib\Getters\StudentTaskGetter;
@@ -65,7 +66,7 @@ class CheckWork
 
                     if(cl::is_coursework_use_task($this->cm->instance))
                     {
-                        $this->set_sections_status_ready();
+                        $this->set_ready_status_to_all_sections();
                     }
 
                     $this->log_event_teacher_accepted_and_graded_coursework();
@@ -189,40 +190,20 @@ class CheckWork
         return $addNewStatus->execute();
     }
 
-    private function set_sections_status_ready() : void 
+    private function set_ready_status_to_all_sections() : void 
     {
-        $sections = $this->get_sections();
-
-        foreach($sections as $section)
-        {
-            $section = $this->get_section_new_status($section->id);
-            $this->add_new_section_status($section);
-        }
+        $addNewStatus = new AddNewStatusToAllSections(
+            $this->studentWork,
+            $this->get_sections(),
+            Enums::READY
+        );
+        $addNewStatus->execute();
     }
 
     private function get_sections()
     {
         $ts = new StudentTaskGetter($this->cm->instance, $this->get_student_id());
         return $ts->get_sections();
-    }
-
-    private function get_section_new_status(int $sectionId)
-    {
-        $state = new \stdClass;
-        $state->coursework = $this->studentWork->coursework;
-        $state->student = $this->studentWork->student;
-        $state->type = Enums::SECTION;
-        $state->instance = $sectionId;
-        $state->status = Enums::READY;
-        $state->changetime = time();
-
-        return $state;
-    }
-
-    private function add_new_section_status(\stdClass $newState) : void 
-    {
-        global $DB;
-        $DB->insert_record('coursework_students_statuses', $newState);
     }
 
     private function log_event_teacher_accepted_and_graded_coursework() : void 
