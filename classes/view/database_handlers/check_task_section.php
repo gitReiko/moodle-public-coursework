@@ -2,6 +2,7 @@
 
 namespace Coursework\View\DatabaseHandlers;
 
+use Coursework\Lib\Database\AddNewStudentSectionStatus;
 use Coursework\View\DatabaseHandlers\Main as MainDB;
 use Coursework\Lib\Getters\CommonGetter as cg;
 use Coursework\Lib\Notification;
@@ -11,21 +12,35 @@ class CheckTaskSection
 {
     private $course;
     private $cm;
-    private $sectionStatus;
+
+    private $studentId;
+    private $teacherId;
+    private $sectionId;
+    private $status;
 
     function __construct(\stdClass $course, \stdClass $cm)
     {
         $this->course = $course;
         $this->cm = $cm;
-        $this->sectionStatus = $this->get_section_status();
+
+        $this->studentId = $this->get_student_id();
+        $this->sectionId = $this->get_section_id();
+        $this->status = $this->get_status();
+        $this->teacherId = $this->get_teacher_id();
     }
 
     public function handle()
     {
-        if($this->add_student_status())
+        $addNewStatus = new AddNewStudentSectionStatus(
+            $this->cm->instance, 
+            $this->studentId, 
+            $this->sectionId,
+            $this->status
+        );
+
+        if($addNewStatus->execute())
         {
-            $work = $this->get_student_coursework();
-            $this->send_notification($work);
+            $this->send_notification();
 
             if($this->is_section_status_returned_for_rework())
             {
@@ -38,32 +53,14 @@ class CheckTaskSection
         }
     }
 
-    private function get_section_status() : \stdClass 
-    {
-        $sectionStatus = new \stdClass;
-        $sectionStatus->coursework = $this->get_coursework();
-        $sectionStatus->student = $this->get_student();
-        $sectionStatus->type = Enums::SECTION;
-        $sectionStatus->instance = $this->get_section();
-        $sectionStatus->status = $this->get_status();
-        $sectionStatus->changetime = time();
-        return $sectionStatus;
-    }
-
-    private function get_coursework() : int 
-    {
-        if(empty($this->cm->instance)) throw new \Exception('Missing coursework id.');
-        return $this->cm->instance;
-    }
-
-    private function get_student() : int 
+    private function get_student_id() : int 
     {
         $student = optional_param(MainDB::STUDENT, null, PARAM_INT);
         if(empty($student)) throw new \Exception('Missing student id.');
         return $student;
     }
 
-    private function get_section() : int 
+    private function get_section_id() : int 
     {
         $section= optional_param(MainDB::SECTION, null, PARAM_INT);
         if(empty($section)) throw new \Exception('Missing section id.');
@@ -77,25 +74,22 @@ class CheckTaskSection
         return $status;
     }
 
-    private function add_student_status()
+    private function get_teacher_id() : int 
     {
         global $DB;
-        return $DB->insert_record('coursework_students_statuses', $this->sectionStatus);
+        $where = array(
+            'coursework' => $this->cm->instance, 
+            'student' => $this->studentId
+        );
+        return $DB->get_field('coursework_students', 'teacher', $where);
     }
 
-    private function get_student_coursework() : \stdClass
-    {
-        global $DB;
-        $where = array('coursework' => $this->cm->instance, 'student' => $this->sectionStatus->student);
-        return $DB->get_record('coursework_students', $where);
-    }
-
-    private function send_notification(\stdClass $work) : void 
+    private function send_notification() : void 
     {
         $cm = $this->cm;
         $course = $this->course;
-        $userFrom = cg::get_user($work->teacher); 
-        $userTo = cg::get_user($work->student); 
+        $userFrom = cg::get_user($this->teacherId); 
+        $userTo = cg::get_user($this->studentId); 
         $messageName = 'sectioncheck';
         $messageText = get_string('section_send_for_cheack_header','coursework');
 
@@ -113,7 +107,7 @@ class CheckTaskSection
 
     private function is_section_status_returned_for_rework() : bool 
     {
-        if($this->sectionStatus->status == Enums::RETURNED_FOR_REWORK)
+        if($this->status == Enums::RETURNED_FOR_REWORK)
         {
             return true;
         }
@@ -127,7 +121,7 @@ class CheckTaskSection
     {
         $params = array
         (
-            'relateduserid' => $this->get_student(),
+            'relateduserid' => $this->studentId,
             'context' => \context_module::instance($this->cm->id)
         );
         
@@ -139,14 +133,12 @@ class CheckTaskSection
     {
         $params = array
         (
-            'relateduserid' => $this->get_student(),
+            'relateduserid' => $this->studentId,
             'context' => \context_module::instance($this->cm->id)
         );
         
         $event = \mod_coursework\event\teacher_accepted_section::create($params);
         $event->trigger();
     }
-
-
 
 }
