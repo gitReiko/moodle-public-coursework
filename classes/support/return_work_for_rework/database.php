@@ -2,8 +2,11 @@
 
 namespace Coursework\Support\BackToWorkState;
 
+use Coursework\Lib\Database\AddNewStatusToAllSections;
 use Coursework\Lib\Database\AddNewStudentWorkStatus;
+use Coursework\Lib\Getters\StudentsGetter as sg;
 use Coursework\Lib\Getters\CommonGetter as cg;
+use Coursework\Lib\CommonLib as cl;
 use Coursework\Lib\Notification;
 use Coursework\Lib\Enums;
 
@@ -12,22 +15,24 @@ class Database
     private $cm;
     private $course;
 
+    private $studentWork;
+
     function __construct(\stdClass $cm, \stdClass $course) 
     {
         $this->cm = $cm;
         $this->course = $course;
+
+        $this->studentWork = sg::get_student_work(
+            $this->cm->instance, 
+            $this->get_student_id()
+        );
     }
 
     public function change_state_to_work() : void  
     {
-        $studentWork = new \stdClass;
-        $studentWork->coursework = $this->get_coursework();
-        $studentWork->student = $this->get_student();
-        $studentWork->id = $this->get_id($studentWork);
-
-        if($this->is_student_work_exist($studentWork))
+        if($this->is_student_work_exist())
         {
-            $this->return_to_work_state($studentWork);
+            $this->return_to_work_state();
         }
         else 
         {
@@ -35,16 +40,7 @@ class Database
         }
     }
 
-    private function get_coursework() : int
-    {
-        $coursework = optional_param(Main::COURSEWORK_ID, null, PARAM_INT);
-
-        if(empty($coursework)) throw new \Exception('Missing coursework id.');
-
-        return $coursework;
-    }
-
-    private function get_student() : int 
+    private function get_student_id() : int 
     {
         $student = optional_param(Main::STUDENT_ID, null, PARAM_INT);
 
@@ -53,22 +49,9 @@ class Database
         return $student;
     }
 
-    private function get_id(\stdClass $studentWork) : int 
+    private function is_student_work_exist() : bool 
     {
-        global $DB;
-
-        $conditions = array 
-        (
-            'coursework' => $studentWork->coursework,
-            'student' => $studentWork->student
-        );
-
-        return $DB->get_field('coursework_students', 'id', $conditions);
-    }
-
-    private function is_student_work_exist(\stdClass $studentWork) : bool 
-    {
-        if(empty($studentWork->id)) return false;
+        if(empty($this->studentWork->id)) return false;
         else return true;
     }
 
@@ -84,30 +67,45 @@ class Database
         echo \html_writer::tag('p', $text, $attr);
     }
 
-    private function return_to_work_state(\stdClass $studentWork) : void 
+    private function return_to_work_state() : void 
     {
         $addNewStatus = new AddNewStudentWorkStatus(
-            $studentWork->coursework, 
-            $studentWork->student, 
+            $this->studentWork->coursework, 
+            $this->studentWork->student, 
             Enums::RETURNED_FOR_REWORK 
         );
 
         if($addNewStatus->execute())
         {
-            $this->send_notification_to_student($studentWork->student);
-            $this->log_event($studentWork->student);
+            if(cl::is_coursework_use_task($this->cm->instance))
+            {
+                $this->set_status_returned_for_rework_to_task_sections();
+            }
+            
+            $this->send_notification_to_student();
+            $this->log_event();
             $this->display_coursework_back_return_work_for_rework_message();
         }
     }
 
-    private function send_notification_to_student(int $studentId) : void 
+    private function set_status_returned_for_rework_to_task_sections() : void 
+    {
+        $addNewStatus = new AddNewStatusToAllSections(
+            $this->studentWork,
+            cg::get_task_sections($this->studentWork->task),
+            Enums::RETURNED_FOR_REWORK
+        );
+        $addNewStatus->execute();
+    }
+
+    private function send_notification_to_student() : void 
     {
         global $USER;
 
         $cm = $this->cm;
         $course = $this->course;
         $userFrom = $USER;
-        $userTo = cg::get_user($studentId); 
+        $userTo = cg::get_user($this->studentWork->student); 
         $messageName = 'return_work_for_rework';
         $messageText = $this->get_message_text();
 
@@ -131,11 +129,11 @@ class Database
         return $text;
     }
 
-    private function log_event($studentId)
+    private function log_event()
     {
         $params = array
         (
-            'relateduserid' => $studentId, 
+            'relateduserid' => $this->studentWork->student, 
             'context' => \context_module::instance($this->cm->id)
         );
 
