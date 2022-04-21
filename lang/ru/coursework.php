@@ -116,7 +116,6 @@ $string['e:missing_theme_and_own_theme'] = 'Ошибка: не выбрана с
 $string['e:only_1_link_with_leader_and_course_can_exists'] = 'Ошибка: одновременно может существовать только одна связь руководителя с курсом.';
 $string['e:quota_is_over'] = 'Ошибка: закончились свободные руководители. Свяжитесь с учителем для увеличения квоты вашего руководителя.';
 $string['e:student_didnt_choose_theme'] = 'Ошибка: студент не выбрал тему.';
-$string['e:student_not_deleted'] = 'Ошибка: студент не удалён.';
 $string['e:teacher_quota_over'] = 'Ошибка: квота преподавателя на выбранный курс исчерана.';
 $string['e:theme_already_used'] = 'Ошибка: данная тема уже используется другим студентом.';
 $string['e:upd:student_not_selected'] = 'Ошибка: студент не выбрал тему (обновление).';

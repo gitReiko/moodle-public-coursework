@@ -21,39 +21,57 @@ class Database
 
     public function execute()
     {
-        $this->delete_students_courseworks();
-    }
-
-    private function delete_students_courseworks()
-    {
         foreach($this->studentsId as $studentId)
         {
-            $rowid = $this->get_student_row_id($studentId);
-            $this->delete_student_coursework($rowid, $studentId);
+            $this->delete_from_coursework_students($studentId);
+            $this->delete_from_coursework_students_statuses($studentId);
+            $this->delete_student_messages_from_chat($studentId);
+            $this->delete_teacher_messages_from_chat($studentId);
+            $this->delete_student_attached_files($studentId);
+            $this->delete_teacher_attached_files($studentId);
+            $this->send_message_to_student($studentId);
+            $this->log_student_coursework_deleted($studentId);
         }
     }
 
-    private function get_student_row_id(int $studentId)
+    private function delete_from_coursework_students(int $studentId)
     {
         global $DB;
         $where = array(
             'coursework'=> $this->cm->instance,
             'student' => $studentId
         );
-        return $DB->get_field('coursework_students', 'id', $where);
+        return $DB->delete_records('coursework_students', $where);
     }
 
-    private function delete_student_coursework(int $rowid, int $studentId)
+    private function delete_from_coursework_students_statuses(int $studentId)
     {
         global $DB;
-        if($DB->delete_records('coursework_students', array('id'=>$rowid)))
-        {
-            $this->delete_student_files($studentId);
-            $this->delete_teacher_files($studentId);
-            $this->send_message_to_student($studentId);
-            $this->log_student_coursework_deleted($studentId);
-        }
-        else throw new Exception(get_string('e:student_not_deleted', 'coursework'));
+        $where = array(
+            'coursework'=> $this->cm->instance,
+            'student' => $studentId
+        );
+        return $DB->delete_records('coursework_students_statuses', $where);
+    }
+
+    private function delete_student_messages_from_chat(int $studentId)
+    {
+        global $DB;
+        $where = array(
+            'coursework'=> $this->cm->instance,
+            'userfrom' => $studentId
+        );
+        return $DB->delete_records('coursework_chat', $where);
+    }
+
+    private function delete_teacher_messages_from_chat(int $studentId)
+    {
+        global $DB;
+        $where = array(
+            'coursework'=> $this->cm->instance,
+            'userto' => $studentId
+        );
+        return $DB->delete_records('coursework_chat', $where);
     }
 
     private function send_message_to_student(int $studentId)
@@ -87,12 +105,12 @@ class Database
         return $message;
     }
 
-    private function delete_student_files(int $studentId)
+    private function delete_student_attached_files(int $studentId)
     {
         $this->delete_files_from_area('student', $studentId);
     }
 
-    private function delete_teacher_files(int $studentId)
+    private function delete_teacher_attached_files(int $studentId)
     {
         $this->delete_files_from_area('teacher', $studentId);
     }

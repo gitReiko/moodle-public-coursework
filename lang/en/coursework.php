@@ -116,7 +116,6 @@ $string['e:missing_theme_and_own_theme'] = 'Error: missing theme id and own them
 $string['e:only_1_link_with_leader_and_course_can_exists'] = 'Error: Оnly 1 link with leader and course can exists.';
 $string['e:quota_is_over'] = 'Error: run out of free leaders. Contact teacher to increase your leader\'s quota.';
 $string['e:student_didnt_choose_theme'] = 'Error: student did not selected theme.';
-$string['e:student_not_deleted'] = 'Error: student not deleted.';
 $string['e:teacher_quota_over'] = 'Error: leader\'s quota for the selected course is over.';
 $string['e:theme_already_used'] = 'Error: selected theme already used by another student.';
 $string['e:upd:student_not_selected'] = 'Error: student did not selected theme (update).';
