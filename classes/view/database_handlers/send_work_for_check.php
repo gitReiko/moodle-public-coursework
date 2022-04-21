@@ -8,6 +8,7 @@ use Coursework\View\DatabaseHandlers\Main as MainDB;
 use Coursework\Lib\Getters\StudentsGetter as sg;
 use Coursework\Lib\Getters\StudentTaskGetter;
 use Coursework\Lib\Getters\CommonGetter as cg;
+use Coursework\Lib\CommonLib as cl;
 use Coursework\Lib\Notification;
 use Coursework\Lib\Enums;
 
@@ -25,14 +26,22 @@ class SendWorkForCheck
         $this->cm = $cm;
 
         $this->work = $this->get_student_work();
-        $this->uncheckedSections = $this->get_unchecked_sections();
+
+        if(cl::is_coursework_use_task($this->cm->instance))
+        {
+            $this->uncheckedSections = $this->get_unchecked_sections();
+        }
     }
 
     public function handle()
     {        
         if($this->add_status_sent_for_check_to_student_work())
         {
-            $this->set_sent_for_check_status_to_unchecked_sections();
+            if(cl::is_coursework_use_task($this->cm->instance))
+            {
+                $this->set_sent_for_check_status_to_unchecked_sections();
+            }
+            
             $this->send_notification();
             $this->log_event_student_sent_work_for_check();
         }
