@@ -31,6 +31,32 @@ function coursework_update_instance($coursework)
 
 function coursework_delete_instance($id)
 {
+    // teachers file area
+    // students file area
+
+    // coursework_chat
+    // coursework_students_statuses
+    // coursework_themes_collections_use
+
+    // coursework_teachers
+
+    // custom custom tasks ?
+    // coursework_students
+
+    // grade item
+    /*
+    function quiz_grade_item_delete($quiz) {
+        global $CFG;
+        require_once($CFG->libdir . '/gradelib.php');
+
+        return grade_update('mod/quiz', $quiz->course, 'mod', 'quiz', $quiz->id, 0,
+                null, array('deleted' => 1));
+    }
+    */
+
+    // coursework в последнюю очередь
+
+
     global $DB;
 
     if ($DB->record_exists('coursework', array('id'=>$id)))
