@@ -1,5 +1,11 @@
 <?php
 
+require_once 'lib/getters/common_getter.php';
+require_once 'lib/cleaner.php';
+
+use Coursework\Lib\Getters\CommonGetter as cg;
+use Coursework\Lib\Cleaner;
+
 function coursework_add_instance($coursework)
 {
     global $DB;
@@ -29,48 +35,52 @@ function coursework_update_instance($coursework)
     else return false;
 }
 
-function coursework_delete_instance($id)
+function coursework_delete_instance($courseworkId)
 {
-    // teachers file area
-    // students file area
+    $students = get_coursework_students($courseworkId);
 
-    // coursework_chat
-    // coursework_students_statuses
-    // coursework_themes_collections_use
-
-    // coursework_teachers
-
-    // custom custom tasks ?
-    // coursework_students
-
-    // grade item
-    /*
-    function quiz_grade_item_delete($quiz) {
-        global $CFG;
-        require_once($CFG->libdir . '/gradelib.php');
-
-        return grade_update('mod/quiz', $quiz->course, 'mod', 'quiz', $quiz->id, 0,
-                null, array('deleted' => 1));
+    foreach($students as $value)
+    {
+        $cleaner = new Cleaner($courseworkId);
+        $cleaner->delete_all_student_data($value->student);
     }
-    */
 
-    // coursework в последнюю очередь
+    delete_from_coursework_themes_collections_use($courseworkId);
+    delete_from_coursework_teachers($courseworkId);
 
+    coursework_grade_item_delete(cg::get_coursework($courseworkId));
 
+    delete_from_coursework($courseworkId);
+
+    return true;
+}
+
+function get_coursework_students(int $courseworkId)
+{
     global $DB;
+    $where = array('coursework' => $courseworkId);
+    return $DB->get_records('coursework_students', $where);
+}
 
-    if ($DB->record_exists('coursework', array('id'=>$id)))
-    {
-        $DB->delete_records('coursework_students', array('coursework'=>$id));
-        $DB->delete_records('coursework_teachers', array('coursework'=>$id));
-        $DB->delete_records('coursework', array('id'=>$id));
+function delete_from_coursework_themes_collections_use(int $courseworkId)
+{
+    global $DB;
+    $where = array('coursework' => $courseworkId);
+    return $DB->delete_records('coursework_themes_collections_use', $where);
+}
 
-        return true;
-    }
-    else
-    {
-        return false;
-    }
+function delete_from_coursework_teachers(int $courseworkId)
+{
+    global $DB;
+    $where = array('coursework' => $courseworkId);
+    return $DB->delete_records('coursework_teachers', $where);
+}
+
+function delete_from_coursework(int $courseworkId)
+{
+    global $DB;
+    $where = array('id' => $courseworkId);
+    return $DB->delete_records('coursework', $where);
 }
 
 function coursework_extend_settings_navigation($settings, $navref)
@@ -374,4 +384,20 @@ function coursework_update_grades($coursework, $userid=0, $nullifnone=true) {
     } else {
         coursework_grade_item_update($coursework);
     }
+}
+
+function coursework_grade_item_delete($coursework) {
+    global $CFG;
+    require_once($CFG->libdir . '/gradelib.php');
+
+    return grade_update(
+        'mod/coursework', 
+        $coursework->course, 
+        'mod', 
+        'coursework', 
+        $coursework->id, 
+        0,
+        null, 
+        array('deleted' => 1)
+    );
 }
