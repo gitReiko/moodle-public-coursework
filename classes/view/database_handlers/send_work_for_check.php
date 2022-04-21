@@ -29,19 +29,23 @@ class SendWorkForCheck
     }
 
     public function handle()
+    {        
+        if($this->add_status_sent_for_check_to_student_work())
+        {
+            $this->set_sent_for_check_status_to_unchecked_sections();
+            $this->send_notification();
+            $this->log_event_student_sent_work_for_check();
+        }
+    }
+
+    private function add_status_sent_for_check_to_student_work()
     {
         $addNewStatus = new AddNewStudentWorkStatus(
             $this->work->coursework, 
             $this->work->student, 
             Enums::SENT_FOR_CHECK 
         );
-        
-        if($addNewStatus->execute())
-        {
-            $this->set_sent_for_check_status_to_unchecked_sections();
-            $this->send_notification();
-            $this->log_event_student_sent_work_for_check();
-        }
+        return $addNewStatus->execute();
     }
 
     private function get_student_work() : \stdClass 

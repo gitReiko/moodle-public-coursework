@@ -69,13 +69,7 @@ class Database
 
     private function return_to_work_state() : void 
     {
-        $addNewStatus = new AddNewStudentWorkStatus(
-            $this->studentWork->coursework, 
-            $this->studentWork->student, 
-            Enums::RETURNED_FOR_REWORK 
-        );
-
-        if($addNewStatus->execute())
+        if($this->set_status_returned_for_rework_to_student_work())
         {
             if(cl::is_coursework_use_task($this->cm->instance))
             {
@@ -86,6 +80,16 @@ class Database
             $this->log_event();
             $this->display_coursework_back_return_work_for_rework_message();
         }
+    }
+
+    private function set_status_returned_for_rework_to_student_work()
+    {
+        $addNewStatus = new AddNewStudentWorkStatus(
+            $this->studentWork->coursework, 
+            $this->studentWork->student, 
+            Enums::RETURNED_FOR_REWORK 
+        );
+        return $addNewStatus->execute();
     }
 
     private function set_status_returned_for_rework_to_task_sections() : void 
