@@ -24,7 +24,7 @@ class Database
     {
         foreach($this->studentsId as $studentId)
         {
-            $cleaner = new Cleaner($this->cm->instance);
+            $cleaner = new Cleaner($this->cm);
             $cleaner->delete_all_student_data($studentId);
 
             $this->send_message_to_student($studentId);

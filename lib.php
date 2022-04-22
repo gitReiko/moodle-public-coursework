@@ -38,10 +38,11 @@ function coursework_update_instance($coursework)
 function coursework_delete_instance($courseworkId)
 {
     $students = get_coursework_students($courseworkId);
+    $cm = get_coursemodule_from_instance('coursework', $courseworkId);
 
     foreach($students as $value)
     {
-        $cleaner = new Cleaner($courseworkId);
+        $cleaner = new Cleaner($cm);
         $cleaner->delete_all_student_data($value->student);
     }
 

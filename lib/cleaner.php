@@ -4,11 +4,11 @@ namespace Coursework\Lib;
 
 class Cleaner 
 {
-    private $courseworkId;
+    private $cm;
 
-    function __construct(int $courseworkId)
+    function __construct(\stdClass $cm)
     {
-        $this->courseworkId = $courseworkId;
+        $this->cm = $cm;
     }
 
     public function delete_all_student_data(int $studentId)
@@ -37,7 +37,7 @@ class Cleaner
     {
         global $DB;
         $where = array(
-            'coursework'=> $this->courseworkId,
+            'coursework'=> $this->cm->instance,
             'student' => $studentId
         );
         return $DB->get_field('coursework_students', 'task', $where);
@@ -71,7 +71,7 @@ class Cleaner
     {
         global $DB;
         $where = array(
-            'coursework' => $this->courseworkId,
+            'coursework' => $this->cm->instance,
             'student' => $studentId
         );
         return $DB->delete_records('coursework_students', $where);
@@ -81,7 +81,7 @@ class Cleaner
     {
         global $DB;
         $where = array(
-            'coursework' => $this->courseworkId,
+            'coursework' => $this->cm->instance,
             'student' => $studentId
         );
         return $DB->delete_records('coursework_students_statuses', $where);
@@ -91,7 +91,7 @@ class Cleaner
     {
         global $DB;
         $where = array(
-            'coursework' => $this->courseworkId,
+            'coursework' => $this->cm->instance,
             'userfrom' => $studentId
         );
         return $DB->delete_records('coursework_chat', $where);
@@ -101,7 +101,7 @@ class Cleaner
     {
         global $DB;
         $where = array(
-            'coursework' => $this->courseworkId,
+            'coursework' => $this->cm->instance,
             'userto' => $studentId
         );
         return $DB->delete_records('coursework_chat', $where);
@@ -120,7 +120,7 @@ class Cleaner
     private function delete_files_from_area(string $area, int $itemid)
     { 
         $fs = get_file_storage();
-        $context = \context_module::instance($this->courseworkId);
+        $context = \context_module::instance($this->cm->id);
         $files = $fs->get_area_files($context->id, 'mod_coursework', $area, $itemid);
         foreach($files as $file) 
         {
