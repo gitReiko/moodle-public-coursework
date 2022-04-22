@@ -26,16 +26,20 @@ class StudentsGetter
     {
         $context = \context_module::instance($cm->id); 
         $groupId = enum::NO_GROUPS;
-        $userfields = 'u.id,u.firstname,u.lastname,u.email,u.phone1,u.phone2';
+        $userfields = 'u.id,u.firstname,u.lastname,u.email,u.phone1,u.phone2,u.suspended';
         $orderby = 'u.lastname';
 
-        return get_enrolled_users(
+        $students = get_enrolled_users(
             $context, 
             'mod/coursework:is_student',
             $groupId, 
             $userfields, 
             $orderby
         );
+
+        $students = self::filter_out_suspended_students($students);
+
+        return $students;
     }
 
     public static function get_students_from_available_groups(\stdClass $cm)
@@ -67,16 +71,20 @@ class StudentsGetter
     public static function get_students_from_group(\stdClass $cm, int $groupId)
     {
         $context = \context_module::instance($cm->id); 
-        $userfields = 'u.id,u.firstname,u.lastname,u.email,u.phone1,u.phone2';
+        $userfields = 'u.id,u.firstname,u.lastname,u.email,u.phone1,u.phone2,u.suspended';
         $orderby = 'u.lastname';
 
-        return get_enrolled_users(
+        $students = get_enrolled_users(
             $context, 
             'mod/coursework:is_student',
             $groupId, 
             $userfields, 
             $orderby
         );
+
+        $students = self::filter_out_suspended_students($students);
+
+        return $students;
     }
 
     public static function get_all_coursework_students_works(int $courseworkId) 
@@ -127,6 +135,20 @@ class StudentsGetter
             'student' => $studentId
         );
         return $DB->get_record('coursework_students', $where);
+    }
+
+    private static function filter_out_suspended_students($students)
+    {
+        $notSuspended = array();
+        foreach($students as $student)
+        {
+            if($student->suspended == 0)
+            {
+                $notSuspended[] = $student;
+            }
+        }
+
+        return $notSuspended;
     }
 
     private static function get_student_with_work(int $courseworkId, \stdClass $student)

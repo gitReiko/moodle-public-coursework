@@ -17,15 +17,20 @@ class TeachersGetter
         $teachers = get_users_by_capability(
             \context_module::instance($cm->id), 
             'mod/coursework:is_teacher', 
-            'u.id,u.firstname,u.lastname', 
+            'u.id,u.firstname,u.lastname,u.suspended', 
             'u.lastname');
         
+        $notSuspendedTeachers = array();
         foreach($teachers as $teacher)
         {
-            $teacher->fullname = $teacher->lastname.' '.$teacher->firstname;
+            if($teacher->suspended == 0)
+            {
+                $teacher->fullname = $teacher->lastname.' '.$teacher->firstname;
+                $notSuspendedTeachers[] = $teacher;
+            }
         }
 
-        return $teachers;
+        return $notSuspendedTeachers;
     }
 
     public static function get_configured_teachers(int $courseworkId)
