@@ -7,6 +7,7 @@ use Coursework\Lib\Database\AddNewStudentWorkStatus;
 use Coursework\Lib\Getters\StudentsGetter as sg;
 use Coursework\Lib\Getters\CommonGetter as cg;
 use Coursework\Lib\Notification;
+use Coursework\Lib\Feedbacker;
 use Coursework\Lib\Enums;
 
 class Database 
@@ -25,12 +26,17 @@ class Database
         $this->studentsIds = $this->get_students_ids();
     }
 
-    public function execute() 
+    public function execute() : string  
     {
+        $feedback = '';
+
         foreach($this->studentsIds as $studentId)
         {
-            $this->remove_student_theme_selection($studentId);
+            $feedbackItem = $this->remove_student_theme_selection($studentId);
+            $feedback.= Feedbacker::add_feedback_to_string($feedback, $feedbackItem);
         }
+
+        return $feedback;
     }
 
     private function get_students_ids() : array 
@@ -48,7 +54,7 @@ class Database
         return $studentsIds;
     }
 
-    private function remove_student_theme_selection(int $studentId) : void 
+    private function remove_student_theme_selection(int $studentId) : \stdClass 
     {
         $work = sg::get_student_work($this->cm->instance, $studentId);
         $work->theme = null;
@@ -58,11 +64,14 @@ class Database
         if($DB->update_record('coursework_students', $work))
         {
             $this->add_theme_reselection_status($work);
-            $this->print_success_message($studentId);
             $this->send_notification_to_student($studentId);
             $this->log_theme_selection_deleted($studentId);
+            return $this->get_success_feedback($studentId);
         }
-        else throw new Exception('Student theme selection not removed.');
+        else 
+        {
+            return $this->get_fail_feedback($studentId);
+        }
     }
 
     private function add_theme_reselection_status(\stdClass $work)
@@ -73,14 +82,6 @@ class Database
             Enums::THEME_RESELECTION 
         );
         $addNewStatus->execute();
-    }
-
-    private function print_success_message($studentId) : void 
-    {
-        $attr = array('class' => 'green-message');
-        $studentName = cg::get_user_name($studentId);
-        $text = get_string('theme_selection_successfully_deleted', 'coursework', $studentName);
-        echo \html_writer::tag('p', $text, $attr);
     }
 
     private function send_notification_to_student(int $studentId) : void 
@@ -124,6 +125,20 @@ class Database
         
         $event = \mod_coursework\event\theme_selection_deleted::create($params);
         $event->trigger();
+    }
+
+    private function get_success_feedback(int $studentId) : \stdClass  
+    {
+        $studentName = cg::get_user_name($studentId);
+        $text = get_string('theme_selection_successfully_deleted', 'coursework', $studentName);
+        return Feedbacker::get_success_feedback($text);
+    }
+
+    private function get_fail_feedback(int $studentId) : \stdClass  
+    {
+        $studentName = cg::get_user_name($studentId);
+        $text = 'Student theme selection not removed (.'.$studentName.')';
+        return Feedbacker::get_fail_feedback($text);
     }
 
 

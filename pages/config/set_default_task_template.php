@@ -3,6 +3,8 @@
 require_once '../../../../config.php';
 require_once '../../classes/config/set_default_task_template/main.php';
 require_once '../../lib/getters/common_getter.php';
+require_once '../../lib/feedbacker.php';
+require_once '../../lib/enums.php';
 
 use Coursework\Config\SetDefaultTaskTemplate\Main as setUsedTaskTemplate;
  
@@ -29,11 +31,10 @@ $PAGE->requires->css('/mod/coursework/css/config/set_default_task_template.css')
 
 require_login();
 
-$setUsedTaskTemplate = new setUsedTaskTemplate($course, $cm);
-  
-$setUsedTaskTemplate->handle_database_event();
-
 echo $OUTPUT->header();
-echo $setUsedTaskTemplate->get_page();
+
+$module = new setUsedTaskTemplate($course, $cm);
+echo $module->get_page();
+
 echo $OUTPUT->footer();
 

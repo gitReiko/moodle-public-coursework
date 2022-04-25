@@ -9,11 +9,6 @@ h1, h2, h3, h4, h5, h6, p
     background: #fa8072;
 }
 
-.green-message 
-{
-    background: #b4eeb4;
-}
-
 p.red-message-box
 {
     background: lightcoral;
@@ -33,4 +28,20 @@ div.error-notify
 div.error-notify a p
 {
     cursor: pointer;
+}
+
+p.success-feedback 
+{
+    padding: 10px;
+    border: 1px solid #006600;
+    color: #006600;
+    background: white;
+}
+
+p.fail-feedback 
+{
+    padding: 10px;
+    border: 1px solid #b20000;
+    color: #b20000;
+    background: white;
 }

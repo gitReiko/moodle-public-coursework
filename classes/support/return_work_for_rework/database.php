@@ -8,6 +8,7 @@ use Coursework\Lib\Getters\StudentsGetter as sg;
 use Coursework\Lib\Getters\CommonGetter as cg;
 use Coursework\Lib\CommonLib as cl;
 use Coursework\Lib\Notification;
+use Coursework\Lib\Feedbacker;
 use Coursework\Lib\Enums;
 
 class Database 
@@ -28,16 +29,20 @@ class Database
         );
     }
 
-    public function change_state_to_work() : void  
+    public function change_state_to_work() : string   
     {
+        $feedback = '';
+
         if($this->is_student_work_exist())
         {
-            $this->return_to_work_state();
+            $feedbackItem = $this->return_to_work_state();
         }
         else 
         {
-            $this->display_missing_work_message();
+            $feedbackItem = $this->get_fail_feedback();
         }
+
+        return Feedbacker::add_feedback_to_string($feedback, $feedbackItem);
     }
 
     private function get_student_id() : int 
@@ -55,19 +60,7 @@ class Database
         else return true;
     }
 
-    private function display_missing_work_message() : void  
-    {
-        $attr = array
-        (
-            'style' => 'border: 1px solid #ffa500; 
-                        background: #fffbd2;
-                        padding: 10px;'
-        );
-        $text = get_string('impossible_return_to_work_state', 'coursework');
-        echo \html_writer::tag('p', $text, $attr);
-    }
-
-    private function return_to_work_state() : void 
+    private function return_to_work_state() : \stdClass 
     {
         if($this->set_status_returned_for_rework_to_student_work())
         {
@@ -77,8 +70,8 @@ class Database
             }
             
             $this->send_notification_to_student();
-            $this->log_event();
-            $this->display_coursework_back_return_work_for_rework_message();
+            $this->log_return_student_work_for_rework_event();
+            return $this->get_success_feedback();
         }
     }
 
@@ -133,7 +126,7 @@ class Database
         return $text;
     }
 
-    private function log_event()
+    private function log_return_student_work_for_rework_event()
     {
         $params = array
         (
@@ -145,16 +138,16 @@ class Database
         $event->trigger();
     }
 
-    private function display_coursework_back_return_work_for_rework_message() : void  
+    private function get_success_feedback() : \stdClass  
     {
-        $attr = array
-        (
-            'style' => 'border: 1px solid #5ac18e; 
-                        background: #cbecc8;
-                        padding: 10px;'
-        );
         $text = get_string('return_student_work_for_rework', 'coursework');
-        echo \html_writer::tag('p', $text, $attr);
+        return Feedbacker::get_success_feedback($text);
+    }
+
+    private function get_fail_feedback() : \stdClass  
+    {
+        $text = get_string('impossible_return_to_work_state', 'coursework');
+        return Feedbacker::get_fail_feedback($text);
     }
 
 

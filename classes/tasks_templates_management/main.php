@@ -40,9 +40,9 @@ class Main extends \Coursework\Classes\Lib\MainTemplate
         parent::__construct($course, $cm);
     }
 
-    protected function execute_database_handler() : void
+    protected function execute_database_handler() 
     {
-        if($this->is_database_event_exist())
+        if($this->is_database_event_exists())
         {
             $event = optional_param(Main::DATABASE_EVENT, null, PARAM_TEXT);
 
@@ -63,7 +63,7 @@ class Main extends \Coursework\Classes\Lib\MainTemplate
         }
     }
 
-    protected function redirect_to_prevent_page_update() : void
+    protected function redirect_to_prevent_page_update($feedback) : void
     {
         $guiType = optional_param(self::GUI_TYPE, null, PARAM_TEXT);
 
@@ -95,7 +95,32 @@ class Main extends \Coursework\Classes\Lib\MainTemplate
         redirect(new \moodle_url($path, $params));
     }
 
-    protected function get_gui() : string 
+    protected function get_redirect_path() : string
+    {
+        return '/mod/coursework/pages/tasks_templates_management.php';
+    }
+
+    protected function get_redirect_params() : array
+    {
+        $guiType = optional_param(self::GUI_TYPE, null, PARAM_TEXT);
+
+        if($guiType === self::SECTIONS_MANAGEMENT)
+        {
+            return array(
+                self::ID => $this->cm->id,
+                self::GUI_TYPE => self::SECTIONS_MANAGEMENT,
+                self::TASK_ID => Lib::get_task_from_post()->id
+            );
+        }
+        else 
+        {
+            return array(self::ID => $this->cm->id);
+        }
+
+        return array('id' => $this->cm->id);
+    }
+
+    protected function get_content() : string 
     {
         $gui = '';
         $guiType = optional_param(self::GUI_TYPE, null, PARAM_TEXT);

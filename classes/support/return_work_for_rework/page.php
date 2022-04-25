@@ -87,7 +87,7 @@ class Page
         $attr = array
         (
             'type' => 'hidden',
-            'name' => Main::RETURN_WORK_FOR_REWORK,
+            'name' => Main::DATABASE_EVENT,
             'value' => Main::RETURN_WORK_FOR_REWORK
         );
         $p.= \html_writer::empty_tag('input', $attr);

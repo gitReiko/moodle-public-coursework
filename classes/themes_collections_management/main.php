@@ -33,7 +33,7 @@ class Main extends \Coursework\Classes\Lib\MainTemplate
         parent::__construct($course, $cm);
     }
 
-    protected function execute_database_handler() : void
+    protected function execute_database_handler() 
     {
         $event = optional_param(Main::DATABASE_EVENT, null, PARAM_TEXT);
 
@@ -54,37 +54,27 @@ class Main extends \Coursework\Classes\Lib\MainTemplate
         }
     }
 
-    protected function redirect_to_prevent_page_update() : void
+    protected function get_redirect_path() : string
+    {
+        return '/mod/coursework/pages/themes_collections_management.php';
+    }
+
+    protected function get_redirect_params() : array
     {
         $guiType = optional_param(self::GUI_TYPE, null, PARAM_TEXT);
 
         if($guiType === self::THEMES_MANAGEMENT)
         {
-            $this->redirect_to_themes_management_page();
+            return array(
+                self::ID => $this->cm->id,
+                self::GUI_TYPE => self::THEMES_MANAGEMENT,
+                self::COLLECTION_ID => $this->get_collection_id()
+            );
         }
         else 
         {
-            $this->redirect_to_overview_page();
+            return array(self::ID => $this->cm->id);
         }
-    }
-
-    private function redirect_to_overview_page() : void 
-    {
-        $path = '/mod/coursework/pages/themes_collections_management.php';
-        $params = array(self::ID=>$this->cm->id);
-        redirect(new \moodle_url($path, $params));
-    }
-
-    private function redirect_to_themes_management_page() : void 
-    {
-
-        $params = array(
-            self::ID => $this->cm->id,
-            self::GUI_TYPE => self::THEMES_MANAGEMENT,
-            self::COLLECTION_ID => $this->get_collection_id()
-        );
-        $path = '/mod/coursework/pages/themes_collections_management.php';
-        redirect(new \moodle_url($path, $params));
     }
 
     private function get_collection_id() 
@@ -94,7 +84,7 @@ class Main extends \Coursework\Classes\Lib\MainTemplate
         return $id;
     }
 
-    protected function get_gui() : string 
+    protected function get_content() : string 
     {
         $gui = '';
         $guiType = optional_param(self::GUI_TYPE, null, PARAM_TEXT);

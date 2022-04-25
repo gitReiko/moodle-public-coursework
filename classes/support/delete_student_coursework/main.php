@@ -28,8 +28,8 @@ class Main
     {
         if($this->is_database_event_exists())
         {
-            $this->execute_database_handler();
-            $this->redirect_to_prevent_page_update();
+            $feedback = $this->execute_database_handler();
+            $this->redirect_to_prevent_page_update($feedback);
         }
     }
 
@@ -39,13 +39,13 @@ class Main
         return $page->get_page();
     }
 
-    private function execute_database_handler() : void
+    private function execute_database_handler() 
     {
         $handler = new Database($this->course, $this->cm);
         $handler->execute();
     }
 
-    private function redirect_to_prevent_page_update() : void
+    private function redirect_to_prevent_page_update($feedback) : void
     {
         $path = '/mod/coursework/pages/support/delete_student_coursework.php';
         $params = array('id'=>$this->cm->id);

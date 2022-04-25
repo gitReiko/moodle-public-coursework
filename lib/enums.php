@@ -6,6 +6,7 @@ class Enums
 {
 
     const ID = 'id';
+    const FEEDBACK = 'feedback';
 
     // Group modes
     const NO_GROUPS = 0;

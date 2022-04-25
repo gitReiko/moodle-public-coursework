@@ -3,6 +3,8 @@
 require_once '../../../../config.php';
 require_once '../../classes/config/set_suggested_themes/main.php';
 require_once '../../lib/getters/common_getter.php';
+require_once '../../lib/feedbacker.php';
+require_once '../../lib/enums.php';
 
 use Coursework\Config\SetSuggestedThemes\Main as setSuggestedThemes;
  
@@ -30,11 +32,10 @@ $PAGE->requires->js('/mod/coursework/js/config/set_suggested_themes.js');
 
 require_login();
 
-$setSuggestedThemes = new setSuggestedThemes($course, $cm);
-  
-$setSuggestedThemes->handle_database_event();
-
 echo $OUTPUT->header();
-echo $setSuggestedThemes->get_page();
+
+$module = new setSuggestedThemes($course, $cm);
+echo $module->get_page();
+
 echo $OUTPUT->footer();
 

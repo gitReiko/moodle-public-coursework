@@ -4,6 +4,8 @@ require_once '../../../../config.php';
 require_once '../../lib/getters/teachers_getter.php';
 require_once '../../lib/step_by_step.php';
 require_once '../../classes/config/appoint_leaders/main.php';
+require_once '../../lib/feedbacker.php';
+require_once '../../lib/enums.php';
 
 use Coursework\Config\AppointLeaders as appointLeaders;
  
@@ -34,11 +36,10 @@ $PAGE->requires->js('/mod/coursework/js/config/appoint_leaders.js');
 
 require_login();
 
-$appointLeaders = new appointLeaders\Main($course, $cm);
-  
-$appointLeaders->handle_database_event();
-
 echo $OUTPUT->header();
-echo $appointLeaders->get_page();
+
+$module = new appointLeaders\Main($course, $cm);
+echo $module->get_page();
+
 echo $OUTPUT->footer();
 

@@ -34,8 +34,8 @@ class Main
     {
         if($this->is_database_event_exist())
         {
-            $this->execute_database_handler();
-            $this->redirect_to_prevent_page_update();
+            $feedback = $this->execute_database_handler();
+            $this->redirect_to_prevent_page_update($feedback);
         }
     }
 
@@ -74,7 +74,7 @@ class Main
         return $page;
     }
 
-    private function redirect_to_prevent_page_update()
+    private function redirect_to_prevent_page_update($feedback)
     {
         global $USER;
 
@@ -131,7 +131,7 @@ class Main
         else return false;
     }
 
-    private function execute_database_handler() : void 
+    private function execute_database_handler() 
     {
         $database = new MainDB($this->course, $this->cm);
         $database->handle();

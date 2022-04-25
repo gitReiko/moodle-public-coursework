@@ -2,6 +2,8 @@
 
 require_once '../../../config.php';
 require_once '../classes/tasks_templates_management/main.php';
+require_once '../lib/feedbacker.php';
+require_once '../lib/enums.php';
 
 use Coursework\View\TasksTemplatesManagement\Main as tasksTemplatesManagement;
  
@@ -26,11 +28,8 @@ $PAGE->set_heading(get_string('tasks_templates_management', 'coursework'));
 
 require_login();
 
-$tasksTemplatesManagement = new tasksTemplatesManagement($course, $cm);
-  
-$tasksTemplatesManagement->handle_database_event();
-
 echo $OUTPUT->header();
-echo $tasksTemplatesManagement->get_page();
-echo $OUTPUT->footer();
+$module = new tasksTemplatesManagement($course, $cm);
+echo $module->get_page();
 
+echo $OUTPUT->footer();

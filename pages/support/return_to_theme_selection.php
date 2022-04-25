@@ -7,6 +7,7 @@ require_once '../../lib/getters/students_getter.php';
 require_once '../../lib/getters/teachers_getter.php';
 require_once '../../lib/getters/common_getter.php';
 require_once '../../lib/notification.php'; 
+require_once '../../lib/feedbacker.php';
 require_once '../../lib/common.php';
 require_once '../../lib/enums.php';
 
@@ -36,11 +37,10 @@ $PAGE->requires->css('/mod/coursework/css/common.css');
 
 require_login();
 
-$page = new Coursework\Support\ReturnToThemeSelection\Main($course, $cm);
-  
-$page->handle_database_event();
-
 echo $OUTPUT->header();
-echo $page->get_page();
+
+$module = new Coursework\Support\ReturnToThemeSelection\Main($course, $cm);
+echo $module->get_page();
+
 echo $OUTPUT->footer();
 

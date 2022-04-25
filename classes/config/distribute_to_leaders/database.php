@@ -4,6 +4,7 @@ namespace Coursework\Config\DistributeToLeaders;
 
 use Coursework\Classes\Lib\StudentsMassActions\Lib as massLib;
 use Coursework\Lib\Getters\TeachersGetter as tg;
+use Coursework\Lib\Feedbacker;
 
 class Database 
 {
@@ -24,22 +25,28 @@ class Database
         $this->expandQuota = $this->get_expand_quota();
     }
 
-    public function execute() 
+    public function execute() : string 
     {
+        $feedback = '';
+
         if($this->expandQuota)
         {
-            $this->increase_leader_quota();
+            $feedbackItem = $this->increase_leader_quota();
+            $feedback.= Feedbacker::add_feedback_to_string($feedback, $feedbackItem);
         }
 
         $this->leader->remainingQuota = $this->get_leader_remaining_quota();
 
         foreach($this->students as $student)
         {
-            $this->distribute_student($student);
+            $feedbackItem = $this->distribute_student($student);
+            $feedback.= Feedbacker::add_feedback_to_string($feedback, $feedbackItem);
         }
+
+        return $feedback;
     }
 
-    private function increase_leader_quota()
+    private function increase_leader_quota() : \stdClass  
     {
         $leader = $this->get_leader();
 
@@ -93,21 +100,23 @@ class Database
         return abs($remainingQuota - $studentsCount);
     }
 
-    private function create_leader_with_quota(\stdClass $leader)
+    private function create_leader_with_quota(\stdClass $leader) : \stdClass  
     {
         global $DB;
         $leader->quota = $this->get_quota_increase();
+
         if($DB->insert_record('coursework_teachers', $leader, false))
         {
-            $attr = array('class' => 'green-message');
-            $text = get_string('leader_quota_increased', 'coursework', $student);
-            echo \html_writer::tag('p', $text, $attr); 
-
             $this->log_event_leader_quota_increased();
+            return $this->get_success_quota_feedback();
+        }
+        else 
+        {
+            return $this->get_fail_quota_feedback();
         }
     }
 
-    private function update_leader_quota(\stdClass $leader)
+    private function update_leader_quota(\stdClass $leader) : \stdClass  
     {
         global $DB;
         $dbLeader = $this->get_leader_from_database();
@@ -116,11 +125,12 @@ class Database
 
         if($DB->update_record('coursework_teachers', $leader))
         {
-            $attr = array('class' => 'green-message');
-            $text = get_string('leader_quota_increased', 'coursework', $student);
-            echo \html_writer::tag('p', $text, $attr);
-
             $this->log_event_leader_quota_increased();
+            return $this->get_success_quota_feedback();
+        }
+        else 
+        {
+            return $this->get_fail_quota_feedback();
         }
     }
 
@@ -153,7 +163,7 @@ class Database
         );
     }
 
-    private function distribute_student(\stdClass $student) : void
+    private function distribute_student(\stdClass $student) : \stdClass 
     {
         global $DB;
 
@@ -165,27 +175,19 @@ class Database
 
                 if($DB->insert_record('coursework_students', $dbStudent, false))
                 {
-                    $attr = array('class' => 'green-message');
-                    $text = get_string('student_successfully_distributed', 'coursework', $student);
-                    echo \html_writer::tag('p', $text, $attr);
-
                     $this->log_event_student_distributed_to_teacher($student->id);
-
                     $this->leader->remainingQuota--;
+                    return $this->get_success_student_feedback($student);
                 }
             }
             else
             {
-                $attr = array('class' => 'red-message');
-                $text = get_string('not_enough_quota_for_distribution', 'coursework', $student);
-                echo \html_writer::tag('p', $text, $attr);
+                return $this->get_fail_student_feedback($student);
             }
         }
         else 
         {
-            $attr = array('class' => 'red-message');
-            $text = get_string('student_redistribution_impossible', 'coursework', $student);
-            echo \html_writer::tag('p', $text, $attr);
+            return $this->get_fail_redistribution_feedback($student);
         }
     }
 
@@ -221,6 +223,18 @@ class Database
         $event->trigger();
     }
 
+    private function get_success_quota_feedback() : \stdClass  
+    {
+        $text = get_string('leader_quota_increased', 'coursework');
+        return Feedbacker::get_success_feedback($text);
+    }
+
+    private function get_fail_quota_feedback() : \stdClass  
+    {
+        $text = 'Leader quota not increased.';
+        return Feedbacker::get_fail_feedback($text);
+    }
+
     private function log_event_student_distributed_to_teacher(int $studentId) : void 
     {
         $params = array
@@ -231,6 +245,24 @@ class Database
         
         $event = \mod_coursework\event\student_distributed_to_teacher::create($params);
         $event->trigger();
+    }
+
+    private function get_success_student_feedback(\stdClass $student) : \stdClass  
+    {
+        $text = get_string('student_successfully_distributed', 'coursework', $student);
+        return Feedbacker::get_success_feedback($text);
+    }
+
+    private function get_fail_student_feedback(\stdClass $student) : \stdClass  
+    {
+        $text = get_string('not_enough_quota_for_distribution', 'coursework', $student);
+        return Feedbacker::get_success_feedback($text);
+    }
+
+    private function get_fail_redistribution_feedback(\stdClass $student) : \stdClass  
+    {
+        $text = get_string('student_redistribution_impossible', 'coursework', $student);
+        return Feedbacker::get_success_feedback($text);
     }
 
 

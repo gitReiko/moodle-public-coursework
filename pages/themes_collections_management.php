@@ -3,6 +3,8 @@
 require_once '../../../config.php';
 require_once '../classes/themes_collections_management/main.php';
 require_once '../lib/getters/common_getter.php';
+require_once '../lib/feedbacker.php';
+require_once '../lib/enums.php';
 
 use Coursework\View\ThemesCollectionsManagement\Main as themesCollectionsManagement;
  
@@ -29,11 +31,10 @@ $PAGE->requires->js('/mod/coursework/js/themes_collections_management.js');
 
 require_login();
 
-$themesCollectionsManagement = new themesCollectionsManagement($course, $cm);
-  
-$themesCollectionsManagement->handle_database_event();
-
 echo $OUTPUT->header();
-echo $themesCollectionsManagement->get_page();
+
+$module = new themesCollectionsManagement($course, $cm);
+echo $module->get_page();
+
 echo $OUTPUT->footer();
 

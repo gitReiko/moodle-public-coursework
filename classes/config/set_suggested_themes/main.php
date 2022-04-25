@@ -28,20 +28,23 @@ class Main extends \Coursework\Classes\Lib\MainTemplate
         parent::__construct($course, $cm);
     }
 
-    protected function execute_database_handler() : void
+    protected function execute_database_handler() 
     {
         $handler = new Database($this->course, $this->cm);
         $handler->execute();
     }
 
-    protected function redirect_to_prevent_page_update() : void
+    protected function get_redirect_path() : string
     {
-        $path = '/mod/coursework/pages/config/set_suggested_themes.php';
-        $params = array('id'=>$this->cm->id);
-        redirect(new \moodle_url($path, $params));
+        return '/mod/coursework/pages/config/set_suggested_themes.php';
     }
 
-    protected function get_gui() : string 
+    protected function get_redirect_params() : array
+    {
+        return array('id' => $this->cm->id);
+    }
+
+    protected function get_content() : string 
     {
         $gui = '';
         $guiType = optional_param(self::GUI_TYPE, null, PARAM_TEXT);

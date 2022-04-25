@@ -6,6 +6,7 @@ require_once '../../lib/getters/students_getter.php';
 require_once '../../lib/getters/teachers_getter.php';
 require_once '../../lib/getters/common_getter.php';
 require_once '../../lib/notification.php'; 
+require_once '../../lib/feedbacker.php';
 require_once '../../lib/common.php';
 require_once '../../lib/enums.php';
 
@@ -36,11 +37,10 @@ $PAGE->requires->js('/mod/coursework/js/lib/mass_actions_on_students.js');
 
 require_login();
 
-$leaderReplacement = new leaderReplacement\Main($course, $cm);
-  
-$leaderReplacement->handle_database_event();
-
 echo $OUTPUT->header();
-echo $leaderReplacement->get_page();
+
+$module = new leaderReplacement\Main($course, $cm);
+echo $module->get_page();
+
 echo $OUTPUT->footer();
 

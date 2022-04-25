@@ -204,7 +204,7 @@ abstract class Action
         $attr = array(
             'type' => 'submit',
             'form' => Action::ACTION_FORM,
-            'value' => get_string('add_leader', 'coursework')
+            'value' => $this->get_action_button_text()
         );
 
         if($this->is_leaders_not_exists())
