@@ -315,7 +315,7 @@ class Lib
             $attr = array(
                 'type' => 'hidden',
                 'name' => StudentsTable::STUDENTS.'[]',
-                'value' => $student->id
+                'value' => $student->id.StudentsTable::SEPARATOR.$student->fullname
             );
 
             if($formName)

@@ -32,7 +32,7 @@ class Database
         if($this->expandQuota)
         {
             $feedbackItem = $this->increase_leader_quota();
-            $feedback.= Feedbacker::add_feedback_to_string($feedback, $feedbackItem);
+            $feedback.= Feedbacker::add_feedback_to_post($feedbackItem);
         }
 
         $this->leader->remainingQuota = $this->get_leader_remaining_quota();
@@ -40,7 +40,7 @@ class Database
         foreach($this->students as $student)
         {
             $feedbackItem = $this->distribute_student($student);
-            $feedback.= Feedbacker::add_feedback_to_string($feedback, $feedbackItem);
+            $feedback.= Feedbacker::add_feedback_to_post($feedbackItem);
         }
 
         return $feedback;
@@ -52,11 +52,11 @@ class Database
 
         if($this->is_leader_exist())
         {
-            $this->update_leader_quota($leader);
+            return $this->update_leader_quota($leader);
         }
         else 
         {
-            $this->create_leader_with_quota($leader);
+            return $this->create_leader_with_quota($leader);
         }
     }
 
@@ -256,13 +256,13 @@ class Database
     private function get_fail_student_feedback(\stdClass $student) : \stdClass  
     {
         $text = get_string('not_enough_quota_for_distribution', 'coursework', $student);
-        return Feedbacker::get_success_feedback($text);
+        return Feedbacker::get_fail_feedback($text);
     }
 
     private function get_fail_redistribution_feedback(\stdClass $student) : \stdClass  
     {
         $text = get_string('student_redistribution_impossible', 'coursework', $student);
-        return Feedbacker::get_success_feedback($text);
+        return Feedbacker::get_fail_feedback($text);
     }
 
 

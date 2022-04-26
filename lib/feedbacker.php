@@ -25,12 +25,12 @@ class Feedbacker
         return $feedback;
     }
 
-    public static function add_feedback_to_string(string $string, \stdClass $feedback) : string 
+    public static function add_feedback_to_post(\stdClass $feedback) : string 
     {
-        $string.= $feedback->text;
-        $string.= self::FEEDBACK_STATE.$feedback->success;
-        $string.= self::FEEDBACK_ITEM;
-        return $string;
+        $post = $feedback->text;
+        $post.= self::FEEDBACK_STATE.$feedback->success;
+        $post.= self::FEEDBACK_ITEM;
+        return $post;
     }
 
     public static function get_feedback_from_post() : string 

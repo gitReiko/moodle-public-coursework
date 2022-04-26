@@ -42,7 +42,7 @@ class Database
             $feedbackItem = $this->get_fail_feedback();
         }
 
-        return Feedbacker::add_feedback_to_string($feedback, $feedbackItem);
+        return Feedbacker::add_feedback_to_post($feedbackItem);
     }
 
     private function get_student_id() : int 

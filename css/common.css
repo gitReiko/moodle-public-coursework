@@ -32,16 +32,18 @@ div.error-notify a p
 
 p.success-feedback 
 {
-    padding: 10px;
+    padding: 3px;
     border: 1px solid #006600;
     color: #006600;
     background: white;
+    margin-bottom: 3px;
 }
 
 p.fail-feedback 
 {
-    padding: 10px;
+    padding: 3px;
     border: 1px solid #b20000;
     color: #b20000;
     background: white;
+    margin-bottom: 3px;
 }

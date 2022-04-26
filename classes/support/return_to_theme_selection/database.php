@@ -33,7 +33,7 @@ class Database
         foreach($this->studentsIds as $studentId)
         {
             $feedbackItem = $this->remove_student_theme_selection($studentId);
-            $feedback.= Feedbacker::add_feedback_to_string($feedback, $feedbackItem);
+            $feedback.= Feedbacker::add_feedback_to_post($feedbackItem);
         }
 
         return $feedback;

@@ -38,7 +38,7 @@ abstract class MainTemplate
         if($this->is_database_event_exists())
         {
             $feedback = $this->execute_database_handler();
-            //$this->redirect_to_prevent_page_update($feedback);
+            $this->redirect_to_prevent_page_update($feedback);
         }
     }
 
