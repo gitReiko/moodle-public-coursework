@@ -11,6 +11,8 @@ require_once 'step_by_step.php';
 
 class Main extends \Coursework\Classes\Lib\MainTemplate
 {
+    const MODULE_URL = '/mod/coursework/pages/config/distribute_to_leaders.php';
+
     const OVERVIEW = 'overview';
     const DISTRIBUTION = 'distribute';
 

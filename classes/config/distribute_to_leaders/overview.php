@@ -51,7 +51,8 @@ class Overview
     {
         $attr = array(
             'id' => self::DISTRIBUTE_FORM,
-            'method' => 'post'
+            'method' => 'post',
+            'action' => Main::MODULE_URL
         );
         $form = \html_writer::start_tag('form', $attr);
 
