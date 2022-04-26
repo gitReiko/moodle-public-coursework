@@ -7,6 +7,8 @@ require_once 'database.php';
 
 class Main 
 {
+    const MODULE_URL = '/mod/coursework/pages/support/delete_student_coursework.php';
+
     const ID = 'id';
     const DB_EVENT = 'db_event';
     const STUDENT_ID = 'student_id';

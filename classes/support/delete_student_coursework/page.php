@@ -51,7 +51,8 @@ class Page
         $removeConf = get_string('alert_delete_student_courseworks', 'coursework');
         $attr = array(
             'onsubmit' => 'return confirm_students_removing(`'.$removeConf.'`)',
-            'method' => 'post'
+            'method' => 'post',
+            'action' => Main::MODULE_URL
         );
         return \html_writer::start_tag('form', $attr);
     }
