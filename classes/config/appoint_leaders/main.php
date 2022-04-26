@@ -12,6 +12,8 @@ require_once 'step_by_step.php';
 
 class Main extends \Coursework\Classes\Lib\MainTemplate
 {
+    const MODULE_URL = '/mod/coursework/pages/config/appoint_leaders.php';
+
     // Types of events
     const OVERVIEW = 'overview';
     const ADD_LEADER = 'add_leader';

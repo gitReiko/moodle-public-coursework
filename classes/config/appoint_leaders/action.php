@@ -52,7 +52,11 @@ abstract class Action
 
     private function get_html_form_start() : string 
     {
-        $attr = array('id' => self::ACTION_FORM, 'method' => 'post');
+        $attr = array(
+            'id' => self::ACTION_FORM, 
+            'method' => 'post',
+            'action' => Main::MODULE_URL
+        );
         return \html_writer::start_tag('form', $attr);
     }
 
@@ -227,7 +231,10 @@ abstract class Action
     {
         $btn = \html_writer::start_tag('p');
 
-        $attr = array('method' => 'post');
+        $attr = array(
+            'method' => 'post',
+            'action' => Main::MODULE_URL
+        );
         $btn.= \html_writer::start_tag('form', $attr);
 
         $attr = array(

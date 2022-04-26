@@ -18,7 +18,7 @@ if (!$course = $DB->get_record('course', array('id'=> $cm->course))) {
     print_error('course is misconfigured');  // NOTE As above
 }
 
-$url = new moodle_url('/mod/coursework/pages/config/appoint_leaders.php', array('id'=>$id));
+$url = new moodle_url(appointLeaders\Main::MODULE_URL, array('id'=>$id));
 $PAGE->set_url($url);
 
 $PAGE->set_context(context_module::instance($cm->id));

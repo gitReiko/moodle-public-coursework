@@ -169,7 +169,10 @@ class Overview
 
     private function get_edit_button(\stdClass $leader) : string 
     {
-        $attr = array('method' => 'post');
+        $attr = array(
+            'method' => 'post',
+            'action' => Main::MODULE_URL
+        );
         $btn = \html_writer::start_tag('form', $attr);
 
         $attr = array(
@@ -231,7 +234,8 @@ class Overview
         $confText = get_string('confirm_irreversible_action', 'coursework');
         $attr = array(
             'method' => 'post',
-            'onsubmit' => 'return confirm_leader_deleting(`'.$confText.'`)'
+            'onsubmit' => 'return confirm_leader_deleting(`'.$confText.'`)',
+            'action' => Main::MODULE_URL
         );
         $btn = \html_writer::start_tag('form', $attr);
 
@@ -277,7 +281,10 @@ class Overview
 
     private function get_add_leader_button() : string 
     {
-        $attr = array('method' => 'post');
+        $attr = array(
+            'method' => 'post',
+            'action' => Main::MODULE_URL
+        );
         $btn = \html_writer::start_tag('form', $attr);
 
         $attr = array(
