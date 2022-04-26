@@ -10,6 +10,8 @@ require_once 'replace.php';
 
 class Main extends \Coursework\Classes\Lib\MainTemplate
 {
+    const MODULE_URL = '/mod/coursework/pages/support/leader_replacement.php';
+
     // Types of events
     const OVERVIEW = 'overview';
     const LEADER_REPLACEMENT = 'leader_replacement';

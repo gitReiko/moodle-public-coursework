@@ -52,7 +52,8 @@ class Overview
     {
         $attr = array(
             'id' => self::LEADER_REPLACEMENT_FORM,
-            'method' => 'post'
+            'method' => 'post',
+            'action' => Main::MODULE_URL
         );
         $form = \html_writer::start_tag('form', $attr);
 

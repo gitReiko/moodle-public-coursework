@@ -106,7 +106,11 @@ class Replace
 
     private function get_back_button() : string 
     {
-        $attr = array('method' => 'post', 'class' => 'back_button_form');
+        $attr = array(
+            'method' => 'post', 
+            'class' => 'back_button_form',
+            'action' => Main::MODULE_URL
+        );
         $btn = \html_writer::start_tag('form', $attr);
 
         $attr = array(
@@ -134,7 +138,8 @@ class Replace
     {
         $attr = array(
             'id' => self::FORM_NAME,
-            'method' => 'post'
+            'method' => 'post',
+            'action' => Main::MODULE_URL
         );
         $form = \html_writer::start_tag('form', $attr);
 
