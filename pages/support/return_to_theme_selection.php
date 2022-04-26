@@ -11,6 +11,8 @@ require_once '../../lib/feedbacker.php';
 require_once '../../lib/common.php';
 require_once '../../lib/enums.php';
 
+use Coursework\Support\ReturnToThemeSelection\Main as returnToThemeSelection;
+
 $id = required_param('id', PARAM_INT);    // Course Module ID
  
 if (!$cm = get_coursemodule_from_id('coursework', $id)) {
@@ -20,7 +22,7 @@ if (!$course = $DB->get_record('course', array('id'=> $cm->course))) {
     print_error('course is misconfigured');  // NOTE As above
 }
 
-$url = new moodle_url("/mod/coursework/pages/support/return_to_theme_selection.php", array('id'=>$id));
+$url = new moodle_url(returnToThemeSelection::MODULE_URL, array('id'=>$id));
 $PAGE->set_url($url);
 
 $PAGE->set_context(context_module::instance($cm->id));
@@ -39,7 +41,7 @@ require_login();
 
 echo $OUTPUT->header();
 
-$module = new Coursework\Support\ReturnToThemeSelection\Main($course, $cm);
+$module = new returnToThemeSelection($course, $cm);
 echo $module->get_page();
 
 echo $OUTPUT->footer();

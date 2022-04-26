@@ -56,6 +56,7 @@ class Overview
             'id' => self::RETURN_TO_FORM,
             'method' => 'post',
             'onsubmit' => 'return confirm_theme_reselect(`'.$confText.'`)',
+            'action' => Main::MODULE_URL
         );
         $form = \html_writer::start_tag('form', $attr);
 

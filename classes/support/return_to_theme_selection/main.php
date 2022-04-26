@@ -9,6 +9,8 @@ require_once 'overview.php';
 
 class Main extends \Coursework\Classes\Lib\MainTemplate
 {
+    const MODULE_URL = '/mod/coursework/pages/support/return_to_theme_selection.php';
+
     const RETURN_TO_THEME_SELECTION = 'return_to_theme_selection';
 
     protected $cm;
