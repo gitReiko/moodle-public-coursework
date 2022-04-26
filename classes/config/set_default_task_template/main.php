@@ -10,6 +10,8 @@ require_once 'set_default_task.php';
 
 class Main extends \Coursework\Classes\Lib\MainTemplate
 {
+    const MODULE_URL = '/mod/coursework/pages/config/set_default_task_template.php';
+
     const OVERVIEW = 'overview';
     const SET_DEFAULT_TASK = 'set_default_task';
 

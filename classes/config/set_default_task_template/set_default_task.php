@@ -73,7 +73,8 @@ class SetDefaultTask
     {
         $attr = array(
             'id' => self::ACTION_FORM,
-            'method' => 'post'
+            'method' => 'post',
+            'action' => Main::MODULE_URL
         );
         return \html_writer::start_tag('form', $attr);
     }
@@ -216,7 +217,8 @@ class SetDefaultTask
     {
         $attr = array(
             'id' => $this->backToOverviewFormName,
-            'method' => 'post'
+            'method' => 'post',
+            'action' => Main::MODULE_URL
         );
         $form = \html_writer::start_tag('form', $attr);
 
