@@ -8,6 +8,8 @@ require_once 'page.php';
 
 class Main extends \Coursework\Classes\Lib\MainTemplate
 {
+    const MODULE_URL = '/mod/coursework/pages/support/return_work_for_rework.php';
+
     const RETURN_WORK_FOR_REWORK = 'return_work_for_rework';
     const STUDENT_ID = 'student_id';
     const COURSEWORK_ID = 'coursework_id';

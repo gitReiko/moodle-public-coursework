@@ -11,6 +11,8 @@ require_once '../../lib/feedbacker.php';
 require_once '../../lib/common.php';
 require_once '../../lib/enums.php';
 
+use Coursework\Support\BackToWorkState\Main as backToWorkState;
+
 $id = required_param('id', PARAM_INT);    // Course Module ID
  
 if (!$cm = get_coursemodule_from_id('coursework', $id)) {
@@ -20,7 +22,7 @@ if (!$course = $DB->get_record('course', array('id'=> $cm->course))) {
     print_error('course is misconfigured');  // NOTE As above
 }
 
-$url = new moodle_url("/mod/coursework/pages/support/return_work_for_rework.php", array('id'=>$id));
+$url = new moodle_url(backToWorkState::MODULE_URL, array('id'=>$id));
 $PAGE->set_url($url);
 
 $PAGE->set_context(context_module::instance($cm->id));
@@ -36,7 +38,7 @@ require_login();
 
 echo $OUTPUT->header();
 
-$module = new Coursework\Support\BackToWorkState\Main($cm, $course);
+$module = new backToWorkState($cm, $course);
 echo $module->get_page();
 
 echo $OUTPUT->footer();

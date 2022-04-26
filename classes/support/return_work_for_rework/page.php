@@ -36,7 +36,10 @@ class Page
 
     private function get_start_of_form() : string  
     {
-        $attr = array('method' => 'post');
+        $attr = array(
+            'method' => 'post',
+            'action' => Main::MODULE_URL
+        );
         return \html_writer::start_tag('form', $attr);
     }
 
@@ -79,10 +82,18 @@ class Page
         $attr = array
         (
             'type' => 'hidden',
+            'name' => Main::ID,
+            'value' => $this->cm->id
+        );
+        $p = \html_writer::empty_tag('input', $attr);
+
+        $attr = array
+        (
+            'type' => 'hidden',
             'name' => Main::COURSEWORK_ID,
             'value' => $this->cm->instance
         );
-        $p = \html_writer::empty_tag('input', $attr);
+        $p.= \html_writer::empty_tag('input', $attr);
 
         $attr = array
         (
