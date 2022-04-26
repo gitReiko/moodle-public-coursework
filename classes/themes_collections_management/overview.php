@@ -98,7 +98,10 @@ class Overview
 
     private function get_edit_button(\stdClass $collection) : string 
     {
-        $attr = array('method' => 'post');
+        $attr = array(
+            'method' => 'post',
+            'action' => Main::MODULE_URL
+        );
         $btn = \html_writer::start_tag('form', $attr);
 
         $attr = array(
@@ -135,7 +138,10 @@ class Overview
 
     private function get_themes_management_button(\stdClass $collection) : string 
     {
-        $attr = array('method' => 'post');
+        $attr = array(
+            'method' => 'post',
+            'action' => Main::MODULE_URL
+        );
         $btn = \html_writer::start_tag('form', $attr);
 
         $attr = array(
@@ -172,7 +178,10 @@ class Overview
 
     private function get_add_leader_button() : string 
     {
-        $attr = array('method' => 'post');
+        $attr = array(
+            'method' => 'post',
+            'action' => Main::MODULE_URL
+        );
         $btn = \html_writer::start_tag('form', $attr);
 
         $attr = array(

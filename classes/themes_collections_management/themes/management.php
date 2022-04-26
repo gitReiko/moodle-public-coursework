@@ -97,7 +97,8 @@ class Management
     {
         $attr = array(
             'style' => 'display:inline;',
-            'method' => 'post'
+            'method' => 'post',
+            'action' => Main::MODULE_URL
         );
         $btn = ' '.\html_writer::start_tag('form', $attr);
 
@@ -183,7 +184,8 @@ class Management
     {
         $attr = array(
             'style' => 'display:inline;',
-            'method' => 'post'
+            'method' => 'post',
+            'action' => Main::MODULE_URL
         );
         $btn = ' '.\html_writer::start_tag('form', $attr);
 
@@ -218,7 +220,10 @@ class Management
     {
         $btn = \html_writer::start_tag('li');
 
-        $attr = array('method' => 'post');
+        $attr = array(
+            'method' => 'post',
+            'action' => Main::MODULE_URL
+        );
         $btn.= \html_writer::start_tag('form', $attr);
 
         $btn.= $this->get_common_themes_inputs();
@@ -259,7 +264,10 @@ class Management
     {
         $btn = \html_writer::start_tag('p');
 
-        $attr = array('method' => 'post');
+        $attr = array(
+            'method' => 'post',
+            'action' => Main::MODULE_URL
+        );
         $btn.= \html_writer::start_tag('form', $attr);
 
         $attr = array(

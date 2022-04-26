@@ -44,7 +44,8 @@ abstract class Action
     {
         $attr = array(
             'id' => self::ACTION_FORM,
-            'method' => 'post'
+            'method' => 'post',
+            'action' => Main::MODULE_URL
         );
         return \html_writer::start_tag('form', $attr);
     }
@@ -198,7 +199,8 @@ abstract class Action
     {
         $attr = array(
             'id' => $this->backToOverviewFormName,
-            'method' => 'post'
+            'method' => 'post',
+            'action' => Main::MODULE_URL
         );
         $btn = \html_writer::start_tag('form', $attr);
 

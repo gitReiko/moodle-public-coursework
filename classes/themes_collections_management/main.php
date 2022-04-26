@@ -13,6 +13,8 @@ require_once 'overview.php';
 
 class Main extends \Coursework\Classes\Lib\MainTemplate
 {
+    const MODULE_URL = '/mod/coursework/pages/themes_collections_management.php';
+
     const OVERVIEW = 'overview';
     const ADD_COLLECTION = 'add_collection';
     const EDIT_COLLECTION = 'edit_collection';
