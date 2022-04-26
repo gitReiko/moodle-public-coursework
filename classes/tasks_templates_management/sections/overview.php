@@ -104,7 +104,10 @@ class Overview
 
     private function get_edit_button(\stdClass $section) : string 
     {
-        $attr = array('method' => 'post');
+        $attr = array(
+            'method' => 'post',
+            'action' => Main::MODULE_URL
+        );
         $btn = \html_writer::start_tag('form', $attr);
 
         $attr = array(
@@ -161,7 +164,10 @@ class Overview
 
     private function get_add_task_section_button() : string 
     {
-        $attr = array('method' => 'post');
+        $attr = array(
+            'method' => 'post',
+            'action' => Main::MODULE_URL
+        );
         $btn = \html_writer::start_tag('form', $attr);
 
         $attr = array(
@@ -198,7 +204,10 @@ class Overview
 
     private function get_back_to_overview_button() : string 
     {
-        $attr = array('method' => 'post');
+        $attr = array(
+            'method' => 'post',
+            'action' => Main::MODULE_URL
+        );
         $btn = \html_writer::start_tag('form', $attr);
 
         $attr = array(

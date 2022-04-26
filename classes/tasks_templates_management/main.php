@@ -20,6 +20,8 @@ require_once 'lib.php';
 
 class Main extends \Coursework\Classes\Lib\MainTemplate
 {
+    const MODULE_URL = '/mod/coursework/pages/tasks_templates_management.php';
+
     const OVERVIEW = 'overview';
     const ADD_TASK = 'add_task';
     const EDIT_TASK = 'edit_task';
