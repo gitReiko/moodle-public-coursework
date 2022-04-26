@@ -180,7 +180,11 @@ abstract class Action
 
     private function get_back_to_overview_button() : string 
     {
-        $attr = array('method' => 'post', 'class' => 'back_button_form');
+        $attr = array(
+            'method' => 'post', 
+            'class' => 'back_button_form',
+            'action' => Main::MODULE_URL
+        );
         $btn = \html_writer::start_tag('form', $attr);
 
         $attr = array(
@@ -210,7 +214,11 @@ abstract class Action
 
     private function get_action_form() : string 
     {
-        $attr = array('id' => self::ACTION_FORM, 'method' => 'post');
+        $attr = array(
+            'id' => self::ACTION_FORM, 
+            'method' => 'post',
+            'action' => Main::MODULE_URL
+        );
         $btn = \html_writer::start_tag('form', $attr);
 
         $attr = array(

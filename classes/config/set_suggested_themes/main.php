@@ -12,6 +12,8 @@ require_once 'overview.php';
 
 class Main extends \Coursework\Classes\Lib\MainTemplate
 {
+    const MODULE_URL = '/mod/coursework/pages/config/set_suggested_themes.php';
+
     const OVERVIEW = 'overview';
     const ADD_THEME_USING = 'add_theme_using';
     const CHANGE_USING_THEMES = 'change_using_themes';

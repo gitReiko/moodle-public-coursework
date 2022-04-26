@@ -256,7 +256,11 @@ class Overview
 
     private function get_change_button(\stdClass $course) : string
     {
-        $attr = array('method' => 'post', 'style' => 'display: inline');
+        $attr = array(
+            'method' => 'post', 
+            'style' => 'display: inline',
+            'action' => Main::MODULE_URL
+        );
         $btn = \html_writer::start_tag('form', $attr);
 
         $attr = array(
@@ -307,7 +311,11 @@ class Overview
 
     private function get_delete_button(\stdClass $collection) : string
     {
-        $attr = array('method' => 'post', 'style' => 'display: inline');
+        $attr = array(
+            'method' => 'post', 
+            'style' => 'display: inline',
+            'action' => Main::MODULE_URL
+        );
         $btn = \html_writer::start_tag('form', $attr);
 
         $attr = array(
@@ -357,7 +365,10 @@ class Overview
 
     private function get_add_button(\stdClass $course) : string
     {
-        $attr = array('method' => 'post');
+        $attr = array(
+            'method' => 'post',
+            'action' => Main::MODULE_URL
+        );
         $btn = \html_writer::start_tag('form', $attr);
 
         $attr = array(
