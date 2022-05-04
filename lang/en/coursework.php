@@ -59,6 +59,7 @@ $string['correct_default_task'] = 'Correct default task';
 $string['correct_task'] = 'Correcting task';
 $string['count_of_same_themes'] = 'Number of same themes that students can choose';
 $string['course'] = 'Course';
+$string['coursework_already_in_rework_status'] = 'Coursework has already been sent for rework.';
 $string['coursework_files'] = 'Coursework files';
 $string['coursework_leader_added'] = 'Added coursework leader';
 $string['coursework_leader_changed'] = 'Coursework leader changed';

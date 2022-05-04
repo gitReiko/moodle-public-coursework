@@ -59,6 +59,7 @@ $string['correct_default_task'] = 'Скорректировать стандар
 $string['correct_task'] = 'Корректирование задания';
 $string['count_of_same_themes'] = 'Количество одинаковых тем, которые могут выбрать студенты';
 $string['course'] = 'Дисциплина';
+$string['coursework_already_in_rework_status'] = 'Курсовая работа уже отправлена на переработку.';
 $string['coursework_files'] = 'Файлы курсовой работы';
 $string['coursework_leader_added'] = 'Добавлен руководитель курсовой работы';
 $string['coursework_leader_changed'] = 'Изменён руководитель курсовой работы';

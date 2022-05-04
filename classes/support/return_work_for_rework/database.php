@@ -17,6 +17,7 @@ class Database
     private $course;
 
     private $studentWork;
+    private $student;
 
     function __construct(\stdClass $cm, \stdClass $course) 
     {
@@ -24,6 +25,11 @@ class Database
         $this->course = $course;
 
         $this->studentWork = sg::get_student_work(
+            $this->cm->instance, 
+            $this->get_student_id()
+        );
+
+        $this->student = sg::get_student_with_his_work(
             $this->cm->instance, 
             $this->get_student_id()
         );
@@ -35,11 +41,18 @@ class Database
 
         if($this->is_student_work_exist())
         {
-            $feedbackItem = $this->return_to_work_state();
+            if($this->student->latestStatus == Enums::RETURNED_FOR_REWORK)
+            {
+                $feedbackItem = $this->get_fail_feedback_already_in_rework_status();
+            }
+            else 
+            {
+                $feedbackItem = $this->return_to_work_state();
+            }
         }
         else 
         {
-            $feedbackItem = $this->get_fail_feedback();
+            $feedbackItem = $this->get_fail_feedback_work_not_exists();
         }
 
         return Feedbacker::add_feedback_to_post($feedbackItem);
@@ -144,7 +157,13 @@ class Database
         return Feedbacker::get_success_feedback($text);
     }
 
-    private function get_fail_feedback() : \stdClass  
+    private function get_fail_feedback_already_in_rework_status() : \stdClass  
+    {
+        $text = get_string('coursework_already_in_rework_status', 'coursework');
+        return Feedbacker::get_fail_feedback($text);
+    }
+
+    private function get_fail_feedback_work_not_exists() : \stdClass  
     {
         $text = get_string('impossible_return_to_work_state', 'coursework');
         return Feedbacker::get_fail_feedback($text);
