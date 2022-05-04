@@ -108,7 +108,6 @@ class Replace
     {
         $attr = array(
             'method' => 'post', 
-            'class' => 'back_button_form',
             'action' => Main::MODULE_URL
         );
         $btn = \html_writer::start_tag('form', $attr);

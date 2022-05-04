@@ -31,7 +31,6 @@ $PAGE->set_cm($cm);
 $PAGE->set_title(get_string('leader_replacement', 'coursework'));
 $PAGE->set_heading(get_string('leader_replacement', 'coursework'));
 
-$PAGE->requires->css('/mod/coursework/css/support/leader_replacement.css');
 $PAGE->requires->css('/mod/coursework/css/lib/students_mass_actions.css');
 $PAGE->requires->js('/mod/coursework/js/lib/mass_actions_on_students.js');
 
