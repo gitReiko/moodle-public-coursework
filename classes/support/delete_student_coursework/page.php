@@ -256,8 +256,8 @@ class Page
 
         $attr = array(
             'type' => 'hidden',
-            'name' => Main::DB_EVENT,
-            'value' => Main::DB_EVENT
+            'name' => Main::DATABASE_EVENT,
+            'value' => Main::DATABASE_EVENT
         );
         $params.= \html_writer::empty_tag('input', $attr);
 

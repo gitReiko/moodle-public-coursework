@@ -2,65 +2,47 @@
 
 namespace Coursework\Support\DeleteStudentCoursework;
 
+require_once '../../classes/lib/main_template.php';
 require_once 'page.php';
 require_once 'database.php';
 
-class Main 
+class Main extends \Coursework\Classes\Lib\MainTemplate
 {
     const MODULE_URL = '/mod/coursework/pages/support/delete_student_coursework.php';
 
-    const ID = 'id';
-    const DB_EVENT = 'db_event';
     const STUDENT_ID = 'student_id';
 
-    private $course;
-    private $cm;
-
-    private $students;
-
-    private $autofocus = true;
+    protected $course;
+    protected $cm;
 
     function __construct($course, $cm)
     {
         $this->course = $course;
         $this->cm = $cm;
+
+        parent::__construct($course, $cm);
     }
 
-    public function handle_database_event()
+    protected function get_redirect_path() : string
     {
-        if($this->is_database_event_exists())
-        {
-            $feedback = $this->execute_database_handler();
-            $this->redirect_to_prevent_page_update($feedback);
-        }
+        return '/mod/coursework/pages/support/delete_student_coursework.php';
     }
 
-    public function get_page() : string 
+    protected function get_redirect_params() : array
     {
-        $page = new Page($this->course, $this->cm);
-        return $page->get_page();
+        return array('id' => $this->cm->id);
     }
 
-    private function execute_database_handler() 
+    protected function get_content() : string 
+    {
+        $p = new Page($this->course, $this->cm);
+        return $p->get_page();
+    }
+
+    protected function execute_database_handler() 
     {
         $handler = new Database($this->course, $this->cm);
         $handler->execute();
     }
 
-    private function redirect_to_prevent_page_update($feedback) : void
-    {
-        $path = '/mod/coursework/pages/support/delete_student_coursework.php';
-        $params = array('id'=>$this->cm->id);
-        redirect(new \moodle_url($path, $params));
-    }
-
-    private function is_database_event_exists() : bool 
-    {
-        $dbEvent = optional_param(Main::DB_EVENT, null, PARAM_TEXT);
-
-        if(isset($dbEvent)) return true;
-        else return false;
-    }
-
 }
-
