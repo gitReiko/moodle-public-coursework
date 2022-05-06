@@ -44,8 +44,10 @@ class CheckWork
     {
         if($this->is_new_coursework_state_ready())
         {
+            echo ' <p>state ready</p>';
             if($this->is_coursework_regrading())
             {
+                echo ' <p>regrading</p>';
                 $this->save_grade_in_gradebook();
                 $this->update_grade_in_coursework_students_table();
 
@@ -122,13 +124,13 @@ class CheckWork
 
     private function is_coursework_regrading() : bool 
     {
-        if(empty($this->student->grade))
+        if($this->student->latestStatus == Enums::READY)
         {
-            return false;
+            return true;
         }
         else 
         {
-            return true;
+            return false;
         }
     }
 
