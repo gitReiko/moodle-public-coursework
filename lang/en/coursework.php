@@ -240,6 +240,7 @@ $string['set_up_leaders'] = 'Set up at least 1 coursework leader.';
 $string['show_more_info'] = 'Click to show more information about work';
 $string['show_notifications'] = 'Click to show notifications';
 $string['state'] = 'State';
+$string['status_change_time'] = 'Status change time';
 $string['student_chose_theme'] = 'Student chose theme of coursework';
 $string['student_coursework_deleted'] = 'Student coursework deleted';
 $string['student_distributed_to_teacher'] = 'Student distributed to teacher';

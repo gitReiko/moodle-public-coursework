@@ -92,6 +92,7 @@ class Info extends Base
     private function get_teacher_grid() : string 
     {
         $inner = $this->get_work_state();
+        $inner.= $this->get_state_change_date();
         $inner.= $this->get_work_grade();
         $inner.= $this->get_teacher_name();
         $td = \html_writer::tag('td', $inner);
@@ -120,6 +121,14 @@ class Info extends Base
         $inner = get_string('state', 'coursework').': ';
         $inner = \html_writer::tag('b', $inner);
         $inner.= cg::get_state_name($this->student->latestStatus);
+        return \html_writer::tag('p', $inner);
+    }
+
+    private function get_state_change_date() : string 
+    {
+        $inner = get_string('status_change_time', 'coursework').': ';
+        $inner = \html_writer::tag('b', $inner);
+        $inner.= date('H:i - d/m/Y', $this->student->statusChangeTime);
         return \html_writer::tag('p', $inner);
     }
 

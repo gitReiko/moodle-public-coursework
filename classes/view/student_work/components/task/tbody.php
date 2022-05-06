@@ -57,7 +57,7 @@ class Tbody
     {
         if($this->is_date_exists($section->statusChangeTime))
         {
-            $text = date('H:i d-m-Y', $section->statusChangeTime);
+            $text = date('H:i - d/m/Y', $section->statusChangeTime);
         }
         else
         {

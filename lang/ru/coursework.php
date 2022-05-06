@@ -240,6 +240,7 @@ $string['set_up_leaders'] = 'Настройте хотя бы 1 руководи
 $string['show_more_info'] = 'Нажмите, чтобы показать больше информации о работе';
 $string['show_notifications'] = 'Нажмите, чтобы показать уведомления';
 $string['state'] = 'Статус';
+$string['status_change_time'] = 'Время изменения статуса';
 $string['student_chose_theme'] = 'Студент выбрал тему курсовой работы';
 $string['student_coursework_deleted'] = 'Курсовая работа студента удалена';
 $string['student_distributed_to_teacher'] = 'Студенту назначен руководитель';
