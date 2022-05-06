@@ -51,6 +51,13 @@ class Filemanager extends Base
             $content.= $this->get_change_my_files_button();
             $content.= $this->get_change_my_files_form();
         }
+        else 
+        {
+            if(locallib::is_user_student_or_teacher($this->student))
+            {
+                $content.= $this->get_files_cant_be_modified();
+            }
+        }
         
         $content.= \html_writer::end_tag('div');
 
@@ -237,6 +244,27 @@ class Filemanager extends Base
         $form.= \html_writer::end_tag('form');
 
         return $form;
+    }
+
+    private function get_files_cant_be_modified() : string 
+    {
+        $text = get_string('files_cant_be_modified', 'coursework');
+
+        if($this->student->latestStatus == Enums::READY)
+        {
+            $text.= ' '.get_string('coursework_is_ready', 'coursework');
+        }
+        else if($this->student->latestStatus == Enums::SENT_FOR_CHECK)
+        {
+            $text.= ' '.get_string('coursework_is_sent_for_check', 'coursework');
+        }
+
+        $attr = array('style' => 'color:grey');
+        $string = get_string('to_change_files_work_must_be_returned_for_rework', 'coursework');
+        $text.= \html_writer::tag('p', $string, $attr);
+
+        $attr = array('class' => 'header');
+        return \html_writer::tag('div', $text, $attr);
     }
 
     private function save_student_files()
