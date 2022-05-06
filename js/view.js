@@ -488,3 +488,59 @@ class ViewStudentsWorks
 
 }
 
+class SendWorkForCheck
+{
+
+    static toggle_confirm_p()
+    {
+        this.toogle_button_classs();
+        this.toggle_button_disabled();
+        this.toggle_checkbox();
+    }
+
+    static toogle_button_classs()
+    {
+        let button = document.getElementById('sendForCheckButtonId');
+
+        if(button.className == 'not-allowed')
+        {
+            button.className = '';
+        }
+        else 
+        {
+            button.className = 'not-allowed';
+        }
+    }
+
+    static toggle_button_disabled()
+    {
+        let button = document.getElementById('sendForCheckButtonId');
+
+        if(button.disabled == true)
+        {
+            button.disabled = false;
+        }
+        else 
+        {
+            button.disabled = true;
+        }
+    }
+
+    static toggle_checkbox()
+    {
+        let checkbox = document.getElementById('sendForCheckCheckboxId');
+
+        if(checkbox.checked == true)
+        {
+            checkbox.checked = false;
+        }
+        else 
+        {
+            checkbox.checked = true;
+        }
+    }
+
+}
+
+
+

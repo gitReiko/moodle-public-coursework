@@ -37,7 +37,7 @@ class WorkCheck extends Base
         {
             if(locallib::is_state_started_or_returned_for_rework($this->student->latestStatus))
             {
-                $con.= $this->get_sent_for_check_button();
+                $con.= $this->get_student_sent_for_check_block();
             }
         }
         else if(locallib::is_user_teacher($this->student))
@@ -55,7 +55,7 @@ class WorkCheck extends Base
         return $con;
     }
 
-    private function get_sent_for_check_button() : string 
+    private function get_student_sent_for_check_block() : string 
     {
         $btn = $this->get_common_form_inputs();
 
@@ -66,11 +66,50 @@ class WorkCheck extends Base
         );
         $btn.= \html_writer::empty_tag('input', $attr);
 
-        $text = get_string('send_for_check_work', 'coursework');
-        $btn.= \html_writer::tag('button', $text);
+        $btn.= $this->get_ready_for_sent_checkbox();
+        $btn.= $this->get_send_for_check_work();
 
         $attr = array('method' => 'post', 'style' => 'display:inline-block;');
         return \html_writer::tag('form', $btn, $attr);
+    }
+
+    private function get_ready_for_sent_checkbox() : string 
+    {
+        $attr = array(
+            'id' => 'sendForCheckCheckboxId',
+            'type' => 'checkbox',
+            'autocomplete' => 'off',
+            'onclick' => 'SendWorkForCheck.toggle_checkbox();'
+        );
+        $btn = \html_writer::empty_tag('input', $attr);
+
+        $btn.= ' '.get_string('ready_to_sent_for_check', 'coursework');
+
+        $attr = array(
+            'class' => 'pointer',
+            'style' => 'padding-top: 10px;',
+            'onclick' => 'SendWorkForCheck.toggle_confirm_p()'
+        );
+        $btn = \html_writer::tag('p', $btn, $attr);
+
+        return $btn;
+    }
+
+    private function get_send_for_check_work() : string 
+    {
+        $attr = array(
+            'id' => 'sendForCheckButtonId',
+            'class' => 'not-allowed',
+            'disabled' => 'disabled',
+            'autocomplete' => 'off'
+        );
+        $text = get_string('send_for_check_work', 'coursework');
+        $btn = \html_writer::tag('button', $text, $attr);
+
+        $attr = array('style' => 'padding-top: 10px; padding-bottom: 10px;');
+        $btn = \html_writer::tag('p', $btn, $attr);
+
+        return $btn;
     }
 
     private function get_common_form_inputs() : string 

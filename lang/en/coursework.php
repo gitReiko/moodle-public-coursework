@@ -213,6 +213,7 @@ $string['quota_increase'] = 'Quota increase';
 $string['quota_overview'] = 'Leaders quota overview';
 $string['quota_viewed'] = 'Quota viewed';
 $string['quota'] = 'Quota';
+$string['ready_to_sent_for_check'] = 'I have attached all neccessary files and I\'m ready to sent coursework for check.';
 $string['regrade'] = 'Regrade';
 $string['replace'] = 'Replace';
 $string['return_student_work_for_rework'] = 'Student coursework back for rework.';

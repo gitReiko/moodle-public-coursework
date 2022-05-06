@@ -49,6 +49,10 @@ select.select { width: 200px !important; }
 
 .nomargin { margin: 0px !important; }
 
+.not-allowed { cursor: not-allowed; }
+
+.pointer { cursor: pointer; }
+
 .themeSelectCheckbox 
 {
     display: inline-block;
