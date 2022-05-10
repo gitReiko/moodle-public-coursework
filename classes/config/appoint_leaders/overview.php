@@ -2,6 +2,8 @@
 
 namespace Coursework\Config\AppointLeaders;
 
+use Coursework\Lib\Getters\CoursesGetter as coug;
+
 class Overview
 {
     private $course;
@@ -36,16 +38,33 @@ class Overview
 
     private function get_leaders()
     {
+        $leaders = $this->get_coursework_teachers();
+        $leaders = $this->add_course_names_to_leaders($leaders);
+        return $leaders;
+    }
+
+    private function get_coursework_teachers()
+    {
         global $DB;
-        $sql = 'SELECT ct.id, ct.teacher, ct.course, c.fullname as coursename, 
-                    ct.quota, u.firstname, u.lastname
-                FROM {coursework_teachers} as ct, {user} as u, {course} as c
-                WHERE ct.teacher = u.id AND ct.course = c.id
-                AND ct.coursework = ?
+        $sql = 'SELECT ct.id, ct.teacher, ct.course, 
+                    ct.quota, u.firstname, u.lastname 
+                FROM {coursework_teachers} as ct, {user} as u 
+                WHERE ct.teacher = u.id 
+                AND ct.coursework = ? 
                 ORDER BY u.lastname';
         $conditions = array($this->cm->instance);
 
         return $DB->get_records_sql($sql, $conditions);
+    }
+
+    private function add_course_names_to_leaders($leaders)
+    {
+        foreach($leaders as $leader)
+        {
+            $leader->coursename = coug::get_course_fullname($leader->course);
+        }
+
+        return $leaders;
     }
 
     private function get_page_header() : string 

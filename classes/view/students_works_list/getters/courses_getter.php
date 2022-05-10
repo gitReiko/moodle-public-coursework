@@ -4,6 +4,7 @@ namespace Coursework\View\StudentsWorksList;
 
 use Coursework\View\StudentsWorksList\CoursesSelector as cs;
 use Coursework\View\StudentsWorksList\MainGetter as mg;
+use Coursework\Lib\Getters\CoursesGetter as coug;
 use Coursework\Lib\Getters\TeachersGetter as tg;
 
 class CoursesGetter 
@@ -45,7 +46,7 @@ class CoursesGetter
                 {
                     $newCourse = new \stdClass;
                     $newCourse->id = $student->course;
-                    $newCourse->fullname = $this->get_course_fullname($newCourse->id);
+                    $newCourse->fullname = coug::get_course_fullname($newCourse->id);
     
                     $this->courses[] = $newCourse;
                 }
@@ -68,12 +69,6 @@ class CoursesGetter
         }
 
         return true;
-    }
-
-    private function get_course_fullname(int $id)
-    {
-        global $DB;
-        return $DB->get_field('course', 'fullname', array('id' => $id));
     }
 
     private function sort_courses()
@@ -139,23 +134,10 @@ class CoursesGetter
 
     private function get_courses_from_coursework_teachers()
     {
-        $courses = $this->get_courses_from_coursework_teachers_from_database();
+        $courses = coug::get_coursework_teachers_courses($this->cm->instance);
         $courses = $this->courses_unique_from_coursework_teachers($courses);
 
         return $courses;
-    }
-
-    private function get_courses_from_coursework_teachers_from_database()
-    {
-        global $DB;
-        $sql = 'SELECT ct.id as cid, c.id, c.fullname 
-                FROM {coursework_teachers} AS ct
-                INNER JOIN {course} AS c
-                ON ct.course = c.id 
-                WHERE ct.coursework = ?
-                ORDER BY c.fullname';
-        $params = array($this->cm->instance);
-        return $DB->get_records_sql($sql, $params);
     }
 
     private function courses_unique_from_coursework_teachers($courses)

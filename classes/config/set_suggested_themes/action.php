@@ -2,7 +2,7 @@
 
 namespace Coursework\Config\SetSuggestedThemes;
 
-use Coursework\Lib\Getters\CommonGetter as cg;
+use Coursework\Lib\Getters\CoursesGetter as coug;
 
 abstract class Action 
 {
@@ -61,7 +61,7 @@ abstract class Action
 
     private function get_course_name() : string 
     {
-        $courseName = cg::get_course_fullname($this->get_collection_course());
+        $courseName = coug::get_course_fullname($this->get_collection_course());
         $text = get_string('for_course', 'coursework').' ';
         $text.= \html_writer::tag('b', $courseName);
         return \html_writer::tag('p', $text);

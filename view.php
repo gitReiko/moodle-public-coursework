@@ -10,6 +10,7 @@ require_once 'lib/database/add_new_student_work_status.php';
 require_once 'lib/getters/student_task_getter.php';
 require_once 'lib/getters/students_getter.php';
 require_once 'lib/getters/teachers_getter.php';
+require_once 'lib/getters/courses_getter.php';
 require_once 'lib/getters/common_getter.php';
 require_once 'lib/teacher_notifications.php';
 require_once 'lib/notification.php';

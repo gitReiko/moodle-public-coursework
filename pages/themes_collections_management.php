@@ -2,6 +2,7 @@
 
 require_once '../../../config.php';
 require_once '../classes/themes_collections_management/main.php';
+require_once '../lib/getters/courses_getter.php';
 require_once '../lib/getters/common_getter.php';
 require_once '../lib/feedbacker.php';
 require_once '../lib/enums.php';

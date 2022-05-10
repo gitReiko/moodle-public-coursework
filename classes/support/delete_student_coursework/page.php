@@ -2,6 +2,7 @@
 
 namespace Coursework\Support\DeleteStudentCoursework;
 
+use Coursework\Lib\Getters\CoursesGetter as coug;
 use Coursework\Lib\Getters\StudentsGetter as sg;
 use Coursework\Lib\Getters\CommonGetter as cg;
 
@@ -225,7 +226,7 @@ class Page
         }
         else 
         {
-            return cg::get_course_name($student->course);
+            return coug::get_course_fullname($student->course);
         }
     }
 

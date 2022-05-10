@@ -3,6 +3,7 @@
 namespace Coursework\View\ThemesCollectionsManagement\Themes;
 
 use Coursework\View\ThemesCollectionsManagement\Main;
+use Coursework\Lib\Getters\CoursesGetter as coug;
 use Coursework\Lib\Getters\CommonGetter as cg;
 
 class Management
@@ -69,7 +70,7 @@ class Management
         $attr = array('style' => 'color:grey;');
         $text = get_string('collection_course_header', 'coursework').' ';
         $text = \html_writer::tag('span', $text, $attr);
-        $text.= cg::get_course_name($this->collection->course);
+        $text.= coug::get_course_fullname($this->collection->course);
 
         return \html_writer::tag('h3', $text);
     }

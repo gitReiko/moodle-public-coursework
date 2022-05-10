@@ -3,6 +3,7 @@
 namespace Coursework\View\StudentWork\Components;
 
 use Coursework\Lib\Getters\CommonGetter as cg;
+use Coursework\Lib\Getters\CoursesGetter as coug;
 use Coursework\Lib\Getters\StudentsGetter as sg;
 
 class Info extends Base
@@ -77,7 +78,7 @@ class Info extends Base
     {
         $inner = get_string('course', 'coursework').': ';
         $inner = \html_writer::tag('b', $inner);
-        $inner.= cg::get_course_name($this->student->course);
+        $inner.= coug::get_course_fullname($this->student->course);
         return \html_writer::tag('p', $inner);
     }
 

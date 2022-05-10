@@ -2,6 +2,8 @@
 
 namespace Coursework\Config\SetSuggestedThemes;
 
+use Coursework\Lib\Getters\CoursesGetter as coug;
+
 class Overview 
 {
     private $course;
@@ -35,23 +37,11 @@ class Overview
 
     private function get_coursework_courses()
     {
-        $courses = $this->get_coursework_courses_from_database();
+        $courses = coug::get_coursework_teachers_courses($this->cm->instance);
         $courses = $this->add_themes_collections_courses($courses);
         $courses = $this->add_themes_list_to_courses($courses);
 
         return $courses;
-    }
-
-    private function get_coursework_courses_from_database()
-    {
-        global $DB;
-        $sql = 'SELECT DISTINCT ct.course AS id, c.fullname AS name
-                FROM {coursework_teachers} AS ct 
-                INNER JOIN {course} AS c 
-                ON ct.course = c.id 
-                WHERE ct.coursework = ?';
-        $params = array($this->cm->instance);
-        return $DB->get_records_sql($sql, $params);
     }
 
     private function add_themes_collections_courses($courses)
@@ -124,7 +114,7 @@ class Overview
 
     private function get_theme_collection_setting(\stdClass $course) : string 
     {
-        $str = $this->get_course_header($course->name);
+        $str = $this->get_course_header($course->fullname);
 
         if(empty($course->collection))
         {

@@ -3,6 +3,7 @@
 namespace Coursework\View\ThemesCollectionsManagement\Collections;
 
 use Coursework\View\ThemesCollectionsManagement\Main;
+use Coursework\Lib\Getters\CoursesGetter as coug;
 use Coursework\Lib\Getters\CommonGetter as cg;
 
 abstract class Action 
@@ -21,7 +22,7 @@ abstract class Action
         $this->course = $course;
         $this->cm = $cm;
 
-        $this->courses = cg::get_all_site_courses();
+        $this->courses = coug::get_all_site_courses();
     }
 
     public function get_gui() : string 

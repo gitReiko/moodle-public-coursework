@@ -3,7 +3,9 @@
 namespace Coursework\Lib;
 
 require_once 'getters/common_getter.php';
+require_once 'getters/courses_getter.php';
 
+use Coursework\Lib\Getters\CoursesGetter as coug;
 use Coursework\Lib\Getters\CommonGetter as cg;
 
 class Notification 
@@ -83,7 +85,7 @@ class Notification
         // Tree of links
         $url = $CFG->wwwroot.'/course/view.php?id='.$this->course->id;
         $attr = array('href' => $url);
-        $text = cg::get_course_fullname($this->course->id);
+        $text = coug::get_course_fullname($this->course->id);
         $linksTree = \html_writer::tag('a', $text, $attr);
 
         $url = $CFG->wwwroot.'/mod/coursework/index.php?id='.$this->course->id;

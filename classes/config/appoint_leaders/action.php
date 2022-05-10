@@ -2,6 +2,7 @@
 
 namespace Coursework\Config\AppointLeaders;
 
+use Coursework\Lib\Getters\CoursesGetter as coug;
 use Coursework\Lib\Getters\TeachersGetter as tg;
 
 abstract class Action
@@ -20,7 +21,7 @@ abstract class Action
         $this->cm = $cm;
 
         $this->courseTeachers = tg::get_users_with_teacher_role($this->cm);
-        $this->siteCourses = $this->get_all_site_courses();
+        $this->siteCourses = coug::get_all_site_courses();
     }
 
     public function display() : string 
@@ -40,14 +41,6 @@ abstract class Action
         $gui.= $this->get_buttons_panel();
      
         return $gui;
-    }
-
-    private function get_all_site_courses() : array
-    {
-        global $DB;
-        $courses = array();
-        $courses = $DB->get_records('course', array(), 'fullname', 'id, fullname');
-        return $courses;
     }
 
     private function get_html_form_start() : string 

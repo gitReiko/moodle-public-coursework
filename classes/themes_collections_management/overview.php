@@ -2,6 +2,8 @@
 
 namespace Coursework\View\ThemesCollectionsManagement;
 
+use Coursework\Lib\Getters\CoursesGetter as coug;
+
 class Overview
 {
     private $course;
@@ -34,12 +36,30 @@ class Overview
     private function get_all_collections()
     {
         global $DB;
-        $sql = 'SELECT ctc.* , c.fullname AS coursename
-                FROM {coursework_themes_collections} AS ctc 
-                INNER JOIN {course} AS c 
-                ON ctc.course = c.id
-                ORDER BY ctc.name';
-        return $DB->get_records_sql($sql, array());
+        
+        $collections = $DB->get_records(
+            'coursework_themes_collections',
+            array()
+        );
+
+        $collections = $this->add_course_names_to_collections($collections);
+
+        usort($collections, function($a, $b)
+        {
+            return strcmp($a->coursename, $b->coursename);
+        });
+
+        return $collections;
+    }
+
+    private function add_course_names_to_collections($collections)
+    {
+        foreach($collections as $collection)
+        {
+            $collection->coursename = coug::get_course_fullname($collection->course);
+        }
+
+        return $collections;
     }
 
     private function get_overview_header() : string 

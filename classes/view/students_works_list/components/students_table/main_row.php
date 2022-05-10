@@ -3,6 +3,7 @@
 namespace Coursework\View\StudentsWorksList\StudentsTable;
 
 use Coursework\Lib\Getters\CommonGetter as cg;
+use Coursework\Lib\Getters\CoursesGetter as coug;
 use Coursework\View\StudentsWorksList as swl;
 use Coursework\Lib\TeacherNotifications;
 use Coursework\Lib\Enums as enum;
@@ -164,7 +165,7 @@ class MainRow
         }
         else 
         {
-            $text = cg::get_course_name($this->student->course);
+            $text = coug::get_course_fullname($this->student->course);
         }
         
         return \html_writer::tag('td', $text);

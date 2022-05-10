@@ -105,6 +105,7 @@ $string['default_task'] = 'Шаблон задания по умолчанию';
 $string['delete_selected_courseworks'] = 'Удалить выбранные курсовые работы';
 $string['delete_student_coursework'] = 'Удалить курсовую работу студента';
 $string['delete'] = 'Удалить';
+$string['deleted_course_num'] = 'Удалённый курс {$a}';
 $string['deleting'] = 'Удаление';
 $string['description'] = 'Описание';
 $string['distribute_students_header'] = 'Распределить следующих студентов:';

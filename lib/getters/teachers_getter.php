@@ -2,8 +2,10 @@
 
 namespace Coursework\Lib\Getters;
 
+require_once 'courses_getter.php';
 require_once 'students_getter.php';
 
+use Coursework\Lib\Getters\CoursesGetter as coug;
 use Coursework\Lib\Getters\StudentsGetter as sg;
 use Coursework\Lib\Enums as enum;
 
@@ -86,7 +88,7 @@ class TeachersGetter
 
     public static function get_teacher_courses(int $courseworkId, int $teacherId)
     {
-        $courses = self::get_configured_teacher_courses($courseworkId, $teacherId);
+        $courses = coug::get_coursework_teacher_courses($courseworkId, $teacherId);
 
         if(empty($courses))
         {
@@ -244,18 +246,6 @@ class TeachersGetter
         return true;
     }
 
-    private static function get_configured_teacher_courses(int $courseworkId, int $teacherId)
-    {
-        global $DB;
-        $sql = 'SELECT c.id, c.fullname, c.shortname 
-                FROM {coursework_teachers} AS ct 
-                INNER JOIN {course} AS c
-                ON ct.course = c.id 
-                WHERE ct.coursework = ? AND ct.teacher = ? ';
-        $params = array($courseworkId, $teacherId);
-        return $DB->get_records_sql($sql, $params);
-    }
-
     private static function get_teacher_courses_from_students_works(int $courseworkId, int $teacherId, $courses)
     {
         $studentsWorks = sg::get_all_coursework_students_works($courseworkId);
@@ -268,7 +258,7 @@ class TeachersGetter
                 {
                     if(self::is_course_not_exist_in_courses_array($work->course, $courses))
                     {
-                        $courses[] = self::get_course($work->course);
+                        $courses[] = coug::get_course($work->course);
                     }
                 }
             }
@@ -312,13 +302,6 @@ class TeachersGetter
         }
 
         return true;
-    }
-
-    private static function get_course(int $courseId)
-    {
-        global $DB;
-        $where = array('id' => $courseId);
-        return $DB->get_record('course', $where, 'id,fullname,shortname');
     }
 
     private static function sort_courses_array($courses)
