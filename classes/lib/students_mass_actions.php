@@ -3,11 +3,11 @@
 namespace Coursework\Classes\Lib\StudentsMassActions;
 
 require_once '../../lib/getters/courses_getter.php';
-require_once '../../lib/getters/common_getter.php';
+require_once '../../lib/getters/user_getter.php';
 require_once '../../lib/step_by_step.php';
 
 use Coursework\Lib\Getters\CoursesGetter as coug;
-use Coursework\Lib\Getters\CommonGetter as cg;
+use Coursework\Lib\Getters\UserGetter as ug;
 use Coursework\Lib as stepLib;
 
 class StudentsSelector
@@ -236,7 +236,7 @@ class StudentsTable
         }
         else 
         {
-            $text = cg::get_user_name($leacherId);
+            $text = ug::get_user_fullname($leacherId);
         }
         
         return \html_writer::tag('td', $text);

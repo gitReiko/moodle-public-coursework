@@ -4,7 +4,7 @@ namespace Coursework\Support\DeleteStudentCoursework;
 
 use Coursework\Lib\Getters\CoursesGetter as coug;
 use Coursework\Lib\Getters\StudentsGetter as sg;
-use Coursework\Lib\Getters\CommonGetter as cg;
+use Coursework\Lib\Getters\UserGetter as ug;
 
 class Page 
 {
@@ -214,7 +214,7 @@ class Page
         }
         else 
         {
-            return cg::get_user_name($student->teacher);
+            return ug::get_user_fullname($student->teacher);
         }
     }
 

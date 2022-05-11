@@ -2,11 +2,13 @@
 
 namespace Coursework\Lib\Getters;
 
-require_once 'courses_getter.php';
 require_once 'students_getter.php';
+require_once 'courses_getter.php';
+require_once 'user_getter.php';
 
 use Coursework\Lib\Getters\CoursesGetter as coug;
 use Coursework\Lib\Getters\StudentsGetter as sg;
+use Coursework\Lib\Getters\UserGetter as ug;
 use Coursework\Lib\Enums as enum;
 
 class TeachersGetter
@@ -37,14 +39,18 @@ class TeachersGetter
 
     public static function get_configured_teachers(int $courseworkId)
     {
-        global $DB;
-        $sql = 'SELECT DISTINCT u.id, u.firstname, u.lastname, u.email, u.phone1, u.phone2
-                FROM {coursework_teachers} as ct, {user} as u
-                WHERE ct.teacher = u.id AND coursework = ?
-                ORDER BY u.lastname, u.firstname ';
-        $conditions = array($courseworkId);
+        $users = self::get_users_from_coursework_teachers($courseworkId);
+        $teachers = self::get_teachers_from_users_ids_array($users);
 
-        return $DB->get_records_sql($sql, $conditions);
+        usort($teachers, function($a, $b)
+        {
+            return strcmp(
+                $a->lastname.$a->firstname,
+                $b->lastname.$b->firstname
+            );
+        });
+
+        return $teachers;
     }
 
     public static function get_coursework_teachers(int $courseworkId)
@@ -71,19 +77,11 @@ class TeachersGetter
         {
             if(self::is_teacher_not_exist_in_teachers_array($work->teacher, $teachers))
             {
-                $teachers[] = self::get_teacher($work->teacher);
+                $teachers[] = ug::get_user($work->teacher);
             }
         }
 
         return $teachers;
-    }
-
-    public static function get_teacher(int $userId) 
-    {
-        global $DB;
-        $where = array('id' => $userId);
-        $select = 'id,firstname,lastname,email,phone1,phone2';
-        return $DB->get_record('user', $where, $select);
     }
 
     public static function get_teacher_courses(int $courseworkId, int $teacherId)
@@ -343,6 +341,32 @@ class TeachersGetter
         return false;
     }
 
+    private static function get_users_from_coursework_teachers(int $courseworkId)
+    {
+        global $DB;
+        $where = array('coursework' => $courseworkId);
+        $teachers = $DB->get_records('coursework_teachers', $where, '', 'teacher');
 
+        $users = array();
+        foreach($teachers as $teacher)
+        {
+            $users[] = $teacher->teacher;
+        }
+
+        $users = array_unique($users);
+
+        return $users;
+    }
+
+    private static function get_teachers_from_users_ids_array($users)
+    {
+        $teachers = array();
+        foreach($users as $userId)
+        {
+            $teachers[] = ug::get_user($userId);
+        }
+
+        return $teachers;
+    }
 
 }

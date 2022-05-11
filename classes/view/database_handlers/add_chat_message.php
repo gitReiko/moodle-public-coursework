@@ -3,7 +3,7 @@
 namespace Coursework\View\DatabaseHandlers;
 
 use Coursework\View\DatabaseHandlers\Main as MainDB;
-use Coursework\Lib\Getters\CommonGetter as cg;
+use Coursework\Lib\Getters\UserGetter as ug;
 use Coursework\Lib\Notification;
 use Coursework\Lib\Enums;
 
@@ -80,8 +80,8 @@ class AddChatMessage
     {
         $cm = $this->cm;
         $course = $this->course;
-        $userFrom = cg::get_user($this->message->userfrom); 
-        $userTo = cg::get_user($this->message->userto); 
+        $userFrom = ug::get_user($this->message->userfrom); 
+        $userTo = ug::get_user($this->message->userto); 
         $messageName = 'chatmessage';
         $messageText = get_string('chat_message','coursework');
 

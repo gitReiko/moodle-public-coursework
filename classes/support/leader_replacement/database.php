@@ -2,7 +2,7 @@
 
 namespace Coursework\Support\LeaderReplacement;
 
-use Coursework\Lib\Getters\CommonGetter as cg;
+use Coursework\Lib\Getters\UserGetter as ug;
 use Coursework\Lib\Notification;
 
 class Database 
@@ -78,7 +78,7 @@ class Database
         $cm = $this->cm;
         $course = $this->course;
         $userFrom = $USER;
-        $userTo = cg::get_user($studentId); 
+        $userTo = ug::get_user($studentId); 
         $messageName = 'leaderreplaced';
         $messageText = $this->get_message_text();
 

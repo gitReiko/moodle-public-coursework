@@ -7,6 +7,7 @@ use Coursework\View\DatabaseHandlers\MarkMessageAsReaded;
 use Coursework\View\StudentWork\Locallib as locallib;
 use Coursework\Lib\Getters\StudentsGetter as sg;
 use Coursework\Lib\Getters\CommonGetter as cg;
+use Coursework\Lib\Getters\UserGetter as ug;
 use Coursework\View\DatabaseHandlers\Main as db;
 
 class Chat extends Base 
@@ -136,7 +137,7 @@ class Chat extends Base
 
     private function get_student_message(\stdClass $message) : string 
     {
-        $inner = cg::get_chat_user_photo($this->student->id);
+        $inner = ug::get_chat_user_photo($this->student->id);
         $td = \html_writer::tag('td', $inner);
 
         $inner = $this->get_message_text($message);
@@ -157,7 +158,7 @@ class Chat extends Base
         $inner.= $this->get_message_date($message);
         $td = \html_writer::tag('td', $inner);
 
-        $inner = cg::get_chat_user_photo($this->student->teacher);
+        $inner = ug::get_chat_user_photo($this->student->teacher);
         $td.= \html_writer::tag('td', $inner);
 
         $tr = \html_writer::tag('tr', $td);

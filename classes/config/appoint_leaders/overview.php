@@ -3,6 +3,7 @@
 namespace Coursework\Config\AppointLeaders;
 
 use Coursework\Lib\Getters\CoursesGetter as coug;
+use Coursework\Lib\Getters\UserGetter as ug;
 
 class Overview
 {
@@ -39,6 +40,7 @@ class Overview
     private function get_leaders()
     {
         $leaders = $this->get_coursework_teachers();
+        $leaders = $this->add_names_to_teachers($leaders);
         $leaders = $this->add_course_names_to_leaders($leaders);
         return $leaders;
     }
@@ -46,15 +48,30 @@ class Overview
     private function get_coursework_teachers()
     {
         global $DB;
-        $sql = 'SELECT ct.id, ct.teacher, ct.course, 
-                    ct.quota, u.firstname, u.lastname 
-                FROM {coursework_teachers} as ct, {user} as u 
-                WHERE ct.teacher = u.id 
-                AND ct.coursework = ? 
-                ORDER BY u.lastname';
-        $conditions = array($this->cm->instance);
+        $where = array('coursework' => $this->cm->instance);
+        $fields = 'id,teacher,course,quota';
+        return $DB->get_records('coursework_teachers', $where, '', $fields);
+    }
 
-        return $DB->get_records_sql($sql, $conditions);
+    private static function add_names_to_teachers($teachers)
+    {
+        foreach($teachers as $teacher)
+        {
+            $user = ug::get_user($teacher->teacher);
+
+            $teacher->firstname = $user->firstname;
+            $teacher->lastname = $user->lastname;
+        }
+
+        usort($teachers, function($a, $b)
+        {
+            return strcmp(
+                $a->lastname.$a->firstname,
+                $b->lastname.$b->firstname
+            );
+        });
+
+        return $teachers;
     }
 
     private function add_course_names_to_leaders($leaders)

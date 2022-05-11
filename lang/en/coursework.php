@@ -106,6 +106,7 @@ $string['delete_selected_courseworks'] = 'Delete selected coursework';
 $string['delete_student_coursework'] = 'Delete student coursework';
 $string['delete'] = 'Delete';
 $string['deleted_course_num'] = 'Deleted course {$a}';
+$string['deleted_user_num'] = 'Deleted user {$a}';
 $string['deleting'] = 'Deleting';
 $string['description'] = 'Description';
 $string['distribute_students_header'] = 'Distribute next students:';

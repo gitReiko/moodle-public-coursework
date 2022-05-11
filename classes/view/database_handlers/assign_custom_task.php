@@ -5,8 +5,9 @@ namespace Coursework\View\DatabaseHandlers;
 use Coursework\Lib\Database\AddNewStatusToAllSections;
 use Coursework\Lib\Database\AddNewStudentWorkStatus;
 use Coursework\View\DatabaseHandlers\Main as MainDB;
-use Coursework\Lib\Getters\CommonGetter as cg;
 use Coursework\Lib\Getters\StudentsGetter as sg;
+use Coursework\Lib\Getters\CommonGetter as cg;
+use Coursework\Lib\Getters\UserGetter as ug;
 use Coursework\Lib\Notification;
 use Coursework\Lib\Enums;
 
@@ -59,7 +60,7 @@ class AssignCustomTask
     private function get_task_name() : string 
     {
         $name = get_string('task', 'coursework');
-        $user = cg::get_user($this->studentId);
+        $user = ug::get_user($this->studentId);
         $name.= ' '.$user->lastname.' '.$user->firstname;
         return $name;
     }
@@ -148,8 +149,8 @@ class AssignCustomTask
     {
         $cm = $this->cm;
         $course = $this->course;
-        $userFrom = cg::get_user($work->teacher); 
-        $userTo = cg::get_user($work->student); 
+        $userFrom = ug::get_user($work->teacher); 
+        $userTo = ug::get_user($work->student); 
         $messageName = 'taskassignment';
         $messageText = get_string('task_assignment_header','coursework');
 

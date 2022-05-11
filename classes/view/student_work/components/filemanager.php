@@ -6,8 +6,9 @@ use Coursework\View\StudentWork\SaveFiles\StudentFileManager;
 use Coursework\View\StudentWork\SaveFiles\TeacherFileManager;
 use Coursework\View\StudentWork\Locallib as locallib;
 use Coursework\View\StudentWork\Main as StudentWorkMain;
-use Coursework\Lib\Getters\CommonGetter as cg;
 use Coursework\Lib\Getters\StudentsGetter as sg;
+use Coursework\Lib\Getters\CommonGetter as cg;
+use Coursework\Lib\Getters\UserGetter as ug;
 use Coursework\Lib\Notification;
 use Coursework\Lib\Enums;
 
@@ -310,8 +311,8 @@ class Filemanager extends Base
     {
         $cm = $this->cm;
         $course = $this->course;
-        $userFrom = cg::get_user($this->student->id);
-        $userTo = cg::get_user($this->student->teacher); 
+        $userFrom = ug::get_user($this->student->id);
+        $userTo = ug::get_user($this->student->teacher); 
         $messageName = 'student_upload_file';
         $messageText = get_string('student_upload_file_header','coursework');
 
@@ -372,8 +373,8 @@ class Filemanager extends Base
     {
         $cm = $this->cm;
         $course = $this->course;
-        $userFrom = cg::get_user($this->student->teacher);
-        $userTo = cg::get_user($this->student->id); 
+        $userFrom = ug::get_user($this->student->teacher);
+        $userTo = ug::get_user($this->student->id); 
         $messageName = 'teacher_upload_file';
         $messageText = get_string('teacher_upload_file_header','coursework');
 

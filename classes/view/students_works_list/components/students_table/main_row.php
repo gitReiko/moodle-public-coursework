@@ -4,6 +4,7 @@ namespace Coursework\View\StudentsWorksList\StudentsTable;
 
 use Coursework\Lib\Getters\CommonGetter as cg;
 use Coursework\Lib\Getters\CoursesGetter as coug;
+use Coursework\Lib\Getters\UserGetter as ug;
 use Coursework\View\StudentsWorksList as swl;
 use Coursework\Lib\TeacherNotifications;
 use Coursework\Lib\Enums as enum;
@@ -101,7 +102,7 @@ class MainRow
 
     private function get_student_cell() : string 
     {
-        $text = cg::get_user_photo($this->student->id).' ';
+        $text = ug::get_user_photo($this->student->id).' ';
 
         global $COURSE;
         $url = '/user/view.php?id='.$this->student->id;
@@ -135,26 +136,17 @@ class MainRow
         }
         else 
         {
-            $text = cg::get_user_photo($this->student->teacher).' ';
+            $text = ug::get_user_photo($this->student->teacher).' ';
 
             global $COURSE;
             $url = '/user/view.php?id='.$this->student->teacher;
             $url.= '&course='.$COURSE->id;
             $attr = array('href' => $url);
-            $name = $this->get_user_fullname($this->student->teacher);
+            $name = ug::get_user_fullname($this->student->teacher);
             $text.= \html_writer::tag('a', $name, $attr);
         }
 
         return \html_writer::tag('td', $text);
-    }
-
-    private function get_user_fullname(int $id) : string 
-    {
-        global $DB;
-        $where = array('id' => $id);
-        $user = $DB->get_record('user', $where, 'firstname,lastname');
-
-        return $user->lastname.' '.$user->firstname;
     }
 
     private function get_course_cell() : string 

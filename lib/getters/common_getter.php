@@ -62,36 +62,6 @@ class CommonGetter
         return $DB->get_field('coursework_themes', 'content', $where);
     }
 
-    public static function get_user_photo($userID) : string
-    {
-        global $DB, $OUTPUT;
-
-        $user = $DB->get_record('user', array('id' => $userID));
-        $photo = $OUTPUT->user_picture($user);
-
-        return $photo;
-    }
-
-    public static function get_chat_user_photo($userID) : string
-    {
-        global $DB, $OUTPUT;
-
-        $user = $DB->get_record('user', array('id' => $userID));
-        $photo = $OUTPUT->user_picture($user, array('size' => 50));
-
-        return $photo;
-    }
-
-    public static function get_big_user_photo($userID) : string
-    {
-        global $DB, $OUTPUT;
-
-        $user = $DB->get_record('user', array('id' => $userID));
-        $photo = $OUTPUT->user_picture($user, array('size' => 100));
-
-        return $photo;
-    }
-
     public static function get_state_name($status) 
     {
         switch($status)
@@ -109,20 +79,6 @@ class CommonGetter
             case enum::TASK_RECEIPT:
                 return get_string('work_task_receipt', 'coursework');
         }
-    }
-
-    public static function get_user(int $userId) : \stdClass
-    {
-        global $DB;
-        $where = array('id' => $userId);
-        return $DB->get_record('user', $where);
-    }
-
-    public static function get_user_name(int $id) : string
-    {
-        global $DB;
-        $user = $DB->get_record('user', array('id'=>$id), 'id, firstname, lastname');
-        return $user->lastname.' '.$user->firstname;
     }
 
     public static function get_used_theme_collection(int $courseworkId, int $courseId) : \stdClass 

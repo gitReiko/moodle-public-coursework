@@ -5,6 +5,7 @@ namespace Coursework\View\StudentWork\Components;
 use Coursework\Lib\Getters\CommonGetter as cg;
 use Coursework\Lib\Getters\CoursesGetter as coug;
 use Coursework\Lib\Getters\StudentsGetter as sg;
+use Coursework\Lib\Getters\UserGetter as ug;
 
 class Info extends Base
 {
@@ -62,7 +63,7 @@ class Info extends Base
 
     private function get_student_photo() : string 
     {
-        $inner = cg::get_big_user_photo(intval($this->student->id));
+        $inner = ug::get_big_user_photo(intval($this->student->id));
         return \html_writer::tag('p', $inner);
     }
 
@@ -86,7 +87,7 @@ class Info extends Base
     {
         $inner = get_string('student', 'coursework').': ';
         $inner = \html_writer::tag('b', $inner);
-        $inner.= cg::get_user_name($this->student->id);
+        $inner.= ug::get_user_fullname($this->student->id);
         return \html_writer::tag('p', $inner);
     }
 
@@ -113,7 +114,7 @@ class Info extends Base
 
     private function get_teacher_photo() : string 
     {
-        $inner = cg::get_big_user_photo($this->student->teacher);
+        $inner = ug::get_big_user_photo($this->student->teacher);
         return \html_writer::tag('div', $inner);
     }
 
@@ -145,7 +146,7 @@ class Info extends Base
     {
         $inner = get_string('teacher', 'coursework').': ';
         $inner = \html_writer::tag('b', $inner);
-        $inner.= cg::get_user_name($this->student->teacher);
+        $inner.= ug::get_user_fullname($this->student->teacher);
         return \html_writer::tag('p', $inner);
     }
 

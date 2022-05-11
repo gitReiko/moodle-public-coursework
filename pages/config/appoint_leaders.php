@@ -3,6 +3,7 @@
 require_once '../../../../config.php';
 require_once '../../lib/getters/teachers_getter.php';
 require_once '../../lib/getters/courses_getter.php';
+require_once '../../lib/getters/user_getter.php';
 require_once '../../lib/step_by_step.php';
 require_once '../../classes/config/appoint_leaders/main.php';
 require_once '../../lib/feedbacker.php';

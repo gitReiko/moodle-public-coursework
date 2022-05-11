@@ -4,9 +4,11 @@ namespace Coursework\Lib;
 
 require_once 'getters/common_getter.php';
 require_once 'getters/courses_getter.php';
+require_once 'getters/user_getter.php';
 
 use Coursework\Lib\Getters\CoursesGetter as coug;
 use Coursework\Lib\Getters\CommonGetter as cg;
+use Coursework\Lib\Getters\UserGetter as ug;
 
 class Notification 
 {
@@ -60,7 +62,7 @@ class Notification
     {
         global $USER;
         $data = new \stdClass;
-        $data->teacher = cg::get_user_name($USER->id);
+        $data->teacher = ug::get_user_fullname($USER->id);
         $data->date = date('d-m-Y');
         $data->time = date('G:i');
         return $data;

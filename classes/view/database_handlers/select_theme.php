@@ -6,8 +6,9 @@ use Coursework\Lib\Database\AddNewStatusToAllSections;
 use Coursework\Lib\Database\AddNewStudentWorkStatus;
 use Coursework\View\DatabaseHandlers\Main as MainDB;
 use Coursework\View\StudentWork\Locallib as locallib;
-use Coursework\Lib\Getters\CommonGetter as cg;
 use Coursework\Lib\Getters\TeachersGetter as tg;
+use Coursework\Lib\Getters\CommonGetter as cg;
+use Coursework\Lib\Getters\UserGetter as ug;
 use Coursework\Lib\Notification;
 use Coursework\Lib\Enums;
 
@@ -316,7 +317,7 @@ class SelectTheme
         $cm = $this->cm;
         $course = $this->course;
         $userFrom = $USER;
-        $userTo = cg::get_user($this->studentWork->teacher); 
+        $userTo = ug::get_user($this->studentWork->teacher); 
         $messageName = 'givetask';
         $giveTask = true;
         $messageText = $this->get_select_theme_html_message($giveTask);
@@ -352,7 +353,7 @@ class SelectTheme
     {
         global $USER;
         $data = new \stdClass;
-        $data->student = cg::get_user_name($USER->id);
+        $data->student = ug::get_user_fullname($USER->id);
         $data->date = date('d-m-Y');
         $data->time = date('G:i');
         return $data;
@@ -407,7 +408,7 @@ class SelectTheme
         $cm = $this->cm;
         $course = $this->course;
         $userFrom = $USER;
-        $userTo = cg::get_user($this->studentWork->teacher); 
+        $userTo = ug::get_user($this->studentWork->teacher); 
         $messageName = 'selecttheme';
         $messageText = $this->get_select_theme_html_message();
 

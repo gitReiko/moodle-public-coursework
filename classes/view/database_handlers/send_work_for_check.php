@@ -7,7 +7,7 @@ use Coursework\Lib\Database\AddNewStudentWorkStatus;
 use Coursework\View\DatabaseHandlers\Main as MainDB;
 use Coursework\Lib\Getters\StudentsGetter as sg;
 use Coursework\Lib\Getters\StudentTaskGetter;
-use Coursework\Lib\Getters\CommonGetter as cg;
+use Coursework\Lib\Getters\UserGetter as ug;
 use Coursework\Lib\CommonLib as cl;
 use Coursework\Lib\Notification;
 use Coursework\Lib\Enums;
@@ -124,7 +124,7 @@ class SendWorkForCheck
         $cm = $this->cm;
         $course = $this->course;
         $userFrom = $USER;
-        $userTo = cg::get_user($this->work->teacher); 
+        $userTo = ug::get_user($this->work->teacher); 
         $messageName = 'sendworkforcheck';
         $messageText = get_string('work_send_for_check_header','coursework');
 

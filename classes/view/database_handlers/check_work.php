@@ -5,9 +5,10 @@ namespace Coursework\View\DatabaseHandlers;
 use Coursework\Lib\Database\AddNewStatusToAllSections;
 use Coursework\Lib\Database\AddNewStudentWorkStatus;
 use Coursework\View\DatabaseHandlers\Main as MainDB;
-use Coursework\Lib\Getters\StudentTaskGetter;
 use Coursework\Lib\Getters\StudentsGetter as sg;
 use Coursework\Lib\Getters\CommonGetter as cg;
+use Coursework\Lib\Getters\UserGetter as ug;
+use Coursework\Lib\Getters\StudentTaskGetter;
 use Coursework\Lib\CommonLib as cl;
 use Coursework\Lib\Notification;
 use Coursework\Lib\Enums;
@@ -153,8 +154,8 @@ class CheckWork
     {
         $cm = $this->cm;
         $course = $this->course;
-        $userFrom = cg::get_user($work->teacher);
-        $userTo = cg::get_user($work->student); 
+        $userFrom = ug::get_user($work->teacher);
+        $userTo = ug::get_user($work->student); 
         $messageName = 'workcheck';
         $messageText = get_string('work_check_message','coursework');
 

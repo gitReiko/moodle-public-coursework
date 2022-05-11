@@ -2,7 +2,10 @@
 
 namespace Coursework\Lib\Getters;
 
+require_once 'user_getter.php';
+
 use Coursework\Lib\Getters\CommonGetter as cg;
+use Coursework\Lib\Getters\UserGetter as ug;
 use Coursework\Lib\Enums as enum;
 
 class StudentsGetter
@@ -106,7 +109,7 @@ class StudentsGetter
 
     public static function get_student_with_his_work(int $courseworkId, int $studentId)
     {
-        $student = self::get_student($studentId);
+        $student = ug::get_user($studentId);
         $student = self::get_student_with_work($courseworkId, $student);
         return $student;
     }
@@ -163,14 +166,6 @@ class StudentsGetter
         {
             return self::add_empty_student_work_params($student);
         }
-    }
-
-    private static function get_student(int $studentId) : \stdClass 
-    {
-        global $DB;
-        $params = array('id' => $studentId);
-        $fields = 'id,firstname,lastname,email,phone1,phone2';
-        return $DB->get_record('user', $params, $fields);
     }
 
     private static function get_unique_students($students)

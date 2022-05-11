@@ -5,7 +5,7 @@ namespace Coursework\Support\ReturnToThemeSelection;
 use Coursework\Classes\Lib\StudentsMassActions\StudentsTable as sma;
 use Coursework\Lib\Database\AddNewStudentWorkStatus;
 use Coursework\Lib\Getters\StudentsGetter as sg;
-use Coursework\Lib\Getters\CommonGetter as cg;
+use Coursework\Lib\Getters\UserGetter as ug;
 use Coursework\Lib\Notification;
 use Coursework\Lib\Feedbacker;
 use Coursework\Lib\Enums;
@@ -91,7 +91,7 @@ class Database
         $cm = $this->cm;
         $course = $this->course;
         $userFrom = $USER;
-        $userTo = cg::get_user($studentId); 
+        $userTo = ug::get_user($studentId); 
         $messageName = 'themeselectiondeleted';
         $messageText = $this->get_message_text();
 
@@ -129,14 +129,14 @@ class Database
 
     private function get_success_feedback(int $studentId) : \stdClass  
     {
-        $studentName = cg::get_user_name($studentId);
+        $studentName = ug::get_user_fullname($studentId);
         $text = get_string('theme_selection_successfully_deleted', 'coursework', $studentName);
         return Feedbacker::get_success_feedback($text);
     }
 
     private function get_fail_feedback(int $studentId) : \stdClass  
     {
-        $studentName = cg::get_user_name($studentId);
+        $studentName = ug::get_user_fullname($studentId);
         $text = 'Student theme selection not removed (.'.$studentName.')';
         return Feedbacker::get_fail_feedback($text);
     }

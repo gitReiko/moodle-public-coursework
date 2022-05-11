@@ -6,6 +6,7 @@ require_once '../../lib/database/add_new_status_to_all_sections.php';
 require_once '../../lib/database/add_new_student_work_status.php';
 require_once '../../lib/getters/students_getter.php';
 require_once '../../lib/getters/common_getter.php';
+require_once '../../lib/getters/user_getter.php';
 require_once '../../lib/notification.php'; 
 require_once '../../lib/feedbacker.php';
 require_once '../../lib/common.php';

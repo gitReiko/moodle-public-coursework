@@ -12,6 +12,7 @@ require_once 'lib/getters/students_getter.php';
 require_once 'lib/getters/teachers_getter.php';
 require_once 'lib/getters/courses_getter.php';
 require_once 'lib/getters/common_getter.php';
+require_once 'lib/getters/user_getter.php';
 require_once 'lib/teacher_notifications.php';
 require_once 'lib/notification.php';
 require_once 'lib/common.php';

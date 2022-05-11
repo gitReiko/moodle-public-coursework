@@ -2,9 +2,8 @@
 
 namespace Coursework\View\ManageOldFilesArea;
 
-
-use Coursework\Lib\Getters\CommonGetter as cg;
 use Coursework\Lib\Getters\TeachersGetter as tg;
+use Coursework\Lib\Getters\UserGetter as ug;
 
 class Getter 
 {
@@ -52,7 +51,7 @@ class Getter
     private function get_user() 
     {
         global $USER;
-        return cg::get_user($USER->id);
+        return ug::get_user($USER->id);
     }
 
     private function init_selected_teacher_id()

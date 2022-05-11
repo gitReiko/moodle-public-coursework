@@ -7,6 +7,7 @@ use Coursework\Lib\Database\AddNewStudentWorkStatus;
 use Coursework\View\DatabaseHandlers\Main as MainDB;
 use Coursework\Lib\Getters\StudentsGetter as sg;
 use Coursework\Lib\Getters\CommonGetter as cg;
+use Coursework\Lib\Getters\UserGetter as ug;
 use Coursework\Lib\Notification;
 use Coursework\Lib\Enums;
 
@@ -96,7 +97,7 @@ class AssignDefaultTask
         $cm = $this->cm;
         $course = $this->course;
         $userFrom = $USER;
-        $userTo = cg::get_user($this->get_student_id()); 
+        $userTo = ug::get_user($this->get_student_id()); 
         $messageName = 'taskassignment';
         $messageText = get_string('task_assignment_header','coursework');
 

@@ -6,6 +6,7 @@ use Coursework\Lib\Database\AddNewStatusToAllSections;
 use Coursework\Lib\Database\AddNewStudentWorkStatus;
 use Coursework\Lib\Getters\StudentsGetter as sg;
 use Coursework\Lib\Getters\CommonGetter as cg;
+use Coursework\Lib\Getters\UserGetter as ug;
 use Coursework\Lib\CommonLib as cl;
 use Coursework\Lib\Notification;
 use Coursework\Lib\Feedbacker;
@@ -115,7 +116,7 @@ class Database
         $cm = $this->cm;
         $course = $this->course;
         $userFrom = $USER;
-        $userTo = cg::get_user($this->studentWork->student); 
+        $userTo = ug::get_user($this->studentWork->student); 
         $messageName = 'return_work_for_rework';
         $messageText = $this->get_message_text();
 

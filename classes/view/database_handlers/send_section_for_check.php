@@ -4,7 +4,7 @@ namespace Coursework\View\DatabaseHandlers;
 
 use Coursework\Lib\Database\AddNewStudentSectionStatus;
 use Coursework\View\DatabaseHandlers\Main as MainDB;
-use Coursework\Lib\Getters\CommonGetter as cg;
+use Coursework\Lib\Getters\UserGetter as ug;
 use Coursework\Lib\Notification;
 use Coursework\Lib\Enums;
 
@@ -73,7 +73,7 @@ class SendSectionForCheck
         $cm = $this->cm;
         $course = $this->course;
         $userFrom = $USER;
-        $userTo = cg::get_user($this->teacherId); 
+        $userTo = ug::get_user($this->teacherId); 
         $messageName = 'sendsectionforcheck';
         $messageText = get_string('section_check','coursework');
 
