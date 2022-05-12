@@ -43,15 +43,31 @@ class ThemesGetter
         $themes = array();
         foreach($this->themesCourses as $course)
         {
-            $collection = new \stdClass;
-            $collection->course = $course->id;
-            $samethemescount = locallib::get_count_of_same_themes($this->cm->instance, $course->id);
-            $collection->themes = $this->get_course_available_themes($course->id, $samethemescount);
-
-            $themes[] = $collection;
+            if(!$this->is_course_collection_already_in_use($themes, $course->id))
+            {
+                $collection = new \stdClass;
+                $collection->course = $course->id;
+                $samethemescount = locallib::get_count_of_same_themes($this->cm->instance, $course->id);
+                $collection->themes = $this->get_course_available_themes($course->id, $samethemescount);
+    
+                $themes[] = $collection;
+            }
         }
 
         $this->availableThemes = $themes;
+    }
+
+    private function is_course_collection_already_in_use(array $themes, int $courseId) : bool 
+    {
+        foreach($themes as $theme)
+        {
+            if($theme->course == $courseId)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private function init_selected_themes()
