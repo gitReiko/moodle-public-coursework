@@ -32,7 +32,17 @@ class Database
 
         foreach($this->studentsIds as $studentId)
         {
-            $feedbackItem = $this->remove_student_theme_selection($studentId);
+            $work = sg::get_student_work($this->cm->instance, $studentId);
+
+            if($this->is_theme_already_selected($work))
+            {
+                $feedbackItem = $this->remove_student_theme_selection($work);
+            }
+            else 
+            {
+                $feedbackItem = $this->get_fail_feedback_not_selected_theme($studentId);
+            }
+            
             $feedback.= Feedbacker::add_feedback_to_post($feedbackItem);
         }
 
@@ -54,9 +64,20 @@ class Database
         return $studentsIds;
     }
 
-    private function remove_student_theme_selection(int $studentId) : \stdClass 
+    private function is_theme_already_selected(\stdClass $work) : bool 
     {
-        $work = sg::get_student_work($this->cm->instance, $studentId);
+        if(empty($work->theme) && empty($work->owntheme))
+        {
+            return false;
+        }
+        else 
+        {
+            return true;
+        }
+    }
+
+    private function remove_student_theme_selection(\stdClass $work) : \stdClass 
+    {
         $work->theme = null;
         $work->owntheme = null;
 
@@ -64,13 +85,13 @@ class Database
         if($DB->update_record('coursework_students', $work))
         {
             $this->add_theme_reselection_status($work);
-            $this->send_notification_to_student($studentId);
-            $this->log_theme_selection_deleted($studentId);
-            return $this->get_success_feedback($studentId);
+            $this->send_notification_to_student($work->student);
+            $this->log_theme_selection_deleted($work->student);
+            return $this->get_success_feedback($work->student);
         }
         else 
         {
-            return $this->get_fail_feedback($studentId);
+            return $this->get_fail_feedback($work->student);
         }
     }
 
@@ -138,6 +159,13 @@ class Database
     {
         $studentName = ug::get_user_fullname($studentId);
         $text = 'Student theme selection not removed (.'.$studentName.')';
+        return Feedbacker::get_fail_feedback($text);
+    }
+
+    private function get_fail_feedback_not_selected_theme(int $studentId) : \stdClass  
+    {
+        $studentName = ug::get_user_fullname($studentId);
+        $text = get_string('student_not_selected_theme', 'coursework', $studentName);
         return Feedbacker::get_fail_feedback($text);
     }
 

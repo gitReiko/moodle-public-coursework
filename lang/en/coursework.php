@@ -1,4 +1,3 @@
-
 <?php 
 $string['absent'] = 'Absent';
 $string['accept_sections'] = 'Accept sections';
@@ -256,6 +255,7 @@ $string['student_distributed_to_teacher'] = 'Student distributed to teacher';
 $string['student_files'] = 'Student files';
 $string['student_leader_replaced'] = 'Student leader replaced';
 $string['student_not_chosen_theme'] = 'Student hasn\'t chosen theme';
+$string['student_not_selected_theme'] = 'The student hasn\'t selected a theme yet ({$a}).';
 $string['student_redistribution_impossible'] = 'Re-distribution of student {$a->fullname} is impossible.';
 $string['student_select_theme'] = '{$a->date} at {$a->time} student {$a->student} chose coursework theme.';
 $string['student_sent_section_for_check'] = 'Student sent section of coursework for check';

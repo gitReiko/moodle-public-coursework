@@ -1,4 +1,3 @@
-
 <?php
 $string['absent'] = 'Отсутствуют';
 $string['accept_sections'] = 'Зачесть раздел';
@@ -256,6 +255,7 @@ $string['student_distributed_to_teacher'] = 'Студенту назначен �
 $string['student_files'] = 'Файлы студента';
 $string['student_leader_replaced'] = 'Руководитель студента заменён';
 $string['student_not_chosen_theme'] = 'Студент не выбрал тему';
+$string['student_not_selected_theme'] = 'Студент ещё не выбрал тему ({$a}).';
 $string['student_redistribution_impossible'] = 'Повторное распределение студента {$a->fullname} невозможно.';
 $string['student_select_theme'] = '{$a->date} в {$a->time} студент {$a->student} выбрал тему курсовой работы.';
 $string['student_sent_section_for_check'] = 'Студент отправил раздел курсовой работы на проверку';
