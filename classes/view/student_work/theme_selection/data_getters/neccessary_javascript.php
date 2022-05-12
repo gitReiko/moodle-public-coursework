@@ -30,13 +30,16 @@ class NeccessaryJavascript
 
         foreach($this->teachers as $teacher)
         {
-            $attr = array(
-                'class' => 'hidden teachers_and_their_courses_js_data',
-                'data-leader' => $teacher->id,
-                'data-courses' => $this->get_teacher_courses($teacher)
-            );
-
-            $data.= \html_writer::tag('p', '', $attr);
+            if($teacher->available_quota != '0')
+            {
+                $attr = array(
+                    'class' => 'hidden teachers_and_their_courses_js_data',
+                    'data-leader' => $teacher->id,
+                    'data-courses' => $this->get_teacher_courses($teacher)
+                );
+    
+                $data.= \html_writer::tag('p', '', $attr);
+            }
         }
 
         return $data;
@@ -48,7 +51,10 @@ class NeccessaryJavascript
 
         foreach($teacher->courses as $course)
         {
-            $courses.= $course->id.' ';
+            if($course->available_quota != '0')
+            {
+                $courses.= $course->id.' ';
+            }
         }
         
         return mb_substr($courses, 0, -1);
