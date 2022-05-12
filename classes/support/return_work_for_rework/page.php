@@ -8,11 +8,13 @@ class Page
 {
     private $cm;
     private $students;
+    private $selectedStudent;
 
     function __construct(\stdClass $cm) 
     {
         $this->cm = $cm;
         $this->students = sg::get_all_students($this->cm);
+        $this->selectedStudent = LocalLib::get_student_id(false);
     }
 
     public function get_page() : string  
@@ -59,6 +61,12 @@ class Page
             (
                 'value' => $student->id
             );
+
+            if($this->selectedStudent == $student->id)
+            {
+                $attr = array_merge($attr, array('selected' => 'selected'));
+            }
+
             $s.= \html_writer::start_tag('option', $attr);
             $s.= $student->lastname.' '.$student->firstname;
             $s.= \html_writer::end_tag('option');

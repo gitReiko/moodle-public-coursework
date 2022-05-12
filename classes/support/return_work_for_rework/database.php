@@ -25,14 +25,16 @@ class Database
         $this->cm = $cm;
         $this->course = $course;
 
+        $studentId = LocalLib::get_student_id();
+
         $this->studentWork = sg::get_student_work(
             $this->cm->instance, 
-            $this->get_student_id()
+            $studentId
         );
 
         $this->student = sg::get_student_with_his_work(
             $this->cm->instance, 
-            $this->get_student_id()
+            $studentId
         );
     }
 
@@ -42,7 +44,19 @@ class Database
 
         if($this->is_student_work_exist())
         {
-            if($this->student->latestStatus == Enums::RETURNED_FOR_REWORK)
+            if($this->is_student_didnt_select_theme())
+            {
+                $feedbackItem = $this->get_fail_feedback_student_didnt_select_theme();
+            }
+            else if(
+                (cl::is_coursework_use_task($this->cm->instance)) 
+                && 
+                ($this->is_student_get_his_task())
+            )
+            {
+                $feedbackItem = $this->get_fail_feedback_student_didnt_get_his_task();
+            }
+            else if($this->is_work_status_returned_for_rework())
             {
                 $feedbackItem = $this->get_fail_feedback_already_in_rework_status();
             }
@@ -53,19 +67,46 @@ class Database
         }
         else 
         {
-            $feedbackItem = $this->get_fail_feedback_work_not_exists();
+            $feedbackItem = $this->get_fail_feedback_student_didnt_start_work_no_data();
         }
 
         return Feedbacker::add_feedback_to_post($feedbackItem);
     }
 
-    private function get_student_id() : int 
+    private function is_work_status_returned_for_rework() : bool 
     {
-        $student = optional_param(Main::STUDENT_ID, null, PARAM_INT);
+        if($this->student->latestStatus == Enums::RETURNED_FOR_REWORK)
+        {
+            return true;
+        }
+        else 
+        {
+            return false;
+        }
+    }
 
-        if(empty($student)) throw new \Exception('Missing student id.');
+    private function is_student_didnt_select_theme() : bool 
+    {
+        if(empty($this->student->theme))
+        {
+            return true;
+        }
+        else 
+        {
+            return false;
+        }
+    }
 
-        return $student;
+    private function is_student_get_his_task() : bool 
+    {
+        if(empty($this->student->task))
+        {
+            return true;
+        }
+        else 
+        {
+            return false;
+        }
     }
 
     private function is_student_work_exist() : bool 
@@ -164,9 +205,21 @@ class Database
         return Feedbacker::get_fail_feedback($text);
     }
 
-    private function get_fail_feedback_work_not_exists() : \stdClass  
+    private function get_fail_feedback_student_didnt_select_theme() : \stdClass  
     {
-        $text = get_string('impossible_return_to_work_state', 'coursework');
+        $text = get_string('student_didnt_select_theme', 'coursework');
+        return Feedbacker::get_fail_feedback($text);
+    }
+
+    private function get_fail_feedback_student_didnt_get_his_task() : \stdClass  
+    {
+        $text = get_string('student_didnt_get_his_task', 'coursework');
+        return Feedbacker::get_fail_feedback($text);
+    }
+
+    private function get_fail_feedback_student_didnt_start_work_no_data() : \stdClass  
+    {
+        $text = get_string('student_didnt_start_work_no_data', 'coursework');
         return Feedbacker::get_fail_feedback($text);
     }
 

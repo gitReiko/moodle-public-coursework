@@ -4,6 +4,7 @@ namespace Coursework\Support\BackToWorkState;
 
 require_once '../../classes/lib/main_template.php';
 require_once 'database.php';
+require_once 'locallib.php';
 require_once 'page.php';
 
 class Main extends \Coursework\Classes\Lib\MainTemplate
@@ -34,7 +35,10 @@ class Main extends \Coursework\Classes\Lib\MainTemplate
 
     protected function get_redirect_params() : array
     {
-        return array('id' => $this->cm->id);
+        return array(
+            'id' => $this->cm->id,
+            self::STUDENT_ID => LocalLib::get_student_id()
+        );
     }
 
     protected function get_content() : string 

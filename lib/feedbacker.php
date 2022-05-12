@@ -50,16 +50,20 @@ class Feedbacker
 
                 if($chunks[$success] == '1')
                 {
+                    $message = get_string('success', 'coursework').': ';
                     $attr = array('class' => 'success-feedback');
                 }
                 else 
                 {
+                    $message = get_string('fail', 'coursework').': ';
                     $attr = array('class' => 'fail-feedback');
                 }
 
                 if(!empty($chunks[$text]))
                 {
-                    $feedback.= \html_writer::tag('p', $chunks[$text], $attr);
+                    $message = $message.$chunks[$text];
+
+                    $feedback.= \html_writer::tag('p', $message, $attr);
                 }
             }
         }
