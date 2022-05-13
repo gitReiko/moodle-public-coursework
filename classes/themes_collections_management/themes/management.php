@@ -58,7 +58,7 @@ class Management
     private function get_themes_management_header() : string 
     {
         $attr = array('style' => 'color:grey;');
-        $text = get_string('collection_themes_management_header', 'coursework').' ';
+        $text = get_string('managing_collection_themes', 'coursework').' ';
         $text = \html_writer::tag('span', $text, $attr);
         $text.= $this->collection->name;
 
@@ -68,7 +68,7 @@ class Management
     private function get_course_header() : string 
     {
         $attr = array('style' => 'color:grey;');
-        $text = get_string('collection_course_header', 'coursework').' ';
+        $text = get_string('by_course', 'coursework').' ';
         $text = \html_writer::tag('span', $text, $attr);
         $text.= coug::get_course_fullname($this->collection->course);
 

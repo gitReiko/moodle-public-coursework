@@ -46,7 +46,7 @@ class Overview
         }
         else 
         {
-            $text = get_string('default_task_not_exists', 'coursework');
+            $text = get_string('task_template_not_using', 'coursework');
             $gui.= \html_writer::tag('p', $text);
         }
 
