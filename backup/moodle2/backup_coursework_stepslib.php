@@ -50,9 +50,7 @@ class backup_coursework_activity_structure_step extends backup_activity_structur
 
         $defaultTasksSections = new backup_nested_element('defaultTasksSections');
         $defaultTaskSection = new backup_nested_element('defaultTaskSection', array('id'), array(
-            'name', 'description', 'listposition',
-            'task', 'deadline'
-        ));
+            'name', 'description', 'listposition', 'deadline'));
 
         $collectionsUses = new backup_nested_element('collectionsUses');
         $collectionUse = new backup_nested_element('collectionUse', array('id'), array(
@@ -63,8 +61,7 @@ class backup_coursework_activity_structure_step extends backup_activity_structur
             'course', 'name', 'description'));
 
         $suggestedThemes = new backup_nested_element('suggestedThemes');
-        $suggestedTheme = new backup_nested_element('suggestedTheme', array('id'), array(
-            'content', 'collection'));
+        $suggestedTheme = new backup_nested_element('suggestedTheme', array('id'), array('content'));
 
         $teachers = new backup_nested_element('teachers');
         $teacher = new backup_nested_element('teacher', array('id'), array(
@@ -87,9 +84,7 @@ class backup_coursework_activity_structure_step extends backup_activity_structur
 
         $studentsTasksSections = new backup_nested_element('studentsTasksSections');
         $studentTaskSection = new backup_nested_element('studentTaskSection', array('id'), array(
-            'name', 'description', 'listposition',
-            'task', 'deadline'
-        ));
+            'name', 'description', 'listposition', 'deadline'));
 
         $statuses = new backup_nested_element('statuses');
         $status = new backup_nested_element('status', array('id'), array(
