@@ -37,10 +37,10 @@ class backup_coursework_activity_task extends backup_activity_task {
 
         // Default links
         $search="/(".$base."\/mod\/coursework\/index.php\?id\=)([0-9]+)/";
-        $content= preg_replace($search, '$@CHOICEINDEX*$2@$', $content);
+        $content= preg_replace($search, '$@COURSEWORKINDEX*$2@$', $content);
 
         $search="/(".$base."\/mod\/coursework\/view.php\?id\=)([0-9]+)/";
-        $content= preg_replace($search, '$@CHOICEVIEWBYID*$2@$', $content);
+        $content= preg_replace($search, '$@COURSEWORKVIEWBYID*$2@$', $content);
 
         // Config pages
         $search="/(".$base."\/mod\/coursework\/pages\/config\/list.php\?id\=)([0-9]+)/";

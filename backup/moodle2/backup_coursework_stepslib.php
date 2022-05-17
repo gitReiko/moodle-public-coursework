@@ -173,7 +173,7 @@ class backup_coursework_activity_structure_step extends backup_activity_structur
         $student->annotate_files('mod_coursework', 'student', 'student');
         $student->annotate_files('mod_coursework', 'teacher', 'student');
 
-        // Return the root element (choice), wrapped into standard activity structure
+        // Return the root element (coursework), wrapped into standard activity structure
         return $this->prepare_activity_structure($coursework);
 
     }
