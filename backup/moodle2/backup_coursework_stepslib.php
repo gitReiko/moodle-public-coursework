@@ -169,6 +169,9 @@ class backup_coursework_activity_structure_step extends backup_activity_structur
         $chat->annotate_ids('user', 'userto');
 
         // Define file annotations
+        $coursework->annotate_files('mod_coursework', 'intro', null);
+        $student->annotate_files('mod_coursework', 'student', 'student');
+        $student->annotate_files('mod_coursework', 'teacher', 'student');
 
         // Return the root element (choice), wrapped into standard activity structure
         return $this->prepare_activity_structure($coursework);
