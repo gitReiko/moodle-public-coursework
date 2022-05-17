@@ -5,8 +5,11 @@
  */
 class restore_coursework_activity_structure_step extends restore_activity_structure_step 
 {
+    private $newCourseworkId;
 
-    private $defaultTaskId;
+    private $newDefaultTaskId;
+
+    private $newCollectionsIds = array();
 
     protected function define_structure() 
     {
@@ -44,6 +47,8 @@ class restore_coursework_activity_structure_step extends restore_activity_struct
         // insert the choice record
         $newitemid = $DB->insert_record('coursework', $data);
 
+        $this->newCourseworkId = $newitemid;
+
         // immediately after inserting "activity" record, call this
         $this->apply_activity_instance($newitemid);
     }
@@ -58,7 +63,7 @@ class restore_coursework_activity_structure_step extends restore_activity_struct
 
         $newitemid = $DB->insert_record('coursework_tasks', $data);
 
-        $this->defaultTaskId = $newitemid;
+        $this->newDefaultTaskId = $newitemid;
         $this->update_coursework_table_defaulttask_field($newitemid);
         
         $this->set_mapping('coursework_tasks', $oldid, $newitemid);
@@ -83,11 +88,29 @@ class restore_coursework_activity_structure_step extends restore_activity_struct
         $data = (object)$data;
         $oldid = $data->id;
 
-        $data->task = $this->defaultTaskId;
+        $data->task = $this->newDefaultTaskId;
 
         $newitemid = $DB->insert_record('coursework_tasks_sections', $data);
         $this->set_mapping('coursework_tasks_sections', $oldid, $newitemid);
     }
+
+    protected function process_collectionUse($data) 
+    {
+        global $DB;
+
+        $data = (object)$data;
+        $oldid = $data->id;
+
+        $data->coursework = $this->newCourseworkId;
+
+        $newitemid = $DB->insert_record('coursework_themes_collections_use', $data);
+
+        $data->id = $newitemid;
+        $this->newCollectionsIds[] = $data;
+        
+        $this->set_mapping('coursework_themes_collections_use', $oldid, $newitemid);
+    }
+
 
     /*
     protected function process_choice_option($data) 
