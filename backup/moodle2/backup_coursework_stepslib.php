@@ -139,6 +139,7 @@ class backup_coursework_activity_structure_step extends backup_activity_structur
         $suggestedCollection->set_source_table('coursework_themes_collections', array('id' => '../../collection'));
         $suggestedTheme->set_source_table('coursework_themes', array('collection' => '../../id'));
 
+        // All the rest of elements only happen if we are including user info
         if($userinfo) 
         {
             $teacher->set_source_table('coursework_teachers', array('coursework' => '../../id'));
@@ -152,9 +153,20 @@ class backup_coursework_activity_structure_step extends backup_activity_structur
             $chat->set_source_table('coursework_chat', array('coursework' => '../../id'));
         }
 
-        // All the rest of elements only happen if we are including user info
-
         // Define id annotations
+        $suggestedCollection->annotate_ids('course', 'course');
+
+        $teacher->annotate_ids('user', 'teacher');
+        $teacher->annotate_ids('course', 'course');
+
+        $student->annotate_ids('user', 'student');
+        $student->annotate_ids('user', 'teacher');
+        $student->annotate_ids('course', 'course');
+
+        $status->annotate_ids('user', 'student');
+
+        $chat->annotate_ids('user', 'userfrom');
+        $chat->annotate_ids('user', 'userto');
 
         // Define file annotations
 
