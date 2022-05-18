@@ -16,7 +16,7 @@ class restore_coursework_activity_structure_step extends restore_activity_struct
         $paths[] = new restore_path_element('defaultTask', '/activity/coursework/defaultTasks/defaultTask');
         $paths[] = new restore_path_element('defaultTaskSection', '/activity/coursework/defaultTasks/defaultTask/defaultTasksSections/defaultTaskSection');
         $paths[] = new restore_path_element('collectionUse', '/activity/coursework/collectionsUses/collectionUse');
-        //$paths[] = new restore_path_element('suggestedCollection', '/activity/coursework/collectionsUses/collectionUse/suggestedCollections/suggestedCollection');
+        $paths[] = new restore_path_element('suggestedCollection', '/activity/coursework/collectionsUses/collectionUse/suggestedCollections/suggestedCollection');
 
         
 
@@ -99,36 +99,33 @@ class restore_coursework_activity_structure_step extends restore_activity_struct
         $this->set_mapping('collectionUse', $oldid, $newitemid);
     }
 
-
-    /*
-    protected function process_choice_option($data) 
+    protected function process_suggestedCollection($data) 
     {
         global $DB;
 
         $data = (object)$data;
         $oldid = $data->id;
 
-        $data->choiceid = $this->get_new_parentid('choice');
+        $data->name .= ' backup '.date('m/d/y - H:i');
 
-        $newitemid = $DB->insert_record('choice_options', $data);
-        $this->set_mapping('choice_option', $oldid, $newitemid);
+        $newitemid = $DB->insert_record('coursework_themes_collections', $data);
+
+        $this->update_collection_use_table_collection_field($newitemid);
+        
+        $this->set_mapping('suggestedCollection', $oldid, $newitemid);
     }
 
-    protected function process_choice_answer($data) 
+    private function update_collection_use_table_collection_field(int $newCollectionId)
     {
         global $DB;
 
-        $data = (object)$data;
-
-        $data->choiceid = $this->get_new_parentid('choice');
-        $data->optionid = $this->get_mappingid('choice_option', $data->optionid);
-        $data->userid = $this->get_mappingid('user', $data->userid);
-
-        $newitemid = $DB->insert_record('choice_answers', $data);
-        // No need to save this mapping as far as nothing depend on it
-        // (child paths, file areas nor links decoder)
+        $where = array('id' => $this->get_new_parentid('collectionUse'));
+        $collectionUse = $DB->get_record('coursework_themes_collections_use', $where);
+        
+        $collectionUse->collection = $newCollectionId;
+        
+        return $DB->update_record('coursework_themes_collections_use', $collectionUse);
     }
-    */
 
     protected function after_execute() 
     {
