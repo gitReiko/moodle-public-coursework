@@ -97,7 +97,7 @@ class Overview
     private function set_up_leaders() : string 
     {
         $text = get_string('set_up_leaders', 'coursework');
-        return \html_writer('p', $text);
+        return \html_writer::tag('p', $text);
     }
 
     private function get_themes_collections_setting() : string 
