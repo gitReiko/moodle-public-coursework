@@ -19,13 +19,10 @@ class restore_coursework_activity_structure_step extends restore_activity_struct
         $paths[] = new restore_path_element('suggestedCollection', '/activity/coursework/collectionsUses/collectionUse/suggestedCollections/suggestedCollection');
         $paths[] = new restore_path_element('suggestedTheme', '/activity/coursework/collectionsUses/collectionUse/suggestedCollections/suggestedCollection/suggestedThemes/suggestedTheme');
         
-
-        /*
-        $paths[] = new restore_path_element('choice_option', '/activity/choice/options/option');
-        if ($userinfo) {
-            $paths[] = new restore_path_element('choice_answer', '/activity/choice/answers/answer');
+        if($userinfo) 
+        {
+            $paths[] = new restore_path_element('teacher', '/activity/coursework/teachers/teacher');
         }
-        */
 
         // Return the paths wrapped into standard activity structure
         return $this->prepare_activity_structure($paths);
@@ -137,6 +134,17 @@ class restore_coursework_activity_structure_step extends restore_activity_struct
         $data->collection = $this->get_new_parentid('suggestedCollection');
 
         $newitemid = $DB->insert_record('coursework_themes', $data);
+    }
+
+    protected function process_teacher($data) {
+        global $DB;
+
+        $data = (object)$data;
+
+        $data->coursework = $this->get_new_parentid('coursework');
+        $data->teacher = $this->get_mappingid('user', $data->teacher);
+
+        $newitemid = $DB->insert_record('coursework_teachers', $data);
     }
 
     protected function after_execute() 

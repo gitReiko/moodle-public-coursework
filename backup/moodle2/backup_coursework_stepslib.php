@@ -154,14 +154,10 @@ class backup_coursework_activity_structure_step extends backup_activity_structur
         }
 
         // Define id annotations
-        $suggestedCollection->annotate_ids('course', 'course');
-
         $teacher->annotate_ids('user', 'teacher');
-        $teacher->annotate_ids('course', 'course');
 
         $student->annotate_ids('user', 'student');
         $student->annotate_ids('user', 'teacher');
-        $student->annotate_ids('course', 'course');
 
         $status->annotate_ids('user', 'student');
 
