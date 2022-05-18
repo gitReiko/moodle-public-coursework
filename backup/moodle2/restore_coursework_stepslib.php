@@ -5,6 +5,7 @@
  */
 class restore_coursework_activity_structure_step extends restore_activity_structure_step 
 {
+    private $collectionMatching = array();
 
     protected function define_structure() 
     {
@@ -23,6 +24,7 @@ class restore_coursework_activity_structure_step extends restore_activity_struct
         {
             $paths[] = new restore_path_element('teacher', '/activity/coursework/teachers/teacher');
             $paths[] = new restore_path_element('student', '/activity/coursework/students/student');
+            $paths[] = new restore_path_element('studentTheme', '/activity/coursework/students/student/studentsThemes/studentTheme');
         }
 
         // Return the paths wrapped into standard activity structure
@@ -108,9 +110,20 @@ class restore_coursework_activity_structure_step extends restore_activity_struct
 
         $newitemid = $DB->insert_record('coursework_themes_collections', $data);
 
+        $this->add_collection_matching($oldid, $newitemid);
+
         $this->update_collection_use_table_collection_field($newitemid);
         
         $this->set_mapping('suggestedCollection', $oldid, $newitemid);
+    }
+
+    private function add_collection_matching(int $oldId, int $newId)
+    {
+        $collection = new \stdClass;
+        $collection->oldId = $oldId;
+        $collection->newId = $newId;
+
+        $this->collectionMatching[] = $collection;
     }
 
     private function update_collection_use_table_collection_field(int $newCollectionId)
@@ -137,7 +150,8 @@ class restore_coursework_activity_structure_step extends restore_activity_struct
         $newitemid = $DB->insert_record('coursework_themes', $data);
     }
 
-    protected function process_teacher($data) {
+    protected function process_teacher($data) 
+    {
         global $DB;
 
         $data = (object)$data;
@@ -148,7 +162,8 @@ class restore_coursework_activity_structure_step extends restore_activity_struct
         $newitemid = $DB->insert_record('coursework_teachers', $data);
     }
 
-    protected function process_student($data) {
+    protected function process_student($data) 
+    {
         global $DB;
 
         $data = (object)$data;
@@ -161,6 +176,80 @@ class restore_coursework_activity_structure_step extends restore_activity_struct
         $newitemid = $DB->insert_record('coursework_students', $data);
 
         $this->set_mapping('student', $oldid, $newitemid);
+    }
+
+    protected function process_studentTheme($data) 
+    {
+        $data = (object)$data;
+        $oldid = $data->id;
+
+        $data->collection = $this->get_new_collection_id($data->collection);
+
+        if($this->is_theme_not_exists($data))
+        {
+            $newitemid = $this->add_theme_to_database($data);
+        }
+        else 
+        {
+            $newitemid = $this->get_theme_id($data);
+        }
+
+        $this->update_students_theme_field($oldid, $newitemid);
+    }
+
+    private function get_new_collection_id(int $oldId)
+    {
+        foreach($this->collectionMatching as $matching)
+        {
+            if($matching->oldId == $oldId)
+            {
+                return $matching->newId;
+            }
+        }
+    }
+
+    private function is_theme_not_exists($data) : bool 
+    {
+        global $DB;
+        $sql = "SELECT id 
+                FROM {coursework_themes}
+                WHERE `collection` = ".$data->collection."
+                AND content LIKE '".$data->content."'";
+        return !$DB->record_exists_sql($sql);
+    }
+
+    private function add_theme_to_database($data) 
+    {
+        global $DB;
+        return $DB->insert_record('coursework_themes', $data);
+    }
+
+    private function get_theme_id($data)
+    {
+        global $DB;
+        $sql = "SELECT id 
+                FROM {coursework_themes}
+                WHERE `collection` = ".$data->collection."
+                AND content LIKE '".$data->content."'";
+        return $DB->get_field_sql($sql);
+    }
+
+    private function update_students_theme_field($oldThemeId, $newThemeId)
+    {
+        global $DB;
+
+        $where = array(
+            'coursework' => $this->get_new_parentid('coursework'),
+            'theme' => $oldThemeId
+        );
+        $students = $DB->get_records('coursework_students', $where);
+
+        foreach($students as $student)
+        {
+            $student->theme = $newThemeId;
+
+            $DB->update_record('coursework_students', $student);
+        }
     }
 
     protected function after_execute() 
