@@ -17,7 +17,7 @@ class restore_coursework_activity_structure_step extends restore_activity_struct
         $paths[] = new restore_path_element('defaultTaskSection', '/activity/coursework/defaultTasks/defaultTask/defaultTasksSections/defaultTaskSection');
         $paths[] = new restore_path_element('collectionUse', '/activity/coursework/collectionsUses/collectionUse');
         $paths[] = new restore_path_element('suggestedCollection', '/activity/coursework/collectionsUses/collectionUse/suggestedCollections/suggestedCollection');
-
+        $paths[] = new restore_path_element('suggestedTheme', '/activity/coursework/collectionsUses/collectionUse/suggestedCollections/suggestedCollection/suggestedThemes/suggestedTheme');
         
 
         /*
@@ -125,6 +125,18 @@ class restore_coursework_activity_structure_step extends restore_activity_struct
         $collectionUse->collection = $newCollectionId;
         
         return $DB->update_record('coursework_themes_collections_use', $collectionUse);
+    }
+
+    protected function process_suggestedTheme($data) 
+    {
+        global $DB;
+
+        $data = (object)$data;
+        $oldid = $data->id;
+
+        $data->collection = $this->get_new_parentid('suggestedCollection');
+
+        $newitemid = $DB->insert_record('coursework_themes', $data);
     }
 
     protected function after_execute() 
