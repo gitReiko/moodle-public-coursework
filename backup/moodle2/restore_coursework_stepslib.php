@@ -22,6 +22,7 @@ class restore_coursework_activity_structure_step extends restore_activity_struct
         if($userinfo) 
         {
             $paths[] = new restore_path_element('teacher', '/activity/coursework/teachers/teacher');
+            $paths[] = new restore_path_element('student', '/activity/coursework/students/student');
         }
 
         // Return the paths wrapped into standard activity structure
@@ -145,6 +146,21 @@ class restore_coursework_activity_structure_step extends restore_activity_struct
         $data->teacher = $this->get_mappingid('user', $data->teacher);
 
         $newitemid = $DB->insert_record('coursework_teachers', $data);
+    }
+
+    protected function process_student($data) {
+        global $DB;
+
+        $data = (object)$data;
+        $oldid = $data->id;
+
+        $data->coursework = $this->get_new_parentid('coursework');
+        $data->student = $this->get_mappingid('user', $data->student);
+        $data->teacher = $this->get_mappingid('user', $data->teacher);
+
+        $newitemid = $DB->insert_record('coursework_students', $data);
+
+        $this->set_mapping('student', $oldid, $newitemid);
     }
 
     protected function after_execute() 
