@@ -27,6 +27,7 @@ class restore_coursework_activity_structure_step extends restore_activity_struct
             $paths[] = new restore_path_element('student', '/activity/coursework/students/student');
             $paths[] = new restore_path_element('studentTheme', '/activity/coursework/students/student/studentsThemes/studentTheme');
             $paths[] = new restore_path_element('studentTask', '/activity/coursework/students/student/studentsTasks/studentTask');
+            $paths[] = new restore_path_element('studentTaskSection', '/activity/coursework/students/student/studentsTasks/studentTask/studentsTasksSections/studentTaskSection');
         }
 
         // Return the paths wrapped into standard activity structure
@@ -294,6 +295,18 @@ class restore_coursework_activity_structure_step extends restore_activity_struct
 
             $DB->update_record('coursework_students', $student);
         }
+    }
+
+    protected function process_studentTaskSection($data) 
+    {
+        global $DB;
+
+        $data = (object)$data;
+        $oldid = $data->id;
+
+        $data->task = $this->get_new_parentid('studentTask');
+
+        $DB->insert_record('coursework_tasks_sections', $data);
     }
 
     protected function after_execute() 
