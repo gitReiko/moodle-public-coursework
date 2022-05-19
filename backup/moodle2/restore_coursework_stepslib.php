@@ -29,6 +29,7 @@ class restore_coursework_activity_structure_step extends restore_activity_struct
             $paths[] = new restore_path_element('studentTask', '/activity/coursework/students/student/studentsTasks/studentTask');
             $paths[] = new restore_path_element('studentTaskSection', '/activity/coursework/students/student/studentsTasks/studentTask/studentsTasksSections/studentTaskSection');
             $paths[] = new restore_path_element('status', '/activity/coursework/statuses/status');
+            $paths[] = new restore_path_element('chat', '/activity/coursework/chats/chat');
         }
 
         // Return the paths wrapped into standard activity structure
@@ -319,6 +320,18 @@ class restore_coursework_activity_structure_step extends restore_activity_struct
         $data->student = $this->get_mappingid('user', $data->student);
 
         $DB->insert_record('coursework_students_statuses', $data);
+    }
+
+    protected function process_chat($data) 
+    {
+        global $DB;
+
+        $data = (object)$data;
+        $data->coursework = $this->get_new_parentid('coursework');
+        $data->userfrom = $this->get_mappingid('user', $data->userfrom);
+        $data->userto = $this->get_mappingid('user', $data->userto);
+
+        $DB->insert_record('coursework_chat', $data);
     }
 
     protected function after_execute() 
