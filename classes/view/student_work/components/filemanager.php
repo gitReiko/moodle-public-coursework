@@ -27,6 +27,7 @@ class Filemanager extends Base
 
         $this->student = sg::get_student_with_his_work($cm->instance, $studentId);
         $this->coursework = cg::get_coursework($cm->instance);
+        $this->studentWork = sg::get_student_work($cm->instance, $studentId);
     }
 
     protected function get_hiding_class_name() : string
@@ -128,7 +129,7 @@ class Filemanager extends Base
         }
         $text = \html_writer::tag('b', $text);
 
-        $filesList = $this->get_files_list('student', $this->student->id);
+        $filesList = $this->get_files_list('student', $this->studentWork->id);
 
         if(empty($filesList))
         {
@@ -154,7 +155,7 @@ class Filemanager extends Base
         }
         $text = \html_writer::tag('b', $text);
 
-        $filesList = $this->get_files_list('teacher', $this->student->id);
+        $filesList = $this->get_files_list('teacher', $this->studentWork->id);
 
         if(empty($filesList))
         {
@@ -284,7 +285,7 @@ class Filemanager extends Base
         $data = file_prepare_standard_filemanager(
             $data, 'student', $fileoptions, 
             $context, 'mod_coursework', 
-            'student', $this->student->id
+            'student', $this->studentWork->id
         );
         
         $mform = new StudentFileManager(
@@ -300,7 +301,7 @@ class Filemanager extends Base
             // Save the file.
             $data = file_postupdate_standard_filemanager(
                 $data, 'student', $fileoptions, $context, 
-                'mod_coursework', 'student', $this->student->id
+                'mod_coursework', 'student', $this->studentWork->id
             );
             $this->log_event_user_save_files();
             $this->send_notification_to_teacher();
@@ -311,8 +312,8 @@ class Filemanager extends Base
     {
         $cm = $this->cm;
         $course = $this->course;
-        $userFrom = ug::get_user($this->student->id);
-        $userTo = ug::get_user($this->student->teacher); 
+        $userFrom = ug::get_user($this->studentWork->student);
+        $userTo = ug::get_user($this->studentWork->teacher); 
         $messageName = 'student_upload_file';
         $messageText = get_string('student_upload_file_header','coursework');
 
@@ -345,7 +346,7 @@ class Filemanager extends Base
             $data, 'teacher', $fileoptions, 
             $context, 'mod_coursework', 
             'teacher', 
-            $this->student->id
+            $this->studentWork->id
         );
         
         $mform = new TeacherFileManager(
@@ -362,7 +363,7 @@ class Filemanager extends Base
             // Save the file.
             $data = file_postupdate_standard_filemanager(
                 $data, 'teacher', $fileoptions, $context, 'mod_coursework', 
-                'teacher', $this->student->id
+                'teacher', $this->studentWork->id
             );
             $this->log_event_user_save_files();
             $this->send_notification_to_student();

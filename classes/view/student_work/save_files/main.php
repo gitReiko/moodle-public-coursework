@@ -27,6 +27,7 @@ class Main
 
         $this->student = sg::get_student_with_his_work($cm->instance, $studentId);
         $this->coursework = cg::get_coursework($cm->instance);
+        $this->studentWork = sg::get_student_work($cm->instance, $studentId);
     }
 
     public function get_page() : string 
@@ -67,7 +68,7 @@ class Main
         $data = file_prepare_standard_filemanager(
             $data, 'student', $fileoptions, 
             $context, 'mod_coursework', 
-            'student', $this->student->id
+            'student', $this->studentWork->id
         );
         
         $mform = new StudentFileManager(
@@ -102,7 +103,7 @@ class Main
             $data, 'teacher', $fileoptions, 
             $context, 'mod_coursework', 
             'teacher', 
-            $this->student->id
+            $this->studentWork->id
         );
         
         $mform = new TeacherFileManager(

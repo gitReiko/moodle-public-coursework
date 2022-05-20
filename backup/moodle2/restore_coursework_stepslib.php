@@ -1,5 +1,9 @@
 <?php 
 
+require_once $CFG->dirroot.'/mod/coursework/lib/enums.php';
+
+use Coursework\Lib\Enums;
+
 /**
  * Structure step to restore one coursework activity
  */
@@ -189,7 +193,7 @@ class restore_coursework_activity_structure_step extends restore_activity_struct
 
         $newitemid = $DB->insert_record('coursework_students', $data);
 
-        $this->set_mapping('student', $oldid, $newitemid);
+        $this->set_mapping('student', $oldid, $newitemid, true);
     }
 
     protected function process_studentTheme($data) 
@@ -319,6 +323,11 @@ class restore_coursework_activity_structure_step extends restore_activity_struct
         $data->coursework = $this->get_new_parentid('coursework');
         $data->student = $this->get_mappingid('user', $data->student);
 
+        if($data->type == Enums::COURSEWORK)
+        {
+            $data->instance = $this->get_new_parentid('coursework');
+        }
+
         $DB->insert_record('coursework_students_statuses', $data);
     }
 
@@ -338,6 +347,8 @@ class restore_coursework_activity_structure_step extends restore_activity_struct
     {
         // Add coursework related files, no need to match by itemname (just internally handled context)
         $this->add_related_files('mod_coursework', 'intro', null);
+        $this->add_related_files('mod_coursework', 'student', 'student');
+        $this->add_related_files('mod_coursework', 'teacher', 'student');
     }
 
 }

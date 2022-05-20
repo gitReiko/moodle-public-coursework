@@ -25,6 +25,12 @@
  * @param int $oldversion the version we are upgrading from
  * @return bool result
  */
+
+require_once($CFG->dirroot . '/mod/coursework/lib/getters/students_getter.php');
+require_once($CFG->dirroot . '/mod/coursework/lib/enums.php');
+
+use Coursework\Lib\Getters\StudentsGetter as sg;
+
 function xmldb_coursework_upgrade($oldversion)
 {
     global $CFG, $DB;
@@ -681,6 +687,83 @@ function xmldb_coursework_upgrade($oldversion)
     {
         $table = new xmldb_table('coursework_collections_use');
         $dbman->rename_table($table, 'coursework_themes_collections_use');
+    }
+
+    if($oldversion < 2022052003)
+    {
+        // Replace files in new places
+        // Changed id of fileareas
+
+        $fs = get_file_storage();
+
+        $courseworks = $DB->get_records('coursework', array());
+        foreach($courseworks as $coursework)
+        {
+            $cm = get_coursemodule_from_instance('coursework', $coursework->id);
+            $context = \context_module::instance($cm->id);
+            $students = sg::get_all_students($cm);
+            
+            foreach($students as $student)
+            {
+                $newFileId = $DB->get_field(
+                    'coursework_students', 
+                    'id',
+                    array('coursework' => $coursework->id, 'student' => $student->id)
+                );
+            
+                $teachersFiles = $fs->get_area_files($context->id, 'mod_coursework', 'teacher', $student->id);
+                foreach($teachersFiles as $teacherFile) 
+                {
+                    $filename = clean_param($teacherFile->get_filename(), PARAM_FILE);
+            
+                    if(!empty($filename))
+                    {
+                        $newFileInfo = array
+                        (
+                            'contextid' => $context->id,
+                            'component' => 'mod_coursework', 
+                            'filearea' => 'teacher', 
+                            'itemid' => $newFileId, 
+                            'filepath' => $teacherFile->get_filepath(), 
+                            'filename' => $filename
+                        );
+            
+                        $fs->create_file_from_string($newFileInfo, $teacherFile->get_content());
+                    }
+            
+                    if($teacherFile)
+                    {
+                        $teacherFile->delete();
+                    }
+                }
+            
+                $studentsFiles = $fs->get_area_files($context->id, 'mod_coursework', 'student', $student->id);
+                foreach($studentsFiles as $studentFile) 
+                {
+                    $filename = clean_param($studentFile->get_filename(), PARAM_FILE);
+            
+                    if(!empty($filename))
+                    {
+                        $newFileInfo = array
+                        (
+                            'contextid' => $context->id,
+                            'component' => 'mod_coursework', 
+                            'filearea' => 'student', 
+                            'itemid' => $newFileId, 
+                            'filepath' => $studentFile->get_filepath(), 
+                            'filename' => $filename
+                        );
+            
+                        $fs->create_file_from_string($newFileInfo, $studentFile->get_content());
+                    }
+            
+                    if($studentFile)
+                    {
+                        $studentFile->delete();
+                    }
+                }
+            }
+        }
     }
 
     return true;
