@@ -45,14 +45,13 @@ class restore_coursework_activity_structure_step extends restore_activity_struct
         global $DB;
 
         $data = (object)$data;
-        $oldid = $data->id;
+
         $data->course = $this->get_courseid();
 
-        // insert the choice record
-        $newitemid = $DB->insert_record('coursework', $data);
+        $newId = $DB->insert_record('coursework', $data);
 
         // immediately after inserting "activity" record, call this
-        $this->apply_activity_instance($newitemid);
+        $this->apply_activity_instance($newId);
     }
 
     protected function process_defaultTask($data) 
@@ -60,21 +59,26 @@ class restore_coursework_activity_structure_step extends restore_activity_struct
         global $DB;
 
         $data = (object)$data;
-        $oldid = $data->id;
-        $data->name .= ' backup '.date('m/d/y - H:i');
+        $oldId = $data->id;
+        $data->name .= $this->get_backup_signature();
 
-        $newitemid = $DB->insert_record('coursework_tasks', $data);
+        $newId = $DB->insert_record('coursework_tasks', $data);
 
         $this->defaultTask = new \stdClass;
-        $this->defaultTask->oldId = $oldid;
-        $this->defaultTask->newId = $newitemid;
+        $this->defaultTask->oldId = $oldId;
+        $this->defaultTask->newId = $newId;
 
-        $this->update_coursework_table_defaulttask_field($newitemid);
+        $this->update_defaulttask_field_in_coursework_table($newId);
         
-        $this->set_mapping('defaultTask', $oldid, $newitemid);
+        $this->set_mapping('defaultTask', $oldId, $newId);
     }
 
-    private function update_coursework_table_defaulttask_field(int $newDefaultTaskId)
+    private function get_backup_signature()
+    {
+        return ' backup '.date('m/d/y - H:i');
+    }
+
+    private function update_defaulttask_field_in_coursework_table(int $newDefaultTaskId)
     {
         global $DB;
 
@@ -83,7 +87,7 @@ class restore_coursework_activity_structure_step extends restore_activity_struct
         
         $coursework->defaulttask = $newDefaultTaskId;
         
-        return $DB->update_record('coursework', $coursework);
+        $DB->update_record('coursework', $coursework);
     }
 
     protected function process_defaultTaskSection($data) 
@@ -91,11 +95,10 @@ class restore_coursework_activity_structure_step extends restore_activity_struct
         global $DB;
 
         $data = (object)$data;
-        $oldid = $data->id;
 
         $data->task = $this->get_new_parentid('defaultTask');
 
-        $newitemid = $DB->insert_record('coursework_tasks_sections', $data);
+        $DB->insert_record('coursework_tasks_sections', $data);
     }
 
     protected function process_collectionUse($data) 
@@ -103,13 +106,13 @@ class restore_coursework_activity_structure_step extends restore_activity_struct
         global $DB;
 
         $data = (object)$data;
-        $oldid = $data->id;
+        $oldId = $data->id;
 
         $data->coursework = $this->get_new_parentid('coursework');
 
-        $newitemid = $DB->insert_record('coursework_themes_collections_use', $data);
+        $newId = $DB->insert_record('coursework_themes_collections_use', $data);
         
-        $this->set_mapping('collectionUse', $oldid, $newitemid);
+        $this->set_mapping('collectionUse', $oldId, $newId);
     }
 
     protected function process_suggestedCollection($data) 
@@ -117,17 +120,17 @@ class restore_coursework_activity_structure_step extends restore_activity_struct
         global $DB;
 
         $data = (object)$data;
-        $oldid = $data->id;
+        $oldId = $data->id;
 
-        $data->name .= ' backup '.date('m/d/y - H:i');
+        $data->name .= $this->get_backup_signature();
 
-        $newitemid = $DB->insert_record('coursework_themes_collections', $data);
+        $newId = $DB->insert_record('coursework_themes_collections', $data);
 
-        $this->add_collection_matching($oldid, $newitemid);
+        $this->add_collection_matching($oldId, $newId);
 
-        $this->update_collection_use_table_collection_field($newitemid);
+        $this->update_collection_field_in_collections_use_table($newId);
         
-        $this->set_mapping('suggestedCollection', $oldid, $newitemid);
+        $this->set_mapping('suggestedCollection', $oldId, $newId);
     }
 
     private function add_collection_matching(int $oldId, int $newId)
@@ -139,7 +142,7 @@ class restore_coursework_activity_structure_step extends restore_activity_struct
         $this->collectionMatching[] = $collection;
     }
 
-    private function update_collection_use_table_collection_field(int $newCollectionId)
+    private function update_collection_field_in_collections_use_table(int $newCollectionId)
     {
         global $DB;
 
@@ -148,7 +151,7 @@ class restore_coursework_activity_structure_step extends restore_activity_struct
         
         $collectionUse->collection = $newCollectionId;
         
-        return $DB->update_record('coursework_themes_collections_use', $collectionUse);
+        $DB->update_record('coursework_themes_collections_use', $collectionUse);
     }
 
     protected function process_suggestedTheme($data) 
@@ -156,11 +159,10 @@ class restore_coursework_activity_structure_step extends restore_activity_struct
         global $DB;
 
         $data = (object)$data;
-        $oldid = $data->id;
 
         $data->collection = $this->get_new_parentid('suggestedCollection');
 
-        $newitemid = $DB->insert_record('coursework_themes', $data);
+        $DB->insert_record('coursework_themes', $data);
     }
 
     protected function process_teacher($data) 
@@ -172,7 +174,7 @@ class restore_coursework_activity_structure_step extends restore_activity_struct
         $data->coursework = $this->get_new_parentid('coursework');
         $data->teacher = $this->get_mappingid('user', $data->teacher);
 
-        $newitemid = $DB->insert_record('coursework_teachers', $data);
+        $DB->insert_record('coursework_teachers', $data);
     }
 
     protected function process_student($data) 
@@ -180,7 +182,7 @@ class restore_coursework_activity_structure_step extends restore_activity_struct
         global $DB;
 
         $data = (object)$data;
-        $oldid = $data->id;
+        $oldId = $data->id;
 
         $data->coursework = $this->get_new_parentid('coursework');
         $data->student = $this->get_mappingid('user', $data->student);
@@ -191,28 +193,28 @@ class restore_coursework_activity_structure_step extends restore_activity_struct
             $data->task = $this->defaultTask->newId;
         }
 
-        $newitemid = $DB->insert_record('coursework_students', $data);
+        $newId = $DB->insert_record('coursework_students', $data);
 
-        $this->set_mapping('student', $oldid, $newitemid, true);
+        $this->set_mapping('student', $oldId, $newId, true);
     }
 
     protected function process_studentTheme($data) 
     {
         $data = (object)$data;
-        $oldid = $data->id;
+        $oldId = $data->id;
 
         $data->collection = $this->get_new_collection_id($data->collection);
 
         if($this->is_theme_not_exists($data))
         {
-            $newitemid = $this->add_theme_to_database($data);
+            $newId = $this->add_theme_to_database($data);
         }
         else 
         {
-            $newitemid = $this->get_theme_id($data);
+            $newId = $this->get_theme_id($data);
         }
 
-        $this->update_students_theme_field($oldid, $newitemid);
+        $this->update_students_theme_field($oldId, $newId);
     }
 
     private function get_new_collection_id(int $oldId)
@@ -274,18 +276,18 @@ class restore_coursework_activity_structure_step extends restore_activity_struct
     {
         global $DB;
         $data = (object)$data;
-        $oldid = $data->id;
+        $oldId = $data->id;
         
-        $data->name .= ' backup '.date('m/d/y - H:i');
+        $data->name .= $this->get_backup_signature();
 
-        $newitemid = $DB->insert_record('coursework_tasks', $data);
+        $newId = $DB->insert_record('coursework_tasks', $data);
 
-        $this->set_mapping('studentTask', $oldid, $newitemid);
+        $this->set_mapping('studentTask', $oldId, $newId);
 
-        $this->update_task_field_in_student_table($oldid, $newitemid);
+        $this->update_task_field_in_students_table($oldId, $newId);
     }
 
-    private function update_task_field_in_student_table(int $oldTaskId, int $newTaskId)
+    private function update_task_field_in_students_table(int $oldTaskId, int $newTaskId)
     {
         global $DB;
 
@@ -308,7 +310,6 @@ class restore_coursework_activity_structure_step extends restore_activity_struct
         global $DB;
 
         $data = (object)$data;
-        $oldid = $data->id;
 
         $data->task = $this->get_new_parentid('studentTask');
 
