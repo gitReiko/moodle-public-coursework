@@ -157,14 +157,18 @@ class TeachersAndCoursesGetter
         {
             foreach($teacher->courses as $course)
             {
-                if(($course->available_quota > 0)
-                    || $this->is_course_selected_by_student($course))
+                $tempCourse = new \stdClass;
+                $tempCourse->id = $course->id;
+                $tempCourse->name = $course->fullname;
+
+                if($course->available_quota > 0)
                 {
-                    $tempCourse = new \stdClass;
-                    $tempCourse->id = $course->id;
-                    $tempCourse->name = $course->fullname;
-    
                     $availableCourses[] = $tempCourse;
+                }
+
+                if($this->is_course_selected_by_student($course))
+                {
+                    return array($tempCourse);
                 }
             }
         }
@@ -202,14 +206,18 @@ class TeachersAndCoursesGetter
         $availableCourses = array();
         foreach($firstTeacher->courses as $course)
         {
-            if(($course->available_quota > 0)
-                || $this->is_course_selected_by_student($course))
-            {
-                $tempCourse = new \stdClass;
-                $tempCourse->id = $course->id;
-                $tempCourse->name = $course->fullname;
+            $tempCourse = new \stdClass;
+            $tempCourse->id = $course->id;
+            $tempCourse->name = $course->fullname;
 
+            if($course->available_quota > 0)
+            {
                 $availableCourses[] = $tempCourse;
+            }
+
+            if($this->is_course_selected_by_student($course))
+            {
+                return array($tempCourse);
             }
         }
 
