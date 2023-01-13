@@ -59,6 +59,6 @@
 Intro.js v4.3.0 Copyright (C) 2012-2021 Afshin Mehrabani (afshin.meh@gmail.com)
 
 ## Автор
-Маковский Денис Анатольевич (Reiko)
+Yan Lidski (Reiko)
 
 ## Apache-2.0 License 
